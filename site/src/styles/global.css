@@ -253,3 +253,58 @@ h4 {
 .fade-up {
   animation: fadeUp 600ms cubic-bezier(0.2, 0.7, 0.1, 1) both;
 }
+
+/* -----------------------------------------------------------------------------
+ * f) Buttons (.btn*) — deliberately global, not component-scoped.
+ *    Used by Nav, Footer, and (later) page CTAs; placing them here avoids
+ *    duplicating the same rules across every component that needs a button.
+ *    Translated from prototype styles.css; semantic tokens only.
+ * -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  border: 1px solid transparent;
+  transition: background 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.btn-primary:hover {
+  background: var(--accent);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line-strong);
+}
+
+.btn-ghost:hover {
+  border-color: var(--ink);
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.btn .arr {
+  transition: transform 200ms ease;
+}
+
+.btn:hover .arr {
+  transform: translateX(3px);
+}

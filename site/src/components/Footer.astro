@@ -1,0 +1,240 @@
+---
+// Site footer chrome. Translated from brand/prototype/shell.jsx (Footer) +
+// brand/prototype/styles.css (.footer*). Static, zero-JS. NAP/contact values
+// come from the single source of truth in src/data/business.ts — never hardcoded.
+import { BUSINESS } from "../data/business";
+
+// Honest-placeholder rule: founding year is unverified, so the prototype's
+// "Est. 19##" is dropped in favor of the location only.
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        {/* TODO: replace CSS .brand-mark + text wordmark with a real logo asset
+            once it exists. Known duplication: .brand-mark CSS also lives in
+            Nav.astro — extract a shared Brand component in a later step. */}
+        <a class="brand" href="/" aria-label="North Wake Church — home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-name">North <span class="accent">Wake</span></span>
+        </a>
+        <p class="body blurb">
+          A family of faith in Wake Forest, North Carolina — knowing, growing,
+          and going in the love of Jesus Christ.
+        </p>
+        <div class="footer-actions">
+          {/* TODO: Subscribe has no newsletter form/route yet — inert button
+              for now; wire to a real signup in a later step. */}
+          <button type="button" class="btn btn-ghost">Subscribe</button>
+          <a class="btn btn-primary" href="/visit">Plan a Visit</a>
+        </div>
+      </div>
+
+      <div>
+        <h5>Visit</h5>
+        <ul>
+          <li><a href="/visit">Service Times</a></li>
+          <li class="static">What to Expect</li>
+          <li class="static">Directions</li>
+          <li class="static">Kids &amp; Students</li>
+          <li class="static">Parking</li>
+        </ul>
+      </div>
+
+      <div>
+        <h5>Belong</h5>
+        <ul>
+          <li><a href="/community/grow-groups">Grow Groups</a></li>
+          <li><a href="/about/membership">Membership</a></li>
+          <li><a href="/community/adult-discipleship">Adult Discipleship</a></li>
+          <li><a href="/community/women">Women's Ministry</a></li>
+          <li><a href="/community/men">Men's Ministry</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h5>Care</h5>
+        <ul>
+          <li><a href="/help/hope-counseling">Hope Counseling</a></li>
+          <li><a href="/help/mercy-clinic">Mercy Health Clinic</a></li>
+          <li><a href="/help/feed">Feed Ministry</a></li>
+          <li><a href="/help/care">Care Ministry</a></li>
+          <li class="static">Prayer Requests</li>
+        </ul>
+      </div>
+
+      <div>
+        <h5>Connect</h5>
+        <ul>
+          <li><a href="/sermons">Sermons</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/events">Events</a></li>
+          <li class="static">Contact</li>
+          <li>
+            <a href="https://onrealm.org/NorthWake/-/form/give/now" target="_blank" rel="noopener">Give</a>
+          </li>
+        </ul>
+        <div class="contact">
+          <div>
+            <div class="mono label">Address</div>
+            <div class="small value">
+              {BUSINESS.streetAddress}<br />
+              {BUSINESS.city}, {BUSINESS.state} {BUSINESS.postalCode}
+            </div>
+          </div>
+          <div>
+            <div class="mono label">Phone</div>
+            <div class="small value">{BUSINESS.phone}</div>
+          </div>
+          <div>
+            <div class="mono label">Email</div>
+            <div class="small value">{BUSINESS.email}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© {year} North Wake Church · A family of faith</span>
+      <span class="mono">Wake Forest, NC</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: 120px;
+    padding: 80px 0 32px;
+    border-top: 1px solid var(--line);
+    background: var(--bg);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr repeat(4, 1fr);
+    gap: 48px;
+    padding-bottom: 64px;
+  }
+
+  /* Brand (footer uses the larger wordmark). Known duplication with Nav.astro. */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .brand-mark {
+    width: 30px;
+    height: 30px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    position: relative;
+    flex: none;
+  }
+  .brand-mark::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1.5px;
+    height: 60%;
+    background: var(--ink);
+    transform: translate(-50%, -50%);
+  }
+  .brand-mark::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: 1.5px;
+    background: var(--ink);
+    transform: translate(-50%, -50%);
+  }
+  .brand-name {
+    font-family: var(--display);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .brand-name .accent {
+    color: var(--accent);
+  }
+
+  .blurb {
+    max-width: 32ch;
+    color: var(--ink-3);
+    margin: 0;
+  }
+  .footer-actions {
+    margin-top: 28px;
+    display: flex;
+    gap: 8px;
+  }
+  .footer-actions .btn {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+
+  .footer h5 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 18px;
+  }
+  .footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .footer li {
+    font-size: 14px;
+    color: var(--ink-2);
+    letter-spacing: -0.005em;
+  }
+  .footer li a {
+    color: inherit;
+    transition: color 140ms ease;
+  }
+  .footer li a:hover {
+    color: var(--accent);
+  }
+  .footer li.static {
+    color: var(--ink-3);
+  }
+
+  .contact {
+    margin-top: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .contact .label {
+    margin-bottom: 4px;
+  }
+  .contact .value {
+    color: var(--ink-2);
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+
+  @media (max-width: 880px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

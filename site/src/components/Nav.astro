@@ -1,0 +1,309 @@
+---
+// Top navigation chrome. Translated from brand/prototype/shell.jsx (Nav) +
+// brand/prototype/styles.css (.nav*, dropdown panel). Static, zero-JS:
+// dropdowns are CSS hover/focus-within only; active state is computed at build
+// time from Astro.url.pathname. All prototype React/onNav/hash-routing stripped.
+
+const pathname = Astro.url.pathname;
+
+// Normalize trailing slash so "/visit/" and "/visit" both match.
+const norm = (p: string) => (p !== "/" && p.endsWith("/") ? p.slice(0, -1) : p);
+const here = norm(pathname);
+const isActive = (href: string) => norm(href) === here;
+
+type NavChild = { label: string; href: string };
+type NavGroup = { label: string; children: NavChild[] };
+
+const GROUPS: NavGroup[] = [
+  {
+    label: "About",
+    children: [
+      { label: "Our Beliefs", href: "/about/beliefs" },
+      { label: "Leadership", href: "/about/leadership" },
+      { label: "Mission / Vision", href: "/about/mission" },
+      { label: "Membership", href: "/about/membership" },
+    ],
+  },
+  {
+    label: "Mission",
+    children: [
+      { label: "International Missions", href: "/mission/international" },
+      { label: "Church Planting", href: "/mission/church-planting" },
+      { label: "Local Outreach", href: "/mission/local-outreach" },
+      { label: "Ministry Training", href: "/mission/training" },
+      { label: "Serve the Church", href: "/mission/serve" },
+    ],
+  },
+  {
+    label: "Help",
+    children: [
+      { label: "Hope Counseling", href: "/help/hope-counseling" },
+      { label: "Mercy Health Clinic", href: "/help/mercy-clinic" },
+      { label: "Feed Ministry", href: "/help/feed" },
+      { label: "Care Ministry", href: "/help/care" },
+    ],
+  },
+  {
+    label: "Community",
+    children: [
+      { label: "Grow Groups", href: "/community/grow-groups" },
+      { label: "Adult Discipleship", href: "/community/adult-discipleship" },
+      { label: "Kids", href: "/community/kids" },
+      { label: "Students", href: "/community/students" },
+      { label: "Women", href: "/community/women" },
+      { label: "Men", href: "/community/men" },
+      { label: "LILY Moms", href: "/community/lily-moms" },
+      { label: "Young Adults", href: "/community/young-adults" },
+      { label: "Mature Adults", href: "/community/mature-adults" },
+    ],
+  },
+  {
+    label: "Resources",
+    children: [
+      { label: "Events", href: "/events" },
+      { label: "Sermons", href: "/sermons" },
+      { label: "Blog", href: "/blog" },
+      { label: "Other Resources", href: "/resources" },
+    ],
+  },
+];
+
+const groupActive = (g: NavGroup) => g.children.some((c) => isActive(c.href));
+
+const GIVE_HREF = "https://onrealm.org/NorthWake/-/form/give/now";
+---
+
+<nav class="nav">
+  <div class="nav-inner">
+    {/* TODO: replace CSS .brand-mark + text wordmark with a real logo asset
+        (assets/nw-mark.png) once it exists — see prototype shell.jsx. */}
+    <a class="brand" href="/" aria-label="North Wake Church — home">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">North <span class="accent">Wake</span></span>
+    </a>
+
+    <div class="nav-links">
+      <a class={`nav-link${isActive("/") ? " active" : ""}`} href="/">Home</a>
+
+      {
+        GROUPS.map((g) => (
+          <div class="nav-item">
+            <button
+              type="button"
+              class={`nav-link nav-trigger${groupActive(g) ? " active" : ""}`}
+              aria-haspopup="true"
+            >
+              {g.label}
+              <span class="caret" aria-hidden="true"></span>
+            </button>
+            <div class="dropdown" role="menu">
+              {g.children.map((c) => (
+                <a
+                  class={`dropdown-item${isActive(c.href) ? " active" : ""}`}
+                  href={c.href}
+                  role="menuitem"
+                >
+                  <span>{c.label}</span>
+                  <span class="item-arr" aria-hidden="true">→</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+
+      <a class={`nav-link${isActive("/visit") ? " active" : ""}`} href="/visit">Come Visit</a>
+      <a class={`nav-link${isActive("/who-is-jesus") ? " active" : ""}`} href="/who-is-jesus">Who is Jesus</a>
+    </div>
+
+    <div class="nav-cta">
+      <a class="btn btn-ghost" href={GIVE_HREF} target="_blank" rel="noopener">Give</a>
+      <a class="btn btn-primary" href="/visit">
+        Plan a Visit
+        <span class="arr">→</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 40px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  /* Brand */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-mark {
+    width: 26px;
+    height: 26px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    position: relative;
+    flex: none;
+  }
+  .brand-mark::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1.5px;
+    height: 60%;
+    background: var(--ink);
+    transform: translate(-50%, -50%);
+  }
+  .brand-mark::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: 1.5px;
+    background: var(--ink);
+    transform: translate(-50%, -50%);
+  }
+  .brand-name {
+    font-family: var(--display);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+  }
+  .brand-name .accent {
+    color: var(--accent);
+  }
+
+  /* Links row */
+  .nav-links {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+  .nav-link {
+    padding: 8px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-2);
+    border-radius: var(--radius-pill);
+    letter-spacing: -0.005em;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .nav-link:hover {
+    color: var(--ink);
+    background: var(--bg-2);
+  }
+  .nav-link.active {
+    color: var(--ink);
+    background: var(--bg-2);
+  }
+
+  /* Dropdown trigger is a <button> for a11y; strip native chrome to match links */
+  .nav-trigger {
+    background: transparent;
+    border: 0;
+    cursor: default;
+    font-family: inherit;
+  }
+
+  .caret {
+    width: 8px;
+    height: 8px;
+    border-right: 1.4px solid currentColor;
+    border-bottom: 1.4px solid currentColor;
+    transform: rotate(45deg) translateY(-1px);
+    opacity: 0.5;
+    transition: transform 200ms ease;
+  }
+
+  /* CSS-only dropdown: shown on hover or keyboard focus within the group */
+  .nav-item {
+    position: relative;
+  }
+  .dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    min-width: 240px;
+    background: var(--bg);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-dropdown);
+    padding: 6px;
+    box-shadow: var(--shadow-dropdown);
+    z-index: 60;
+    display: none;
+  }
+  .nav-item:hover .dropdown,
+  .nav-item:focus-within .dropdown {
+    display: block;
+    animation: fadeUp 180ms cubic-bezier(0.2, 0.7, 0.1, 1) both;
+  }
+  .nav-item:hover .caret,
+  .nav-item:focus-within .caret {
+    transform: rotate(225deg) translateY(1px);
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-radius: var(--radius-card);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    transition: background 140ms ease, color 140ms ease;
+  }
+  .dropdown-item:hover {
+    background: var(--bg-2);
+  }
+  .dropdown-item.active {
+    background: var(--bg-2);
+  }
+  .item-arr {
+    color: var(--accent);
+    font-size: 13px;
+    opacity: 0.55;
+  }
+  .dropdown-item:hover .item-arr,
+  .dropdown-item.active .item-arr {
+    opacity: 1;
+  }
+
+  /* CTA cluster */
+  .nav-cta {
+    display: flex;
+    gap: 8px;
+  }
+  .nav-cta .btn {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+
+  /* TODO: mobile menu is a later step. For now, match the prototype and hide
+     the center links below 980px (no hamburger yet). */
+  @media (max-width: 980px) {
+    .nav-links {
+      display: none;
+    }
+  }
+</style>
