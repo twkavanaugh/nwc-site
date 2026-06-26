@@ -1,0 +1,106 @@
+/* =============================================================================
+ * tokens.css
+ * GENERATED ONE-WAY from brand/design-tokens.md. DO NOT HAND-EDIT.
+ *
+ * To change a value: edit brand/design-tokens.md (the human source of truth)
+ * and regenerate this file. Edits made directly here will be lost.
+ *
+ * Two-layer rule:
+ *   1. RAW PALETTE  — the ONLY place literal color/rgba values may appear.
+ *   2. SEMANTIC     — every semantic token points at a raw token via var();
+ *                     a semantic token never holds a literal value, and never
+ *                     points at another semantic token.
+ *
+ * Components consume SEMANTIC tokens only. No raw hex in component files, ever.
+ * Light theme only — the [data-theme="dim"] dark theme was dropped (md §7).
+ * ========================================================================== */
+
+:root {
+  /* ---------------------------------------------------------------------------
+   * 1. RAW PALETTE (md §1) — literal values live here and nowhere else.
+   * ------------------------------------------------------------------------- */
+
+  /* Warm neutrals (light) */
+  --raw-sand-50: #f6f3ed;
+  --raw-sand-100: #ece7dc;
+  --raw-sand-200: #e3ddce;
+
+  /* Ink scale (light) */
+  --raw-ink-900: #1a1814;
+  --raw-ink-700: #3a352c;
+  --raw-ink-500: #6e665a;
+  --raw-ink-300: #a89f8e;
+
+  /* Accent */
+  --raw-clay-600: #8a4d2e;
+  --raw-clay-400: #d49271;
+
+  /* Absolutes */
+  --raw-white: #ffffff;
+
+  /* Dark-band neutrals (text on dark bands within the light theme) */
+  --raw-night-ink-50: #f4efe5;
+  --raw-night-ink-200: #d8d2c4;
+
+  /* Line / hairline values (alpha over ink or white) */
+  --raw-line-ink: rgba(26, 24, 20, 0.12);
+  --raw-line-ink-strong: rgba(26, 24, 20, 0.22);
+  --raw-line-white: rgba(244, 239, 229, 0.12);
+  --raw-line-white-strong: rgba(244, 239, 229, 0.22);
+  --raw-border-on-inverse: rgba(255, 255, 255, 0.3);
+
+  /* One-off (flagged) — page-local only. Not promoted to a semantic token. */
+  --raw-teal: #3fb6ad;
+
+  /* ---------------------------------------------------------------------------
+   * 2. SEMANTIC ALIASES (md §2) — each is var(--raw-*); never a literal.
+   * ------------------------------------------------------------------------- */
+
+  /* Surfaces */
+  --bg: var(--raw-sand-50);
+  --bg-2: var(--raw-sand-100);
+  --bg-3: var(--raw-sand-200);
+
+  /* Foreground / text */
+  --ink: var(--raw-ink-900);
+  --ink-2: var(--raw-ink-700);
+  --ink-3: var(--raw-ink-500);
+  --ink-4: var(--raw-ink-300);
+
+  /* Accent */
+  --accent: var(--raw-clay-600);
+  --accent-ink: var(--raw-white);
+
+  /* Lines */
+  --line: var(--raw-line-ink);
+  --line-strong: var(--raw-line-ink-strong);
+
+  /* Inverse / dark-band semantics */
+  --bg-inverse: var(--raw-ink-900);
+  --ink-on-inverse: var(--raw-night-ink-50);
+  --ink-on-inverse-2: var(--raw-night-ink-200);
+  --line-on-inverse: var(--raw-line-white);
+  --line-on-inverse-strong: var(--raw-line-white-strong);
+  --border-on-inverse: var(--raw-border-on-inverse);
+
+  /* ---------------------------------------------------------------------------
+   * 3. Typography families (md §3) — exact font-stack strings.
+   * ------------------------------------------------------------------------- */
+  --display: "Inter Tight", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --sans: "Inter Tight", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ---------------------------------------------------------------------------
+   * 5. Radius (md §5)
+   * ------------------------------------------------------------------------- */
+  --radius-pill: 999px;
+  --radius-card: 6px;
+  --radius-dropdown: 10px;
+  --radius-ph: 4px;
+  --radius-sm: 3px;
+
+  /* ---------------------------------------------------------------------------
+   * 6. Other primitives (md §6)
+   * ------------------------------------------------------------------------- */
+  --shadow-dropdown: 0 12px 40px rgba(0, 0, 0, 0.10), 0 2px 6px rgba(0, 0, 0, 0.04);
+}
