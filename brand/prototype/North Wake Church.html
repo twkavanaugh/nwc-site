@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>North Wake Church</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <meta name="ext-resource-dependency" content="assets/nw-mark.png">
+  <meta name="ext-resource-dependency" content="assets/nw-logo.png">
+  <meta name="ext-resource-dependency" content="assets/home-hero.jpg">
+  <template id="__bundler_thumbnail">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+      <rect width="400" height="400" fill="#f6f3ed"/>
+      <g transform="translate(200 200)">
+        <path d="M -60 60 L -60 -20 L 0 -70 L 60 -20 L 60 60 Z" fill="none" stroke="#1a1814" stroke-width="6" stroke-linejoin="round"/>
+        <line x1="0" y1="-50" x2="0" y2="20" stroke="#8a4d2e" stroke-width="6" stroke-linecap="round"/>
+        <line x1="-18" y1="-15" x2="18" y2="-15" stroke="#8a4d2e" stroke-width="6" stroke-linecap="round"/>
+      </g>
+      <text x="200" y="330" text-anchor="middle" font-family="Georgia, serif" font-size="28" font-style="italic" fill="#1a1814">North Wake</text>
+    </svg>
+  </template>
+  <div id="root"></div>
+
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="shell.jsx"></script>
+  <script type="text/babel" src="page-home.jsx"></script>
+  <script type="text/babel" src="page-other.jsx"></script>
+  <script type="text/babel" src="page-students.jsx"></script>
+  <script type="text/babel" src="page-membership.jsx"></script>
+  <script type="text/babel" src="page-feed.jsx"></script>
+  <script type="text/babel" src="page-mature.jsx"></script>
+  <script type="text/babel" src="page-hope.jsx"></script>
+  <script type="text/babel" src="page-event.jsx"></script>
+  <script type="text/babel" src="page-event-standard.jsx"></script>
+  <script type="text/babel" src="page-blog.jsx"></script>
+  <script type="text/babel" src="page-jesus.jsx"></script>
+  <script type="text/babel" src="page-mission.jsx"></script>
+  <script type="text/babel" src="page-sermons.jsx"></script>
+  <script type="text/babel" src="page-kids.jsx"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "accent": "#8a4d2e",
+      "bg": "#f6f3ed",
+      "ink": "#1a1814",
+      "displayFont": "Söhne",
+      "bodyFont": "Inter Tight",
+      "hero": "overlay",
+      "showMarquee": true
+    }/*EDITMODE-END*/;
+
+    const FONT_OPTIONS = ["Inter Tight", "Helvetica Neue", "Söhne", "IBM Plex Sans", "Geist", "Manrope", "DM Sans"];
+
+    const PALETTES = {
+      "Warm sand · clay": { bg: "#f6f3ed", ink: "#1a1814", accent: "#8a4d2e" },
+      "Sand · forest":    { bg: "#f3eee2", ink: "#171a14", accent: "#2f5d3a" },
+      "Cream · oxblood":  { bg: "#f5efe4", ink: "#1c1612", accent: "#7a2e2a" },
+      "Cream · saffron":  { bg: "#f6efde", ink: "#1c1812", accent: "#b8631e" },
+      "Linen · plum":     { bg: "#f3eee8", ink: "#1a1518", accent: "#5e2f4a" },
+    };
+
+    function App() {
+      const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+      const [page, setPage] = useState(() => {
+        const h = (window.location.hash || "").replace("#", "");
+        return ["home", "visit", "beliefs", "groups", "students", "membership", "feed", "mature", "hope", "event", "event-standard", "blog", "blog-post", "jesus", "mission", "sermons", "kids"].includes(h) ? h : "home";
+      });
+
+      useEffect(() => {
+        window.location.hash = page;
+        window.scrollTo({ top: 0 });
+      }, [page]);
+
+      // Apply tweaks as CSS variables
+      useEffect(() => {
+        const r = document.documentElement;
+        r.style.setProperty("--bg", t.bg);
+        r.style.setProperty("--ink", t.ink);
+        r.style.setProperty("--accent", t.accent);
+        // Derive bg-2 / bg-3 / line from bg + ink
+        const isDark = t.bg && parseInt(t.bg.slice(1, 3), 16) < 80;
+        if (isDark) {
+          r.style.setProperty("--bg-2", "#221f1a");
+          r.style.setProperty("--bg-3", "#2a2620");
+          r.style.setProperty("--ink-2", "#d8d2c4");
+          r.style.setProperty("--ink-3", "#9c9484");
+          r.style.setProperty("--line", "rgba(244,239,229,0.12)");
+          r.style.setProperty("--line-strong", "rgba(244,239,229,0.22)");
+        } else {
+          r.style.setProperty("--bg-2", "#ece7dc");
+          r.style.setProperty("--bg-3", "#e3ddce");
+          r.style.setProperty("--ink-2", "#3a352c");
+          r.style.setProperty("--ink-3", "#6e665a");
+          r.style.setProperty("--line", "rgba(26,24,20,0.12)");
+          r.style.setProperty("--line-strong", "rgba(26,24,20,0.22)");
+        }
+        r.style.setProperty("--display", `"${t.displayFont}", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif`);
+        r.style.setProperty("--sans", `"${t.bodyFont}", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif`);
+      }, [t.bg, t.ink, t.accent, t.displayFont, t.bodyFont]);
+
+      const handleNav = (target) => {
+        const valid = ["home", "visit", "beliefs", "groups", "students", "membership", "feed", "mature", "hope", "event", "event-standard", "blog", "blog-post", "jesus", "mission", "sermons", "kids"];
+        setPage(valid.includes(target) ? target : "home");
+      };
+
+      let content;
+      if (page === "visit") content = <VisitPage onNav={handleNav} />;
+      else if (page === "beliefs") content = <BeliefsPage onNav={handleNav} />;
+      else if (page === "groups") content = <GroupsPage onNav={handleNav} />;
+      else if (page === "students") content = <StudentsPage onNav={handleNav} />;
+      else if (page === "membership") content = <MembershipPage onNav={handleNav} />;
+      else if (page === "feed") content = <FeedPage onNav={handleNav} />;
+      else if (page === "mature") content = <MatureAdultsPage onNav={handleNav} />;
+      else if (page === "hope") content = <HopeCounselingPage onNav={handleNav} />;
+      else if (page === "event") content = <EventPage onNav={handleNav} />;
+      else if (page === "event-standard") content = <StandardEventPage onNav={handleNav} />;
+      else if (page === "blog") content = <BlogPage onNav={handleNav} />;
+      else if (page === "blog-post") content = <BlogPostPage onNav={handleNav} />;
+      else if (page === "jesus") content = <WhoIsJesusPage onNav={handleNav} />;
+      else if (page === "mission") content = <MissionPage onNav={handleNav} />;
+      else if (page === "sermons") content = <SermonsPage onNav={handleNav} />;
+      else if (page === "kids") content = <KidsPage onNav={handleNav} />;
+      else content = <HomePage onNav={handleNav} hero={t.hero} />;
+
+      const applyPalette = (name) => {
+        const p = PALETTES[name];
+        if (!p) return;
+        // Persist via __edit_mode_set_keys
+        window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { bg: p.bg, ink: p.ink, accent: p.accent } }, '*');
+        // Also live-update local state
+        setTweak('bg', p.bg);
+        setTweak('ink', p.ink);
+        setTweak('accent', p.accent);
+      };
+
+      return (
+        <>
+          <Nav current={page} onNav={handleNav} />
+          {content}
+          <Footer onNav={handleNav} />
+
+          <TweaksPanel>
+            <TweakSection label="Palette" />
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
+              {Object.keys(PALETTES).map((name) => {
+                const p = PALETTES[name];
+                return (
+                  <button
+                    key={name}
+                    onClick={() => applyPalette(name)}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 6,
+                      padding: "6px 8px",
+                      border: "0.5px solid rgba(0,0,0,.1)",
+                      borderRadius: 7,
+                      background: "rgba(255,255,255,.6)",
+                      color: "inherit",
+                      fontSize: 10.5,
+                      cursor: "default",
+                      textAlign: "left",
+                    }}
+                    title={name}
+                  >
+                    <span style={{ width: 10, height: 10, borderRadius: 3, background: p.bg, border: "0.5px solid rgba(0,0,0,.15)" }}></span>
+                    <span style={{ width: 10, height: 10, borderRadius: 3, background: p.ink }}></span>
+                    <span style={{ width: 10, height: 10, borderRadius: 3, background: p.accent }}></span>
+                    <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", flex: 1 }}>{name}</span>
+                  </button>
+                );
+              })}
+            </div>
+            <TweakColor label="Background" value={t.bg} onChange={(v) => setTweak("bg", v)} />
+            <TweakColor label="Ink" value={t.ink} onChange={(v) => setTweak("ink", v)} />
+            <TweakColor label="Accent" value={t.accent} onChange={(v) => setTweak("accent", v)} />
+
+            <TweakSection label="Typography" />
+            <TweakSelect label="Display" value={t.displayFont} options={FONT_OPTIONS}
+              onChange={(v) => setTweak("displayFont", v)} />
+            <TweakSelect label="Body" value={t.bodyFont} options={FONT_OPTIONS}
+              onChange={(v) => setTweak("bodyFont", v)} />
+
+            <TweakSection label="Hero variant" />
+            <TweakRadio label="Layout" value={t.hero}
+              options={["editorial", "split", "overlay", "minimal"]}
+              onChange={(v) => setTweak("hero", v)} />
+            <div className="small" style={{ fontSize: 10, color: "rgba(0,0,0,0.45)" }}>
+              Switch to Home page to see the hero variants.
+            </div>
+          </TweaksPanel>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
