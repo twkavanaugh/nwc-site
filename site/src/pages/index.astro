@@ -86,6 +86,179 @@ const MARQUEE_WORDS = [
       </div>
     </div>
   </section>
+
+  <!-- ===================== MISSION TRIAD ===================== -->
+  <section class="mission">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow head-eyebrow"><span class="dot"></span>Why we exist</div>
+          <h2 class="display-m mission-head">Three words shape everything we do.</h2>
+        </div>
+        <p class="body right">
+          Our mission isn't a slogan — it's the orbit our church moves in. Sunday
+          gathering, weekday community, sent into Wake Forest and beyond.
+        </p>
+      </div>
+      <div class="mission-grid">
+        {
+          [
+            { verb: "Know", headline: "the love of God in Jesus Christ.", body: "We orient every Sunday and every week around the gospel — that God meets us in Jesus, and that meeting changes everything.", ph: "Worship · candid" },
+            { verb: "Grow", headline: "in love for one another.", body: "We don't grow in isolation. In Grow Groups, classes, and shared meals, we open Scripture, pray honestly, and bear each other's burdens.", ph: "Grow Group · home" },
+            { verb: "Go", headline: "in love to reach our neighbors near and far.", body: "From Wake Forest to the nations, we send and serve — through local outreach, mercy ministry, and global missions.", ph: "Local outreach · serving" },
+          ].map((it, i) => (
+            <article class="mission-item">
+              <div class="ph" style="aspect-ratio: 4 / 5;">
+                <span class="ph-label">{it.ph}</span>
+              </div>
+              <div class="mission-num-row">
+                <span class="mono mission-num">0{i + 1}</span>
+                <span class="display-s mission-verb">{it.verb}</span>
+              </div>
+              <h3 class="title mission-headline">{it.headline}</h3>
+              <p class="body mission-body">{it.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PLAN-VISIT TEASER ===================== -->
+  <section class="visit">
+    <div class="wrap">
+      <div class="visit-grid">
+        <div class="visit-aside">
+          <div class="eyebrow head-eyebrow"><span class="dot"></span>Plan a visit</div>
+          <h2 class="display-m visit-title">What to expect on Sunday.</h2>
+          <p class="lede visit-lede">
+            Walking into a new church can feel like a lot. Here's exactly what your
+            first Sunday at North Wake will look like — no surprises.
+          </p>
+          <div class="visit-actions">
+            <a class="btn btn-primary" href="/visit">I'm new — start here <span class="arr">→</span></a>
+          </div>
+          <div class="visit-ph">
+            <div class="ph" style="aspect-ratio: 1 / 1;">
+              <span class="ph-label">Welcome Walk-Up Candid</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          {
+            [
+              { k: "01", h: "Come as you are", b: "Jeans, a suit, somewhere in between — we don't dress to impress, we come to worship." },
+              { k: "02", h: "Find a friendly face", b: "Grab a coffee at the Welcome Wall. Our team is there to help you find your seat (and your people)." },
+              { k: "03", h: "Worship together", b: "Songs, prayer, and a sermon that takes the Bible seriously and your questions seriously, too." },
+              { k: "04", h: "Kids are well cared for", b: "Safe, joyful, gospel-centered programming for birth through 5th grade in both services." },
+            ].map((p) => (
+              <div class="visit-point">
+                <span class="mono visit-k">{p.k}</span>
+                <div>
+                  <h3 class="display-s visit-h">{p.h}</h3>
+                  <p class="body visit-b">{p.b}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FIND COMMUNITY ===================== -->
+  <section class="community">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow head-eyebrow"><span class="dot"></span>Find community</div>
+          <h2 class="display-m community-head">North Wake is a people, not a building.</h2>
+        </div>
+        <p class="body right">
+          Sunday is a doorway, but life happens around the table. Find your people —
+          a Grow Group, a class, a ministry that fits the season you're in.
+        </p>
+      </div>
+
+      <div class="community-grid">
+        {
+          [
+            { name: "Grow Groups", meta: "12 active groups · weekly", body: "Mid-sized groups meeting in homes across Wake Forest. Share a meal, open Scripture, pray honestly, repeat.", href: "/community/grow-groups" },
+            { name: "Adult Discipleship", meta: "8-week classes · Sundays 9 AM", body: "Theology and life classes for every season — from foundations of the faith to parenting, marriage, and money.", href: null },
+            { name: "Students", meta: "6th–12th · Wednesdays 6:30 PM", body: "A ministry for students and families to follow Jesus together — rooted in Colossians 1: presenting everyone mature in Christ.", href: "/community/students" },
+            { name: "Kids", meta: "Birth–5th · Sunday mornings", body: "A safe, joyful place where kids hear that Jesus loves them and learn to love him back. Check-in 30 min before service.", href: null },
+            { name: "Women", meta: "Bible studies · retreats", body: "Studies in the Word, friendships across generations, and gatherings that point women to the steadfast love of Christ.", href: null },
+            { name: "Men", meta: "Breakfast · book studies", body: "Men sharpening men — meeting over coffee and Scripture to grow into faithful husbands, fathers, and friends.", href: null },
+          ].map((g) =>
+            g.href ? (
+              <a class="community-card" href={g.href}>
+                <div class="mono community-meta">{g.meta}</div>
+                <h3 class="display-s community-name">{g.name}</h3>
+                <p class="body community-body">{g.body}</p>
+                <div class="community-cta">
+                  <span class="small label">Learn more</span>
+                  <span class="row-arr arr-link">→</span>
+                </div>
+              </a>
+            ) : (
+              <div class="community-card is-inert" aria-disabled="true">
+                <div class="mono community-meta">{g.meta}</div>
+                <h3 class="display-s community-name">{g.name}</h3>
+                <p class="body community-body">{g.body}</p>
+                <div class="community-cta">
+                  <span class="small label">Coming soon</span>
+                  <span class="row-arr arr-muted">→</span>
+                </div>
+              </div>
+            )
+          )
+        }
+      </div>
+
+      <div class="community-all">
+        <a class="btn btn-ghost" href="/community/grow-groups">See all ministries <span class="arr">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LATEST SERMON ===================== -->
+  <section class="latest">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow head-eyebrow"><span class="dot"></span>Now preaching</div>
+          <h2 class="display-m latest-head">Sundays preached, weekly archived.</h2>
+        </div>
+        <p class="body right">
+          We're walking through a sermon series each season. Listen along, or browse
+          the full archive by speaker, series, or book.
+        </p>
+      </div>
+
+      <a class="sermon-card" href="/sermons">
+        <div class="sermon-art">
+          <div class="mono sermon-art-tl">Series artwork</div>
+          <div class="sermon-art-title">Be<br />Different</div>
+          <div class="mono sermon-art-bl">Romans</div>
+        </div>
+        <div class="sermon-body">
+          <div class="mono sermon-kicker">Current series · Spring 2026</div>
+          <h3 class="display-m sermon-title">Be Different — a journey through Romans.</h3>
+          <p class="body sermon-lede">
+            Paul's letter to the Romans, preached week by week — the gospel that
+            re-orders everything: how we relate to God, to one another, and to a
+            watching world.
+          </p>
+          <div class="sermon-foot">
+            <span class="mono sermon-listen">Listen to the latest message →</span>
+            {/* Card-level link already targets /sermons; this is a styled span,
+                not a nested anchor (invalid HTML). */}
+            <span class="btn btn-ghost">Sermon archive</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
 </Layout>
 
 <style>
@@ -278,6 +451,325 @@ const MARQUEE_WORDS = [
     .service-loc {
       border-left: 0;
       padding-left: 0;
+    }
+  }
+
+  /* ----------------------- SHARED: eyebrow dot + placeholder ---------------- */
+  /* Section eyebrow + its accent dot (global .eyebrow .dot only sets color). */
+  .head-eyebrow {
+    margin-bottom: 18px;
+    color: var(--ink-3);
+  }
+  .head-eyebrow .dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 10px;
+    transform: translateY(-2px);
+  }
+
+  /* Striped labeled image placeholder (homepage-only for now; from styles.css) */
+  .ph {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-ph);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-3);
+    background: repeating-linear-gradient(
+      135deg,
+      var(--bg-3) 0 18px,
+      color-mix(in srgb, var(--bg-3) 88%, var(--ink) 4%) 18px 36px
+    );
+  }
+  .ph::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      transparent 30%,
+      color-mix(in srgb, var(--ink) 20%, transparent) 100%
+    );
+  }
+  .ph-label {
+    position: relative;
+    z-index: 2;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    padding: 5px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+  }
+
+  /* ------------------------------ MISSION TRIAD ---------------------------- */
+  .mission-head {
+    max-width: 14ch;
+  }
+  .mission .right {
+    color: var(--ink-2);
+  }
+  .mission-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .mission-item {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .mission-num-row {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  .mission-num {
+    color: var(--accent);
+  }
+  .mission-verb {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .mission-headline {
+    max-width: 20ch;
+    font-weight: 500;
+  }
+  .mission-body {
+    margin: 0;
+    max-width: 34ch;
+    color: var(--ink-2);
+  }
+
+  /* --------------------------- PLAN-VISIT TEASER --------------------------- */
+  .visit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .visit-aside {
+    position: sticky;
+    top: 100px;
+  }
+  .visit-title {
+    max-width: 12ch;
+  }
+  .visit-lede {
+    margin-top: 28px;
+  }
+  .visit-actions {
+    margin-top: 32px;
+    display: flex;
+    gap: 12px;
+  }
+  .visit-ph {
+    margin-top: 56px;
+  }
+  .visit-point {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 28px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .visit-k {
+    color: var(--accent);
+    padding-top: 4px;
+  }
+  .visit-h {
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .visit-b {
+    margin: 0;
+    max-width: 44ch;
+    color: var(--ink-2);
+  }
+
+  /* ------------------------------ FIND COMMUNITY -------------------------- */
+  .community {
+    background: var(--bg-2);
+  }
+  .community-head {
+    max-width: 16ch;
+  }
+  .community .right {
+    color: var(--ink-2);
+  }
+  /* gap:1px over a --line background paints the hairline grid rules */
+  .community-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .community-card {
+    background: var(--bg-2);
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 240px;
+    color: inherit;
+    transition: background 200ms ease;
+  }
+  /* JS onMouseEnter/Leave in the prototype → CSS :hover here (link cards only) */
+  a.community-card:hover {
+    background: var(--bg);
+  }
+  .community-card.is-inert {
+    opacity: 0.7;
+  }
+  .community-meta {
+    color: var(--ink-3);
+  }
+  .community-name {
+    font-weight: 500;
+  }
+  .community-body {
+    margin: 0;
+    color: var(--ink-3);
+  }
+  .community-cta {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+  }
+  .community-card .label {
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .community-card .row-arr {
+    color: var(--accent);
+  }
+  .community-card.is-inert .label,
+  .community-card.is-inert .row-arr {
+    color: var(--ink-4);
+  }
+  .community-all {
+    text-align: center;
+    margin-top: 64px;
+  }
+
+  /* ------------------------------ LATEST SERMON --------------------------- */
+  .latest-head {
+    max-width: 16ch;
+  }
+  .latest .right {
+    color: var(--ink-3);
+  }
+  .sermon-card {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    border: 1px solid var(--line-strong);
+    color: inherit;
+    transition: background 200ms ease, border-color 200ms ease;
+  }
+  /* JS hover in the prototype → CSS :hover */
+  .sermon-card:hover {
+    background: var(--bg-2);
+  }
+  .sermon-art {
+    aspect-ratio: 1 / 1;
+    background: var(--bg-2);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--line-strong);
+  }
+  .sermon-art-tl {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    color: var(--ink-3);
+  }
+  .sermon-art-title {
+    font-family: var(--display);
+    font-size: 56px;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    line-height: 0.95;
+    text-align: center;
+  }
+  .sermon-art-bl {
+    position: absolute;
+    bottom: 18px;
+    left: 18px;
+    color: var(--accent);
+  }
+  .sermon-body {
+    padding: 44px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .sermon-kicker {
+    color: var(--ink-3);
+  }
+  .sermon-title {
+    max-width: 16ch;
+    margin: 0;
+  }
+  .sermon-lede {
+    margin: 0;
+    font-size: 17px;
+    color: var(--ink-2);
+    max-width: 52ch;
+    line-height: 1.65;
+  }
+  .sermon-foot {
+    margin-top: 20px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .sermon-listen {
+    color: var(--accent);
+  }
+
+  /* Mobile collapses — enhancement beyond the prototype (it had no mobile
+     rules for these grids); prevents unusable multi-column layouts on phones. */
+  @media (max-width: 880px) {
+    .mission-grid,
+    .community-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 720px) {
+    .mission-grid,
+    .community-grid {
+      grid-template-columns: 1fr;
+    }
+    .visit-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .visit-aside {
+      position: static;
+    }
+    .sermon-card {
+      grid-template-columns: 1fr;
+    }
+    .sermon-art {
+      border-right: 0;
+      border-bottom: 1px solid var(--line-strong);
     }
   }
 </style>
