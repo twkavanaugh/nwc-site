@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
 
 // Who is Jesus? (/who-is-jesus) — Direction A "Literary Essay".
 // Translated from brand/prototype/page-who-is-jesus.html. Warm, serif-led
@@ -24,16 +25,8 @@ const resources = [
   title="Who is Jesus? · North Wake Church"
   description="An invitation to explore who Jesus is — for the curious, the struggling, and the skeptical. You and your questions are welcome at North Wake Church."
 >
-  <!-- Breadcrumb (global .crumb pattern) -->
-  <section class="crumb-sec">
-    <div class="wrap">
-      <div class="mono crumb">
-        <a href="/">Home</a>
-        <span class="sep">/</span>
-        <span class="current">Who is Jesus?</span>
-      </div>
-    </div>
-  </section>
+  <!-- Breadcrumb (new full-bleed chip bar — flush under nav, first in body) -->
+  <Breadcrumb trail={[{ label: "Home", href: "/" }, { label: "Who is Jesus?" }]} />
 
   <!-- Hero -->
   <section class="wij-hero">

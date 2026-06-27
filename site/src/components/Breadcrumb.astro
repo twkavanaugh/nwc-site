@@ -1,0 +1,137 @@
+---
+// Breadcrumb.astro — full-bleed chip-style breadcrumb bar.
+// Renders flush under the sticky nav (no .wrap; edge-to-edge bg). Horizontal
+// padding (40px) matches Nav's .nav-inner so chips align with the logo.
+// Semantic tokens only — no raw hex/rgba. CSS-only, zero JS.
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
+interface Props {
+  trail: Crumb[];
+  action?: { label: string; href: string };
+}
+
+const { trail, action } = Astro.props;
+const lastIndex = trail.length - 1;
+---
+
+<nav class="crumbbar" aria-label="Breadcrumb">
+  <div class="crumbbar-trail">
+    {
+      trail.map((item, i) => {
+        const isCurrent = i === lastIndex;
+        const isFirst = i === 0;
+        return (
+          <Fragment>
+            {i > 0 && <span class="crumbbar-sep" aria-hidden="true"></span>}
+            {item.href && !isCurrent ? (
+              <a class="crumb-chip" href={item.href}>
+                {isFirst && (
+                  <svg class="crumb-home" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+                    <path d="M3 11l9-8 9 8" />
+                    <path d="M5 10v10h14V10" />
+                  </svg>
+                )}
+                {item.label}
+              </a>
+            ) : (
+              <span
+                class={`crumb-chip${isCurrent ? " is-current" : " is-static"}`}
+                {...(isCurrent ? { "aria-current": "page" } : {})}
+              >
+                {isFirst && (
+                  <svg class="crumb-home" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+                    <path d="M3 11l9-8 9 8" />
+                    <path d="M5 10v10h14V10" />
+                  </svg>
+                )}
+                {item.label}
+              </span>
+            )}
+          </Fragment>
+        );
+      })
+    }
+  </div>
+
+  {action && <a class="crumbbar-action" href={action.href}>{action.label}</a>}
+</nav>
+
+<style>
+  .crumbbar {
+    /* full-bleed: no .wrap; spans edge-to-edge, flush under the sticky nav */
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+    padding: 12px 40px; /* 40px matches Nav .nav-inner horizontal padding */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .crumbbar-trail {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* Chips */
+  .crumb-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: var(--radius-pill);
+    padding: 6px 13px;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: -0.005em;
+    /* ancestor / static = outlined pill */
+    border: 1px solid var(--line-strong);
+    background: var(--bg);
+    color: var(--ink-2);
+    transition: border-color 140ms ease, color 140ms ease;
+  }
+  a.crumb-chip:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+  .crumb-chip.is-current {
+    /* current page = filled pill (never a link) */
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+
+  .crumb-home {
+    display: block;
+    flex: none;
+  }
+
+  /* Separator — small rotated-square chevron (right + top borders) */
+  .crumbbar-sep {
+    width: 6px;
+    height: 6px;
+    border-top: 1.4px solid var(--ink-4);
+    border-right: 1.4px solid var(--ink-4);
+    transform: rotate(45deg);
+    opacity: 0.5;
+    flex: none;
+  }
+
+  /* Right-aligned mono shortcut */
+  .crumbbar-action {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-3);
+    transition: color 140ms ease;
+  }
+  .crumbbar-action:hover {
+    color: var(--accent);
+  }
+</style>
