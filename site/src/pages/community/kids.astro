@@ -48,7 +48,7 @@ import Breadcrumb from "../../components/Breadcrumb.astro";
   </section>
 
   <!-- 3. Sunday schedule (hairline-gap card grid idiom) -->
-  <section>
+  <section class="kids-schedule">
     <div class="wrap">
       <div class="section-head">
         <div>
@@ -161,6 +161,15 @@ import Breadcrumb from "../../components/Breadcrumb.astro";
     gap: 12px;
     margin-top: 32px;
     flex-wrap: wrap;
+  }
+
+  /* Section separator — hero → 64px gap → hairline → 96px gap → schedule.
+     CANDIDATE shared "section-separator" pattern (students has a similar
+     hero→section seam); kept page-local this pass. */
+  .kids-schedule {
+    margin-top: 64px;
+    padding-top: 96px;
+    border-top: 1px solid var(--line);
   }
 
   /* Sunday schedule — hairline-gap card grid (same idiom as students rhythms /
