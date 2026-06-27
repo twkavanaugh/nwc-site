@@ -1,6 +1,283 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { BUSINESS } from "../data/business";
+
+// Homepage — Pass 1 of 3: Overlay hero, marquee strip, Service Times band.
+// Translated from brand/prototype/page-home.jsx (HeroOverlay ~57, ServiceTimes
+// ~158) + shell.jsx (Marquee) + styles.css (.marquee). React/onNav stripped;
+// onNav buttons are now real <a href> per the route map.
+
+const MARQUEE_WORDS = [
+  "Sundays 9 & 11 AM",
+  "Wake Forest, NC",
+  "Kids welcome",
+  "Coffee on us",
+  "Come as you are",
+];
 ---
-<Layout>
-  <h1>North Wake Church — scaffold</h1>
+
+<Layout
+  title="North Wake Church"
+  description="North Wake Church is a family of faith in Wake Forest, NC — gathering each Sunday to worship Jesus and scattering through the week to love our neighbors near and far."
+>
+  <!-- ===================== HERO (overlay variant) ===================== -->
+  <section class="hero">
+    <div class="hero-stage">
+      <div class="hero-bg" aria-label="People gathered at North Wake Church"></div>
+      <div class="hero-scrim"></div>
+
+      <!-- TODO: remove hero-pending marker when /home-hero.jpg is added -->
+      <div class="hero-pending" aria-hidden="true">Hero image pending</div>
+      <!-- /TODO hero-pending -->
+
+      <div class="wrap hero-content">
+        <div class="eyebrow fade-up hero-eyebrow">
+          <span class="dot"></span>A family of faith · Wake Forest, NC
+        </div>
+        <h1 class="display-xl fade-up hero-title" style="animation-delay: 60ms;">
+          Know. Grow. <span class="accent">Go</span> in love.
+        </h1>
+        <div class="hero-row fade-up" style="animation-delay: 140ms;">
+          <p class="lede hero-lede">
+            Gathering each Sunday to worship Jesus, scattering through the week to
+            love our neighbors near and far. There's a seat at the table for you.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="/visit">
+              Plan a visit <span class="arr">→</span>
+            </a>
+            <a class="btn btn-overlay" href="/sermons">Watch Sunday's sermon</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MARQUEE STRIP ===================== -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>
+        {MARQUEE_WORDS.map((w) => (<><span>{w}</span><span class="sep">✦</span></>))}
+      </span>
+      <span>
+        {MARQUEE_WORDS.map((w) => (<><span>{w}</span><span class="sep">✦</span></>))}
+      </span>
+    </div>
+  </div>
+
+  <!-- ===================== SERVICE TIMES BAND ===================== -->
+  <section class="service">
+    <div class="wrap">
+      <div class="service-band">
+        <div>
+          <div class="mono service-eyebrow">Sundays</div>
+          <div class="display-s service-time">9:00 <span class="sep-dot">·</span> 11:00 AM</div>
+        </div>
+        <div class="service-loc">
+          <div class="mono service-eyebrow">Location</div>
+          <div class="title service-addr">{BUSINESS.streetAddress} · {BUSINESS.city}, {BUSINESS.state}</div>
+          <div class="small service-note">Free parking · Kids check-in opens 30 min before service</div>
+        </div>
+        {/* TODO: "Get directions" has no internal route; wire to a maps link once
+            the address is verified. Inert for now (matches prototype's no-op). */}
+        <button type="button" class="btn btn-ghost service-cta">
+          Get directions <span class="arr">→</span>
+        </button>
+      </div>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  /* ---------------------------------- HERO ---------------------------------- */
+  .hero {
+    padding: 0;
+  }
+  .hero-stage {
+    position: relative;
+    width: 100%;
+    min-height: 78vh;
+    display: flex;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    /* TODO: real photo dropped into site/public/home-hero.jpg later.
+       background-color keeps the hero legible with no photo present. */
+    background-image: url("/home-hero.jpg");
+    background-size: cover;
+    background-position: center;
+    background-color: var(--bg-2);
+  }
+  /* FLAGGED EXCEPTION: literal rgba(0,0,0,…) — photo-darkening scrim primitive
+     over the hero image, NOT a theme color (cf. --shadow-dropdown precedent). */
+  .hero-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.45) 0%,
+      rgba(0, 0, 0, 0.15) 35%,
+      rgba(0, 0, 0, 0.75) 100%
+    );
+  }
+  .hero-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-top: 96px;
+    padding-bottom: 72px;
+    width: 100%;
+  }
+
+  /* FLAGGED: white-on-scrim text values are intentional (text over a photo
+     scrim). `white` keyword + translucent-white rgba — not theme tokens. */
+  .hero-eyebrow {
+    color: rgba(255, 255, 255, 0.78);
+    margin-bottom: 28px;
+  }
+  .hero-eyebrow .dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 10px;
+    transform: translateY(-2px);
+  }
+  .hero-title {
+    color: white;
+    max-width: 16ch;
+  }
+  .hero-title .accent {
+    color: var(--accent);
+  }
+  .hero-row {
+    margin-top: 36px;
+    display: flex;
+    gap: 40px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+  .hero-lede {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.88);
+    max-width: 46ch;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  /* FLAGGED: translucent-white overlay button, per prototype (over scrim). */
+  .btn-overlay {
+    background: rgba(255, 255, 255, 0.12);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* Quiet placeholder marker — deleted with the TODO block above. */
+  .hero-pending {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    z-index: 2;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    padding: 5px 10px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* --------------------------------- MARQUEE -------------------------------- */
+  .marquee {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 22px 0;
+    overflow: hidden;
+    display: flex;
+    gap: 48px;
+    white-space: nowrap;
+    font-family: var(--display);
+    font-size: clamp(20px, 2.4vw, 32px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .marquee-track {
+    display: inline-flex;
+    gap: 48px;
+    animation: marquee 50s linear infinite;
+  }
+  .marquee-track > span {
+    display: inline-flex;
+    gap: 48px;
+  }
+  .marquee-track .sep {
+    color: var(--accent);
+  }
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  /* Accessibility improvement over the prototype: respect reduced-motion. */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
+
+  /* ------------------------------ SERVICE TIMES ----------------------------- */
+  .service {
+    padding: 80px 0;
+  }
+  .service-band {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 56px;
+    padding: 32px 0;
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .service-eyebrow {
+    margin-bottom: 6px;
+  }
+  .service-time {
+    font-weight: 500;
+  }
+  .service-time .sep-dot {
+    color: var(--ink-3);
+  }
+  .service-loc {
+    border-left: 1px solid var(--line);
+    padding-left: 56px;
+  }
+  .service-addr {
+    font-weight: 500;
+  }
+  .service-note {
+    margin-top: 4px;
+  }
+
+  @media (max-width: 720px) {
+    .service-band {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .service-loc {
+      border-left: 0;
+      padding-left: 0;
+    }
+  }
+</style>
