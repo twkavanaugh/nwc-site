@@ -89,7 +89,7 @@ token decision (a dedicated deep-fill alias), not a per-section patch.
 
 Families
 
-Semantic tokenValueRole--display"Inter Tight", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serifheadings, display sizes--sans"Inter Tight", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serifbody, UI--mono"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospaceeyebrows, mono labels
+Semantic tokenValueRole--display"Inter Tight", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serifheadings, display sizes--sans"Inter Tight", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serifbody, UI--mono"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospaceeyebrows, mono labels--serif"Newsreader", Georgia, "Times New Roman", serifscripture serif — reverent/devotional accent face; italic used for scripture-adjacent and devotional emphasis
 
 
 Display = Inter Tight at 700 (heaviest available). Inter Tight tops out at 700;
@@ -101,6 +101,13 @@ Both faces self-hosted via @fontsource — no Google Fonts CDN (the prototype's
 <link> to fonts.googleapis.com is prototype-only and gets dropped). Packages:
 @fontsource-variable/inter-tight (or static weights 400/500/700) and
 @fontsource/jetbrains-mono (400/500).
+
+Newsreader is the SCRIPTURE SERIF — a deliberate 3rd brand font (token
+--serif) for reverent/devotional accents, NOT a one-off. Variable, weight
+axis 200–800, BOTH upright and italic (italic is used for scripture-adjacent and
+devotional emphasis). Self-hosted via @fontsource-variable/newsreader (latin +
+latin-ext, wght + wght-italic axes); family aliased to "Newsreader" in
+global.css, same pattern as Inter Tight / JetBrains Mono.
 
 
 
