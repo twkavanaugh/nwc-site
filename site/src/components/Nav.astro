@@ -251,6 +251,20 @@ const GIVE_HREF = "https://onrealm.org/NorthWake/-/form/give/now";
     z-index: 60;
     display: none;
   }
+  /* Invisible hover-bridge spanning the 6px gap to the trigger, so the cursor
+     stays inside .nav-item:hover while crossing from trigger to panel. Keeps
+     the 6px VISUAL gap (transparent); overlaps ~2px into the trigger row to
+     immunize against sub-pixel rounding / fast cursor movement. Only renders
+     while the panel is open. Triggers are all narrower than the 240px panel,
+     so the panel-width bridge (left:0/right:0) fully covers each trigger. */
+  .dropdown::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 0;
+    right: 0;
+    height: 8px;
+  }
   .nav-item:hover .dropdown,
   .nav-item:focus-within .dropdown {
     display: block;
