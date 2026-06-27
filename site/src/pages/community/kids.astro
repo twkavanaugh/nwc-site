@@ -3,9 +3,30 @@ import Layout from "../../layouts/Layout.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 
 // Kids ministry page (/community/kids). Translated from brand/prototype/page-kids.jsx.
-// SECTION-GATED — this pass builds ONLY: 1) Breadcrumb, 2) Hero, 3) Sunday schedule.
-// Sections 4–10 (mission verse, image strip, curriculum, child dedication, children
-// in worship, health & safety, CTA) are NOT built yet.
+// SECTION-GATED — built so far: 1) Breadcrumb, 2) Hero, 3) Sunday schedule,
+// 4) Mission verse, 5) Image strip, 6) Curriculum, 7) Child dedication.
+// Sections 8–10 (children in worship, health & safety, CTA) NOT built yet.
+
+const purposes = [
+  {
+    n: "01",
+    h: "Parents commit publicly.",
+    b: "Parents commit themselves to raise their children in the way of the Lord, inviting the encouragement, accountability, and prayer support of the congregation.",
+    ref: "Eph. 6:4",
+  },
+  {
+    n: "02",
+    h: "Parents present their children to the Lord.",
+    b: "Acknowledging that children are a gift from the Lord — and hoping in God to use them mightily to bring honor to his name and to expand his kingdom.",
+    ref: "1 Sam. 1:27–28",
+  },
+  {
+    n: "03",
+    h: "Parents seek God's blessing.",
+    b: "Following the example of those who brought little children to Jesus — publicly seeking his blessing on the next generation.",
+    ref: "Mark 10:13–16",
+  },
+];
 ---
 
 <Layout
@@ -126,6 +147,94 @@ import Breadcrumb from "../../components/Breadcrumb.astro";
         <div class="ph" style="aspect-ratio: 4 / 3;"><span class="ph-label">Classroom</span></div>
         <div class="ph" style="aspect-ratio: 4 / 3;"><span class="ph-label">Kid's worship</span></div>
         <div class="ph" style="aspect-ratio: 4 / 3;"><span class="ph-label">Drop-off</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Curriculum (bordered card grid) -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow kids-eyebrow"><span class="dot"></span>What we're studying</div>
+          <h2 class="display-m kids-curric-title">Curriculum.</h2>
+        </div>
+        <p class="body right">
+          Two strong, gospel-centered tracks running in parallel — chosen so kids and
+          parents can talk through the same big story together.
+        </p>
+      </div>
+
+      <div class="kids-cardgrid">
+        <article class="kids-card">
+          <div class="mono kids-card-label">Kid's Worship · K–5th · 9 AM</div>
+          <h3 class="display-s kids-card-title">Roamin' Through Romans</h3>
+          <p class="body kids-card-body">
+            Kids walk through the book of Romans together — the same letter the whole
+            church is preaching through this season.
+          </p>
+        </article>
+        <article class="kids-card">
+          <div class="mono kids-card-label">All preschool · 9 AM &nbsp;·&nbsp; All classes · 10:45 AM</div>
+          <h3 class="display-s kids-card-title">The Gospel Project</h3>
+          <p class="body kids-card-body kids-card-body--gap">
+            A weekly Bible study that helps kids dive deep into the big story of the
+            Bible — God's plan to rescue his people through his Son, Jesus Christ.
+          </p>
+          {/* TODO: track links have no targets in the prototype — inert placeholders;
+              wire to the real Gospel Project track URLs once provided. */}
+          <div class="kids-track-links">
+            <span class="mono kids-track-link">Preschool track →</span>
+            <span class="mono kids-track-link">Grade school track →</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Child dedication (DARK band — inverse tokens, no raw white literals) -->
+  <section class="kids-dedication">
+    <div class="wrap">
+      <div class="kids-dedication-grid">
+        <div>
+          <div class="eyebrow kids-dedication-eyebrow"><span class="dot"></span>Upcoming · May 10, 2026</div>
+          <h2 class="display-l kids-dedication-title">Child dedication.</h2>
+          <p class="body kids-dedication-lead">
+            On Sunday, May 10, families have the opportunity in both services to
+            dedicate their children. Email the kids team with your child's full name
+            and the service hour you'd like to attend.
+          </p>
+          <div class="kids-dedication-contact">
+            {/* TODO: UNVERIFIED church email — shown as text only, NOT a live mailto.
+                Wire to mailto:children@northwake.com once the church confirms it. */}
+            <div class="mono kids-dedication-email">children@northwake.com</div>
+            {/* TODO: placeholder — needs the real photo-release-form link. */}
+            <span class="mono kids-dedication-formlink">Photo release form →</span>
+          </div>
+        </div>
+
+        <div>
+          <p class="body kids-dedication-intro">
+            At North Wake we greatly value the role parents and the church body play
+            in raising children to be wholehearted followers of Christ. The public
+            dedication of children serves three purposes:
+          </p>
+
+          <div class="kids-purposes">
+            {
+              purposes.map((p) => (
+                <div class="kids-purpose">
+                  <div class="mono kids-purpose-n">{p.n}</div>
+                  <div>
+                    <h3 class="title kids-purpose-h">{p.h}</h3>
+                    <p class="kids-purpose-b">{p.b}</p>
+                    <span class="mono kids-purpose-ref">{p.ref}</span>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -275,6 +384,124 @@ import Breadcrumb from "../../components/Breadcrumb.astro";
     gap: 16px;
   }
 
+  /* 6. Curriculum — bordered card grid.
+     NOTE: this bordered-card pattern recurs within kids (sections 6, 8, 9) and is a
+     candidate cross-page pattern; kept page-local (.kids-card*) for now. */
+  .kids-curric-title {
+    max-width: 14ch;
+  }
+  .kids-cardgrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .kids-card {
+    border: 1px solid var(--line-strong);
+    padding: 40px 36px;
+  }
+  .kids-card-label {
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .kids-card-title {
+    font-weight: 500;
+    margin-bottom: 16px;
+    letter-spacing: -0.015em;
+  }
+  .kids-card-body {
+    margin: 0;
+    color: var(--ink-2);
+  }
+  .kids-card-body--gap {
+    margin-bottom: 18px;
+  }
+  .kids-track-links {
+    display: flex;
+    gap: 18px;
+    font-size: 14px;
+  }
+  .kids-track-link {
+    color: var(--accent);
+  }
+
+  /* 7. Child dedication — DARK band, inverse semantic tokens only (no raw white). */
+  .kids-dedication {
+    background: var(--bg-inverse);
+    color: var(--ink-on-inverse);
+    padding: 96px 0;
+  }
+  .kids-dedication-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .kids-dedication-eyebrow {
+    margin-bottom: 18px;
+    color: var(--ink-on-inverse-2);
+  }
+  .kids-dedication-title {
+    color: var(--ink-on-inverse);
+    margin-bottom: 24px;
+    max-width: 12ch;
+  }
+  .kids-dedication-lead {
+    color: var(--ink-on-inverse-2);
+    max-width: 38ch;
+    font-size: 17px;
+    line-height: 1.65;
+  }
+  .kids-dedication-contact {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .kids-dedication-email {
+    color: var(--accent);
+  }
+  .kids-dedication-formlink {
+    color: var(--ink-on-inverse-2);
+  }
+  .kids-dedication-intro {
+    color: var(--ink-on-inverse);
+    font-size: 17px;
+    line-height: 1.65;
+    margin-top: 0;
+  }
+  .kids-purposes {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .kids-purpose {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 24px;
+    align-items: start;
+    border-top: 1px solid var(--line-on-inverse);
+    padding-top: 22px;
+  }
+  .kids-purpose-n {
+    color: var(--accent);
+  }
+  .kids-purpose-h {
+    color: var(--ink-on-inverse);
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 8px;
+  }
+  .kids-purpose-b {
+    margin: 0 0 8px;
+    color: var(--ink-on-inverse-2);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .kids-purpose-ref {
+    color: var(--ink-on-inverse-2);
+  }
+
   /* Mobile collapses — enhancement beyond the prototype (consistent precedent). */
   @media (max-width: 720px) {
     .kids-hero-grid {
@@ -290,6 +517,13 @@ import Breadcrumb from "../../components/Breadcrumb.astro";
     }
     .kids-strip-grid {
       grid-template-columns: 1fr;
+    }
+    .kids-cardgrid {
+      grid-template-columns: 1fr;
+    }
+    .kids-dedication-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
     }
   }
 </style>
