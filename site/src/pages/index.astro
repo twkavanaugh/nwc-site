@@ -184,34 +184,22 @@ const MARQUEE_WORDS = [
         {
           [
             { name: "Grow Groups", meta: "12 active groups · weekly", body: "Mid-sized groups meeting in homes across Wake Forest. Share a meal, open Scripture, pray honestly, repeat.", href: "/community/grow-groups" },
-            { name: "Adult Discipleship", meta: "8-week classes · Sundays 9 AM", body: "Theology and life classes for every season — from foundations of the faith to parenting, marriage, and money.", href: null },
+            { name: "Adult Discipleship", meta: "8-week classes · Sundays 9 AM", body: "Theology and life classes for every season — from foundations of the faith to parenting, marriage, and money.", href: "/community/adult-discipleship" },
             { name: "Students", meta: "6th–12th · Wednesdays 6:30 PM", body: "A ministry for students and families to follow Jesus together — rooted in Colossians 1: presenting everyone mature in Christ.", href: "/community/students" },
-            { name: "Kids", meta: "Birth–5th · Sunday mornings", body: "A safe, joyful place where kids hear that Jesus loves them and learn to love him back. Check-in 30 min before service.", href: null },
-            { name: "Women", meta: "Bible studies · retreats", body: "Studies in the Word, friendships across generations, and gatherings that point women to the steadfast love of Christ.", href: null },
-            { name: "Men", meta: "Breakfast · book studies", body: "Men sharpening men — meeting over coffee and Scripture to grow into faithful husbands, fathers, and friends.", href: null },
-          ].map((g) =>
-            g.href ? (
-              <a class="community-card" href={g.href}>
-                <div class="mono community-meta">{g.meta}</div>
-                <h3 class="display-s community-name">{g.name}</h3>
-                <p class="body community-body">{g.body}</p>
-                <div class="community-cta">
-                  <span class="small label">Learn more</span>
-                  <span class="row-arr arr-link">→</span>
-                </div>
-              </a>
-            ) : (
-              <div class="community-card is-inert" aria-disabled="true">
-                <div class="mono community-meta">{g.meta}</div>
-                <h3 class="display-s community-name">{g.name}</h3>
-                <p class="body community-body">{g.body}</p>
-                <div class="community-cta">
-                  <span class="small label">Coming soon</span>
-                  <span class="row-arr arr-muted">→</span>
-                </div>
+            { name: "Kids", meta: "Birth–5th · Sunday mornings", body: "A safe, joyful place where kids hear that Jesus loves them and learn to love him back. Check-in 30 min before service.", href: "/community/kids" },
+            { name: "Women", meta: "Bible studies · retreats", body: "Studies in the Word, friendships across generations, and gatherings that point women to the steadfast love of Christ.", href: "/community/women" },
+            { name: "Men", meta: "Breakfast · book studies", body: "Men sharpening men — meeting over coffee and Scripture to grow into faithful husbands, fathers, and friends.", href: "/community/men" },
+          ].map((g) => (
+            <a class="community-card" href={g.href}>
+              <div class="mono community-meta">{g.meta}</div>
+              <h3 class="display-s community-name">{g.name}</h3>
+              <p class="body community-body">{g.body}</p>
+              <div class="community-cta">
+                <span class="small label">Learn more</span>
+                <span class="row-arr">→</span>
               </div>
-            )
-          )
+            </a>
+          ))
         }
       </div>
 
@@ -257,6 +245,95 @@ const MARQUEE_WORDS = [
           </div>
         </div>
       </a>
+    </div>
+  </section>
+
+  <!-- ===================== CARE (dark band) ===================== -->
+  <section class="care">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow head-eyebrow care-eyebrow"><span class="dot"></span>Find help</div>
+          <h2 class="display-m care-title">When life is hard, you don't walk alone.</h2>
+        </div>
+        <p class="body right care-note">
+          North Wake operates four ministries that exist to serve the wounded, the
+          hungry, and the worn-out — members and neighbors alike.
+        </p>
+      </div>
+
+      <div class="care-grid">
+        {
+          [
+            { name: "Hope Counseling Center", tag: "Counseling", body: "Christ-centered, Scripture-driven biblical counseling for the church and the community.", href: "/help/hope-counseling" },
+            { name: "Mercy Health Clinic", tag: "Health", body: "Free and low-cost medical care offered as a tangible expression of God's love.", href: "/help/mercy-clinic" },
+            { name: "Feed Ministry", tag: "Food pantry", body: "More than groceries — meaningful conversations, prayer, and witness alongside material help.", href: "/help/feed" },
+            { name: "Care Ministry", tag: "Care", body: "Meals, visits, and presence for members walking through illness, grief, and hard seasons.", href: "/help/care" },
+          ].map((c) => (
+            <a class="care-card" href={c.href}>
+              <span class="mono care-tag">{c.tag}</span>
+              <h3 class="title care-name">{c.name}</h3>
+              <p class="small care-body">{c.body}</p>
+              <div class="care-cta">
+                <span>Learn more</span>
+                <span>→</span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EVENTS + WHO IS JESUS ===================== -->
+  <section class="events">
+    <div class="wrap">
+      <div class="events-grid">
+        <div>
+          <div class="eyebrow head-eyebrow"><span class="dot"></span>What's next</div>
+          <h2 class="display-m events-title">Upcoming.</h2>
+          <div class="events-list">
+            {
+              [
+                { d: "May", n: "31", title: "Ministry Intensive Internship · 2026–27", time: "Applications open · Info session", href: "/events" },
+                { d: "May", n: "03", title: "Membership Class · Spring Cohort", time: "Sundays · 9:00 AM", href: "/about/membership" },
+                { d: "Oct", n: "24", title: "Women's Day · Women Encouraging Women", time: "8:30 AM – 3:30 PM", href: "/events" },
+                { d: "Jun", n: "01", title: "Baptism Sunday", time: "Both services", href: "/events" },
+              ].map((e) => (
+                <a class="row-link event-row" href={e.href}>
+                  <div class="event-left">
+                    <div class="event-date">
+                      <div class="mono event-month">{e.d}</div>
+                      <div class="display-s event-day">{e.n}</div>
+                    </div>
+                    <div>
+                      <div class="title event-name">{e.title}</div>
+                      <div class="small">{e.time}</div>
+                    </div>
+                  </div>
+                  <span class="row-arr event-arr">→</span>
+                </a>
+              ))
+            }
+          </div>
+          <div class="events-actions">
+            <a class="btn btn-ghost" href="/events">Full calendar <span class="arr">→</span></a>
+          </div>
+        </div>
+
+        <aside class="jesus-aside">
+          <div class="eyebrow head-eyebrow jesus-eyebrow"><span class="dot"></span>For the seeker</div>
+          <h3 class="display-m jesus-title">Who is Jesus?</h3>
+          <p class="body jesus-body">
+            Maybe you're not a Christian. Maybe you used to be. Maybe you've never
+            thought about it seriously. This is a page written for honest questions —
+            no jargon, no pressure.
+          </p>
+          <div class="jesus-actions">
+            <a class="btn jesus-btn" href="/who-is-jesus">Read it <span class="arr">→</span></a>
+          </div>
+        </aside>
+      </div>
     </div>
   </section>
 </Layout>
@@ -623,12 +700,9 @@ const MARQUEE_WORDS = [
     color: inherit;
     transition: background 200ms ease;
   }
-  /* JS onMouseEnter/Leave in the prototype → CSS :hover here (link cards only) */
-  a.community-card:hover {
+  /* JS onMouseEnter/Leave in the prototype → CSS :hover here */
+  .community-card:hover {
     background: var(--bg);
-  }
-  .community-card.is-inert {
-    opacity: 0.7;
   }
   .community-meta {
     color: var(--ink-3);
@@ -653,10 +727,6 @@ const MARQUEE_WORDS = [
   }
   .community-card .row-arr {
     color: var(--accent);
-  }
-  .community-card.is-inert .label,
-  .community-card.is-inert .row-arr {
-    color: var(--ink-4);
   }
   .community-all {
     text-align: center;
@@ -744,17 +814,150 @@ const MARQUEE_WORDS = [
     color: var(--accent);
   }
 
+  /* --------------------------- CARE (dark band) --------------------------- */
+  /* Dark band uses INVERSE semantic tokens (per design-tokens.md) — no inline
+     white rgba. Faint card fills use color-mix over --ink-on-inverse so even
+     the surface tints stay token-derived. */
+  .care {
+    background: var(--bg-inverse);
+    color: var(--ink-on-inverse);
+  }
+  .care-eyebrow {
+    color: var(--ink-on-inverse-2);
+  }
+  .care-title {
+    max-width: 16ch;
+  }
+  .care-note {
+    margin: 0;
+    color: var(--ink-on-inverse-2);
+  }
+  .care-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .care-card {
+    padding: 32px 28px 28px;
+    border: 1px solid var(--line-on-inverse);
+    border-radius: var(--radius-card);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 280px;
+    color: inherit;
+    background: color-mix(in srgb, var(--ink-on-inverse) 3%, transparent);
+    transition: background 200ms ease, border-color 200ms ease;
+  }
+  /* JS onMouseEnter/Leave in the prototype → CSS :hover */
+  .care-card:hover {
+    background: color-mix(in srgb, var(--ink-on-inverse) 6%, transparent);
+    border-color: var(--border-on-inverse);
+  }
+  .care-tag {
+    color: var(--accent);
+  }
+  .care-name {
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .care-body {
+    margin: 0;
+    line-height: 1.55;
+    color: var(--ink-on-inverse-2);
+  }
+  .care-cta {
+    margin-top: auto;
+    padding-top: 20px;
+    font-size: 13px;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* ------------------------- EVENTS + WHO IS JESUS ------------------------ */
+  .events-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 80px;
+  }
+  .events-title {
+    margin-bottom: 40px;
+  }
+  .event-left {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .event-date {
+    width: 64px;
+  }
+  .event-month {
+    color: var(--accent);
+  }
+  .event-day {
+    font-weight: 500;
+    line-height: 1;
+  }
+  .event-name {
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .event-arr {
+    color: var(--accent);
+  }
+  .events-actions {
+    margin-top: 32px;
+  }
+
+  /* Accent band: white-on-accent. Solid white → --accent-ink; partial-opacity
+     whites are expressed as color-mix over --accent-ink (token-derived, no raw
+     white rgba). */
+  .jesus-aside {
+    background: var(--accent);
+    color: var(--accent-ink);
+    padding: 56px 48px;
+    border-radius: var(--radius-card);
+    display: flex;
+    flex-direction: column;
+  }
+  .jesus-eyebrow {
+    color: color-mix(in srgb, var(--accent-ink) 70%, transparent);
+  }
+  .jesus-eyebrow .dot {
+    background: var(--accent-ink);
+  }
+  .jesus-title {
+    color: var(--accent-ink);
+    max-width: 10ch;
+    margin-bottom: 24px;
+  }
+  .jesus-body {
+    margin: 0 0 28px;
+    color: color-mix(in srgb, var(--accent-ink) 86%, transparent);
+  }
+  .jesus-actions {
+    margin-top: auto;
+  }
+  .jesus-btn {
+    background: var(--accent-ink);
+    color: var(--accent);
+  }
+
   /* Mobile collapses — enhancement beyond the prototype (it had no mobile
      rules for these grids); prevents unusable multi-column layouts on phones. */
   @media (max-width: 880px) {
     .mission-grid,
-    .community-grid {
+    .community-grid,
+    .care-grid {
       grid-template-columns: 1fr 1fr;
     }
   }
   @media (max-width: 720px) {
     .mission-grid,
-    .community-grid {
+    .community-grid,
+    .care-grid {
       grid-template-columns: 1fr;
     }
     .visit-grid {
@@ -770,6 +973,10 @@ const MARQUEE_WORDS = [
     .sermon-art {
       border-right: 0;
       border-bottom: 1px solid var(--line-strong);
+    }
+    .events-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
     }
   }
 </style>

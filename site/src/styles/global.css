@@ -312,8 +312,8 @@ h4 {
 /* -----------------------------------------------------------------------------
  * g) Shared section patterns — used by the homepage AND interior pages.
  *    Promoted here from prototype styles.css; semantic tokens only.
- *    (.row-link itself is deferred until a section needs it; .row-arr is the
- *    standalone arrow utility used on the homepage now.)
+ *    .row-link is a shared list-row pattern (homepage Events + interior pages);
+ *    .row-arr is the arrow utility it animates (also used standalone).
  * -------------------------------------------------------------------------- */
 .section-head {
   display: flex;
@@ -332,6 +332,22 @@ h4 {
     gap: 18px;
     margin-bottom: 36px;
   }
+}
+
+.row-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+  color: inherit;
+  transition: padding 200ms ease;
+}
+.row-link:hover {
+  padding-left: 8px;
+}
+.row-link:hover .row-arr {
+  transform: translateX(4px);
 }
 
 .row-arr {
