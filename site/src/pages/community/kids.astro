@@ -3,9 +3,24 @@ import Layout from "../../layouts/Layout.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 
 // Kids ministry page (/community/kids). Translated from brand/prototype/page-kids.jsx.
-// SECTION-GATED — built so far: 1) Breadcrumb, 2) Hero, 3) Sunday schedule,
-// 4) Mission verse, 5) Image strip, 6) Curriculum, 7) Child dedication.
-// Sections 8–10 (children in worship, health & safety, CTA) NOT built yet.
+// COMPLETE — all 10 sections: 1) Breadcrumb, 2) Hero, 3) Sunday schedule,
+// 4) Mission verse, 5) Image strip, 6) Curriculum, 7) Child dedication,
+// 8) Children in worship, 9) Health & safety, 10) CTA.
+
+const illness = [
+  "Fever (any oral temperature over 100°)",
+  "Vomiting or diarrhea",
+  "Runny nose with yellow / green discharge",
+  "Persistent cough",
+  "Sore throat",
+  "COVID symptoms",
+  "Croup",
+  "Unexplained rash",
+  "Childhood disease symptoms — scarlet fever, measles, mumps, chicken pox, whooping cough",
+  "Skin infection — impetigo, boils, ringworm",
+  "Eye infection — pink-eye or drainage",
+  "Lice, or evidence of lice / nits within the past 2 weeks",
+];
 
 const purposes = [
   {
@@ -235,6 +250,101 @@ const purposes = [
             }
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Children in worship (bordered cards — reuses .kids-card*) -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow kids-eyebrow"><span class="dot"></span>Children in worship</div>
+          <h2 class="display-m kids-worship-title">Practical help during the service.</h2>
+        </div>
+        <p class="body right">
+          Two small things that make a big difference for parents on Sunday morning.
+        </p>
+      </div>
+
+      <div class="kids-cardgrid">
+        <article class="kids-card">
+          <div class="mono kids-card-label">Off the worship center</div>
+          <h3 class="display-s kids-card-title">Mother's Room</h3>
+          <p class="body kids-card-body">
+            A private room connected to the worship center for feeding, soothing, or
+            stepping out with a fussy little one. A speaker keeps the music and message
+            playing throughout.
+          </p>
+        </article>
+        <article class="kids-card">
+          <div class="mono kids-card-label">On the lobby table</div>
+          <h3 class="display-s kids-card-title">Worship Guide for Kids</h3>
+          <p class="body kids-card-body">
+            Grab a paper guide and a pack of crayons on your way in to help your kids
+            engage with the service alongside you.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Health & safety (bg-2 band — reuses .kids-card*, filled on the band) -->
+  <section class="kids-safety">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow kids-eyebrow"><span class="dot"></span>Health &amp; safety</div>
+          <h2 class="display-m kids-safety-title">Your child's safety, taken seriously.</h2>
+        </div>
+        <p class="body right">
+          We take safety and security in kids ministry seriously — for parents, for
+          kids, and for the volunteers who love them well.
+        </p>
+      </div>
+
+      <div class="kids-cardgrid">
+        <article class="kids-card">
+          <div class="mono kids-card-label">Accreditation in process</div>
+          <h3 class="display-s kids-card-title">ECAP — Evangelical Council for Abuse Prevention</h3>
+          <p class="body kids-card-body kids-card-body--gap">
+            North Wake is currently in the accreditation process with ECAP. Our Child
+            Safety Team oversees and supports volunteers in implementing our child
+            protection policies.
+          </p>
+          {/* TODO: UNVERIFIED church email — text only, no live mailto until confirmed. */}
+          <div class="mono kids-card-email">childsafety@northwake.com</div>
+        </article>
+        <article class="kids-card">
+          <div class="mono kids-card-label">Illness policy</div>
+          <h3 class="display-s kids-card-title">Stay home if&nbsp;…</h3>
+          <p class="body kids-card-body kids-card-body--gap">
+            Children should not be in Sunday school if they have shown any of the
+            following within the previous 24 hours.
+          </p>
+          <ul class="kids-illness-list">
+            {illness.map((item) => <li class="kids-illness-item">{item}</li>)}
+          </ul>
+          <p class="mono kids-illness-note">When in doubt, sit an extra week out.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. CTA — connect (centered wrap-narrow, mirrors students CTA) -->
+  <section>
+    <div class="wrap-narrow kids-cta">
+      <div class="eyebrow kids-cta-eyebrow"><span class="dot"></span>Connect with us</div>
+      <h2 class="display-l kids-cta-title">Questions? Just ask.</h2>
+      <p class="lede kids-cta-lede">
+        We'd love to help you plan your first Sunday — or answer anything about
+        classes, drop-off, or what to expect.
+      </p>
+      <div class="kids-cta-actions">
+        {/* TODO: UNVERIFIED email — inert until confirmed; then wire mailto:children@northwake.com. */}
+        <button type="button" class="btn btn-primary">Email children@northwake.com <span class="arr">→</span></button>
+        {/* TODO: placeholder — needs the real @northwakekids social URL. */}
+        <button type="button" class="btn btn-ghost">Follow @northwakekids</button>
       </div>
     </div>
   </section>
@@ -502,6 +612,80 @@ const purposes = [
     color: var(--ink-on-inverse-2);
   }
 
+  /* 8. Children in worship — reuses .kids-card* / .kids-cardgrid (no divergence) */
+  .kids-worship-title {
+    max-width: 16ch;
+  }
+
+  /* 9. Health & safety — bg-2 band; cards reuse .kids-card* but get a --bg fill
+     to stand out against the band (the only divergence from sections 6/8). */
+  .kids-safety {
+    background: var(--bg-2);
+    padding: 96px 0;
+  }
+  .kids-safety-title {
+    max-width: 16ch;
+  }
+  .kids-safety .kids-card {
+    background: var(--bg);
+  }
+  .kids-card-email {
+    color: var(--accent);
+  }
+  .kids-illness-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 24px;
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+  .kids-illness-item {
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .kids-illness-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 6px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .kids-illness-note {
+    color: var(--ink-3);
+    margin-top: 22px;
+    font-style: italic;
+  }
+
+  /* 10. CTA — connect (centered, mirrors students CTA) */
+  .kids-cta {
+    text-align: center;
+  }
+  .kids-cta-eyebrow {
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+  }
+  .kids-cta-title {
+    margin-bottom: 24px;
+  }
+  .kids-cta-lede {
+    margin: 0 auto;
+    max-width: 48ch;
+  }
+  .kids-cta-actions {
+    margin-top: 32px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
   /* Mobile collapses — enhancement beyond the prototype (consistent precedent). */
   @media (max-width: 720px) {
     .kids-hero-grid {
@@ -524,6 +708,9 @@ const purposes = [
     .kids-dedication-grid {
       grid-template-columns: 1fr;
       gap: 40px;
+    }
+    .kids-illness-list {
+      grid-template-columns: 1fr;
     }
   }
 </style>
