@@ -215,10 +215,20 @@ h4 {
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+  color: var(--ink-3);
 }
 
+/* Accent dot — canonical circle (promoted from index/students page-local CSS,
+   now a confirmed multi-page pattern). Dark/accent contexts override --ink-3
+   above with their own color; this dot stays accent unless overridden. */
 .eyebrow .dot {
-  color: var(--accent);
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-right: 10px;
+  transform: translateY(-2px);
 }
 
 /* -----------------------------------------------------------------------------
@@ -352,6 +362,30 @@ h4 {
 
 .row-arr {
   transition: transform 200ms ease;
+}
+
+/* Breadcrumb — interior-page nav trail (promoted from students page-local CSS;
+   every interior page uses it). .crumb-sec is the section spacing; .crumb is the
+   mono trail with linked ancestors and an accent current item. */
+.crumb-sec {
+  padding-top: 32px;
+  padding-bottom: 0;
+}
+.crumb {
+  color: var(--ink-3);
+}
+.crumb a {
+  color: inherit;
+}
+.crumb a:hover {
+  color: var(--accent);
+}
+.crumb .sep {
+  margin: 0 10px;
+  color: var(--ink-4);
+}
+.crumb .current {
+  color: var(--accent);
 }
 
 /* -----------------------------------------------------------------------------
