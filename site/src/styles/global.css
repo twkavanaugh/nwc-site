@@ -491,3 +491,22 @@ h4 {
   color: var(--ink-on-inverse-2);
   border-color: var(--line-on-inverse-strong);
 }
+
+/* -----------------------------------------------------------------------------
+ * i) Serif/devotional idioms — shared vocabulary for reverent serif pages
+ *    (mission, who-is-jesus, …). Single-purpose utilities; size/weight/measure
+ *    stay per-use. .serif applies the brand serif role (var(--serif)).
+ * -------------------------------------------------------------------------- */
+.serif {
+  font-family: var(--serif);
+}
+
+.em-accent {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.pull-quote {
+  border-left: 2px solid var(--accent);
+  padding-left: 28px;
+}
