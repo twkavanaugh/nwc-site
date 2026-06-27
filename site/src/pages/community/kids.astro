@@ -1,0 +1,197 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+// Kids ministry page (/community/kids). Translated from brand/prototype/page-kids.jsx.
+// SECTION-GATED — this pass builds ONLY: 1) Breadcrumb, 2) Hero, 3) Sunday schedule.
+// Sections 4–10 (mission verse, image strip, curriculum, child dedication, children
+// in worship, health & safety, CTA) are NOT built yet.
+---
+
+<Layout
+  title="Kids · North Wake Church"
+  description="North Wake Kids (babies–5th grade) gives every child a place to know God in Jesus, grow in love for one another, and be sent to share that love with friends and family."
+>
+  <!-- 1. Breadcrumb (global .crumb pattern) -->
+  <section class="crumb-sec">
+    <div class="wrap">
+      <div class="mono crumb">
+        <a href="/">Home</a>
+        <span class="sep">/</span>
+        <a href="/community/grow-groups">Community</a>
+        <span class="sep">/</span>
+        <span class="current">Kids</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Hero (mirrors the students hero structure) -->
+  <section class="kids-hero">
+    <div class="wrap">
+      <div class="kids-hero-grid">
+        <div>
+          <div class="eyebrow kids-hero-eyebrow"><span class="dot"></span>North Wake Kids · Babies – 5th grade</div>
+          <h1 class="display-l kids-h1">
+            Know the love of Jesus. <span class="kids-accent">Grow in love for one another. Go to share it.</span>
+          </h1>
+          <p class="lede kids-lede">
+            North Wake Kids exists to give every child a place to know God in Jesus,
+            grow in love for one another, and be sent out to share that love with
+            friends and family.
+          </p>
+          <div class="kids-hero-actions">
+            <a class="btn btn-primary" href="/visit">Plan your visit <span class="arr">→</span></a>
+            {/* TODO: "Email the kids team" — prototype provides children@northwake.com
+                (sections 7/10, not yet built, UNVERIFIED). Inert until verified, then
+                wire to mailto:. */}
+            <button type="button" class="btn btn-ghost">Email the kids team</button>
+          </div>
+        </div>
+        <div class="ph" style="aspect-ratio: 4 / 5;">
+          <span class="ph-label">Kids ministry · candid</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Sunday schedule (hairline-gap card grid idiom) -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow kids-eyebrow"><span class="dot"></span>Sunday mornings</div>
+          <h2 class="display-m kids-sched-title">Two services. Both built for kids.</h2>
+        </div>
+        <p class="body right">
+          Each Sunday, trained teachers gather kids to learn more about our great God
+          — through age-appropriate teaching, worship, and play.
+        </p>
+      </div>
+
+      <div class="kids-sched-grid">
+        <article class="kids-sched-card">
+          <div class="mono kids-sched-label">Service · 9:00 AM</div>
+          <h3 class="display-s kids-sched-hour">9 AM hour</h3>
+          <ul class="kids-sched-list">
+            <li class="kids-sched-row">
+              <span class="mono kids-sched-agelabel">Babies – Pre-K</span>
+              <span class="body kids-sched-desc">Classes by age group with trained teachers.</span>
+            </li>
+            <li class="kids-sched-row">
+              <span class="mono kids-sched-agelabel">K – 5th</span>
+              <span class="body kids-sched-desc">Kid's Worship Hour — currently <em>Roamin' Through Romans</em>.</span>
+            </li>
+          </ul>
+        </article>
+        <article class="kids-sched-card">
+          <div class="mono kids-sched-label">Service · 10:45 AM</div>
+          <h3 class="display-s kids-sched-hour">10:45 AM hour</h3>
+          <ul class="kids-sched-list">
+            <li class="kids-sched-row">
+              <span class="mono kids-sched-agelabel">Babies – 5th</span>
+              <span class="body kids-sched-desc">Full classes for every age, using The Gospel Project curriculum.</span>
+            </li>
+            <li class="kids-sched-row">
+              <span class="mono kids-sched-agelabel">Parents</span>
+              <span class="body kids-sched-desc">Drop kids off, then head into the worship service together.</span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Hero */
+  .kids-hero {
+    padding: 56px 0 0;
+  }
+  .kids-hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 64px;
+    align-items: end;
+  }
+  .kids-hero-eyebrow {
+    margin-bottom: 28px;
+  }
+  .kids-h1 {
+    max-width: 16ch;
+  }
+  /* Non-italic accent span (no global accent-color utility exists; .em-accent
+     would add italic, which the prototype hero does NOT use). */
+  .kids-accent {
+    color: var(--accent);
+  }
+  .kids-lede {
+    margin-top: 28px;
+  }
+  .kids-hero-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  /* Sunday schedule — hairline-gap card grid (same idiom as students rhythms /
+     homepage community; kept page-local, recurrence flagged for a later pass). */
+  .kids-eyebrow {
+    margin-bottom: 18px;
+  }
+  .kids-sched-title {
+    max-width: 14ch;
+  }
+  .kids-sched-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .kids-sched-card {
+    background: var(--bg);
+    padding: 44px 40px 40px;
+  }
+  .kids-sched-label {
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+  .kids-sched-hour {
+    font-weight: 500;
+    margin-bottom: 18px;
+    letter-spacing: -0.015em;
+  }
+  .kids-sched-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .kids-sched-row {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
+  }
+  .kids-sched-agelabel {
+    color: var(--ink-3);
+    min-width: 110px;
+  }
+  .kids-sched-desc {
+    margin: 0;
+  }
+
+  /* Mobile collapses — enhancement beyond the prototype (consistent precedent). */
+  @media (max-width: 720px) {
+    .kids-hero-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .kids-sched-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
