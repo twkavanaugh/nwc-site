@@ -1,5 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
 
 // Mission / Vision (/about/mission) — Direction D "Devotional".
 // Translated from brand/prototype/page-mission-devotional.jsx. Quiet, reverent,
@@ -32,18 +33,11 @@ const movements = [
   title="Mission & Vision · North Wake Church"
   description="North Wake Church exists to know the love of God in Jesus Christ, grow in love for one another, and go in love to reach our neighbors near and far."
 >
-  <!-- Breadcrumb (global .crumb pattern) -->
-  <section class="crumb-sec">
-    <div class="wrap">
-      <div class="mono crumb">
-        <a href="/">Home</a>
-        <span class="sep">/</span>
-        <span>About</span>
-        <span class="sep">/</span>
-        <span class="current">Mission &amp; Vision</span>
-      </div>
-    </div>
-  </section>
+  <!-- Breadcrumb (full-bleed chip bar — "About" has no page, renders as a
+       non-clickable outlined chip) -->
+  <Breadcrumb
+    trail={[{ label: "Home", href: "/" }, { label: "About" }, { label: "Mission & Vision" }]}
+  />
 
   <!-- Hero statement -->
   <section class="mv-hero-sec">

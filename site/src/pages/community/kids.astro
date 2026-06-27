@@ -1,5 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
 
 // Kids ministry page (/community/kids). Translated from brand/prototype/page-kids.jsx.
 // SECTION-GATED — this pass builds ONLY: 1) Breadcrumb, 2) Hero, 3) Sunday schedule.
@@ -11,18 +12,11 @@ import Layout from "../../layouts/Layout.astro";
   title="Kids · North Wake Church"
   description="North Wake Kids (babies–5th grade) gives every child a place to know God in Jesus, grow in love for one another, and be sent to share that love with friends and family."
 >
-  <!-- 1. Breadcrumb (global .crumb pattern) -->
-  <section class="crumb-sec">
-    <div class="wrap">
-      <div class="mono crumb">
-        <a href="/">Home</a>
-        <span class="sep">/</span>
-        <a href="/community/grow-groups">Community</a>
-        <span class="sep">/</span>
-        <span class="current">Kids</span>
-      </div>
-    </div>
-  </section>
+  <!-- 1. Breadcrumb (full-bleed chip bar — flush under nav, first in body) -->
+  <Breadcrumb
+    trail={[{ label: "Home", href: "/" }, { label: "Community", href: "/community/grow-groups" }, { label: "Kids" }]}
+    action={{ label: "All ministries", href: "/community/grow-groups" }}
+  />
 
   <!-- 2. Hero (mirrors the students hero structure) -->
   <section class="kids-hero">

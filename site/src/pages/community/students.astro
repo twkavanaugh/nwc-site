@@ -1,5 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
 
 // Students ministry page (/community/students). Translated from
 // brand/prototype/page-students.jsx — all seven sections, light theme.
@@ -49,18 +50,11 @@ const pillars = [
   title="Students · North Wake Church"
   description="North Wake Church's ministry for students in 6th–12th grade — helping them grow into mature followers of Christ through faithful teaching of Scripture, community, and prayer."
 >
-  <!-- Breadcrumb (first interior-page occurrence — future shared-component candidate) -->
-  <section class="crumb-sec">
-    <div class="wrap">
-      <div class="mono crumb">
-        <a href="/">Home</a>
-        <span class="sep">/</span>
-        <a href="/community/grow-groups">Community</a>
-        <span class="sep">/</span>
-        <span class="current">Students</span>
-      </div>
-    </div>
-  </section>
+  <!-- Breadcrumb (full-bleed chip bar — flush under nav, first in body) -->
+  <Breadcrumb
+    trail={[{ label: "Home", href: "/" }, { label: "Community", href: "/community/grow-groups" }, { label: "Students" }]}
+    action={{ label: "All ministries", href: "/community/grow-groups" }}
+  />
 
   <!-- Hero -->
   <section class="hero-sec">
@@ -239,28 +233,6 @@ const pillars = [
     justify-content: center;
   }
   .accent {
-    color: var(--accent);
-  }
-
-  /* Breadcrumb */
-  .crumb-sec {
-    padding-top: 32px;
-    padding-bottom: 0;
-  }
-  .crumb {
-    color: var(--ink-3);
-  }
-  .crumb a {
-    color: inherit;
-  }
-  .crumb a:hover {
-    color: var(--accent);
-  }
-  .crumb .sep {
-    margin: 0 10px;
-    color: var(--ink-4);
-  }
-  .crumb .current {
     color: var(--accent);
   }
 
