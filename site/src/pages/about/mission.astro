@@ -3,13 +3,46 @@ import Layout from "../../layouts/Layout.astro";
 
 // Mission / Vision page (/about/mission) — Know · Grow · Go, the site "spine".
 // Translated from brand/prototype/page-mission.jsx. React/onNav stripped.
-// PASS 1 (section-gated): Breadcrumb + Hero + the KNOW/GROW/GO stamp only.
-// Later sections (framing, three loves detailed, closing CTAs) are NOT built yet.
+// Built: breadcrumb, hero, KNOW/GROW/GO stamp, bg-2 framing, detailed three loves.
+// Closing CTAs NOT built yet.
 
 const stamp = [
   { word: "KNOW", sub: "the love of God in Jesus Christ" },
   { word: "GROW", sub: "in love for one another" },
   { word: "GO", sub: "in love to reach our neighbors" },
+];
+
+const loves = [
+  {
+    key: "Know",
+    verb: "We Love God",
+    lede: "Loving God in response to His great love for us is the great privilege and calling of every Christian. It is what Jesus called “the greatest commandment.”",
+    practices: [
+      "We dwell with Him daily.",
+      "We gather as a church to worship.",
+      "We study the Bible.",
+    ],
+  },
+  {
+    key: "Grow",
+    verb: "We Love one another",
+    lede: "Knowing the love of God leads to love for the family of God — the church. Jesus said that Christians validate their faith before a watching world by their love for one another.",
+    practices: [
+      "We fellowship with one another in community.",
+      "We serve the needs of the church.",
+      "We embody our faith at home.",
+    ],
+  },
+  {
+    key: "Go",
+    verb: "We Love our neighbor",
+    lede: "The love of God in Jesus is too good to be kept to one group or people.",
+    practices: [
+      "We bear witness to the gospel.",
+      "We steward our resources for generosity.",
+      "We send church members to do gospel ministry elsewhere.",
+    ],
+  },
 ];
 ---
 
@@ -57,6 +90,87 @@ const stamp = [
             </div>
           ))
         }
+      </div>
+    </div>
+  </section>
+
+  <!-- The framing — three great loves, one greater love (bg-2 band) -->
+  <section class="framing">
+    <div class="wrap">
+      <div class="framing-grid">
+        <div>
+          <div class="eyebrow framing-eyebrow"><span class="dot"></span>What it means</div>
+          <h2 class="display-m framing-title">
+            Three great loves, fueled by the One Greatest Love.
+          </h2>
+        </div>
+        <div>
+          <p class="framing-lead">
+            Christian love is not mere sentiment or niceness. God's love is a strong,
+            holy love that leads to deep life change.
+          </p>
+          <p class="body framing-body">
+            As we come to know and believe the love God has for us in Jesus Christ by
+            the work of the Holy Spirit, our hearts will be deeply changed such that we
+            overflow with genuine love for God and others.
+          </p>
+          <p class="body framing-body">
+            So, our ministries and values are shaped around our three great loves, all
+            in response to the One Great Love of God in Jesus Christ.
+          </p>
+          <a class="btn btn-ghost" href="/who-is-jesus">
+            If you aren’t familiar with this, read “Who is Jesus?” <span class="arr">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The three loves — detailed (one repeated sub-pattern per love) -->
+  <section>
+    <div class="wrap">
+      <div class="eyebrow loves-eyebrow"><span class="dot"></span>The three great loves</div>
+      <h2 class="display-l loves-title">Because God has so loved us…</h2>
+
+      <div class="loves-list">
+        {
+          loves.map((l, i) => (
+            <div class="love-row">
+              <div class="love-key-col">
+                <div class="mono love-key">0{i + 1} · {l.key}</div>
+                <div class="love-verb">
+                  {l.verb.split(" ").map((w) => (<div>{w}</div>))}
+                </div>
+              </div>
+
+              <div>
+                <p class="love-lede">{l.lede}</p>
+              </div>
+
+              <div>
+                <div class="mono love-practices-label">How we live it</div>
+                <ul class="love-practices">
+                  {l.practices.map((p) => (
+                    <li class="practice-item">
+                      <span class="mono practice-plus">+</span>
+                      <span class="body practice-text">{p}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing CTAs (bg-2 band) -->
+  <section class="mission-cta">
+    <div class="wrap mission-cta-center">
+      <div class="mission-cta-actions">
+        <a class="btn btn-primary" href="/visit">Plan a visit <span class="arr">→</span></a>
+        <a class="btn btn-ghost" href="/community/grow-groups">Find community</a>
       </div>
     </div>
   </section>
@@ -117,6 +231,119 @@ const stamp = [
     margin: 0 auto;
   }
 
+  /* Framing band (bg-2) — "Three great loves, one greater love" */
+  .framing {
+    background: var(--bg-2);
+  }
+  .framing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .framing-eyebrow {
+    margin-bottom: 18px;
+  }
+  .framing-title {
+    max-width: 16ch;
+  }
+  .framing-lead {
+    font-family: var(--display);
+    font-size: 22px;
+    line-height: 1.55;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 24px;
+    max-width: 44ch;
+    text-wrap: pretty;
+  }
+  .framing-body {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--ink-2);
+    max-width: 54ch;
+    margin: 0 0 16px;
+  }
+  .framing-body:last-of-type {
+    margin-bottom: 24px;
+  }
+
+  /* Detailed three loves — one repeated row sub-pattern per love */
+  .loves-eyebrow {
+    margin-bottom: 24px;
+  }
+  .loves-title {
+    margin-bottom: 56px;
+    max-width: 20ch;
+  }
+  .loves-list {
+    display: flex;
+    flex-direction: column;
+  }
+  .love-row {
+    display: grid;
+    grid-template-columns: auto 1fr 1.4fr;
+    gap: 56px;
+    padding: 48px 0;
+    border-top: 1px solid var(--line-strong);
+    align-items: start;
+  }
+  .love-key-col {
+    min-width: 220px;
+  }
+  .love-key {
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .love-verb {
+    font-family: var(--display);
+    font-size: 64px;
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+  }
+  /* Lead-paragraph display treatment — same shape as .framing-lead (flagged as
+     a future shared "lead" pattern; kept page-local for the logged de-dup pass). */
+  .love-lede {
+    font-family: var(--display);
+    font-size: 21px;
+    line-height: 1.5;
+    font-weight: 400;
+    color: var(--ink);
+    margin: 0;
+    max-width: 32ch;
+    text-wrap: pretty;
+  }
+  .love-practices-label {
+    color: var(--ink-3);
+    margin-bottom: 14px;
+  }
+  .love-practices {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .practice-item {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 16px;
+    align-items: baseline;
+  }
+  .practice-item:last-child {
+    border-bottom: none;
+  }
+  .practice-plus {
+    color: var(--accent);
+  }
+  .practice-text {
+    font-size: 17px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
   /* Mobile collapses — enhancement beyond the prototype (it had no mobile rules);
      the 96px stamp words would overflow a phone, so stack + scale down. */
   @media (max-width: 720px) {
@@ -126,5 +353,30 @@ const stamp = [
     .stamp-word {
       font-size: clamp(64px, 18vw, 96px);
     }
+    .framing-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .love-row {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .love-key-col {
+      min-width: 0;
+    }
+  }
+
+  /* Closing CTAs (bg-2 band) */
+  .mission-cta {
+    background: var(--bg-2);
+  }
+  .mission-cta-center {
+    text-align: center;
+  }
+  .mission-cta-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 </style>
