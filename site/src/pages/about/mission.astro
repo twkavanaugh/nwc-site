@@ -1,47 +1,29 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 
-// Mission / Vision page (/about/mission) — Know · Grow · Go, the site "spine".
-// Translated from brand/prototype/page-mission.jsx. React/onNav stripped.
-// Built: breadcrumb, hero, KNOW/GROW/GO stamp, bg-2 framing, detailed three loves.
-// Closing CTAs NOT built yet.
+// Mission / Vision (/about/mission) — Direction D "Devotional".
+// Translated from brand/prototype/page-mission-devotional.jsx. Quiet, reverent,
+// centered narrow reading column; Newsreader serif (var(--serif)) for accents.
+// React/onNav stripped; inline styles → semantic tokens + page-local classes.
 
-const stamp = [
-  { word: "KNOW", sub: "the love of God in Jesus Christ" },
-  { word: "GROW", sub: "in love for one another" },
-  { word: "GO", sub: "in love to reach our neighbors" },
-];
-
-const loves = [
+const movements = [
   {
-    key: "Know",
-    verb: "We Love God",
-    lede: "Loving God in response to His great love for us is the great privilege and calling of every Christian. It is what Jesus called “the greatest commandment.”",
-    practices: [
-      "We dwell with Him daily.",
-      "We gather as a church to worship.",
-      "We study the Bible.",
-    ],
+    num: "i.",
+    love: "We love God",
+    word: "Know",
+    body: "Loving God in response to His great love for us is the great privilege and calling of every Christian — what Jesus called the greatest commandment. Because we love God, we dwell with Him daily, gather as a church to worship, and study the Bible.",
   },
   {
-    key: "Grow",
-    verb: "We Love one another",
-    lede: "Knowing the love of God leads to love for the family of God — the church. Jesus said that Christians validate their faith before a watching world by their love for one another.",
-    practices: [
-      "We fellowship with one another in community.",
-      "We serve the needs of the church.",
-      "We embody our faith at home.",
-    ],
+    num: "ii.",
+    love: "We love one another",
+    word: "Grow",
+    body: "Knowing the love of God leads to love for the family of God—the church. Jesus said Christians validate their faith before a watching world by their love for one another. Because of this, we fellowship with one another in community, serve the needs of the church, and embody our faith at home.",
   },
   {
-    key: "Go",
-    verb: "We Love our neighbor",
-    lede: "The love of God in Jesus is too good to be kept to one group or people.",
-    practices: [
-      "We bear witness to the gospel.",
-      "We steward our resources for generosity.",
-      "We send church members to do gospel ministry elsewhere.",
-    ],
+    num: "iii.",
+    love: "We love our neighbor",
+    word: "Go",
+    body: "The love of God in Jesus is too good to be kept to one group or people. Because we love our neighbor, we bear witness to the gospel, steward our resources for generosity, and send church members to do gospel ministry elsewhere.",
   },
 ];
 ---
@@ -56,119 +38,84 @@ const loves = [
       <div class="mono crumb">
         <a href="/">Home</a>
         <span class="sep">/</span>
-        <a href="/about/beliefs">About</a>
+        <span>About</span>
         <span class="sep">/</span>
         <span class="current">Mission &amp; Vision</span>
       </div>
     </div>
   </section>
 
-  <!-- Hero -->
-  <section class="mission-hero">
-    <div class="wrap">
-      <div class="eyebrow mission-eyebrow"><span class="dot"></span>The heartbeat of North Wake</div>
-      <h1 class="display-xl mission-h1">
-        We are a family of faith that exists to <em class="accent-em">know, grow,</em> and <em class="accent-em">go</em>.
-      </h1>
-      <p class="lede mission-lede">
-        To know the love of God in Jesus Christ, to grow in love for one another,
-        and to go in love to reach our neighbors near and far.
+  <!-- Hero statement -->
+  <section class="mv-hero-sec">
+    <div class="wrap-reading mv-center">
+      <div class="eyebrow mv-eyebrow"><span class="dot"></span>What is the heartbeat of North Wake Church?</div>
+      <p class="mv-hero-statement">
+        We are a family of faith that exists to <span class="mv-em">know</span>,
+        <span class="mv-em">grow</span>, and <span class="mv-em">go</span> in love.
       </p>
     </div>
   </section>
 
-  <!-- Three loves stamp (first content block) -->
-  <section>
-    <div class="wrap">
-      <div class="stamp-grid">
-        {
-          stamp.map((s, i) => (
-            <div class="stamp-cell">
-              <div class="mono stamp-n">0{i + 1}</div>
-              <div class="stamp-word">{s.word}</div>
-              <div class="body stamp-sub">{s.sub}</div>
-            </div>
-          ))
-        }
+  <!-- Mission sentence -->
+  <section class="mv-mission-sec">
+    <div class="wrap-reading mv-center">
+      <div class="mv-divider"></div>
+      <p class="body mv-mission-lead">
+        To know the love of God in Jesus Christ, to grow in love for one another,
+        and to go in love to reach our neighbors near and far.
+      </p>
+      <p class="body mv-mission-sub">
+        In other words, we seek to live out three great loves, fueled by the One
+        Greatest Love.
+      </p>
+    </div>
+  </section>
+
+  <!-- Framing paragraph -->
+  <section class="mv-framing-sec">
+    <div class="wrap-reading mv-center">
+      <p class="body mv-framing-text">
+        Christian love is not mere sentiment or niceness. God's love is a strong,
+        holy love that leads to deep life change. As we come to know and believe the
+        love God has for us in Jesus Christ by the work of the Holy Spirit, our hearts
+        will be deeply changed such that we overflow with genuine love for God and
+        others. So, our ministries and values are shaped around our three great loves,
+        all in response to the One Great Love of God in Jesus Christ.
+      </p>
+      <div class="mv-framing-cta">
+        <a class="btn btn-ghost" href="/who-is-jesus">
+          If this is unfamiliar, read “Who is Jesus?” <span class="arr">→</span>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- The framing — three great loves, one greater love (bg-2 band) -->
-  <section class="framing">
-    <div class="wrap">
-      <div class="framing-grid">
-        <div>
-          <div class="eyebrow framing-eyebrow"><span class="dot"></span>What it means</div>
-          <h2 class="display-m framing-title">
-            Three great loves, fueled by the One Greatest Love.
-          </h2>
-        </div>
-        <div>
-          <p class="framing-lead">
-            Christian love is not mere sentiment or niceness. God's love is a strong,
-            holy love that leads to deep life change.
-          </p>
-          <p class="body framing-body">
-            As we come to know and believe the love God has for us in Jesus Christ by
-            the work of the Holy Spirit, our hearts will be deeply changed such that we
-            overflow with genuine love for God and others.
-          </p>
-          <p class="body framing-body">
-            So, our ministries and values are shaped around our three great loves, all
-            in response to the One Great Love of God in Jesus Christ.
-          </p>
-          <a class="btn btn-ghost" href="/who-is-jesus">
-            If you aren’t familiar with this, read “Who is Jesus?” <span class="arr">→</span>
-          </a>
-        </div>
+  <!-- Three movements -->
+  <section class="mv-movements-sec">
+    <div class="wrap-reading">
+      <div class="mv-movements-intro">
+        <div class="mv-movements-intro-text">Because God has so loved us…</div>
       </div>
+
+      {
+        movements.map((m) => (
+          <div class="mv-movement">
+            <div class="mv-movement-love">{m.num} {m.love}</div>
+            <h2 class="mv-movement-word">{m.word}</h2>
+            <p class="body mv-movement-body">{m.body}</p>
+          </div>
+        ))
+      }
     </div>
   </section>
 
-  <!-- The three loves — detailed (one repeated sub-pattern per love) -->
-  <section>
-    <div class="wrap">
-      <div class="eyebrow loves-eyebrow"><span class="dot"></span>The three great loves</div>
-      <h2 class="display-l loves-title">Because God has so loved us…</h2>
-
-      <div class="loves-list">
-        {
-          loves.map((l, i) => (
-            <div class="love-row">
-              <div class="love-key-col">
-                <div class="mono love-key">0{i + 1} · {l.key}</div>
-                <div class="love-verb">
-                  {l.verb.split(" ").map((w) => (<div>{w}</div>))}
-                </div>
-              </div>
-
-              <div>
-                <p class="love-lede">{l.lede}</p>
-              </div>
-
-              <div>
-                <div class="mono love-practices-label">How we live it</div>
-                <ul class="love-practices">
-                  {l.practices.map((p) => (
-                    <li class="practice-item">
-                      <span class="mono practice-plus">+</span>
-                      <span class="body practice-text">{p}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <!-- Closing CTAs (bg-2 band) -->
-  <section class="mission-cta">
-    <div class="wrap mission-cta-center">
-      <div class="mission-cta-actions">
+  <!-- Closing statement -->
+  <section class="mv-closing-sec">
+    <div class="wrap-reading mv-center">
+      <p class="mv-closing-quote">
+        “Three great loves, all in response to the One Great Love of God in Jesus Christ.”
+      </p>
+      <div class="mv-closing-actions">
         <a class="btn btn-primary" href="/visit">Plan a visit <span class="arr">→</span></a>
         <a class="btn btn-ghost" href="/community/grow-groups">Find community</a>
       </div>
@@ -177,203 +124,136 @@ const loves = [
 </Layout>
 
 <style>
-  /* Hero */
-  .mission-hero {
-    padding-top: 64px;
-    padding-bottom: 0;
-  }
-  .mission-eyebrow {
-    margin-bottom: 28px;
-  }
-  .mission-h1 {
-    max-width: 20ch;
-    margin-bottom: 36px;
-  }
-  .accent-em {
-    font-style: normal; /* override the <em> user-agent italic; keep color only */
-    color: var(--accent);
-  }
-  .mission-lede {
-    max-width: 48ch;
-  }
-
-  /* Three loves stamp — hairline-gap grid (same hairline pattern as the
-     homepage community / students rhythms grids). */
-  .stamp-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
-  }
-  .stamp-cell {
-    background: var(--bg);
-    padding: 56px 36px;
+  /* Shared centering for the reading-column sections */
+  .mv-center {
     text-align: center;
   }
-  .stamp-n {
+
+  /* Hero statement */
+  .mv-hero-sec {
+    padding: 104px 0 0;
+  }
+  .mv-eyebrow {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+  .mv-hero-statement {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 52px);
+    line-height: 1.35;
+    font-weight: 400;
+    color: var(--ink);
+    text-wrap: balance;
+    margin: 0 auto;
+    max-width: 20ch;
+  }
+  .mv-em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* Mission sentence */
+  .mv-mission-sec {
+    padding: 64px 0;
+  }
+  .mv-divider {
+    width: 48px;
+    height: 1px;
+    background: var(--line-strong);
+    margin: 0 auto 40px;
+  }
+  .mv-mission-lead {
+    font-size: 20px;
+    line-height: 1.75;
+    color: var(--ink-2);
+    max-width: 54ch;
+    margin: 0 auto;
+  }
+  .mv-mission-sub {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-3);
+    max-width: 46ch;
+    margin: 20px auto 0;
+  }
+
+  /* Framing paragraph */
+  .mv-framing-sec {
+    padding: 24px 0 16px;
+  }
+  .mv-framing-text {
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--ink-2);
+    max-width: 58ch;
+    margin: 0 auto;
+  }
+  .mv-framing-cta {
+    margin-top: 32px;
+  }
+
+  /* Three movements */
+  .mv-movements-sec {
+    padding: 0 0 32px;
+  }
+  .mv-movements-intro {
+    text-align: center;
+    padding: 48px 0 8px;
+  }
+  .mv-movements-intro-text {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(22px, 2.6vw, 30px);
+    color: var(--ink);
+  }
+  .mv-movement {
+    text-align: center;
+    padding: 56px 0;
+    border-top: 1px solid var(--line);
+  }
+  .mv-movement:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+  .mv-movement-love {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 22px;
     color: var(--accent);
     margin-bottom: 18px;
   }
-  .stamp-word {
+  .mv-movement-word {
     font-family: var(--display);
-    font-weight: 500;
-    font-size: 96px;
-    line-height: 0.95;
-    letter-spacing: -0.04em;
-    color: var(--ink);
-    margin-bottom: 18px;
+    font-weight: 600;
+    font-size: clamp(40px, 6vw, 72px);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin: 0 0 24px;
   }
-  .stamp-sub {
-    font-size: 17px;
-    color: var(--ink-2);
-    max-width: 26ch;
-    margin: 0 auto;
-  }
-
-  /* Framing band (bg-2) — "Three great loves, one greater love" */
-  .framing {
-    background: var(--bg-2);
-  }
-  .framing-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.4fr;
-    gap: 80px;
-    align-items: start;
-  }
-  .framing-eyebrow {
-    margin-bottom: 18px;
-  }
-  .framing-title {
-    max-width: 16ch;
-  }
-  .framing-lead {
-    font-family: var(--display);
-    font-size: 22px;
-    line-height: 1.55;
-    font-weight: 400;
-    color: var(--ink);
-    margin-bottom: 24px;
-    max-width: 44ch;
-    text-wrap: pretty;
-  }
-  .framing-body {
+  .mv-movement-body {
     font-size: 18px;
     line-height: 1.7;
     color: var(--ink-2);
-    max-width: 54ch;
-    margin: 0 0 16px;
-  }
-  .framing-body:last-of-type {
-    margin-bottom: 24px;
+    max-width: 50ch;
+    margin: 0 auto;
   }
 
-  /* Detailed three loves — one repeated row sub-pattern per love */
-  .loves-eyebrow {
-    margin-bottom: 24px;
+  /* Closing statement */
+  .mv-closing-sec {
+    padding: 80px 0 96px;
   }
-  .loves-title {
-    margin-bottom: 56px;
-    max-width: 20ch;
-  }
-  .loves-list {
-    display: flex;
-    flex-direction: column;
-  }
-  .love-row {
-    display: grid;
-    grid-template-columns: auto 1fr 1.4fr;
-    gap: 56px;
-    padding: 48px 0;
-    border-top: 1px solid var(--line-strong);
-    align-items: start;
-  }
-  .love-key-col {
-    min-width: 220px;
-  }
-  .love-key {
-    color: var(--accent);
-    margin-bottom: 10px;
-  }
-  .love-verb {
-    font-family: var(--display);
-    font-size: 64px;
-    line-height: 1;
-    font-weight: 500;
-    letter-spacing: -0.035em;
-    color: var(--ink);
-  }
-  /* Lead-paragraph display treatment — same shape as .framing-lead (flagged as
-     a future shared "lead" pattern; kept page-local for the logged de-dup pass). */
-  .love-lede {
-    font-family: var(--display);
-    font-size: 21px;
+  .mv-closing-quote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(22px, 2.6vw, 32px);
     line-height: 1.5;
-    font-weight: 400;
     color: var(--ink);
-    margin: 0;
     max-width: 32ch;
-    text-wrap: pretty;
+    margin: 0 auto;
+    text-wrap: balance;
   }
-  .love-practices-label {
-    color: var(--ink-3);
-    margin-bottom: 14px;
-  }
-  .love-practices {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  .practice-item {
-    padding: 16px 0;
-    border-bottom: 1px solid var(--line);
-    display: grid;
-    grid-template-columns: 20px 1fr;
-    gap: 16px;
-    align-items: baseline;
-  }
-  .practice-item:last-child {
-    border-bottom: none;
-  }
-  .practice-plus {
-    color: var(--accent);
-  }
-  .practice-text {
-    font-size: 17px;
-    color: var(--ink);
-    line-height: 1.5;
-  }
-
-  /* Mobile collapses — enhancement beyond the prototype (it had no mobile rules);
-     the 96px stamp words would overflow a phone, so stack + scale down. */
-  @media (max-width: 720px) {
-    .stamp-grid {
-      grid-template-columns: 1fr;
-    }
-    .stamp-word {
-      font-size: clamp(64px, 18vw, 96px);
-    }
-    .framing-grid {
-      grid-template-columns: 1fr;
-      gap: 32px;
-    }
-    .love-row {
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-    .love-key-col {
-      min-width: 0;
-    }
-  }
-
-  /* Closing CTAs (bg-2 band) */
-  .mission-cta {
-    background: var(--bg-2);
-  }
-  .mission-cta-center {
-    text-align: center;
-  }
-  .mission-cta-actions {
+  .mv-closing-actions {
+    margin-top: 40px;
     display: flex;
     gap: 12px;
     justify-content: center;
