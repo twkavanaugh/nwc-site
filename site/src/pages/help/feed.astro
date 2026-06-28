@@ -1,0 +1,166 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+
+// Feed Ministry page (/help/feed). Translated from brand/prototype/page-feed.jsx.
+// SECTION-GATED — this pass builds ONLY: 1) Breadcrumb, 2) Hero, 3) Two convictions.
+// Sections 4–7 (how we serve [dark band], 3 paths, hours & location, CTA) NOT built yet.
+
+const convictions = [
+  {
+    n: "01",
+    h: "God's love extends to every kind of need.",
+    b: "Physical hunger, emotional weight, spiritual longing — none of it falls outside the reach of Christ. We try to meet people where each of those needs sits.",
+  },
+  {
+    n: "02",
+    h: "God is present among the poor and needy.",
+    b: "We don't bring God to the pantry — we meet him there. Scripture has been pointing us toward this for a long time, and our experience confirms it week after week.",
+  },
+];
+---
+
+<Layout
+  title="Feed Ministry · North Wake Church"
+  description="Feed is a food pantry ministry at North Wake Church — more than groceries: community, prayer, and presence, believing God's love extends to physical, emotional, and spiritual needs."
+>
+  <!-- 1. Breadcrumb ("Help" has no page → non-clickable placeholder chip) -->
+  <Breadcrumb
+    trail={[{ label: "Home", href: "/" }, { label: "Help" }, { label: "Feed Ministry" }]}
+  />
+
+  <!-- 2. Hero (mirrors the students/kids hero shape) -->
+  <section class="feed-hero">
+    <div class="wrap">
+      <div class="feed-hero-grid">
+        <div>
+          <div class="eyebrow feed-hero-eyebrow"><span class="dot"></span>Feed Ministry · Food pantry</div>
+          <h1 class="display-l feed-h1">
+            More than groceries — <span class="feed-accent">community, prayer,</span> presence.
+          </h1>
+          <p class="lede feed-lede">
+            Feed is a food pantry ministry at North Wake Church. We come together to
+            find community and connection with God — believing his love extends to
+            physical, emotional, and spiritual needs.
+          </p>
+          <div class="feed-hero-actions">
+            {/* TODO: no clear route in the prototype — inert placeholders; wire once
+                targets are confirmed (e.g. a visit/volunteer destination). */}
+            <button type="button" class="btn btn-primary">Stop by Feed <span class="arr">→</span></button>
+            <button type="button" class="btn btn-ghost">Volunteer</button>
+          </div>
+        </div>
+        <div class="ph" style="aspect-ratio: 4 / 5;">
+          <span class="ph-label">Feed · candid</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Two convictions (page-local bordered cards — NOT .kids-card; values diverge) -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow feed-eyebrow"><span class="dot"></span>What is Feed</div>
+          <h2 class="display-m feed-convictions-title">Two convictions shape everything.</h2>
+        </div>
+        <p class="body right">
+          Poverty is much more than a monetary issue, so we don't just hand out
+          toiletries and groceries. We engage in real conversation, real prayer, and
+          real witness.
+        </p>
+      </div>
+
+      <div class="feed-convictions-grid">
+        {
+          convictions.map((c) => (
+            <div class="feed-card">
+              <div class="mono feed-card-label">{c.n} · Conviction</div>
+              <h3 class="display-s feed-card-title">{c.h}</h3>
+              <p class="feed-card-body">{c.b}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Hero */
+  .feed-hero {
+    padding: 56px 0 0;
+  }
+  .feed-hero-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 64px;
+    align-items: end;
+  }
+  .feed-hero-eyebrow {
+    margin-bottom: 28px;
+  }
+  .feed-h1 {
+    max-width: 16ch;
+  }
+  /* Non-italic accent span (no global accent-color utility; .em-accent adds italic). */
+  .feed-accent {
+    color: var(--accent);
+  }
+  .feed-lede {
+    margin-top: 28px;
+  }
+  .feed-hero-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  /* Two convictions — page-local bordered cards (diverge from .kids-card:
+     padding 36px 36px 32px, border-radius, bg-2 fill). */
+  .feed-eyebrow {
+    margin-bottom: 18px;
+  }
+  .feed-convictions-title {
+    max-width: 14ch;
+  }
+  .feed-convictions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .feed-card {
+    padding: 36px 36px 32px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-card);
+    background: var(--bg-2);
+  }
+  .feed-card-label {
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .feed-card-title {
+    font-weight: 500;
+    margin-bottom: 16px;
+    max-width: 20ch;
+  }
+  .feed-card-body {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+
+  /* Mobile collapses — enhancement beyond the prototype (consistent precedent). */
+  @media (max-width: 720px) {
+    .feed-hero-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .feed-convictions-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
