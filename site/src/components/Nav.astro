@@ -412,7 +412,7 @@ const GIVE_HREF = "https://onrealm.org/NorthWake/-/form/give/now";
   .mega-inner {
     max-width: 1440px;
     margin: 0 auto;
-    padding: 36px 40px; /* 40px gutter matches .nav-inner so columns align under the bar */
+    padding: 28px 40px; /* 40px gutter matches .nav-inner so columns align under the bar */
     display: grid;
     gap: 36px;
   }
@@ -434,7 +434,7 @@ const GIVE_HREF = "https://onrealm.org/NorthWake/-/form/give/now";
     text-transform: uppercase;
     letter-spacing: 0.09em;
     color: var(--ink-4);
-    padding-bottom: 10px;
+    padding-bottom: 8px;
   }
 
   .mega-item {
@@ -511,7 +511,10 @@ const GIVE_HREF = "https://onrealm.org/NorthWake/-/form/give/now";
     font-size: 13px;
     line-height: 1.55;
     color: var(--ink-3);
-    margin: 10px 0 0;
+    /* bottom 20px = guaranteed floor so the CTA never jams against short bodies
+       (e.g. Resources); .mega-featured-cta margin-top:auto still bottom-pins
+       on taller rails. */
+    margin: 10px 0 20px;
   }
   .mega-featured-cta {
     margin-top: auto;
