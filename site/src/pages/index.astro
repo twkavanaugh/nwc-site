@@ -180,7 +180,7 @@ const MARQUEE_WORDS = [
         </p>
       </div>
 
-      <div class="community-grid">
+      <div class="hairline-grid community-grid">
         {
           [
             { name: "Grow Groups", meta: "12 active groups · weekly", body: "Mid-sized groups meeting in homes across Wake Forest. Share a meal, open Scripture, pray honestly, repeat.", href: "/community/grow-groups" },
@@ -645,12 +645,9 @@ const MARQUEE_WORDS = [
     color: var(--ink-2);
   }
   /* gap:1px over a --line background paints the hairline grid rules */
+  /* hairline mechanism now from global .hairline-grid; only columns stay local */
   .community-grid {
-    display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
   }
   .community-card {
     background: var(--bg-2);

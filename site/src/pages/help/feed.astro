@@ -112,7 +112,7 @@ const convictions = [
         </div>
       </div>
 
-      <div class="feed-paths">
+      <div class="hairline-grid feed-paths">
         <!-- Path 1: Receive -->
         <div class="feed-path">
           <div class="mono feed-path-label">01 · Receive</div>
@@ -334,12 +334,9 @@ const convictions = [
      Hairline-gap card grid — SAME idiom as homepage community / students rhythms /
      kids schedule. 4th occurrence and the genuinely-ripe extraction candidate;
      kept page-local this gate (extraction is a separate pass). */
+  /* hairline mechanism now from global .hairline-grid; only columns stay local */
   .feed-paths {
-    display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
   }
   .feed-path {
     background: var(--bg);

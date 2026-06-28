@@ -490,3 +490,15 @@ h4 {
   border-left: 2px solid var(--accent);
   padding-left: 28px;
 }
+
+/* Hairline-gap card grid — the shared mechanism (1px gap painted by a --line
+   background + a --line border; opaque cells leave hairline rules between them).
+   Promoted from 4 page-local copies (homepage community, students rhythms, kids
+   schedule, feed paths). DELIBERATELY omits grid-template-columns and all cell
+   styling — those legitimately differ per page and stay page-local. */
+.hairline-grid {
+  display: grid;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}

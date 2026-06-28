@@ -170,7 +170,7 @@ const pillars = [
       </div>
 
       {/* Hairline-gap card grid — recurring pattern (homepage community uses it). */}
-      <div class="rhythms-grid">
+      <div class="hairline-grid rhythms-grid">
         {
           rhythms.map((r) => (
             <article class="rhythm-card">
@@ -333,12 +333,9 @@ const pillars = [
   }
 
   /* Regular rhythms */
+  /* hairline mechanism now from global .hairline-grid; only columns stay local */
   .rhythms-grid {
-    display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
   }
   .rhythm-card {
     background: var(--bg);
