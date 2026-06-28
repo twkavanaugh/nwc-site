@@ -177,6 +177,72 @@ const experiences = [
       </div>
     </div>
   </section>
+
+  <!-- 7. Join Us — schedule card (bg-2 band) -->
+  <section class="mature-join">
+    <div class="wrap">
+      <div class="mature-join-grid">
+        <div>
+          <div class="eyebrow mature-join-eyebrow"><span class="dot"></span>Join us</div>
+          <h2 class="display-l mature-join-title">
+            Twice a month, <span class="mature-accent">mornings together.</span>
+          </h2>
+          <p class="lede mature-join-lede">
+            Whether you're looking to meet new friends, participate in enjoyable
+            activities, or simply spend time with others who share your faith — this is
+            a place for you. Come grow in community, deepen your relationship with the
+            Lord, and enjoy the journey together.
+          </p>
+          <div class="mature-join-actions">
+            {/* TODO: no real RSVP route/email in the prototype — inert placeholders. */}
+            <button type="button" class="btn btn-primary">RSVP for the next gathering <span class="arr">→</span></button>
+            <button type="button" class="btn btn-ghost">Email the team</button>
+          </div>
+        </div>
+
+        <div class="mature-schedule-card">
+          <div class="mono mature-schedule-label">When we gather</div>
+          <div class="mature-schedule-grid">
+            <div class="small mature-schedule-key">Cadence</div>
+            <div class="title mature-schedule-val">Twice a month</div>
+            <div class="mature-schedule-div"></div>
+            <div class="small mature-schedule-key">Days</div>
+            <div class="title mature-schedule-val">1st &amp; 3rd Tuesdays</div>
+            <div class="mature-schedule-div"></div>
+            <div class="small mature-schedule-key">Time</div>
+            <div class="title mature-schedule-val">Mornings</div>
+            <div class="mature-schedule-div"></div>
+            <div class="small mature-schedule-key">Where</div>
+            <div class="title mature-schedule-val">North Wake Church</div>
+          </div>
+          <div class="mature-schedule-foot">
+            <div>
+              <div class="small mature-schedule-next-label">Next gathering</div>
+              <div class="body mature-schedule-next">Tuesday, May 5 · 10:00 AM</div>
+            </div>
+            <span class="mature-schedule-arr" aria-hidden="true">→</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. CTA (DARK band — inverse tokens, no raw white literals) -->
+  <section class="mature-cta">
+    <div class="wrap-narrow mature-cta-inner">
+      <div class="eyebrow mature-cta-eyebrow"><span class="dot"></span>You're welcome here</div>
+      <h2 class="display-l mature-cta-title">Come, and bring a friend.</h2>
+      <p class="lede mature-cta-lede">
+        Every stage of life is a gift. We'd love to share this one with you — around the
+        table, in the Word, and out enjoying everything God has given.
+      </p>
+      <div class="mature-cta-actions">
+        {/* TODO: inert placeholders — no real RSVP route / team email in prototype. */}
+        <button type="button" class="btn btn-accent">RSVP <span class="arr">→</span></button>
+        <button type="button" class="btn mature-cta-ghost">Email the team</button>
+      </div>
+    </div>
+  </section>
 </Layout>
 
 <style>
@@ -342,6 +408,119 @@ const experiences = [
     color: var(--ink-2);
   }
 
+  /* 7. Join Us — schedule card (bg-2 band) */
+  .mature-join {
+    background: var(--bg-2);
+  }
+  .mature-join-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .mature-join-eyebrow {
+    margin-bottom: 24px;
+  }
+  .mature-join-title {
+    max-width: 14ch;
+    margin-bottom: 24px;
+  }
+  .mature-join-lede {
+    margin-bottom: 32px;
+  }
+  .mature-join-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  /* Page-local schedule card (own padding/structure; not .kids-card/.feed-card). */
+  .mature-schedule-card {
+    background: var(--bg);
+    border: 1px solid var(--line-strong);
+    padding: 36px 36px 32px;
+    display: grid;
+    gap: 0;
+  }
+  .mature-schedule-label {
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+  .mature-schedule-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px 28px;
+    align-items: baseline;
+  }
+  .mature-schedule-key {
+    color: var(--ink-3);
+  }
+  .mature-schedule-val {
+    font-weight: 500;
+    font-size: 22px;
+  }
+  .mature-schedule-div {
+    grid-column: 1 / -1;
+    height: 1px;
+    background: var(--line);
+    margin: 4px 0;
+  }
+  .mature-schedule-foot {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .mature-schedule-next-label {
+    color: var(--ink-3);
+    margin-bottom: 2px;
+  }
+  .mature-schedule-next {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .mature-schedule-arr {
+    color: var(--accent);
+  }
+
+  /* 8. CTA — DARK band, inverse semantic tokens only (no raw white). */
+  .mature-cta {
+    background: var(--bg-inverse);
+    color: var(--ink-on-inverse);
+  }
+  .mature-cta-inner {
+    text-align: center;
+  }
+  .mature-cta-eyebrow {
+    color: var(--ink-on-inverse-2);
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+  }
+  .mature-cta-title {
+    color: var(--ink-on-inverse);
+    margin-bottom: 24px;
+  }
+  .mature-cta-lede {
+    color: var(--ink-on-inverse-2);
+    margin: 0 auto;
+    max-width: 50ch;
+  }
+  .mature-cta-actions {
+    margin-top: 36px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  /* Ghost button on dark — uses --border-on-inverse (its designed use case). */
+  .mature-cta-ghost {
+    background: transparent;
+    color: var(--ink-on-inverse);
+    border: 1px solid var(--border-on-inverse);
+  }
+
   /* Mobile collapses — enhancement beyond the prototype (consistent precedent). */
   @media (max-width: 720px) {
     .mature-hero-grid {
@@ -361,6 +540,10 @@ const experiences = [
     }
     .mature-exp-grid {
       grid-template-columns: 1fr;
+    }
+    .mature-join-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
     }
   }
 </style>
