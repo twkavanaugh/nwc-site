@@ -85,6 +85,89 @@ const convictions = [
       </div>
     </div>
   </section>
+
+  <!-- 4. How we serve (DARK band — inverse tokens, no raw white literals) -->
+  <section class="feed-serve">
+    <div class="wrap">
+      <div class="eyebrow feed-serve-eyebrow"><span class="dot"></span>How we serve</div>
+      <h2 class="display-m feed-serve-title">
+        Conversation, prayer, witness — alongside the groceries.
+      </h2>
+      <p class="feed-serve-body">
+        We get to know people by engaging in meaningful conversations, praying for
+        each person, and witnessing to the gospel. We believe and experience that God
+        is at work in this world and in the lives of those in need.
+      </p>
+    </div>
+  </section>
+
+  <!-- 5. How to engage — 3 paths (hairline-gap grid — 4th occurrence; page-local) -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow feed-eyebrow"><span class="dot"></span>How to engage</div>
+          <h2 class="display-m">Three ways in.</h2>
+        </div>
+      </div>
+
+      <div class="feed-paths">
+        <!-- Path 1: Receive -->
+        <div class="feed-path">
+          <div class="mono feed-path-label">01 · Receive</div>
+          <h3 class="title feed-path-title">Stop by — we want to meet you.</h3>
+          <p class="feed-path-body">
+            No matter who you are or what situation you're in, we're here to help with
+            any needs you have — food insecurity, basic necessities, or connecting you
+            to other resources.
+          </p>
+          <p class="feed-path-body feed-path-body--strong">
+            Just stop by whenever we're open. We'd love to get to know you.
+          </p>
+        </div>
+
+        <!-- Path 2: Donate -->
+        <div class="feed-path">
+          <div class="mono feed-path-label">02 · Donate</div>
+          <h3 class="title feed-path-title">Drop groceries in the teal box.</h3>
+          <p class="feed-path-body">
+            Grab some extra groceries when you go shopping and drop them off at the
+            teal box in the church lobby. The simplest way to support Feed every week.
+          </p>
+          <div class="feed-donate-note">
+            {/* Documented exception: the donation box is physically teal — uses
+                --raw-teal (the one sanctioned raw token, per design-tokens.md). */}
+            <span class="feed-teal-swatch" aria-hidden="true"></span>
+            Look for the teal box · church lobby
+          </div>
+        </div>
+
+        <!-- Path 3: Volunteer -->
+        <div class="feed-path">
+          <div class="mono feed-path-label">03 · Volunteer</div>
+          <h3 class="title feed-path-title">Serve alongside the team.</h3>
+          <p class="feed-path-body">
+            Interested in joining the Feed team? Reach out to either of our
+            coordinators — they'll walk you through how to get started.
+          </p>
+          {/* TODO: coordinator contacts are UNVERIFIED — rendered inert, NO mailto.
+              Prototype had tylerp@northwake.com and a PERSONAL Gmail
+              (mccaberose6@gmail.com). Do NOT publish the personal Gmail; church must
+              confirm/replace both before any live link. */}
+          <div class="feed-volunteer-list">
+            <div class="feed-volunteer-row">
+              <span><span class="feed-volunteer-name">Tyler · </span>email pending verification</span>
+              <span class="feed-volunteer-arr" aria-hidden="true">→</span>
+            </div>
+            <div class="feed-volunteer-row">
+              <span><span class="feed-volunteer-name">Rose · </span>email pending verification</span>
+              <span class="feed-volunteer-arr" aria-hidden="true">→</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
 
 <style>
@@ -153,6 +236,110 @@ const convictions = [
     color: var(--ink-2);
   }
 
+  /* 4. How we serve — DARK band, inverse semantic tokens only (no raw white). */
+  .feed-serve {
+    background: var(--bg-inverse);
+    color: var(--ink-on-inverse);
+  }
+  .feed-serve-eyebrow {
+    margin-bottom: 18px;
+    color: var(--ink-on-inverse-2);
+  }
+  .feed-serve-title {
+    color: var(--ink-on-inverse);
+    max-width: 20ch;
+    margin-bottom: 28px;
+  }
+  .feed-serve-body {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-on-inverse-2);
+    max-width: 60ch;
+    margin: 0;
+  }
+
+  /* 5. How to engage — 3 paths.
+     Hairline-gap card grid — SAME idiom as homepage community / students rhythms /
+     kids schedule. 4th occurrence and the genuinely-ripe extraction candidate;
+     kept page-local this gate (extraction is a separate pass). */
+  .feed-paths {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .feed-path {
+    background: var(--bg);
+    padding: 36px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 320px;
+  }
+  .feed-path-label {
+    color: var(--accent);
+  }
+  .feed-path-title {
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: -0.015em;
+  }
+  .feed-path-body {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+  .feed-path-body--strong {
+    font-weight: 500;
+  }
+
+  /* Donate note + teal swatch. The swatch fill uses --raw-teal — the one
+     sanctioned raw-token use (a real-world object color; design-tokens.md:
+     "Feed page donation-box swatch ONLY — keep page-local"). */
+  .feed-donate-note {
+    margin-top: auto;
+    padding-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ink-3);
+  }
+  .feed-teal-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: var(--radius-sm);
+    background: var(--raw-teal);
+    border: 1px solid var(--line);
+    flex: none;
+  }
+
+  /* Volunteer contacts — inert placeholders (no mailto; unverified contacts). */
+  .feed-volunteer-list {
+    margin-top: auto;
+    padding-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .feed-volunteer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-card);
+    font-size: 14px;
+  }
+  .feed-volunteer-name {
+    color: var(--ink-3);
+  }
+  .feed-volunteer-arr {
+    color: var(--accent);
+  }
+
   /* Mobile collapses — enhancement beyond the prototype (consistent precedent). */
   @media (max-width: 720px) {
     .feed-hero-grid {
@@ -160,6 +347,9 @@ const convictions = [
       gap: 40px;
     }
     .feed-convictions-grid {
+      grid-template-columns: 1fr;
+    }
+    .feed-paths {
       grid-template-columns: 1fr;
     }
   }
