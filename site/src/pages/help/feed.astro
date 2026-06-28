@@ -1,10 +1,11 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
+import { BUSINESS } from "../../data/business";
 
 // Feed Ministry page (/help/feed). Translated from brand/prototype/page-feed.jsx.
-// SECTION-GATED — this pass builds ONLY: 1) Breadcrumb, 2) Hero, 3) Two convictions.
-// Sections 4–7 (how we serve [dark band], 3 paths, hours & location, CTA) NOT built yet.
+// COMPLETE — all 7 sections: 1) Breadcrumb, 2) Hero, 3) Two convictions,
+// 4) How we serve (dark band), 5) Three paths, 6) Hours & Location, 7) CTA.
 
 const convictions = [
   {
@@ -165,6 +166,77 @@ const convictions = [
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Hours & Location (bg-2 band) -->
+  <section class="feed-hours">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow feed-eyebrow"><span class="dot"></span>When &amp; where</div>
+          <h2 class="display-m">Hours of operation.</h2>
+        </div>
+        <p class="body right">
+          Feed is open multiple times each month at North Wake Church Building 2.
+        </p>
+      </div>
+
+      <div class="feed-hours-grid">
+        <!-- Hours -->
+        <div class="feed-hours-list">
+          <div class="feed-hours-row">
+            <div class="display-s feed-hours-day">Sun</div>
+            <div>
+              <div class="title feed-hours-when">Every Sunday</div>
+              <div class="feed-hours-freq">Year-round, weekly</div>
+            </div>
+            <div class="title feed-hours-time">8:30 – 10:15 AM</div>
+          </div>
+          <div class="feed-hours-row">
+            <div class="display-s feed-hours-day">Sat</div>
+            <div>
+              <div class="title feed-hours-when">1st &amp; 3rd Saturdays</div>
+              <div class="feed-hours-freq">Twice a month</div>
+            </div>
+            <div class="title feed-hours-time">8:30 – 10:00 AM</div>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="feed-location">
+          <div class="ph" style="aspect-ratio: 16 / 9;">
+            <span class="ph-label">Building 2 · entrance</span>
+          </div>
+          <div class="feed-location-card">
+            <div class="mono feed-location-label">Location</div>
+            {/* Name/address from business.ts (SSOT); "Building 2" is feed-specific
+                prototype text — UNVERIFIED, flag. */}
+            <div class="title feed-location-name">{BUSINESS.name} · Building 2</div>
+            <div class="feed-location-addr">
+              {BUSINESS.streetAddress} · {BUSINESS.city}, {BUSINESS.state} {BUSINESS.postalCode}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. CTA (centered, mirrors students/kids CTA) -->
+  <section>
+    <div class="wrap-narrow feed-cta">
+      <div class="eyebrow feed-cta-eyebrow"><span class="dot"></span>You're welcome here</div>
+      <h2 class="display-l feed-cta-title">We'd love to meet you.</h2>
+      <p class="lede feed-cta-lede">
+        Whether you need a hand or want to lend one, the door is open. Stop by any
+        Sunday morning — no appointment, no pressure.
+      </p>
+      <div class="feed-cta-actions">
+        {/* TODO: no clear route — inert placeholder (do not guess /visit). */}
+        <button type="button" class="btn btn-primary">Plan a visit to Feed <span class="arr">→</span></button>
+        {/* TODO: unverified coordinator contacts — inert (same discipline as §5). */}
+        <button type="button" class="btn btn-ghost">Email Tyler or Rose</button>
       </div>
     </div>
   </section>
@@ -340,6 +412,91 @@ const convictions = [
     color: var(--accent);
   }
 
+  /* 6. Hours & Location — bg-2 band; bordered rows + card are feed-local variants
+     (own padding; not .kids-card). */
+  .feed-hours {
+    background: var(--bg-2);
+  }
+  .feed-hours-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .feed-hours-list {
+    border-top: 1px solid var(--line-strong);
+  }
+  .feed-hours-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 24px;
+    align-items: center;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .feed-hours-day {
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 110px;
+  }
+  .feed-hours-when {
+    font-weight: 500;
+  }
+  .feed-hours-freq {
+    font-size: 14px;
+    color: var(--ink-3);
+    margin-top: 4px;
+  }
+  .feed-hours-time {
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+  .feed-location {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .feed-location-card {
+    padding: 20px 24px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-card);
+  }
+  .feed-location-label {
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .feed-location-name {
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .feed-location-addr {
+    font-size: 14px;
+    color: var(--ink-3);
+  }
+
+  /* 7. CTA — connect (centered, mirrors students/kids CTA) */
+  .feed-cta {
+    text-align: center;
+  }
+  .feed-cta-eyebrow {
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+  }
+  .feed-cta-title {
+    margin-bottom: 24px;
+  }
+  .feed-cta-lede {
+    margin: 0 auto;
+    max-width: 48ch;
+  }
+  .feed-cta-actions {
+    margin-top: 32px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
   /* Mobile collapses — enhancement beyond the prototype (consistent precedent). */
   @media (max-width: 720px) {
     .feed-hero-grid {
@@ -350,6 +507,9 @@ const convictions = [
       grid-template-columns: 1fr;
     }
     .feed-paths {
+      grid-template-columns: 1fr;
+    }
+    .feed-hours-grid {
       grid-template-columns: 1fr;
     }
   }
