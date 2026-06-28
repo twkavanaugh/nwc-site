@@ -4,8 +4,40 @@ import Breadcrumb from "../../components/Breadcrumb.astro";
 
 // Mature Adults ministry page (/community/mature-adults).
 // Translated from brand/prototype/page-mature.jsx.
-// SECTION-GATED — this pass builds ONLY: 1) Breadcrumb, 2) Hero, 3) Opening conviction.
-// Sections 4–8 (our heart, image strip, experiences, join-us schedule, dark CTA) NOT built yet.
+// SECTION-GATED — built so far: 1) Breadcrumb, 2) Hero, 3) Opening conviction,
+// 4) Our Heart, 5) Image strip, 6) What you'll experience.
+// Sections 7–8 (join-us schedule, dark CTA) NOT built yet.
+
+const longings = [
+  "Friendships that grow",
+  "Laughter shared often",
+  "Faith that keeps deepening",
+  "Encouragement, given and received",
+  "Lasting relationships across the years",
+];
+
+const experiences = [
+  {
+    tag: "Connection",
+    h: "Build meaningful friendships",
+    b: "Real relationships with others who share similar life experiences and a common faith. The kind of friends you call when news — good or hard — comes.",
+  },
+  {
+    tag: "Fun activities",
+    h: "Joyful gatherings & outings",
+    b: "Engaging mornings together, day trips, shared meals, and seasonal events. Laughter and good company are part of the design.",
+  },
+  {
+    tag: "Welcoming community",
+    h: "A warm, inviting atmosphere",
+    b: "Everyone is valued and included. Whether you've been at North Wake for years or you walked in last Sunday, there's a seat for you.",
+  },
+  {
+    tag: "Spiritual growth",
+    h: "Deepening your walk with the Lord",
+    b: "Encouragement, fellowship, and shared faith — strengthening one another in this rich, seasoned chapter of life.",
+  },
+];
 ---
 
 <Layout
@@ -55,6 +87,93 @@ import Breadcrumb from "../../components/Breadcrumb.astro";
           Every stage of life is a gift from God. This ministry celebrates the wisdom,
           experience, and vibrant spirit within our mature community.
         </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Our Heart (bg-2 band; figure consumes global .pull-quote frame) -->
+  <section class="mature-heart">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow mature-eyebrow"><span class="dot"></span>Our heart</div>
+          <h2 class="display-m mature-heart-title">The heartbeat of this ministry is simple.</h2>
+        </div>
+        <p class="body right">
+          A welcoming environment where friendships grow, laughter is shared, and our
+          relationship with the Lord continues to deepen.
+        </p>
+      </div>
+
+      <div class="mature-heart-grid">
+        <div>
+          <p class="body mature-heart-p">
+            Through time together we encourage one another, build lasting relationships,
+            and support each other in our faith journeys. Sundays are the doorway — but
+            the deeper work of friendship and discipleship happens around tables, on
+            outings, and in honest conversation.
+          </p>
+          <p class="body mature-heart-p">
+            This is a season of life with much to give and much to receive. We carry
+            decades of God's faithfulness with us — and we still have things to learn,
+            friendships to make, and a Lord to know more deeply.
+          </p>
+        </div>
+
+        {/* Pull-quote FRAME (global .pull-quote) wrapping a list — NOT scripture. */}
+        <figure class="pull-quote mature-longings">
+          <div class="mono mature-longings-label">What we long to see</div>
+          <ul class="mature-longings-list">
+            {longings.map((line) => (
+              <li class="mature-longing">
+                <span class="mature-longing-dot" aria-hidden="true"></span>
+                <span>{line}</span>
+              </li>
+            ))}
+          </ul>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Image strip -->
+  <section class="mature-strip">
+    <div class="wrap">
+      <div class="mature-strip-grid">
+        <div class="ph" style="aspect-ratio: 4 / 5;"><span class="ph-label">Around the table</span></div>
+        <div class="ph" style="aspect-ratio: 16 / 10;"><span class="ph-label">Outings together</span></div>
+        <div class="ph" style="aspect-ratio: 4 / 5;"><span class="ph-label">Studying the Word</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. What you'll experience (consumes global .hairline-grid; cells page-local) -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow mature-eyebrow"><span class="dot"></span>What you'll experience</div>
+          <h2 class="display-m">Four things you can count on.</h2>
+        </div>
+        <p class="body right">
+          Connection, fun, welcome, and growth — woven into every gathering. Come once
+          and see for yourself.
+        </p>
+      </div>
+
+      <div class="hairline-grid mature-exp-grid">
+        {
+          experiences.map((r, i) => (
+            <article class="mature-exp-card">
+              <div class="mature-exp-head">
+                <span class="display-s mature-exp-num">0{i + 1}</span>
+                <span class="mono mature-exp-tag">{r.tag}</span>
+              </div>
+              <h3 class="title mature-exp-title">{r.h}</h3>
+              <p class="mature-exp-body">{r.b}</p>
+            </article>
+          ))
+        }
       </div>
     </div>
   </section>
@@ -115,6 +234,114 @@ import Breadcrumb from "../../components/Breadcrumb.astro";
     text-wrap: balance;
   }
 
+  /* 4. Our Heart — bg-2 band */
+  .mature-heart {
+    background: var(--bg-2);
+  }
+  .mature-eyebrow {
+    margin-bottom: 18px;
+  }
+  .mature-heart-title {
+    max-width: 16ch;
+  }
+  .mature-heart-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .mature-heart-p {
+    font-size: 18px;
+    line-height: 1.65;
+  }
+  .mature-heart-p:first-child {
+    margin-top: 0;
+  }
+  /* .mature-longings consumes global .pull-quote (accent left border + padding).
+     Inner label + list are page-local (a list, NOT scripture). */
+  .mature-longings {
+    margin: 0;
+  }
+  .mature-longings-label {
+    margin-bottom: 14px;
+    color: var(--accent);
+  }
+  .mature-longings-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .mature-longing {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    align-items: baseline;
+    font-family: var(--display);
+    font-size: 19px;
+    line-height: 1.45;
+    font-weight: 500;
+    color: var(--ink-2);
+    letter-spacing: -0.01em;
+  }
+  .mature-longing-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translateY(-3px);
+  }
+
+  /* 5. Image strip */
+  .mature-strip {
+    padding: 16px 0 0;
+  }
+  .mature-strip-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 16px;
+  }
+
+  /* 6. What you'll experience — grid mechanism from global .hairline-grid;
+     page-local class holds only columns; cells are page-local (not .kids/.feed card). */
+  .mature-exp-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .mature-exp-card {
+    background: var(--bg);
+    padding: 44px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: 240px;
+  }
+  .mature-exp-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  .mature-exp-num {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .mature-exp-tag {
+    color: var(--ink-3);
+  }
+  .mature-exp-title {
+    font-weight: 500;
+    font-size: 26px;
+    letter-spacing: -0.02em;
+    margin-top: 0;
+  }
+  .mature-exp-body {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+
   /* Mobile collapses — enhancement beyond the prototype (consistent precedent). */
   @media (max-width: 720px) {
     .mature-hero-grid {
@@ -124,6 +351,16 @@ import Breadcrumb from "../../components/Breadcrumb.astro";
     .mature-conviction {
       grid-template-columns: 1fr;
       gap: 18px;
+    }
+    .mature-heart-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .mature-strip-grid {
+      grid-template-columns: 1fr;
+    }
+    .mature-exp-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>
