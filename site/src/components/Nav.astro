@@ -1,8 +1,10 @@
 ---
-// Top navigation chrome. Translated from brand/prototype/shell.jsx (Nav) +
-// brand/prototype/styles.css (.nav*, dropdown panel). Static, zero-JS:
-// dropdowns are CSS hover/focus-within only; active state is computed at build
-// time from Astro.url.pathname. All prototype React/onNav/hash-routing stripped.
+// Top navigation chrome — full-width MEGA-MENU variant.
+// Each group trigger opens a single full-bleed .mega panel anchored to .nav
+// (columns of items + a featured rail). Static, zero-JS: panels open on
+// :hover / :focus-within only; active state is computed at build time from
+// Astro.url.pathname. Brand mark, direct links, and CTAs preserved from the
+// prior nav. All CSS scoped here; consumes only global tokens + .btn*.
 
 const pathname = Astro.url.pathname;
 
@@ -11,64 +13,163 @@ const norm = (p: string) => (p !== "/" && p.endsWith("/") ? p.slice(0, -1) : p);
 const here = norm(pathname);
 const isActive = (href: string) => norm(href) === here;
 
-type NavChild = { label: string; href: string };
-type NavGroup = { label: string; children: NavChild[] };
+type MegaItem = { label: string; href?: string; desc: string };
+type MegaColumn = { heading: string; items: MegaItem[] };
+type MegaGroup = {
+  label: string;
+  columns: MegaColumn[];
+  featured: { kicker: string; title: string; body: string; ctaLabel: string; ctaHref: string };
+};
 
-const GROUPS: NavGroup[] = [
+// UNVERIFIED COPY — descriptions + featured rails are placeholders, confirm with church before launch.
+// Items WITHOUT an href are unbuilt routes → rendered dimmed/non-clickable, no arrow.
+const GROUPS: MegaGroup[] = [
   {
     label: "About",
-    children: [
-      { label: "Our Beliefs", href: "/about/beliefs" },
-      { label: "Leadership", href: "/about/leadership" },
-      { label: "Mission / Vision", href: "/about/mission" },
-      { label: "Membership", href: "/about/membership" },
+    columns: [
+      {
+        heading: "Who We Are",
+        items: [
+          { label: "Our Beliefs", href: "/about/beliefs", desc: "What we hold to and why." },
+          { label: "Mission & Vision", href: "/about/mission", desc: "Who we are and where we're going." },
+        ],
+      },
+      {
+        heading: "Get Involved",
+        items: [
+          { label: "Leadership", desc: "The team who shepherds North Wake." },
+          { label: "Membership", href: "/about/membership", desc: "Make North Wake your church home." },
+        ],
+      },
     ],
+    featured: {
+      kicker: "New here?",
+      title: "Start with Jesus.",
+      body: "Curious, questioning, or skeptical — here's a place to begin.",
+      ctaLabel: "Who is Jesus?",
+      ctaHref: "/who-is-jesus",
+    },
   },
   {
     label: "Mission",
-    children: [
-      { label: "International Missions", href: "/mission/international" },
-      { label: "Church Planting", href: "/mission/church-planting" },
-      { label: "Local Outreach", href: "/mission/local-outreach" },
-      { label: "Ministry Training", href: "/mission/training" },
-      { label: "Serve the Church", href: "/mission/serve" },
+    columns: [
+      {
+        heading: "Reach",
+        items: [
+          { label: "International Missions", desc: "The gospel to the nations." },
+          { label: "Church Planting", desc: "New churches, near and far." },
+          { label: "Local Outreach", desc: "Loving Wake Forest in word and deed." },
+        ],
+      },
+      {
+        heading: "Equip & Serve",
+        items: [
+          { label: "Ministry Training", desc: "Equipping the saints for the work." },
+          { label: "Serve the Church", desc: "Find your place to give and grow." },
+        ],
+      },
     ],
+    featured: {
+      kicker: "Go in love",
+      title: "Be sent.",
+      body: "From Wake Forest to the nations — find your place in the mission.",
+      ctaLabel: "Get involved",
+      ctaHref: "/community/grow-groups",
+    },
   },
   {
     label: "Help",
-    children: [
-      { label: "Hope Counseling", href: "/help/hope-counseling" },
-      { label: "Mercy Health Clinic", href: "/help/mercy-clinic" },
-      { label: "Feed Ministry", href: "/help/feed" },
-      { label: "Care Ministry", href: "/help/care" },
+    columns: [
+      {
+        heading: "Counseling & Care",
+        items: [
+          { label: "Hope Counseling", href: "/help/hope-counseling", desc: "Biblical counseling for hard seasons." },
+          { label: "Care Ministry", desc: "Practical help when life is heavy." },
+        ],
+      },
+      {
+        heading: "Health & Provision",
+        items: [
+          { label: "Mercy Health Clinic", desc: "Care for the uninsured in our community." },
+          { label: "Feed Ministry", href: "/help/feed", desc: "Groceries and dignity for neighbors in need." },
+        ],
+      },
     ],
+    featured: {
+      kicker: "Need help now?",
+      title: "You don't walk alone.",
+      body: "Reach our care team and someone will follow up personally.",
+      ctaLabel: "Talk to someone",
+      ctaHref: "/help/hope-counseling",
+    },
   },
   {
     label: "Community",
-    children: [
-      { label: "Grow Groups", href: "/community/grow-groups" },
-      { label: "Adult Discipleship", href: "/community/adult-discipleship" },
-      { label: "Kids", href: "/community/kids" },
-      { label: "Students", href: "/community/students" },
-      { label: "Women", href: "/community/women" },
-      { label: "Men", href: "/community/men" },
-      { label: "LILY Moms", href: "/community/lily-moms" },
-      { label: "Young Adults", href: "/community/young-adults" },
-      { label: "Mature Adults", href: "/community/mature-adults" },
+    columns: [
+      {
+        heading: "Groups & Classes",
+        items: [
+          { label: "Grow Groups", href: "/community/grow-groups", desc: "Weekly community in homes across Wake Forest." },
+          { label: "Adult Discipleship", desc: "Sunday classes for every season of faith." },
+        ],
+      },
+      {
+        heading: "Next Generation",
+        items: [
+          { label: "Kids", href: "/community/kids", desc: "Birth–5th grade, every Sunday." },
+          { label: "Students", href: "/community/students", desc: "6th–12th grade, midweek & Sundays." },
+          { label: "LILY Moms", desc: "Encouragement for moms of little ones." },
+        ],
+      },
+      {
+        heading: "Men, Women & Life Stage",
+        items: [
+          { label: "Women", desc: "Studies, retreats, friendship." },
+          { label: "Men", desc: "Breakfasts and book studies." },
+          { label: "Young Adults", desc: "20s & 30s doing life together." },
+          { label: "Mature Adults", href: "/community/mature-adults", desc: "Fellowship, faith, and fun." },
+        ],
+      },
     ],
+    featured: {
+      kicker: "New here?",
+      title: "Find your people.",
+      body: "Tell us your season of life and we'll match you to a group.",
+      ctaLabel: "Get connected",
+      ctaHref: "/community/grow-groups",
+    },
   },
   {
     label: "Resources",
-    children: [
-      { label: "Events", href: "/events" },
-      { label: "Sermons", href: "/sermons" },
-      { label: "Blog", href: "/blog" },
-      { label: "Other Resources", href: "/resources" },
+    columns: [
+      {
+        heading: "Watch & Read",
+        items: [
+          // Sermons page is NOT built yet → dimmed; the featured rail routes to /events instead.
+          { label: "Sermons", desc: "Catch up on the latest series." },
+          { label: "Blog", href: "/blog", desc: "Writing from our pastors and team." },
+        ],
+      },
+      {
+        heading: "Stay Connected",
+        items: [
+          { label: "Events", href: "/events", desc: "What's coming up at North Wake." },
+          { label: "Other Resources", desc: "Reading, links, and downloads." },
+        ],
+      },
     ],
+    featured: {
+      kicker: "This Sunday",
+      title: "Catch the latest.",
+      body: "Miss a week? Watch the most recent sermon any time.",
+      ctaLabel: "Watch now",
+      ctaHref: "/events", // /sermons not built yet → route to /events for now
+    },
   },
 ];
 
-const groupActive = (g: NavGroup) => g.children.some((c) => isActive(c.href));
+const groupActive = (g: MegaGroup) =>
+  g.columns.some((col) => col.items.some((it) => it.href && isActive(it.href)));
 
 const GIVE_HREF = "https://onrealm.org/NorthWake/-/form/give/now";
 ---
@@ -96,17 +197,46 @@ const GIVE_HREF = "https://onrealm.org/NorthWake/-/form/give/now";
               {g.label}
               <span class="caret" aria-hidden="true"></span>
             </button>
-            <div class="dropdown" role="menu">
-              {g.children.map((c) => (
-                <a
-                  class={`dropdown-item${isActive(c.href) ? " active" : ""}`}
-                  href={c.href}
-                  role="menuitem"
-                >
-                  <span>{c.label}</span>
-                  <span class="item-arr" aria-hidden="true">→</span>
-                </a>
-              ))}
+
+            <div class="mega" role="menu">
+              <div class={`mega-inner cols-${g.columns.length}`}>
+                {g.columns.map((col) => (
+                  <div class="mega-col">
+                    <div class="mega-heading">{col.heading}</div>
+                    {col.items.map((it) =>
+                      it.href ? (
+                        <a
+                          class={`mega-item${isActive(it.href) ? " active" : ""}`}
+                          href={it.href}
+                          role="menuitem"
+                        >
+                          <span class="mega-item-row">
+                            <span class="mega-item-label">{it.label}</span>
+                            <span class="mega-item-arr" aria-hidden="true">→</span>
+                          </span>
+                          <span class="mega-item-desc">{it.desc}</span>
+                        </a>
+                      ) : (
+                        <div class="mega-item is-dimmed" aria-disabled="true">
+                          <span class="mega-item-row">
+                            <span class="mega-item-label">{it.label}</span>
+                          </span>
+                          <span class="mega-item-desc">{it.desc}</span>
+                        </div>
+                      )
+                    )}
+                  </div>
+                ))}
+
+                <aside class="mega-featured">
+                  <div class="mega-featured-kicker">{g.featured.kicker}</div>
+                  <div class="mega-featured-title">{g.featured.title}</div>
+                  <p class="mega-featured-body">{g.featured.body}</p>
+                  <a class="btn btn-primary mega-featured-cta" href={g.featured.ctaHref}>
+                    {g.featured.ctaLabel} <span class="arr">→</span>
+                  </a>
+                </aside>
+              </div>
             </div>
           </div>
         ))
@@ -223,7 +353,6 @@ const GIVE_HREF = "https://onrealm.org/NorthWake/-/form/give/now";
     cursor: default;
     font-family: inherit;
   }
-
   .caret {
     width: 8px;
     height: 8px;
@@ -234,73 +363,159 @@ const GIVE_HREF = "https://onrealm.org/NorthWake/-/form/give/now";
     transition: transform 200ms ease;
   }
 
-  /* CSS-only dropdown: shown on hover or keyboard focus within the group */
+  /* -------------------------------------------------------------------------
+   * MEGA PANEL — full-bleed, anchored to .nav (which is the positioned/sticky
+   * containing block). .nav-item is NOT positioned, so the panel resolves to
+   * .nav and spans left:0/right:0 (full width, no 100vw / no negative margins).
+   * Opens on hover / focus-within of its .nav-item. Zero JS.
+   * ----------------------------------------------------------------------- */
   .nav-item {
-    position: relative;
+    /* intentionally static — lets .mega anchor to .nav, not the item */
   }
-  .dropdown {
+  .mega {
     position: absolute;
-    top: calc(100% + 6px);
-    left: 0;
-    min-width: 240px;
-    background: var(--bg);
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius-dropdown);
-    padding: 6px;
-    box-shadow: var(--shadow-dropdown);
-    z-index: 60;
-    display: none;
-  }
-  /* Invisible hover-bridge spanning the 6px gap to the trigger, so the cursor
-     stays inside .nav-item:hover while crossing from trigger to panel. Keeps
-     the 6px VISUAL gap (transparent); overlaps ~2px into the trigger row to
-     immunize against sub-pixel rounding / fast cursor movement. Only renders
-     while the panel is open. Triggers are all narrower than the 240px panel,
-     so the panel-width bridge (left:0/right:0) fully covers each trigger. */
-  .dropdown::before {
-    content: "";
-    position: absolute;
-    top: -8px;
+    top: 100%;
     left: 0;
     right: 0;
-    height: 8px;
+    z-index: 60;
+    background: var(--bg);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line-strong);
+    box-shadow: var(--shadow-dropdown);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity 180ms ease, transform 180ms ease, visibility 180ms;
   }
-  .nav-item:hover .dropdown,
-  .nav-item:focus-within .dropdown {
-    display: block;
-    animation: fadeUp 180ms cubic-bezier(0.2, 0.7, 0.1, 1) both;
+  /* Hover-bridge: transparent strip from the panel up across the bar's lower
+     padding, so the cursor keeps .nav-item:hover while descending from the
+     trigger into the panel. Only present while this item's panel is open. */
+  .mega::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    height: 16px;
+  }
+  .nav-item:hover .mega,
+  .nav-item:focus-within .mega {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
   }
   .nav-item:hover .caret,
   .nav-item:focus-within .caret {
     transform: rotate(225deg) translateY(1px);
   }
 
-  .dropdown-item {
+  .mega-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 36px 40px; /* 40px gutter matches .nav-inner so columns align under the bar */
+    display: grid;
+    gap: 36px;
+  }
+  /* one 1fr per content column + a 0.9fr featured rail */
+  .mega-inner.cols-2 {
+    grid-template-columns: repeat(2, 1fr) 0.9fr;
+  }
+  .mega-inner.cols-3 {
+    grid-template-columns: repeat(3, 1fr) 0.9fr;
+  }
+
+  .mega-col {
+    display: flex;
+    flex-direction: column;
+  }
+  .mega-heading {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--ink-4);
+    padding-bottom: 10px;
+  }
+
+  .mega-item {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: inherit;
+    transition: background 140ms ease;
+  }
+  .mega-item-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 14px;
-    border-radius: var(--radius-card);
-    font-size: 14px;
+    gap: 10px;
+  }
+  .mega-item-label {
+    font-size: 15px;
     font-weight: 500;
-    letter-spacing: -0.005em;
     color: var(--ink);
-    transition: background 140ms ease, color 140ms ease;
+    letter-spacing: -0.005em;
   }
-  .dropdown-item:hover {
-    background: var(--bg-2);
-  }
-  .dropdown-item.active {
-    background: var(--bg-2);
-  }
-  .item-arr {
+  .mega-item-arr {
     color: var(--accent);
     font-size: 13px;
     opacity: 0.55;
+    transition: opacity 140ms ease;
   }
-  .dropdown-item:hover .item-arr,
-  .dropdown-item.active .item-arr {
+  .mega-item-desc {
+    display: block;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--ink-3);
+    margin-top: 3px;
+  }
+  a.mega-item:hover,
+  .mega-item.active {
+    background: var(--bg-2);
+  }
+  a.mega-item:hover .mega-item-arr,
+  .mega-item.active .mega-item-arr {
     opacity: 1;
+  }
+  /* Dimmed (unbuilt route): non-clickable, muted, no arrow, no hover bg. */
+  .mega-item.is-dimmed {
+    cursor: default;
+  }
+  .mega-item.is-dimmed .mega-item-label {
+    color: var(--ink-4);
+  }
+
+  /* Featured rail */
+  .mega-featured {
+    background: var(--bg-2);
+    border-radius: 10px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+  }
+  .mega-featured-kicker {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--ink-4);
+    padding-bottom: 10px;
+  }
+  .mega-featured-title {
+    font-family: var(--serif);
+    font-size: 24px;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .mega-featured-body {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-3);
+    margin: 10px 0 0;
+  }
+  .mega-featured-cta {
+    margin-top: auto;
+    align-self: flex-start;
   }
 
   /* CTA cluster */
@@ -313,8 +528,8 @@ const GIVE_HREF = "https://onrealm.org/NorthWake/-/form/give/now";
     font-size: 13px;
   }
 
-  /* TODO: mobile menu is a later step. For now, match the prototype and hide
-     the center links below 980px (no hamburger yet). */
+  /* TODO: mobile menu is a separate future task. For now, match the prior nav
+     and hide the center links (and their mega panels) below 980px. */
   @media (max-width: 980px) {
     .nav-links {
       display: none;
