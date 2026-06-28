@@ -1,0 +1,129 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+
+// Mature Adults ministry page (/community/mature-adults).
+// Translated from brand/prototype/page-mature.jsx.
+// SECTION-GATED — this pass builds ONLY: 1) Breadcrumb, 2) Hero, 3) Opening conviction.
+// Sections 4–8 (our heart, image strip, experiences, join-us schedule, dark CTA) NOT built yet.
+---
+
+<Layout
+  title="Mature Adults · North Wake Church"
+  description="Mature Adults at North Wake Church — fellowship, faith, and fun for a more seasoned season of life: meaningful connection, joyful activities, and deeper spiritual growth."
+>
+  <!-- 1. Breadcrumb -->
+  <Breadcrumb
+    trail={[{ label: "Home", href: "/" }, { label: "Community", href: "/community/grow-groups" }, { label: "Mature Adults" }]}
+    action={{ label: "All ministries", href: "/community/grow-groups" }}
+  />
+
+  <!-- 2. Hero (ministry-template shape) -->
+  <section class="mature-hero">
+    <div class="wrap">
+      <div class="mature-hero-grid">
+        <div>
+          <div class="eyebrow mature-hero-eyebrow"><span class="dot"></span>Mature Adults · Community ministry</div>
+          <h1 class="display-l mature-h1">
+            Growing in faith. Building friendships. <span class="mature-accent">Enjoying life together.</span>
+          </h1>
+          <p class="lede mature-lede">
+            A place where fellowship, faith, and fun come together. Designed for those
+            in a more seasoned season of life who desire meaningful connection, joyful
+            activities, and deeper spiritual growth.
+          </p>
+          <div class="mature-hero-actions">
+            {/* TODO: no clear route/email in the prototype — inert placeholders;
+                wire once targets are confirmed. */}
+            <button type="button" class="btn btn-primary">Join us this month <span class="arr">→</span></button>
+            <button type="button" class="btn btn-ghost">Get in touch</button>
+          </div>
+        </div>
+        <div class="ph" style="aspect-ratio: 4 / 5;">
+          <span class="ph-label">Mature Adults · gathering</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Opening conviction (sans/display statement — NOT scripture/.serif) -->
+  <section>
+    <div class="wrap">
+      <div class="mature-conviction">
+        <div class="mono mature-conviction-label">Our conviction</div>
+        <p class="mature-conviction-text">
+          Every stage of life is a gift from God. This ministry celebrates the wisdom,
+          experience, and vibrant spirit within our mature community.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Hero */
+  .mature-hero {
+    padding: 56px 0 0;
+  }
+  .mature-hero-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 64px;
+    align-items: end;
+  }
+  .mature-hero-eyebrow {
+    margin-bottom: 28px;
+  }
+  .mature-h1 {
+    max-width: 16ch;
+  }
+  /* Non-italic accent span (no global accent-color utility; .em-accent adds italic). */
+  .mature-accent {
+    color: var(--accent);
+  }
+  .mature-lede {
+    margin-top: 28px;
+  }
+  .mature-hero-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  /* Opening conviction — sans/display statement (NOT a serif scripture block). */
+  .mature-conviction {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 56px;
+    align-items: start;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .mature-conviction-label {
+    color: var(--accent);
+    padding-top: 12px;
+  }
+  .mature-conviction-text {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 38px;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  /* Mobile collapses — enhancement beyond the prototype (consistent precedent). */
+  @media (max-width: 720px) {
+    .mature-hero-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .mature-conviction {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+  }
+</style>
