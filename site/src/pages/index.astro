@@ -7,8 +7,20 @@ import { BUSINESS } from "../data/business";
 // ~158) + shell.jsx (Marquee) + styles.css (.marquee). React/onNav stripped;
 // onNav buttons are now real <a href> per the route map.
 
+// Worship service times derive from BUSINESS.serviceTimes (single source of truth).
+// Compact marquee label, e.g. ['9:00 AM','10:45 AM'] -> "Sundays 9 & 10:45 AM".
+const meridiemOf = (t: string) => (t.match(/(AM|PM)$/i)?.[0] ?? "");
+const compactTime = (t: string) =>
+  t.replace(/\s*(AM|PM)$/i, "").replace(/:00$/, ""); // "9:00 AM"->"9", "10:45 AM"->"10:45"
+const serviceCompact = `Sundays ${BUSINESS.serviceTimes.map(compactTime).join(" & ")} ${meridiemOf(
+  BUSINESS.serviceTimes[BUSINESS.serviceTimes.length - 1],
+)}`;
+// Service band: first time without meridiem · second time full -> "9:00 · 10:45 AM".
+const [svcTime1, svcTime2] = BUSINESS.serviceTimes;
+const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
+
 const MARQUEE_WORDS = [
-  "Sundays 9 & 11 AM",
+  serviceCompact,
   "Wake Forest, NC",
   "Kids welcome",
   "Coffee on us",
@@ -92,7 +104,7 @@ const MARQUEE_WORDS = [
       <div class="service-band">
         <div>
           <div class="mono service-eyebrow">Sundays</div>
-          <div class="display-s service-time">9:00 <span class="sep-dot">·</span> 11:00 AM</div>
+          <div class="display-s service-time">{svcTime1NoMeridiem} <span class="sep-dot">·</span> {svcTime2}</div>
         </div>
         <div class="service-loc">
           <div class="mono service-eyebrow">Location</div>

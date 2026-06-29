@@ -1,6 +1,11 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
+import { BUSINESS } from "../../data/business";
+
+// Worship service times derive from BUSINESS.serviceTimes (single source of truth).
+const svc = BUSINESS.serviceTimes;
+const compactHour = (t: string) => t.replace(/:00\b/, ""); // "9:00 AM" -> "9 AM"; "10:45 AM" unchanged
 
 // Kids ministry page (/community/kids). Translated from brand/prototype/page-kids.jsx.
 // COMPLETE — all 10 sections: 1) Breadcrumb, 2) Hero, 3) Sunday schedule,
@@ -99,8 +104,8 @@ const purposes = [
 
       <div class="hairline-grid kids-sched-grid">
         <article class="kids-sched-card">
-          <div class="mono kids-sched-label">Service · 9:00 AM</div>
-          <h3 class="display-s kids-sched-hour">9 AM hour</h3>
+          <div class="mono kids-sched-label">Service · {svc[0]}</div>
+          <h3 class="display-s kids-sched-hour">{compactHour(svc[0])} hour</h3>
           <ul class="kids-sched-list">
             <li class="kids-sched-row">
               <span class="mono kids-sched-agelabel">Babies – Pre-K</span>
@@ -113,8 +118,8 @@ const purposes = [
           </ul>
         </article>
         <article class="kids-sched-card">
-          <div class="mono kids-sched-label">Service · 10:45 AM</div>
-          <h3 class="display-s kids-sched-hour">10:45 AM hour</h3>
+          <div class="mono kids-sched-label">Service · {svc[1]}</div>
+          <h3 class="display-s kids-sched-hour">{compactHour(svc[1])} hour</h3>
           <ul class="kids-sched-list">
             <li class="kids-sched-row">
               <span class="mono kids-sched-agelabel">Babies – 5th</span>
@@ -182,7 +187,7 @@ const purposes = [
 
       <div class="kids-cardgrid">
         <article class="kids-card">
-          <div class="mono kids-card-label">Kid's Worship · K–5th · 9 AM</div>
+          <div class="mono kids-card-label">Kid's Worship · K–5th · {compactHour(svc[0])}</div>
           <h3 class="display-s kids-card-title">Roamin' Through Romans</h3>
           <p class="body kids-card-body">
             Kids walk through the book of Romans together — the same letter the whole
@@ -190,7 +195,7 @@ const purposes = [
           </p>
         </article>
         <article class="kids-card">
-          <div class="mono kids-card-label">All preschool · 9 AM &nbsp;·&nbsp; All classes · 10:45 AM</div>
+          <div class="mono kids-card-label">All preschool · {compactHour(svc[0])} &nbsp;·&nbsp; All classes · {compactHour(svc[1])}</div>
           <h3 class="display-s kids-card-title">The Gospel Project</h3>
           <p class="body kids-card-body kids-card-body--gap">
             A weekly Bible study that helps kids dive deep into the big story of the

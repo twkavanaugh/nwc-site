@@ -6,6 +6,8 @@
 // Astro.url.pathname. Brand mark, direct links, and CTAs preserved from the
 // prior nav. All CSS scoped here; consumes only global tokens + .btn*.
 
+import { BUSINESS } from "../data/business";
+
 const pathname = Astro.url.pathname;
 
 // Normalize trailing slash so "/visit/" and "/visit" both match.
@@ -171,7 +173,7 @@ const GROUPS: MegaGroup[] = [
 const groupActive = (g: MegaGroup) =>
   g.columns.some((col) => col.items.some((it) => it.href && isActive(it.href)));
 
-const GIVE_HREF = "https://onrealm.org/NorthWake/-/form/give/now";
+const GIVE_HREF = BUSINESS.givingUrl;
 ---
 
 <nav class="nav">
