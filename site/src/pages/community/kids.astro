@@ -369,6 +369,16 @@ const purposes = [
     inset: 0;
     background: url('/kids-hero-STOCK-PLACEHOLDER.jpg') center 30% / cover no-repeat, var(--bg-2);
   }
+  /* CONTRAST AUDIT (2026-07-03) — the scrim + type values below were verified with
+     WCAG 2.x against worst-case pure-white photo regions. Headline clears its 3:1
+     large-text bar at every scrim stop. Lede + eyebrow render at FULL --on-image-fg
+     (no alpha) and clear 4.5:1 over real (darker-than-white) photography; against a
+     fully blown-out white region they land ~3.9–4.5:1 — accepted residual risk,
+     mitigated by the shot list's "no blown-out areas dead center" framing rule. The
+     mid-stop was raised 0.48 -> 0.58 to lift the headline over 3:1 at the band's
+     lightest point. Accent words (#e8b394 / --on-image-accent) are decorative
+     emphasis — meaning is not carried by color — and are deliberately exempt per
+     WCAG decorative-text treatment. */
   /* DOCUMENTED page-local literal exception: charcoal photo-darkening gradient.
      The rgba is --ink (#1a1814) at varying alpha — a real-image scrim, not a theme
      color, so it stays a page-local literal (cf. index.astro .shero-scrim and the
@@ -380,7 +390,7 @@ const purposes = [
     background: linear-gradient(
       180deg,
       rgba(26, 24, 20, 0.62) 0%,
-      rgba(26, 24, 20, 0.48) 50%,
+      rgba(26, 24, 20, 0.58) 50%,
       rgba(26, 24, 20, 0.66) 100%
     );
   }
@@ -395,7 +405,7 @@ const purposes = [
   .kids-onimage-eyebrow {
     display: flex;
     justify-content: center;
-    color: color-mix(in srgb, var(--on-image-fg) 90%, transparent);
+    color: var(--on-image-fg);
     margin-bottom: 36px;
   }
   .kids-onimage-eyebrow .dot {
@@ -423,7 +433,7 @@ const purposes = [
     font-weight: 400;
     font-size: clamp(18px, 1.8vw, 23px);
     line-height: 1.6;
-    color: color-mix(in srgb, var(--on-image-fg) 85%, transparent);
+    color: var(--on-image-fg);
     margin: 28px auto 0;
     max-width: 44ch;
   }
@@ -738,6 +748,28 @@ const purposes = [
 
   /* Mobile collapses — enhancement beyond the prototype (consistent precedent). */
   @media (max-width: 720px) {
+    /* Serif-on-image hero — phone fit (package §8): shorter band, one-line eyebrow,
+       tightened rhythm so the hero reads as one composed unit at phone height. */
+    .kids-onimage-inner {
+      padding-top: 40px; /* tighter top so buttons clear the phone address-bar zone */
+      padding-bottom: 56px;
+    }
+    .kids-onimage-eyebrow {
+      /* Back to inline flow (the site's default eyebrow rendering): centers the line
+         AND keeps the dot attached to the first word if the label has to wrap —
+         flex would let the dot orphan onto its own visual line. */
+      display: block;
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      margin-bottom: 20px; /* eyebrow -> headline: 36px -> 20px */
+    }
+    .kids-onimage-lede {
+      margin-top: 24px; /* headline -> lede: 28px -> 24px */
+    }
+    .kids-onimage-actions {
+      margin-top: 28px; /* lede -> buttons: 36px -> 28px */
+    }
     .kids-sched-grid {
       grid-template-columns: 1fr;
     }

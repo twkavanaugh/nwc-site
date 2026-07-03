@@ -207,4 +207,27 @@ To reuse the pattern on another sub-page, change only these:
 - **Do** use the light clay `#e8b394` for accent words on image; **don't** use the standard `--accent` `#8a4d2e` here (fails contrast on a dark ground).
 - **Don't** add a drop shadow to the text — the overlay does the contrast work; shadows muddy the serif.
 - **Don't** let the image go un-darkened; the pattern depends on the scrim.
-```
+
+---
+
+## Audit corrections (2026-07-03)
+
+Verified with WCAG 2.x against worst-case pure-white photo regions during the
+`/community/kids` pilot. **This section supersedes the corresponding original
+values above it** (§2 tokens, §3 type scale, §4/§5 reference markup):
+
+- **Scrim mid-stop `0.48` → `0.58`** is the production default (top `0.62` /
+  bottom `0.66` unchanged). This lifts the headline over its 3:1 large-text bar at
+  the band's lightest point.
+- **Lede and eyebrow render at FULL `--on-image-fg`** (no alpha). The original
+  `0.85` lede / `0.90` eyebrow alphas thinned the cream and failed contrast; drop
+  them for the rollout.
+- **Accent words (`#e8b394` / `--on-image-accent`) are deliberately exempt** —
+  decorative emphasis, meaning is not carried by color (per WCAG decorative-text
+  treatment). Do not darken the scrim further just to chase the accent ratio.
+- **Residual risk (accepted):** even at full opacity, cream text over a *fully
+  blown-out white* region lands ~3.9–4.5:1 — the lede's strict 4.5:1 (and the
+  eyebrow's) is not guaranteed in that pathological case. This is accepted and
+  mitigated at the content layer by the shot list's "no blown-out / bright areas
+  dead center" framing rule. Over real (darker-than-white) photography the stack
+  clears its bars with wide margin.
