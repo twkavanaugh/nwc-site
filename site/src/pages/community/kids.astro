@@ -59,31 +59,32 @@ const purposes = [
     action={{ label: "All ministries", href: "/community/grow-groups" }}
   />
 
-  <!-- 2. Hero (mirrors the students hero structure) -->
-  <section class="kids-hero">
-    <div class="wrap">
-      <div class="kids-hero-grid">
-        <div>
-          <div class="eyebrow kids-hero-eyebrow"><span class="dot"></span>North Wake Kids · Babies – 5th grade</div>
-          <h1 class="display-l kids-h1">
-            Know the love of Jesus. <span class="kids-accent">Grow in love for one another. Go to share it.</span>
-          </h1>
-          <p class="lede kids-lede">
-            North Wake Kids exists to give every child a place to know God in Jesus,
-            grow in love for one another, and be sent out to share that love with
-            friends and family.
-          </p>
-          <div class="kids-hero-actions">
-            <a class="btn btn-primary" href="/visit">Plan your visit <span class="arr">→</span></a>
-            {/* TODO: "Email the kids team" — prototype provides children@northwake.com
-                (sections 7/10, not yet built, UNVERIFIED). Inert until verified, then
-                wire to mailto:. */}
-            <button type="button" class="btn btn-ghost">Email the kids team</button>
-          </div>
-        </div>
-        <div class="ph" style="aspect-ratio: 4 / 5;">
-          <span class="ph-label">Kids ministry · candid</span>
-        </div>
+  <!-- 2. Hero — "Serif on Image" pilot (brand/prototype/HERO-SERIF-ON-IMAGE.md).
+       Full-bleed photo + charcoal scrim + centered Newsreader serif headline.
+       The image is a STOCK PLACEHOLDER pending real per-page photography. -->
+  <section class="kids-onimage">
+    <div
+      class="kids-onimage-media"
+      role="img"
+      aria-label="Kids ministry on a Sunday morning"
+    ></div>
+    <div class="kids-onimage-scrim"></div>
+    <div class="wrap-narrow kids-onimage-inner">
+      <div class="eyebrow kids-onimage-eyebrow"><span class="dot"></span>North Wake Kids · Babies – 5th grade</div>
+      <h1 class="kids-onimage-title">
+        <em>Know</em> the love of Jesus. <em>Grow</em> in love for one another. <em>Go</em> to share it.
+      </h1>
+      <p class="kids-onimage-lede">
+        North Wake Kids exists to give every child a place to know God in Jesus,
+        grow in love for one another, and be sent out to share that love with
+        friends and family.
+      </p>
+      <div class="kids-onimage-actions">
+        <a class="btn btn-on-image-primary" href="/visit">Plan your visit <span class="arr">→</span></a>
+        {/* TODO: "Email the kids team" — prototype provides children@northwake.com
+            (sections 7/10, not yet built, UNVERIFIED). Inert until verified, then
+            wire to mailto:. */}
+        <button type="button" class="btn btn-on-image-ghost">Email the kids team</button>
       </div>
     </div>
   </section>
@@ -356,34 +357,81 @@ const purposes = [
 </Layout>
 
 <style>
-  /* Hero */
-  .kids-hero {
-    padding: 56px 0 0;
+  /* Hero — "Serif on Image" pilot. Full-bleed photo + charcoal scrim + centered
+     serif headline. Media + scrim are absolutely positioned inside the relative
+     section; the .wrap-narrow inner layers above them. */
+  .kids-onimage {
+    position: relative;
+    overflow: hidden;
   }
-  .kids-hero-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 64px;
-    align-items: end;
+  .kids-onimage-media {
+    position: absolute;
+    inset: 0;
+    background: url('/kids-hero-STOCK-PLACEHOLDER.jpg') center 30% / cover no-repeat, var(--bg-2);
   }
-  .kids-hero-eyebrow {
-    margin-bottom: 28px;
+  /* DOCUMENTED page-local literal exception: charcoal photo-darkening gradient.
+     The rgba is --ink (#1a1814) at varying alpha — a real-image scrim, not a theme
+     color, so it stays a page-local literal (cf. index.astro .shero-scrim and the
+     --shadow-dropdown precedent). Deepen the mid-stop toward 0.58 if a photo is very
+     light rather than lightening the cream text. */
+  .kids-onimage-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(26, 24, 20, 0.62) 0%,
+      rgba(26, 24, 20, 0.48) 50%,
+      rgba(26, 24, 20, 0.66) 100%
+    );
   }
-  .kids-h1 {
-    max-width: 16ch;
+  .kids-onimage-inner {
+    position: relative;
+    text-align: center;
+    padding-top: 88px;
+    padding-bottom: 88px;
   }
-  /* Non-italic accent span (no global accent-color utility exists; .em-accent
-     would add italic, which the prototype hero does NOT use). */
-  .kids-accent {
-    color: var(--accent);
+  /* Centered light eyebrow — keeps base .eyebrow typography; only color + centering
+     are overridden. Cream at 75% via color-mix (image-only). */
+  .kids-onimage-eyebrow {
+    display: flex;
+    justify-content: center;
+    color: color-mix(in srgb, var(--on-image-fg) 75%, transparent);
+    margin-bottom: 36px;
   }
-  .kids-lede {
-    margin-top: 28px;
+  .kids-onimage-eyebrow .dot {
+    background: var(--on-image-accent);
   }
-  .kids-hero-actions {
+  .kids-onimage-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(42px, 6vw, 88px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--on-image-fg);
+    margin: 0 auto;
+    max-width: 18ch;
+    text-wrap: balance;
+  }
+  /* Italic light-clay accent words. Do NOT reuse .em-accent — its dark --accent
+     (#8a4d2e) fails contrast on the darkened photo. */
+  .kids-onimage-title em {
+    font-style: italic;
+    color: var(--on-image-accent);
+  }
+  .kids-onimage-lede {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(18px, 1.8vw, 23px);
+    line-height: 1.6;
+    color: color-mix(in srgb, var(--on-image-fg) 85%, transparent);
+    margin: 28px auto 0;
+    max-width: 44ch;
+  }
+  .kids-onimage-actions {
     display: flex;
     gap: 12px;
-    margin-top: 32px;
+    justify-content: center;
+    margin-top: 36px;
     flex-wrap: wrap;
   }
 
@@ -690,10 +738,6 @@ const purposes = [
 
   /* Mobile collapses — enhancement beyond the prototype (consistent precedent). */
   @media (max-width: 720px) {
-    .kids-hero-grid {
-      grid-template-columns: 1fr;
-      gap: 40px;
-    }
     .kids-sched-grid {
       grid-template-columns: 1fr;
     }

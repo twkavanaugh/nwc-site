@@ -358,6 +358,24 @@ h4 {
   color: var(--accent-ink);
 }
 
+/* On-image button variants — for the "Serif on Image" hero (text over a darkened
+   photo). Token-driven; the ghost border derives from --on-image-fg via color-mix
+   so no literal rgba lands here. */
+.btn-on-image-primary {
+  background: var(--on-image-fg);
+  color: var(--ink);
+}
+
+.btn-on-image-ghost {
+  background: transparent;
+  color: var(--on-image-fg);
+  border-color: color-mix(in srgb, var(--on-image-fg) 40%, transparent);
+}
+
+.btn-on-image-ghost:hover {
+  border-color: var(--on-image-fg);
+}
+
 .btn .arr {
   transition: transform 200ms ease;
 }

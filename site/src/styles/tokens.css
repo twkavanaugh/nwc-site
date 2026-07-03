@@ -34,6 +34,7 @@
   /* Accent */
   --raw-clay-600: #8a4d2e;
   --raw-clay-400: #d49271;
+  --raw-clay-300: #e8b394; /* light clay — on-image accent; image-only, fails contrast on light bg */
 
   /* Absolutes */
   --raw-white: #ffffff;
@@ -82,6 +83,11 @@
   --line-on-inverse: var(--raw-line-white);
   --line-on-inverse-strong: var(--raw-line-white-strong);
   --border-on-inverse: var(--raw-border-on-inverse);
+
+  /* On-image (photo hero) — cream + light-clay over a charcoal-scrimmed photo.
+     IMAGE-ONLY: both fail contrast on light surfaces; never use on --bg. */
+  --on-image-fg: var(--raw-sand-50);
+  --on-image-accent: var(--raw-clay-300);
 
   /* ---------------------------------------------------------------------------
    * 3. Typography families (md §3) — exact font-stack strings.

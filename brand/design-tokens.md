@@ -29,7 +29,7 @@ Raw tokenValueNotes--raw-ink-900#1a1814charcoal — primary text--raw-ink-700#3a
 
 Accent
 
-Raw tokenValueNotes--raw-clay-600#8a4d2equiet clay — accent (light theme)--raw-clay-400#d49271lighter clay — currently unused (was dark-theme accent); retained as a known brand tint
+Raw tokenValueNotes--raw-clay-600#8a4d2equiet clay — accent (light theme)--raw-clay-400#d49271lighter clay — currently unused (was dark-theme accent); retained as a known brand tint--raw-clay-300#e8b394light clay — on-image accent; image-only, fails contrast on light bg
 
 Absolutes
 
@@ -81,6 +81,15 @@ WCAG note (deferred to hardening pass): verify --accent fill + --accent-ink
 text (white on clay #8a4d2e) meets AA, and --accent text on --bg-inverse
 (clay on charcoal) meets AA for its size. If either fails, fix as ONE global
 token decision (a dedicated deep-fill alias), not a per-section patch.
+
+On-image (photo hero) tokens (NEW — text over a darkened full-bleed photo)
+
+These exist for the "Serif on Image" sub-page hero: cream + light-clay laid over
+a charcoal-scrimmed photograph. IMAGE-ONLY — both fail contrast on light surfaces
+(--bg); never use them on a light background. The standard dark --accent
+(#8a4d2e) is too dark to read on a photo, which is why --on-image-accent exists.
+
+Semantic token→ RawRole--on-image-fg--raw-sand-50cream headline / lede / button text on image--on-image-accent--raw-clay-300light-clay italic accent words on image
 
 
 
