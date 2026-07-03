@@ -20,7 +20,7 @@ Next work is more pages (every nav link points at a real route; most 404 until b
 and — increasingly the real launch gate — a content-verification pass with the church
 plus a hardening pass.
 
-**Live URL:** [FILL IN — the *.onrender.com URL Render assigned] (deploy confirmed working)
+**Live URL:** https://nwc-site.onrender.com (deploy confirmed working)
 **Repo:** https://github.com/twkavanaugh/nwc-site  (currently public)
 
 ---
