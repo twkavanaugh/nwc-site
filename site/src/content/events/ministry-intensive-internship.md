@@ -9,6 +9,7 @@ timeNote: "Kickoff & orientation"
 cost: "Free"
 deadline: "Applications close April 30, 2026" # UNVERIFIED
 contactEmail: "noahj@northwake.com" # UNVERIFIED — rendered inert until confirmed
+ministryId: "training" # UNVERIFIED — placeholder categorization
 featured: false
 ---
 

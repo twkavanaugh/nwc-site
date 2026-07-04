@@ -7,6 +7,10 @@ time: "8:30 AM – 3:30 PM" # UNVERIFIED
 cost: "Free"
 contactEmail: "women@northwake.com" # UNVERIFIED — rendered inert until confirmed
 ministryId: "women"
+# TEMP placeholder image — reuses the committed stock photo to exercise variant D
+# (21:8 featured image + shaded rail); swap for a real Women's Day photo when it lands.
+image: "/events/womens-day-STOCK-PLACEHOLDER.jpg"
+imageAlt: "Women gathered at a North Wake Women's Day event" # UNVERIFIED — placeholder alt for a placeholder image
 featured: false
 ---
 

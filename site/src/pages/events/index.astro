@@ -1,0 +1,135 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import { getCollection } from "astro:content";
+import { isUpcoming, byStartDateAsc, formatMonth, formatDay } from "../../lib/date";
+
+// Events index — date-aware upcoming list. Filters out past events (the
+// expirationDate ?? endDate ?? startDate rule) and sorts soonest-first, which is the
+// structural fix for the old hardcoded/unsorted homepage list.
+const upcoming = (await getCollection("events"))
+  .filter(isUpcoming)
+  .sort(byStartDateAsc);
+---
+
+<Layout
+  title="Events · North Wake Church"
+  description="Upcoming classes, gatherings, and one-day events at North Wake Church, listed soonest first."
+>
+  <!-- Breadcrumb (full-bleed chip bar — first in body) -->
+  <Breadcrumb trail={[{ label: "Home", href: "/" }, { label: "Events" }]} />
+
+  <!-- Hero -->
+  <section class="ev-hero">
+    <div class="wrap">
+      <div class="eyebrow ev-hero-eyebrow"><span class="dot"></span>Events</div>
+      {/* UNVERIFIED copy — generic placeholder headline/lede; confirm with church. */}
+      <h1 class="display-l ev-hero-title">What's coming up.</h1>
+      <p class="lede ev-hero-lede">
+        Classes, gatherings, and one-day events at North Wake — listed soonest
+        first. Check back as new events are added.
+      </p>
+    </div>
+  </section>
+
+  <!-- Event list -->
+  <section class="ev-list-section">
+    <div class="wrap">
+      {
+        upcoming.length === 0 ? (
+          <div class="ev-empty">
+            <p class="ev-empty-text">No upcoming events right now — check back soon.</p>
+          </div>
+        ) : (
+          <div class="ev-list">
+            {upcoming.map((e) => (
+              <a class="row-link ev-row" href={`/events/${e.id}`}>
+                <div class="ev-left">
+                  <div class="ev-date">
+                    <div class="mono ev-month">{formatMonth(e.data.startDate)}</div>
+                    <div class="display-s ev-day">{formatDay(e.data.startDate)}</div>
+                  </div>
+                  <div>
+                    <div class="title ev-name">{e.data.title}</div>
+                    {e.data.subtitle && <div class="ev-sub">{e.data.subtitle}</div>}
+                    {e.data.time && <div class="mono ev-meta">{e.data.time}</div>}
+                  </div>
+                </div>
+                <span class="row-arr ev-arr">→</span>
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Hero */
+  .ev-hero-eyebrow {
+    margin-bottom: 24px;
+  }
+  .ev-hero-title {
+    max-width: 14ch;
+    margin-bottom: 24px;
+  }
+  .ev-hero-lede {
+    max-width: 52ch;
+    color: var(--ink-2);
+  }
+
+  /* List — adapts the homepage .event-row vocabulary (page-local classes). */
+  .ev-list-section {
+    padding-top: 0;
+  }
+  .ev-date {
+    width: 64px;
+    flex: none;
+  }
+  .ev-left {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .ev-month {
+    color: var(--accent);
+  }
+  .ev-day {
+    font-weight: 500;
+    line-height: 1;
+  }
+  .ev-name {
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .ev-sub {
+    font-size: 16px; /* content floor */
+    color: var(--ink-2);
+    margin-bottom: 4px;
+  }
+  .ev-meta {
+    color: var(--ink-3); /* mono label — micro-type, exempt from the 16px floor */
+  }
+  .ev-arr {
+    color: var(--accent);
+  }
+
+  /* Empty state — honest, no fake content. */
+  .ev-empty {
+    border: 1px solid var(--line);
+    padding: 48px 40px;
+    text-align: center;
+  }
+  .ev-empty-text {
+    margin: 0;
+    font-size: 16px;
+    color: var(--ink-3);
+  }
+
+  @media (max-width: 720px) {
+    .ev-left {
+      gap: 20px;
+    }
+  }
+</style>

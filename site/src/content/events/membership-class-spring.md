@@ -6,6 +6,7 @@ title: "Membership Class · Spring Cohort"
 startDate: 2026-09-13 # UNVERIFIED
 time: "Sundays · 9:00 AM" # UNVERIFIED
 registrationUrl: "/about/membership" # internal path — see schema note (why registrationUrl is not .url())
+ministryId: "membership" # UNVERIFIED — placeholder categorization
 featured: false
 ---
 

@@ -48,6 +48,14 @@ const events = defineCollection({
     // template until confirmed — email discipline. Storing it here is fine.
     contactEmail: z.string().optional(),
 
+    // Featured image (21:8, shown between the contact line and the body, variant D).
+    // A path into public/ — convention: public/events/<slug>.jpg. Presence of this
+    // field is what turns on the image slot AND the shaded --bg-2 rail behind the facts box.
+    image: z.string().optional(),
+    // Alt text for `image`. Office should write real, descriptive alt; when absent the
+    // template falls back to the event title (a fallback, not a substitute for real alt).
+    imageAlt: z.string().optional(),
+
     // --- Association / future-proofing (Q7 — included now, unused by v1 queries) ---
     ministryId: z.string().optional(), // links an event to a ministry (future filtering / eyebrow generation)
     featured: z.boolean().default(false), // future homepage pinning; v1 homepage is pure date-sort top-3
