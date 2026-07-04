@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="design_doc_mode" content="canvas" />
+<title>Event Detail — Design Package (A · D · C)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f3ed;
+    --bg2: #ede9e1;
+    --ink: #1a1814;
+    --ink2: #3a352c;
+    --ink3: #6e665a;
+    --hair: #d9d4c9;
+    --accent: #8a4d2e;
+    --sans: "Inter Tight", -apple-system, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+    --serif: "Newsreader", Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+
+  .frame {
+    position: absolute;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.5;
+    overflow: hidden;
+  }
+  .frame-label {
+    position: absolute;
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #777;
+  }
+
+  /* ---------- shared template pieces ---------- */
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink3); display: flex; align-items: center; gap: 10px; }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex: none; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 24px; border-radius: 999px;
+    font-family: var(--sans); font-size: 14px; font-weight: 500;
+    text-decoration: none; cursor: default; border: 1px solid transparent;
+  }
+  .btn-ink { background: var(--ink); color: var(--bg); }
+  .btn-ghost { background: transparent; color: var(--ink); border-color: rgba(26,24,20,0.3); }
+
+  .ev-title { font-weight: 700; letter-spacing: -0.03em; line-height: 1.0; margin: 24px 0 0; }
+  .ev-sub { font-weight: 400; color: var(--ink2); margin: 18px 0 0; }
+  .ev-contact { font-size: 14px; color: var(--ink3); margin-top: 22px; }
+  .ev-contact a { color: var(--accent); text-decoration: none; }
+
+  /* facts box */
+  .facts { border: 1px solid var(--hair); background: var(--bg); }
+  .facts-cal { display: flex; align-items: baseline; gap: 16px; padding: 28px 28px 22px; border-bottom: 1px solid var(--hair); }
+  .facts-cal .m { font-family: var(--mono); font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+  .facts-cal .d { font-family: var(--sans); font-weight: 700; font-size: 56px; line-height: 1; letter-spacing: -0.04em; }
+  .facts-row { display: grid; grid-template-columns: 74px 1fr; gap: 18px; padding: 18px 28px; border-bottom: 1px solid var(--hair); align-items: baseline; }
+  .facts-row:last-of-type { border-bottom: none; }
+  .facts-row .k { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink3); }
+  .facts-row .v { font-size: 16.5px; font-weight: 600; letter-spacing: -0.01em; }
+  .facts-row .v small { display: block; font-size: 13.5px; font-weight: 400; color: var(--ink3); margin-top: 3px; }
+  .facts-cta { padding: 20px 28px 26px; border-top: 1px solid var(--hair); }
+  .facts-cta .btn { width: 100%; justify-content: space-between; }
+
+  /* body prose */
+  .prose { font-size: 18px; line-height: 1.65; color: var(--ink2); }
+  .prose p { margin: 0 0 20px; max-width: 58ch; }
+
+  /* poster */
+  .poster { border: 1px solid var(--hair); background: var(--bg2); position: relative; }
+  .poster .ph-label { position: absolute; inset: 0; display: grid; place-items: center; }
+  .poster .ph-label span {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink3); background: var(--bg); border: 1px solid var(--hair); padding: 6px 12px;
+  }
+  .poster-lines { position: absolute; inset: 0; background-image: repeating-linear-gradient(135deg, transparent 0, transparent 18px, rgba(26,24,20,0.07) 18px, rgba(26,24,20,0.07) 19px); }
+
+  .browse-all { text-align: center; }
+  .crumb-room { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink3); opacity: 0.5; }
+</style>
+</head>
+<body>
+
+<!-- ==================================================================== -->
+<!-- A — SPARSE · Baptism Sunday · desktop 1440                            -->
+<!-- ==================================================================== -->
+<div class="frame-label" style="left: 60px; top: 24px;">A · Sparse (baseline) — Baptism Sunday · 1440</div>
+<div class="frame" style="left: 60px; top: 56px; width: 1440px; height: 1030px;">
+  <div style="max-width: 1240px; margin: 0 auto; padding: 0 48px;">
+    <div class="crumb-room" style="padding: 28px 0 0;">Home / Resources / Events / Baptism Sunday</div>
+    <div style="display: grid; grid-template-columns: 1.5fr 420px; gap: 72px; align-items: start; padding-top: 48px;">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Worship · Sunday, June 1, 2026</div>
+        <h1 class="ev-title" style="font-size: 88px; max-width: 12ch;">Baptism Sunday</h1>
+        <p class="ev-sub" style="font-size: 22px; max-width: 40ch;">A morning of public professions of faith — in both services.</p>
+        <p class="ev-contact">Questions? <a href="#">Email the church office</a> — pending verification</p>
+        <div class="prose" style="margin-top: 44px;">
+          <p>Baptism is one of the most joyful moments in the life of our church — a believer's public declaration that they belong to Jesus. We'll celebrate baptisms during both morning services, and the whole church family is invited to witness and rejoice together.</p>
+          <p>If you're considering baptism, or want to understand what it means and why we practice it, we'd love to talk with you before the day arrives.</p>
+        </div>
+      </div>
+      <aside class="facts">
+        <div class="facts-cal"><span class="m">Jun</span><span class="d">01</span></div>
+        <div class="facts-row"><span class="k">Date</span><span class="v">Sunday, June 1, 2026</span></div>
+        <div class="facts-row"><span class="k">Time</span><span class="v">9:00 &amp; 11:00 AM<small>Both services</small></span></div>
+        <div class="facts-row"><span class="k">Place</span><span class="v">North Wake Church<small>1212 S Main St · Wake Forest, NC</small></span></div>
+      </aside>
+    </div>
+    <div class="browse-all" style="padding: 96px 0 72px;"><a class="btn btn-ghost">← Browse all events</a></div>
+  </div>
+</div>
+
+<!-- ==================================================================== -->
+<!-- D — SPARSE + featured image · shaded info column · desktop 1440       -->
+<!-- ==================================================================== -->
+<div class="frame-label" style="left: 60px; top: 1150px;">D · Sparse + featured image · shaded info column · 1440</div>
+<div class="frame" style="left: 60px; top: 1182px; width: 1440px; height: 1150px;">
+  <div style="max-width: 1240px; margin: 0 auto; padding: 0 48px;">
+    <div class="crumb-room" style="padding: 28px 0 0;">Home / Resources / Events / Baptism Sunday</div>
+    <div style="display: grid; grid-template-columns: 1.5fr 420px; gap: 72px; align-items: start; padding-top: 48px;">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Worship · Sunday, June 1, 2026</div>
+        <h1 class="ev-title" style="font-size: 88px; max-width: 12ch;">Baptism Sunday</h1>
+        <p class="ev-sub" style="font-size: 22px; max-width: 40ch;">A morning of public professions of faith — in both services.</p>
+        <p class="ev-contact">Questions? <a href="#">Email the church office</a> — pending verification</p>
+        <div class="poster" style="aspect-ratio: 21/8; margin-top: 40px;">
+          <div class="poster-lines"></div>
+          <div class="ph-label"><span>Featured image · 21:8</span></div>
+        </div>
+        <div class="prose" style="margin-top: 40px;">
+          <p>Baptism is one of the most joyful moments in the life of our church — a believer's public declaration that they belong to Jesus. We'll celebrate baptisms during both morning services, and the whole church family is invited to witness and rejoice together.</p>
+          <p>If you're considering baptism, or want to understand what it means and why we practice it, we'd love to talk with you before the day arrives.</p>
+        </div>
+      </div>
+      <div style="background: var(--bg2); padding: 20px; margin: -20px;">
+        <aside class="facts">
+          <div class="facts-cal"><span class="m">Jun</span><span class="d">01</span></div>
+          <div class="facts-row"><span class="k">Date</span><span class="v">Sunday, June 1, 2026</span></div>
+          <div class="facts-row"><span class="k">Time</span><span class="v">9:00 &amp; 11:00 AM<small>Both services</small></span></div>
+          <div class="facts-row"><span class="k">Place</span><span class="v">North Wake Church<small>1212 S Main St · Wake Forest, NC</small></span></div>
+        </aside>
+      </div>
+    </div>
+    <div class="browse-all" style="padding: 96px 0 72px;"><a class="btn btn-ghost">← Browse all events</a></div>
+  </div>
+</div>
+
+<!-- ==================================================================== -->
+<!-- C — SPARSE · mobile 390                                               -->
+<!-- ==================================================================== -->
+<div class="frame-label" style="left: 1580px; top: 24px;">C · Sparse — mobile · 390</div>
+<div class="frame" style="left: 1580px; top: 56px; width: 390px; height: 1210px;">
+  <div style="padding: 0 22px;">
+    <div class="crumb-room" style="padding: 20px 0 0; font-size: 10px;">Home / … / Baptism Sunday</div>
+    <div style="padding-top: 32px;">
+      <div class="eyebrow" style="font-size: 11px;"><span class="dot"></span>Worship · Sun, June 1, 2026</div>
+      <h1 class="ev-title" style="font-size: 46px;">Baptism Sunday</h1>
+      <p class="ev-sub" style="font-size: 18px;">A morning of public professions of faith — in both services.</p>
+      <p class="ev-contact" style="font-size: 14px;">Questions? <a href="#">Email the church office</a> — pending verification</p>
+    </div>
+    <aside class="facts" style="margin-top: 32px;">
+      <div class="facts-cal" style="padding: 22px 22px 18px;"><span class="m">Jun</span><span class="d" style="font-size: 46px;">01</span></div>
+      <div class="facts-row" style="padding: 16px 22px; grid-template-columns: 62px 1fr;"><span class="k">Date</span><span class="v" style="font-size: 16px;">Sunday, June 1, 2026</span></div>
+      <div class="facts-row" style="padding: 16px 22px; grid-template-columns: 62px 1fr;"><span class="k">Time</span><span class="v" style="font-size: 16px;">9:00 &amp; 11:00 AM<small>Both services</small></span></div>
+      <div class="facts-row" style="padding: 16px 22px; grid-template-columns: 62px 1fr;"><span class="k">Place</span><span class="v" style="font-size: 16px;">North Wake Church<small>1212 S Main St · Wake Forest, NC</small></span></div>
+    </aside>
+    <div class="prose" style="margin-top: 36px; font-size: 16px;">
+      <p style="font-size: 16px;">Baptism is one of the most joyful moments in the life of our church — a believer's public declaration that they belong to Jesus. We'll celebrate baptisms during both morning services, and the whole church family is invited to witness and rejoice together.</p>
+      <p style="font-size: 16px;">If you're considering baptism, or want to understand what it means and why we practice it, we'd love to talk with you before the day arrives.</p>
+    </div>
+    <div class="browse-all" style="padding: 56px 0 48px;"><a class="btn btn-ghost" style="font-size: 13px; padding: 12px 20px;">← Browse all events</a></div>
+  </div>
+</div>
+
+</body>
+</html>
