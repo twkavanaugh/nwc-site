@@ -1,6 +1,15 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { BUSINESS } from "../data/business";
+import { getCollection } from "astro:content";
+import { isUpcoming, byStartDateAsc, formatMonth, formatDay } from "../lib/date";
+
+// Homepage "Upcoming" — top 3 upcoming events from the collection, same date
+// filter/sort as /events. Replaces the old hardcoded, unsorted, yearless list.
+const upcomingHome = (await getCollection("events"))
+  .filter(isUpcoming)
+  .sort(byStartDateAsc)
+  .slice(0, 3);
 
 // Homepage — Pass 1 of 3: Overlay hero, marquee strip, Service Times band.
 // Translated from brand/prototype/page-home.jsx (HeroOverlay ~57, ServiceTimes
@@ -327,26 +336,27 @@ const MARQUEE_WORDS = [
           <h2 class="display-m events-title">Upcoming.</h2>
           <div class="events-list">
             {
-              [
-                { d: "May", n: "31", title: "Ministry Intensive Internship · 2026–27", time: "Applications open · Info session", href: "/events" },
-                { d: "May", n: "03", title: "Membership Class · Spring Cohort", time: "Sundays · 9:00 AM", href: "/about/membership" },
-                { d: "Oct", n: "24", title: "Women's Day · Women Encouraging Women", time: "8:30 AM – 3:30 PM", href: "/events" },
-                { d: "Jun", n: "01", title: "Baptism Sunday", time: "Both services", href: "/events" },
-              ].map((e) => (
-                <a class="row-link event-row" href={e.href}>
-                  <div class="event-left">
-                    <div class="event-date">
-                      <div class="mono event-month">{e.d}</div>
-                      <div class="display-s event-day">{e.n}</div>
+              upcomingHome.length === 0 ? (
+                <p class="events-empty">No upcoming events right now — check back soon.</p>
+              ) : (
+                upcomingHome.map((e) => (
+                  <a class="row-link event-row" href={`/events/${e.id}`}>
+                    <div class="event-left">
+                      <div class="event-date">
+                        <div class="mono event-month">{formatMonth(e.data.startDate)}</div>
+                        <div class="display-s event-day">{formatDay(e.data.startDate)}</div>
+                      </div>
+                      <div>
+                        <div class="title event-name">{e.data.title}</div>
+                        {(e.data.time ?? e.data.subtitle) && (
+                          <div class="small">{e.data.time ?? e.data.subtitle}</div>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <div class="title event-name">{e.title}</div>
-                      <div class="small">{e.time}</div>
-                    </div>
-                  </div>
-                  <span class="row-arr event-arr">→</span>
-                </a>
-              ))
+                    <span class="row-arr event-arr">→</span>
+                  </a>
+                ))
+              )
             }
           </div>
           <div class="events-actions">
@@ -957,6 +967,11 @@ const MARQUEE_WORDS = [
   }
   .events-actions {
     margin-top: 32px;
+  }
+  .events-empty {
+    margin: 0;
+    font-size: 16px;
+    color: var(--ink-3);
   }
 
   /* Accent band: white-on-accent. Solid white → --accent-ink; partial-opacity
