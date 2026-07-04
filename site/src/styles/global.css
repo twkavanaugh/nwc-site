@@ -520,3 +520,70 @@ h4 {
   background: var(--line);
   border: 1px solid var(--line);
 }
+
+/* -----------------------------------------------------------------------------
+ * j) MOBILE SCALE (<=720px) — 2026 mobile pass.
+ *    The site was built desktop-first: every clamp() bottoms out at its floor on a
+ *    phone, and those floors were authored as DESKTOP minimums, not mobile sizes.
+ *    This is the single consolidated mobile type + spacing scale. (Container padding
+ *    and .section-head reflow keep their own 720px rules above, in sections b and g.)
+ * -------------------------------------------------------------------------- */
+@media (max-width: 720px) {
+  /* TYPE — raise the small end of the scale; ease the giant display floors down. */
+  body {
+    font-size: 18px; /* base was the browser default 16px */
+  }
+  .body {
+    font-size: 18px; /* 16 -> 18 */
+  }
+  .lede {
+    font-size: clamp(21px, 1.6vw, 22px); /* floor 18 -> 21; ceiling 22 kept */
+  }
+  .small {
+    font-size: 15px; /* 14 -> 15 */
+  }
+  .mono {
+    font-size: 14px; /* 12 -> 14; tracking + uppercase unchanged */
+  }
+  .eyebrow {
+    font-size: 14px; /* 12 -> 14; tracking + uppercase + weight unchanged */
+  }
+  .ph-label {
+    font-size: 13px; /* 11 -> 13 */
+  }
+  .btn {
+    font-size: 16px; /* 14 -> 16; padding 14px 22px still yields a ~52px tap height */
+  }
+  .display-l {
+    font-size: clamp(40px, 6.4vw, 104px); /* floor 44 -> 40; ceiling 104 kept */
+  }
+  .display-xl {
+    font-size: clamp(48px, 9vw, 156px); /* floor 56 -> 48; ceiling 156 kept */
+  }
+  /* .title, .display-m, .display-s: unchanged per the approved scale. */
+
+  /* SPACING — shorten section rhythm on phones. NOTE: section:first-of-type (56px
+     top) and section.tight (72px) have higher specificity (0,1,1) and keep their
+     values; only the base section rhythm is reduced here. */
+  section {
+    padding: 64px 0; /* 96 -> 64 */
+  }
+
+  /* Bordered/filled card horizontal padding -> 24px (each card's VERTICAL padding is
+     left intact — only the left/right longhands are set). These are PAGE-LOCAL classes,
+     deliberately grouped here for the mobile pass. The `.wrap ` prefix raises specificity
+     to (0,2,0) so this beats each card's own scoped desktop rule: Astro's default 'where'
+     scoping leaves a scoped `.kids-card` at (0,1,0), and component styles load AFTER
+     global.css, so a plain `.kids-card` here would lose the tie and silently no-op. */
+  .wrap .kids-sched-card,
+  .wrap .kids-card,
+  .wrap .mature-exp-card,
+  .wrap .mature-schedule-card,
+  .wrap .rhythm-card,
+  .wrap .feed-card,
+  .wrap .community-card,
+  .wrap .care-card {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}

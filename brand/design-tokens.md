@@ -132,6 +132,19 @@ Base h1–h4 weight was 600 in prototype; display classes override to 700. .titl
 stays 600. Base body: line-height 1.5, letter-spacing -0.005em,
 font-feature-settings: "ss01","cv11".
 
+Type minimums (POLICY)
+
+Content text — anything meant to be READ as sentences or list items — has a hard
+floor of 16px at EVERY viewport (not a mobile-only bump). Borderline label-ish rows
+(e.g. short contact/link rows) may sit at 15px, but nothing readable-as-prose goes
+below 16px on any screen.
+
+Mono labels / eyebrows / captions (.mono, .eyebrow, .small, .ph-label) are aesthetic
+micro-typography and MAY sit below the 16px floor (current: 12px desktop / 14px
+mobile for mono+eyebrow; .small 14/15). The one hard rule: such micro-type must
+NEVER carry information that exists nowhere else — if a label is the sole carrier of
+meaning, it is content and takes the 16px floor.
+
 
 4. Spacing scale
 

@@ -588,7 +588,7 @@ const purposes = [
   .kids-track-links {
     display: flex;
     gap: 18px;
-    font-size: 14px;
+    font-size: 15px; /* link row, borderline label — 15px floor at all viewports */
   }
   .kids-track-link {
     color: var(--accent);
@@ -665,7 +665,7 @@ const purposes = [
   .kids-purpose-b {
     margin: 0 0 8px;
     color: var(--ink-on-inverse-2);
-    font-size: 15px;
+    font-size: 16px; /* readable sentence content — 16px floor at all viewports */
     line-height: 1.6;
   }
   .kids-purpose-ref {
@@ -699,7 +699,7 @@ const purposes = [
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px 24px;
-    font-size: 14px;
+    font-size: 16px; /* safety/list content — 16px floor at all viewports */
     color: var(--ink-2);
   }
   .kids-illness-item {
@@ -789,6 +789,23 @@ const purposes = [
     }
     .kids-illness-list {
       grid-template-columns: 1fr;
+    }
+
+    /* Schedule rows: stack the mono age-label ABOVE its description so the text wraps
+       at full container width instead of a squeezed right column. */
+    .kids-sched-row {
+      flex-direction: column;
+      gap: 4px;
+    }
+    .kids-sched-agelabel {
+      min-width: 0; /* release the 110px column reservation once stacked */
+    }
+
+    /* Dedication purposes: drop the fixed 60px number column; the 01/02/03 numeral
+       stacks directly above its heading. */
+    .kids-purpose {
+      grid-template-columns: 1fr;
+      gap: 8px;
     }
   }
 </style>

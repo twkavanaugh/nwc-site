@@ -409,4 +409,13 @@ const resources = [
   .wij-closing-cta {
     margin-top: 36px;
   }
+
+  /* Mobile pass phase 2 — this page had no media query; add a minimal one only to
+     lift the sub-16px claim numerals. (Type otherwise rides the global mobile scale;
+     layout here is single-column reading already.) */
+  @media (max-width: 720px) {
+    .wij-claim-num {
+      font-size: 14px; /* 12 -> 14 */
+    }
+  }
 </style>

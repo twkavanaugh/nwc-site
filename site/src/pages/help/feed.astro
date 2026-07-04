@@ -373,7 +373,7 @@ const convictions = [
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 14px;
+    font-size: 15px; /* short label row — 15px floor at all viewports */
     color: var(--ink-3);
   }
   .feed-teal-swatch {
@@ -400,7 +400,7 @@ const convictions = [
     padding: 10px 14px;
     border: 1px solid var(--line-strong);
     border-radius: var(--radius-card);
-    font-size: 14px;
+    font-size: 15px; /* contact row label — 15px floor at all viewports */
   }
   .feed-volunteer-name {
     color: var(--ink-3);
@@ -439,7 +439,7 @@ const convictions = [
     font-weight: 500;
   }
   .feed-hours-freq {
-    font-size: 14px;
+    font-size: 15px; /* frequency label — 15px floor at all viewports */
     color: var(--ink-3);
     margin-top: 4px;
   }
@@ -466,7 +466,7 @@ const convictions = [
     margin-bottom: 4px;
   }
   .feed-location-addr {
-    font-size: 14px;
+    font-size: 15px; /* address label — 15px floor at all viewports */
     color: var(--ink-3);
   }
 
@@ -508,6 +508,16 @@ const convictions = [
     }
     .feed-hours-grid {
       grid-template-columns: 1fr;
+    }
+
+    /* Hours rows: [day | when+freq | time] 3-col grid cramps on a phone. Stack it —
+       day, then when/freq, then time — each full-width, nothing squeezed. */
+    .feed-hours-row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .feed-hours-day {
+      min-width: 0; /* release the 110px column reservation once stacked */
     }
   }
 </style>
