@@ -52,7 +52,7 @@ const MARQUEE_WORDS = [
 
       <div class="wrap-narrow shero-content">
         <div class="eyebrow fade-up shero-eyebrow">
-          <span class="dot"></span>A family of faith · Wake Forest, NC
+          <span class="dot"></span>A family of faith · <span class="shero-eyebrow-place">Wake Forest, NC</span>
         </div>
         <h1 class="serif fade-up shero-title" style="animation-delay: 60ms;">
           A place to <span class="em-accent">know</span>, <span class="em-accent">grow</span>, and <span class="em-accent">go</span> in love.
@@ -434,6 +434,12 @@ const MARQUEE_WORDS = [
     display: flex;
     justify-content: center;
   }
+  /* Keep the city/state an unbreakable unit at every width, so if the eyebrow
+     has to wrap the break falls cleanly after the "·" and "Wake Forest, NC"
+     never splits (no orphaned "NC"). */
+  .shero-eyebrow-place {
+    white-space: nowrap;
+  }
   .shero-title {
     font-weight: 400;
     font-size: clamp(46px, 7.5vw, 120px);
@@ -542,6 +548,17 @@ const MARQUEE_WORDS = [
   @media (max-width: 720px) {
     .shero-people-caption {
       padding: 24px 22px 20px;
+    }
+    /* Phone eyebrow — same fix as the kids hero (hero-pilot mobile pass): drop
+       flex-centering back to inline/block flow so the accent dot stays attached
+       to the first word instead of orphaning onto its own line, and ease the
+       size/tracking down slightly (eyebrows are micro-type, exempt from the 16px
+       floor) so the label fits and any wrap is the clean post-"·" break. */
+    .shero-eyebrow {
+      display: block;
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 0.14em;
     }
   }
 
