@@ -1,0 +1,123 @@
+# .pages.yml — configures the Pages CMS (pagescms.org) editing UI for this repo.
+#
+# This file lives at the REPO ROOT, but the Astro site lives in site/. Therefore:
+#   - FILESYSTEM paths below are site/-prefixed (media.input, content.path).
+#   - media.output is a PUBLIC URL (Astro serves public/ at the site root), so it
+#     is NOT prefixed — it must match what the templates emit (/events/<file>).
+#
+# This file has NO effect on the Astro site build. It is read only by Pages CMS
+# (from GitHub) to render the office's editing forms. It never ships to dist/.
+
+media:
+  input: site/public/events        # uploads are committed here (repo path)
+  output: /events                  # value stored in image fields → /events/<file> (public URL)
+  extensions: [jpg, jpeg, png, webp]
+
+content:
+  - name: events
+    label: Events
+    type: collection
+    path: site/src/content/events
+    filename: '{primary}.md'        # title slugified → womens-day.md (matches existing kebab routes)
+    view:
+      primary: title
+      fields: [title, startDate, ministryId]
+      sort: [startDate, title]
+      default:
+        sort: startDate
+        order: desc
+    fields:
+      - name: title
+        label: Event name
+        type: string
+        required: true
+        description: "The name of the event."
+
+      - name: startDate
+        label: Date
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+        description: "The event's date. Sets where it sorts and the month/day shown on the site."
+
+      - name: subtitle
+        label: Short tagline
+        type: string
+        description: "One line under the title. E.g. 'Women Encouraging Women'. Optional."
+
+      - name: endDate
+        label: End date (multi-day only)
+        type: date
+        options:
+          format: yyyy-MM-dd
+        description: "Only for events spanning more than one day. Leave blank otherwise."
+
+      - name: expirationDate
+        label: Stop showing after
+        type: date
+        options:
+          format: yyyy-MM-dd
+        description: "Usually leave blank (uses the event date). Set EARLIER to drop the event once registration closes, or LATER to keep an open window listed."
+
+      - name: time
+        label: Time
+        type: string
+        description: "Free text, e.g. '8:30 AM – 3:30 PM'. Leave blank to hide."
+
+      - name: timeNote
+        label: Time note
+        type: string
+        description: "Small note under the time, e.g. 'Kickoff & orientation'."
+
+      - name: location
+        label: Location
+        type: string
+        description: "Leave blank to use the church address automatically. Only fill to override (off-site events)."
+
+      - name: cost
+        label: Cost
+        type: string
+        description: "E.g. 'Free' or '$25'. Leave blank to hide the cost line."
+
+      - name: deadline
+        label: Deadline text
+        type: string
+        description: "E.g. 'Applications close April 30, 2026'."
+
+      - name: registrationUrl
+        label: Registration link
+        type: string
+        description: "Where the Register button goes. A full link (https://…) OR an internal page (/about/membership). Leave empty for no button."
+
+      - name: contactEmail
+        label: Contact email
+        type: string
+        description: "Shown on the event page. Until confirmed safe to publish, it appears as plain text, not a clickable link."
+
+      - name: image
+        label: Featured photo
+        type: image
+        description: "A wide banner photo. Optional — adding one turns on the banner. ~2000px wide is ideal."
+
+      - name: imageAlt
+        label: Photo description (alt text)
+        type: string
+        description: "Describe the photo for screen readers. If blank, the event name is used."
+
+      - name: ministryId
+        label: Ministry (optional)
+        type: select
+        options:
+          values: [kids, students, women, men, grow-groups, adult-discipleship, young-adults, mature-adults, lily-moms, training, local-outreach]
+        description: "Which ministry this belongs to. Not shown on the site yet — reserved for future filtering."
+
+      - name: featured
+        label: Featured (not yet active)
+        type: boolean
+        description: "Reserved for future homepage pinning. No effect yet."
+
+      - name: body
+        label: Details
+        type: rich-text
+        description: "The full write-up. Use Heading 2 for sections like 'Who it's for' and 'What's included'."
