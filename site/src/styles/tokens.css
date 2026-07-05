@@ -83,6 +83,9 @@
   --line-on-inverse: var(--raw-line-white);
   --line-on-inverse-strong: var(--raw-line-white-strong);
   --border-on-inverse: var(--raw-border-on-inverse);
+  /* accent for text on dark bands; clay-600 fails contrast on --bg-inverse
+     (2.69:1); clay-300 computes ~9.5:1 (AAA) */
+  --accent-on-inverse: var(--raw-clay-300);
 
   /* On-image (photo hero) — cream + light-clay over a charcoal-scrimmed photo.
      IMAGE-ONLY: both fail contrast on light surfaces; never use on --bg. */

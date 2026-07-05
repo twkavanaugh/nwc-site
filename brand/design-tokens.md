@@ -74,7 +74,7 @@ These exist so dark bands inside the light theme (e.g. Feed "How we serve",
 Mature CTA) consume named tokens instead of hardcoded var(--ink) +
 rgba(255,255,255,…).
 
-Semantic token→ RawRole--bg-inverse--raw-ink-900dark band background--ink-on-inverse--raw-night-ink-50primary text on dark band--ink-on-inverse-2--raw-night-ink-200secondary text on dark band--line-on-inverse--raw-line-whitehairline on dark band--line-on-inverse-strong--raw-line-white-strongstronger hairline on dark band--border-on-inverse--raw-border-on-inverseghost-button border on dark band
+Semantic token→ RawRole--bg-inverse--raw-ink-900dark band background--ink-on-inverse--raw-night-ink-50primary text on dark band--ink-on-inverse-2--raw-night-ink-200secondary text on dark band--line-on-inverse--raw-line-whitehairline on dark band--line-on-inverse-strong--raw-line-white-strongstronger hairline on dark band--border-on-inverse--raw-border-on-inverseghost-button border on dark band--accent-on-inverse--raw-clay-300accent for text on dark bands; clay-600 fails contrast on --bg-inverse (2.69:1); clay-300 computes ~9.5:1 (AAA)
 
 
 WCAG note (deferred to hardening pass): verify --accent fill + --accent-ink
