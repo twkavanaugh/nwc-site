@@ -134,4 +134,17 @@ const lastIndex = trail.length - 1;
   .crumbbar-action:hover {
     color: var(--accent);
   }
+
+  /* Phone (<=720px): drop the right-aligned action (e.g. ALL MINISTRIES) and
+     tighten the horizontal padding from 40px to the site's 22px mobile gutter.
+     Vertical padding (12px) and all desktop widths (>=721px) are unchanged. */
+  @media (max-width: 720px) {
+    .crumbbar-action {
+      display: none;
+    }
+    .crumbbar {
+      padding-left: 22px;
+      padding-right: 22px;
+    }
+  }
 </style>
