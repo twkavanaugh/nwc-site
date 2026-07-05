@@ -249,12 +249,53 @@ const GIVE_HREF = BUSINESS.givingUrl;
     </div>
 
     <div class="nav-cta">
-      <a class="btn btn-ghost" href={GIVE_HREF} target="_blank" rel="noopener">Give</a>
-      <a class="btn btn-primary" href="/visit">
+      <a class="btn btn-ghost nav-give" href={GIVE_HREF} target="_blank" rel="noopener">Give</a>
+      <a class="btn btn-primary nav-visit" href="/visit">
         Plan a Visit
         <span class="arr">→</span>
       </a>
     </div>
+
+    {/* MOBILE NAV — CSS-only hamburger (<980px). Renders from the SAME GROUPS
+        source as the desktop mega, plus the same direct links + givingUrl, so
+        content can never drift from desktop. Zero JS: native <details>/<summary>
+        disclosure. Hidden ≥980px (see the media query below). */}
+    <details class="mnav">
+      <summary class="mnav-toggle" aria-label="Menu">
+        <span class="mnav-icon" aria-hidden="true"></span>
+      </summary>
+      <div class="mnav-panel">
+        <a class="btn btn-ghost mnav-give" href={GIVE_HREF} target="_blank" rel="noopener">Give</a>
+        <a class={`mnav-link${isActive("/") ? " active" : ""}`} href="/">Home</a>
+
+        {GROUPS.map((g) => (
+          <details class="mnav-group">
+            <summary class="mnav-group-summary">
+              <span>{g.label}</span>
+              <span class="mnav-caret" aria-hidden="true"></span>
+            </summary>
+            <div class="mnav-group-items">
+              {g.columns
+                .flatMap((col) => col.items)
+                .map((it) =>
+                  it.href ? (
+                    <a class={`mnav-sublink${isActive(it.href) ? " active" : ""}`} href={it.href}>
+                      {it.label}
+                    </a>
+                  ) : (
+                    <div class="mnav-sublink is-dimmed" aria-disabled="true">
+                      {it.label}
+                    </div>
+                  )
+                )}
+            </div>
+          </details>
+        ))}
+
+        <a class={`mnav-link${isActive("/visit") ? " active" : ""}`} href="/visit">Come Visit</a>
+        <a class={`mnav-link${isActive("/who-is-jesus") ? " active" : ""}`} href="/who-is-jesus">Who is Jesus</a>
+      </div>
+    </details>
   </div>
 </nav>
 
@@ -282,6 +323,7 @@ const GIVE_HREF = BUSINESS.givingUrl;
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-shrink: 0; /* never let the wordmark compress at narrow widths */
   }
   .brand-mark {
     width: 26px;
@@ -317,6 +359,7 @@ const GIVE_HREF = BUSINESS.givingUrl;
     font-weight: 600;
     letter-spacing: -0.012em;
     color: var(--ink);
+    white-space: nowrap; /* "North Wake" stays on one line at any width */
   }
   .brand-name .accent {
     color: var(--accent);
@@ -533,11 +576,214 @@ const GIVE_HREF = BUSINESS.givingUrl;
     font-size: 13px;
   }
 
-  /* TODO: mobile menu is a separate future task. For now, match the prior nav
-     and hide the center links (and their mega panels) below 980px. */
+  /* =========================================================================
+   * MOBILE NAV (<980px) — CSS-only hamburger via native <details>/<summary>.
+   * Zero JS. Hidden by default (desktop); revealed in the media query below.
+   * .mnav stays position:static so .mnav-panel anchors to .nav (the sticky
+   * positioned ancestor) and spans full-bleed — same trick as .mega.
+   * ========================================================================= */
+  .mnav {
+    display: none;
+    position: static;
+  }
+
+  /* Hamburger trigger — a 44px tap target; native marker suppressed. */
+  .mnav-toggle {
+    list-style: none; /* suppress native disclosure marker (spec-compliant path) */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mnav-toggle::-webkit-details-marker {
+    display: none; /* suppress native marker (WebKit/Blink) */
+  }
+
+  /* Three-bar icon: center bar = the span; ::before/::after = outer bars. */
+  .mnav-icon,
+  .mnav-icon::before,
+  .mnav-icon::after {
+    content: "";
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: transform 200ms ease, background 200ms ease;
+  }
+  .mnav-icon {
+    position: relative;
+  }
+  .mnav-icon::before {
+    position: absolute;
+    top: -7px;
+    left: 0;
+  }
+  .mnav-icon::after {
+    position: absolute;
+    top: 7px;
+    left: 0;
+  }
+  /* [open] → X: center bar disappears, outer bars cross at center. */
+  .mnav[open] .mnav-icon {
+    background: transparent;
+  }
+  .mnav[open] .mnav-icon::before {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .mnav[open] .mnav-icon::after {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* Panel — full-bleed overlay dropping below the bar; scrolls internally so a
+     fully expanded accordion never pushes page content or exceeds the viewport.
+     Bar height at <980px is ~72px (44px summary + 2×14px padding, set below). */
+  .mnav-panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 60;
+    background: var(--bg);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line-strong);
+    box-shadow: var(--shadow-dropdown);
+    /* COUPLED to the <980px .nav-inner padding: 14px top+bottom + the 44px
+       .mnav-toggle summary = 72px bar height. This 72px MUST equal that sum so
+       the panel bottom lands exactly at the viewport edge. Change one → change both. */
+    max-height: calc(100vh - 72px);
+    overflow-y: auto;
+    padding: 12px 22px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  /* Give — full-width row at the top of the panel. */
+  .mnav-give {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  /* Top-level rows: Home, Come Visit, Who is Jesus (≥44px tap height, 16px text). */
+  .mnav-link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+    border-radius: 8px;
+  }
+  .mnav-link.active {
+    background: var(--bg-2);
+  }
+
+  /* Group accordion — one <details> per group; siblings may be open together. */
+  .mnav-group {
+    border-top: 1px solid var(--line);
+  }
+  .mnav-group:first-of-type {
+    border-top: 0;
+  }
+  .mnav-group-summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .mnav-group-summary::-webkit-details-marker {
+    display: none;
+  }
+  .mnav-caret {
+    width: 8px;
+    height: 8px;
+    border-right: 1.4px solid currentColor;
+    border-bottom: 1.4px solid currentColor;
+    transform: rotate(45deg) translateY(-1px);
+    opacity: 0.5;
+    transition: transform 200ms ease;
+    flex: none;
+  }
+  .mnav-group[open] .mnav-caret {
+    transform: rotate(225deg) translateY(1px);
+  }
+  .mnav-group-items {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 8px;
+  }
+
+  /* Flattened group items (all columns; no headings/descriptions/featured rail). */
+  .mnav-sublink {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 8px 12px 8px 24px;
+    font-size: 16px;
+    color: var(--ink-2);
+    border-radius: 8px;
+  }
+  .mnav-sublink.active {
+    background: var(--bg-2);
+    color: var(--ink);
+  }
+  /* Dimmed (unbuilt route): non-clickable, muted — mirrors the mega convention. */
+  .mnav-sublink.is-dimmed {
+    color: var(--ink-4);
+    cursor: default;
+  }
+
+  /* -------------------------------------------------------------------------
+   * RESPONSIVE SWITCH — <980px swaps the mega links row for the hamburger.
+   * Give moves into the panel; Plan a Visit stays in the bar, compacted.
+   * Bar order (markup order, links row hidden): brand · Plan a Visit · burger.
+   * ----------------------------------------------------------------------- */
   @media (max-width: 980px) {
     .nav-links {
       display: none;
+    }
+    .mnav {
+      display: block;
+      margin-left: 8px; /* small gap between Plan a Visit and the hamburger */
+    }
+    /* group Plan a Visit + hamburger on the right, brand on the left */
+    .nav-cta {
+      margin-left: auto;
+    }
+    .nav-give {
+      display: none; /* Give now lives at the top of the mobile panel */
+    }
+    /* Compact Plan a Visit; tighten bar height to the ~72px assumed above. */
+    .nav-cta .nav-visit {
+      padding: 9px 14px;
+    }
+    /* COUPLED to .mnav-panel max-height: these 14px + the 44px .mnav-toggle
+       summary = the 72px bar height subtracted in calc(100vh - 72px). Change
+       either value and the panel's max-height must be updated to match. */
+    .nav-inner {
+      padding-top: 14px;
+      padding-bottom: 14px;
+    }
+  }
+
+  /* Mobile gutter — mirror the site's 22px phone gutter so brand + compacted
+     Plan a Visit + hamburger fit one row at 360px with no overflow. */
+  @media (max-width: 720px) {
+    .nav-inner {
+      padding-left: 22px;
+      padding-right: 22px;
     }
   }
 </style>
