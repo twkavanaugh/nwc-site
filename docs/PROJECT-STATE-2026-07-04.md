@@ -29,9 +29,9 @@ contrast-audited); a **photographer shot list** is written and ready to send; an
 of the old site's content specimens produced the events image field and a **Pages CMS
 employee-test task list**.
 
-Next work: the **mobile nav / hamburger (LAUNCH BLOCKER)**, then `/sermons`, then the
-first **Pages CMS vertical-slice test**, then the remaining content collections. The
-content-verification pass with the church remains the real launch gate.
+The **mobile nav / hamburger** (the former LAUNCH BLOCKER) **shipped 2026-07-05**. Next
+work: **`/sermons`**, then the first **Pages CMS vertical-slice test**, then the remaining
+content collections. The content-verification pass with the church remains the real launch gate.
 
 **Live URL:** https://nwc-site.onrender.com (deploy confirmed working)
 **Repo:** https://github.com/twkavanaugh/nwc-site  (currently public)
@@ -320,7 +320,10 @@ variants page-local. Confirmed across both `/community/*` and `/help/*`.
   columns of grouped items + a featured rail. Static, ZERO-JS: panels open on `:hover` /
   `:focus-within`; active state computed at build from `Astro.url.pathname`. Items WITHOUT
   an href render dimmed/non-clickable. Featured-rail copy + item descriptions are UNVERIFIED
-  placeholders. **Desktop-only — no mobile/hamburger yet (LAUNCH BLOCKER, next task).**
+  placeholders. **Mobile treatment SHIPPED (2026-07-05):** below 980px the links row is
+  replaced by a CSS-only (zero-JS) `details`/`summary` hamburger that **dual-renders from the
+  same `GROUPS` array** (flattened into a per-group accordion, no featured rails), with Give
+  in the panel and Plan a Visit compacted in the bar. Desktop mega is unchanged.
 - `Footer.astro` — 5-col; NAP from business.ts; brand-mark CSS duplicated from Nav
   (→ extract a Brand component later).
 - **`Breadcrumb.astro`** — full-bleed chip-style bar: edge-to-edge `var(--bg-2)`,
@@ -403,8 +406,16 @@ Ministry Intensive, and 3 legacy event pages.** Outcomes:
   — diverge per page; only the border is shared. Left page-local.
 
 ## KNOWN DEBT / HARDENING (address before launch; no current risk)
-- **★ Mobile nav — LAUNCH BLOCKER (next task).** The mega-menu is desktop-only; links
-  hidden <980px, no hamburger. This is the worst thing on any phone. Blocks phone QA.
+- **✅ Mobile nav — RESOLVED & SHIPPED 2026-07-05** (commits `47d11e9` + `6533063`; branch
+  `mobile-nav` merged fast-forward to main and deleted). CSS-only (zero-JS)
+  `details`/`summary` hamburger that dual-renders from the same `GROUPS` source as the
+  desktop mega: Give moved into the panel (full-width row), Plan a Visit stays in the bar
+  compacted, brand wordmark set `white-space:nowrap`; the breadcrumb hides its action link
+  and drops to the 22px gutter below 720px. (The old LAUNCH BLOCKER — mega-menu desktop-only,
+  no hamburger — is closed.)
+- **Homepage hero eyebrow wraps badly at phone width** — the eyebrow ("A family of faith ·
+  Wake Forest, NC") orphans "NC" onto its own line with a detached dot at narrow widths.
+  Page-local fix in `index.astro`, same treatment as the kids-hero eyebrow. Small, isolated.
 - **Nightly Render deploy-hook cron** — needed so build-time event date filtering rolls
   over daily (push-only freshness is the accepted v1 tradeoff — see Events section).
 - **Watercolor 1.2MB PNG** (`site/public/wake-forest-bcg.png`) — compress / WebP.
@@ -431,6 +442,15 @@ Ministry Intensive, and 3 legacy event pages.** Outcomes:
 - **Pre-launch hardening pass** (after content lands): schema/structured data, robots.txt,
   XML sitemap, custom 404, per-page canonicals + unique titles/descriptions, og/twitter
   images, Lighthouse / Core Web Vitals, image optimization. Its own pass.
+
+## OPEN ITEMS / UNDER CONSIDERATION (not yet scheduled)
+- **White-canvas trial** — moving `--bg`/`--bg-2` toward near-white is under consideration.
+  NOT a quick token swap: needs **its own branch + a read-and-plan gate** before any edit.
+  Known risks to plan around: (1) the watercolor-hero **scrim interaction** (the cream
+  `rgba(246,243,237,…)` scrim + `#f3ecdf` fallback are tuned to the current warm `--bg`);
+  (2) **site-wide `--bg-2` separation quieting** — many bands/cards rely on the sand-50 /
+  sand-100 tonal step, which nearly vanishes on a near-white canvas. Evaluate holistically,
+  not per-page.
 
 ## UNVERIFIED CONTENT — confirm with church before launch (content-meeting agenda)
 The content-verification meeting is increasingly the real launch gate (more than building).
@@ -461,14 +481,14 @@ The content-verification meeting is increasingly the real launch gate (more than
   **still pending** — this is the accessibility sign-off we're waiting on for the type scale.
 
 ## NEXT TASKS (in priority order)
-1. **★ Chrome pass — mobile nav / hamburger. LAUNCH BLOCKER.** The mega-menu has no mobile
-   treatment; on a phone the nav is the single worst thing on the site. Do this first.
-2. **`/sermons` page** — prototype-ready; also lets the homepage/hero "Watch Sunday's
-   sermon" and "Plan a visit"-adjacent buttons land somewhere real.
-3. **Pages CMS vertical-slice test** — the infrastructure now exists (events collection is
+0. **✅ DONE — Chrome pass / mobile nav (the former LAUNCH BLOCKER).** Shipped 2026-07-05
+   (`47d11e9` + `6533063`). See the mobile-nav resolution in KNOWN DEBT above.
+1. **`/sermons` page — HEAD OF QUEUE.** Prototype-ready; also lets the homepage/hero "Watch
+   Sunday's sermon" and "Plan a visit"-adjacent buttons land somewhere real.
+2. **Pages CMS vertical-slice test** — the infrastructure now exists (events collection is
    live). Run the employee-test task list (dated event w/ poster, link-heavy page, undated
    post, PDF upload/replace, edit-and-republish) to prove the office can actually use it.
-4. **Posts / resources / categories collections** — the next content collections, following
+3. **Posts / resources / categories collections** — the next content collections, following
    the events collection as the proven pattern.
 
 Standing directions after these: keep building pages for momentum (a page with a real
