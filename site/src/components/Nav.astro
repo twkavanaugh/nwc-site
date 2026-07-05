@@ -147,8 +147,7 @@ const GROUPS: MegaGroup[] = [
       {
         heading: "Watch & Read",
         items: [
-          // Sermons page is NOT built yet → dimmed; the featured rail routes to /events instead.
-          { label: "Sermons", desc: "Catch up on the latest series." },
+          { label: "Sermons", href: "/sermons", desc: "Catch up on the latest series." },
           { label: "Blog", href: "/blog", desc: "Writing from our pastors and team." },
         ],
       },
@@ -165,7 +164,7 @@ const GROUPS: MegaGroup[] = [
       title: "Catch the latest.",
       body: "Miss a week? Watch the most recent sermon any time.",
       ctaLabel: "Watch now",
-      ctaHref: "/events", // /sermons not built yet → route to /events for now
+      ctaHref: "/sermons", // sermons now live; rail copy stays UNVERIFIED placeholder
     },
   },
 ];

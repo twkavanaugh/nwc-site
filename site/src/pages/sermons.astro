@@ -1,0 +1,143 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+
+// Sermons — thin shell around the BranchCast archive embed (design source:
+// brand/prototype/page-sermons.jsx). The embed src + podcast links below are
+// the REAL values from the old live site (per docs/CONTENT-MODEL-2026-06-28.md
+// §SERMONS), which override the prototype's mockup skeleton.
+const APPLE_PODCASTS = "https://apple.co/3yuiX7U";
+const SPOTIFY_SHOW = "https://open.spotify.com/show/1jHh4sACzIFhYiV5wh5Mof";
+---
+
+<Layout
+  title="Sermons — North Wake Church"
+  description="Browse the North Wake Church sermon archive — messages preached each Sunday, searchable by date, speaker, series, or book of the Bible. Listen, download, or subscribe by podcast."
+>
+  <!-- Breadcrumb (full-bleed chip bar — first in body; "Resources" has no page
+       yet → non-clickable placeholder chip) -->
+  <Breadcrumb
+    trail={[{ label: "Home", href: "/" }, { label: "Resources" }, { label: "Sermons" }]}
+  />
+
+  <!-- Hero -->
+  <section class="sermons-hero">
+    <div class="wrap-narrow">
+      <div class="eyebrow sermons-eyebrow"><span class="dot"></span>Sermons</div>
+      <h1 class="display-xl sermons-title">Messages taught Sunday. Archived for the long haul.</h1>
+      <p class="lede sermons-lede">
+        Browse the full sermon archive — search by date, filter by speaker,
+        series, or book of the Bible. Listen, download, or share.
+      </p>
+    </div>
+  </section>
+
+  <!-- BranchCast archive embed. -->
+  <section class="sermons-embed-sec">
+    <div class="wrap">
+      <iframe
+        id="sermons-embed-iframe"
+        class="sermons-embed"
+        src="https://app.branchcast.com/north-wake-church/embed"
+        title="North Wake Church sermon archive — search and listen"
+        width="100%"
+        scrolling="no"
+        loading="lazy"
+      ></iframe>
+      <!-- DOCUMENTED EXCEPTION — the ONE sanctioned third-party script in a page
+           body (BranchCast sermon embed, per docs/CONTENT-MODEL-2026-06-28.md
+           §SERMONS / Playbook §9.6). Page-scoped; nothing else on the site loads
+           JS. is:inline keeps Astro from bundling/hoisting it so it runs verbatim
+           exactly as the old live site loads it. -->
+      <script
+        is:inline
+        src="https://app.branchcast.com/assets/iframeResizer.min-8ba548739d76a32c6bc400cf6280107e98744b054bab38fec7a840c7e4056859.js"
+        onload="iFrameResize({checkOrigin:false}, '#sermons-embed-iframe')"></script>
+    </div>
+  </section>
+
+  <!-- Subscribe / listen elsewhere -->
+  <section class="sermons-subscribe">
+    <div class="wrap">
+      <div class="sermons-subscribe-grid">
+        <div>
+          <div class="eyebrow sermons-subscribe-eyebrow"><span class="dot"></span>Subscribe</div>
+          <h2 class="display-m sermons-subscribe-title">Take it with you.</h2>
+        </div>
+        <div>
+          <p class="body sermons-subscribe-body">
+            The Sunday sermon ships every week as a podcast. Subscribe wherever you listen.
+          </p>
+          <div class="sermons-subscribe-actions">
+            <a class="btn btn-ghost" href={APPLE_PODCASTS} target="_blank" rel="noopener">
+              Listen on Apple Podcasts <span class="arr">→</span>
+            </a>
+            <a class="btn btn-ghost" href={SPOTIFY_SHOW} target="_blank" rel="noopener">
+              Listen on Spotify <span class="arr">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Hero */
+  .sermons-eyebrow {
+    margin-bottom: 28px;
+  }
+  .sermons-title {
+    max-width: 16ch;
+    margin-bottom: 32px;
+  }
+  .sermons-lede {
+    max-width: 52ch;
+    color: var(--ink-2);
+  }
+
+  /* Embed — min-height is a pre-resize fallback so the page never renders a
+     collapsed strip if the resizer script is slow or blocked. */
+  .sermons-embed-sec {
+    padding-top: 8px;
+  }
+  .sermons-embed {
+    display: block;
+    width: 100%;
+    min-height: 600px;
+    border: 0;
+  }
+
+  /* Subscribe */
+  .sermons-subscribe-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .sermons-subscribe-eyebrow {
+    margin-bottom: 18px;
+  }
+  .sermons-subscribe-title {
+    max-width: 12ch;
+  }
+  .sermons-subscribe-body {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--ink-2);
+    margin: 0 0 28px;
+    max-width: 54ch;
+  }
+  .sermons-subscribe-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 720px) {
+    .sermons-subscribe-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+</style>
