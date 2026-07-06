@@ -14,7 +14,7 @@ const upcoming = (await getCollection("events"))
 
 <Layout
   title="Events · North Wake Church"
-  description="Upcoming classes, gatherings, and one-day events at North Wake Church, listed soonest first."
+  description="Classes, gatherings, and one-day events at North Wake Church, listed soonest first."
 >
   <!-- Breadcrumb (full-bleed chip bar — first in body) -->
   <Breadcrumb trail={[{ label: "Home", href: "/" }, { label: "Events" }]} />
@@ -24,7 +24,7 @@ const upcoming = (await getCollection("events"))
     <div class="wrap">
       <div class="eyebrow ev-hero-eyebrow"><span class="dot"></span>Events</div>
       {/* UNVERIFIED copy — generic placeholder headline/lede; confirm with church. */}
-      <h1 class="display-l ev-hero-title">What's coming up.</h1>
+      <h1 class="display-l ev-hero-title">Events.</h1>
       <p class="lede ev-hero-lede">
         Classes, gatherings, and one-day events at North Wake — listed soonest
         first. Check back as new events are added.
@@ -38,7 +38,7 @@ const upcoming = (await getCollection("events"))
       {
         upcoming.length === 0 ? (
           <div class="ev-empty">
-            <p class="ev-empty-text">No upcoming events right now — check back soon.</p>
+            <p class="ev-empty-text">No events right now — check back soon.</p>
           </div>
         ) : (
           <div class="ev-list">

@@ -333,11 +333,11 @@ const MARQUEE_WORDS = [
       <div class="events-grid">
         <div>
           <div class="eyebrow head-eyebrow"><span class="dot"></span>What's next</div>
-          <h2 class="display-m events-title">Upcoming.</h2>
+          <h2 class="display-m events-title">Events.</h2>
           <div class="events-list">
             {
               upcomingHome.length === 0 ? (
-                <p class="events-empty">No upcoming events right now — check back soon.</p>
+                <p class="events-empty">No events right now — check back soon.</p>
               ) : (
                 upcomingHome.map((e) => (
                   <a class="row-link event-row" href={`/events/${e.id}`}>

@@ -39,7 +39,7 @@ content:
         required: true
         options:
           format: yyyy-MM-dd
-        description: "The event's date. Sets where it sorts and the month/day shown on the site."
+        description: "The event's first (or only) date. Sets where it sorts and the month/day shown on the site."
 
       - name: subtitle
         label: Short tagline
@@ -51,7 +51,7 @@ content:
         type: date
         options:
           format: yyyy-MM-dd
-        description: "Only for events spanning more than one day. Leave blank otherwise."
+        description: "For anything running past one day — multi-day events OR weekly series (e.g. every Wednesday in July: first date above, last date here). Keeps the event listed until it's over."
 
       - name: expirationDate
         label: Stop showing after
@@ -68,7 +68,7 @@ content:
       - name: timeNote
         label: Time note
         type: string
-        description: "Small note under the time, e.g. 'Kickoff & orientation'."
+        description: "Small note under the time — recurrence goes here, e.g. 'Every Wednesday in July'."
 
       - name: location
         label: Location
@@ -98,7 +98,7 @@ content:
       - name: image
         label: Featured photo
         type: image
-        description: "A wide banner photo. Optional — adding one turns on the banner. ~2000px wide is ideal."
+        description: "A wide banner photo works best (about 2100×800px, under 1MB). Tall poster images will be cropped to a wide strip — if your image is a poster with text on it, consider a photo instead."
 
       - name: imageAlt
         label: Photo description (alt text)
@@ -109,7 +109,7 @@ content:
         label: Ministry (optional)
         type: select
         options:
-          values: [kids, students, women, men, grow-groups, adult-discipleship, young-adults, mature-adults, lily-moms, training, local-outreach]
+          values: [kids, students, women, men, grow-groups, adult-discipleship, young-adults, mature-adults, lily-moms, training, local-outreach, international, church-planting, serve]
         description: "Which ministry this belongs to. Not shown on the site yet — reserved for future filtering."
 
       - name: featured
