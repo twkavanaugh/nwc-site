@@ -2,6 +2,9 @@
 title: "Family Table "
 startDate: 2026-07-05
 subtitle: Family table provides North Wake families the chance to connect
+endDate: 2026-07-05
+expirationDate: 2026-07-05
+image: /events/stefan-vladimirov-Q_Moi2xjieU-unsplash.jpg
 featured: false
 ---
 I'm baby cold-pressed garum margiela succulents, slow-carb lo-fi sound bath unicorn ascot lion's mane. Taxidermy activated charcoal tumeric fanny pack yuccie yo la tengo plaid aesthetic molly baz. Church-key af [are.na](http://are.na), grain bowl taxidermy sound bath monstera noguchi post-rock bode cornhole post-ironic hella le corbusier copper mug. V60 disrupt sriracha knoll reading series garum fam narwhal blundstones risograph.
