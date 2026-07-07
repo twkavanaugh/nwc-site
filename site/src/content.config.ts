@@ -1,4 +1,4 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection, z, reference } from "astro:content";
 import { glob } from "astro/loaders";
 
 // -----------------------------------------------------------------------------
@@ -62,4 +62,55 @@ const events = defineCollection({
   }),
 });
 
-export const collections = { events };
+// -----------------------------------------------------------------------------
+// categories — flat taxonomy (Q: no parent field, deliberately). Data-only (just
+// a label), so YAML data files rather than empty-bodied Markdown — the filename is
+// the id (e.g. new-here.yaml → "new-here"), which posts/resources reference.
+// SEED LABELS ARE PROVISIONAL — confirm the taxonomy with the church before launch.
+// -----------------------------------------------------------------------------
+const categories = defineCollection({
+  loader: glob({ pattern: "**/*.yaml", base: "./src/content/categories" }),
+  schema: z.object({
+    label: z.string(),
+  }),
+});
+
+// -----------------------------------------------------------------------------
+// posts — long-form content (narrative in the Markdown BODY, same prose-not-arrays
+// convention as events). Cards/listings render title + description.
+// -----------------------------------------------------------------------------
+const posts = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/posts" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(), // the card / listing blurb
+    // Validated against the categories collection via reference() (Astro 5 Content
+    // Layer) — a bad id fails the build, not silently.
+    categories: z.array(reference("categories")),
+    // Downloadable files attached to the post. Capped at 5.
+    attachments: z
+      .array(z.object({ label: z.string(), file: z.string() }))
+      .max(5)
+      .optional(),
+    draft: z.boolean().default(false), // hidden from listings while true
+  }),
+});
+
+// -----------------------------------------------------------------------------
+// resources — pointer entries (a PDF, an external link, or an internal post).
+// -----------------------------------------------------------------------------
+const resources = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/resources" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    categories: z.array(reference("categories")),
+    type: z.enum(["pdf", "external", "post"]),
+    // Deliberately z.string() (NOT .url()): target is a /public path (pdf), an
+    // absolute URL (external), or a post slug (post). .url() would reject the
+    // internal path/slug forms — same rationale as events.registrationUrl.
+    target: z.string(),
+  }),
+});
+
+export const collections = { events, categories, posts, resources };
