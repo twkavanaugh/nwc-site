@@ -1,0 +1,386 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import { getCollection } from "astro:content";
+
+// Resources index — list view. Design source: brand/prototype/RESOURCES-LIST.html
+// (Gate 2 plan + rulings). The catalog MERGES two collections — every `resources`
+// entry (rendered per its type) plus every non-draft `posts` entry (rendered as a
+// read-on-site card linking to /resources/<slug>; that route is built in Gate 3b —
+// it 404s until then, expected). Filtering is 100% CSS via :target; the per-category
+// filter rules are GENERATED from the categories collection (below) so adding a
+// category needs zero CSS edits.
+
+// --- Categories: drive chips / tgt anchors / tags / counts ---
+const categoryEntries = await getCollection("categories");
+// Curated order: sort by the category's `order` ascending where present, then
+// alphabetical by id for any without one. This one sorted array drives the tgt
+// anchors, chips, tags, and the generated :target CSS — all stay in lockstep.
+const categories = categoryEntries
+  .map((c) => ({ id: c.id, label: c.data.label, order: c.data.order }))
+  .sort((a, b) => {
+    if (a.order != null && b.order != null) return a.order - b.order;
+    if (a.order != null) return -1;
+    if (b.order != null) return 1;
+    return a.id.localeCompare(b.id);
+  });
+const catIds = categories.map((c) => c.id);
+const labelOf = Object.fromEntries(categories.map((c) => [c.id, c.label]));
+
+// --- type enum → glyph / kicker / action label (schema enum wins over package) ---
+const TYPE_META = {
+  pdf: { glyph: "↓", kicker: "Download · PDF", action: "Download PDF →" },
+  external: { glyph: "↗", kicker: "External link", action: "Visit site ↗" },
+  post: { glyph: "→", kicker: "Read on site", action: "Read post →" },
+} as const;
+
+// --- Catalog = resources + non-draft posts, unified into one card shape ---
+const resourceEntries = await getCollection("resources");
+const postEntries = (await getCollection("posts")).filter((p) => !p.data.draft);
+
+type Card = {
+  title: string;
+  description: string;
+  cats: string[];
+  type: keyof typeof TYPE_META;
+  href: string;
+  newTab: boolean;
+  glyph: string;
+  kicker: string;
+  action: string;
+};
+
+const resourceCards: Card[] = resourceEntries.map((e) => {
+  const type = e.data.type as keyof typeof TYPE_META;
+  const cats = e.data.categories.map((c: { id: string }) => c.id);
+  return {
+    title: e.data.title,
+    description: e.data.description,
+    cats,
+    type,
+    // type:post resources resolve target (a post slug) to the /resources route;
+    // pdf → /public path; external → absolute URL.
+    href: type === "post" ? `/resources/${e.data.target}` : e.data.target,
+    newTab: type === "external",
+    ...TYPE_META[type],
+  };
+});
+
+const postCards: Card[] = postEntries.map((e) => ({
+  title: e.data.title,
+  description: e.data.description,
+  cats: e.data.categories.map((c: { id: string }) => c.id),
+  type: "post",
+  href: `/resources/${e.id}`,
+  newTab: false,
+  ...TYPE_META.post,
+}));
+
+// Deterministic order: alphabetical by title (no curated sort field yet).
+const catalog: Card[] = [...resourceCards, ...postCards].sort((a, b) =>
+  a.title.localeCompare(b.title),
+);
+
+const totalCount = catalog.length;
+const countFor = (id: string) => catalog.filter((c) => c.cats.includes(id)).length;
+
+// --- Generated :target filter engine (injected is:global below) ---
+// Kept global (not scoped) so the #id:target sibling selectors are not rewritten by
+// Astro's scoping, and so the active-chip rules win predictably. The chips are styled
+// here too (rather than scoped) so their base + active states share one specificity
+// origin. scroll-margin-top clears our sticky Nav (~72px) with breathing room.
+const NAV_CLEARANCE = 96;
+const list = (fn: (id: string) => string) => catIds.map(fn).join(",\n");
+const filterCss = `
+.tgt { display: block; height: 0; scroll-margin-top: ${NAV_CLEARANCE}px; }
+
+.chip {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--ink-2);
+  padding: 8px 15px; border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+.chip:hover { border-color: var(--ink-3); }
+.chip .n { color: var(--ink-4); margin-left: 7px; }
+.chip-all { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+${list((id) => `#${id}:target ~ .filter-bar .chip-all`)} {
+  background: transparent; color: var(--ink-2); border-color: var(--line-strong);
+}
+${list((id) => `#${id}:target ~ .filter-bar .chip-${id}`)} {
+  background: var(--ink); color: var(--bg); border-color: var(--ink);
+}
+${list((id) => `#${id}:target ~ .catalog-wrap .card:not(.cat-${id})`)} {
+  display: none;
+}
+.count .active-name { display: none; }
+.count .all-name { display: inline; }
+${list((id) => `#${id}:target ~ .catalog-wrap .count .all-name`)} { display: none; }
+${list((id) => `#${id}:target ~ .catalog-wrap .count .name-${id}`)} { display: inline; }
+
+@media (max-width: 720px) { .chip { font-size: 14px; } }
+`;
+---
+
+<Layout
+  title="Resources"
+  description="The North Wake Church resource library — forms, reading plans, guides, and staff-written pages, filterable by category."
+>
+  <!-- Breadcrumb first in body (Resources = current filled chip). -->
+  <Breadcrumb trail={[{ label: "Home", href: "/" }, { label: "Resources" }]} />
+
+  <!-- Hero — UNVERIFIED placeholder copy carried from the design package. -->
+  <section class="rz-hero">
+    <div class="wrap">
+      <div class="eyebrow rz-eyebrow"><span class="dot"></span>Resources</div>
+      <h1 class="display-l rz-title">A shelf for the whole church family.</h1>
+      <p class="lede rz-lede">
+        Forms, reading plans, guides, and pages written by our staff — gathered in one
+        place. Scan the list, download what you need, follow a link, or read it right here.
+      </p>
+    </div>
+  </section>
+
+  <!-- filter + catalog root: tgt anchors → filter bar → catalog (sibling order is
+       what makes the :target ~ combinator reach forward). -->
+  <div class="filter-root wrap">
+    <a id="all" class="tgt"></a>
+    {categories.map((c) => <a id={c.id} class="tgt"></a>)}
+
+    <div class="filter-bar">
+      <div class="chips">
+        <span class="chips-label">Filter</span>
+        <a href="#all" class="chip chip-all">All <span class="n">{totalCount}</span></a>
+        {
+          categories.map((c) => (
+            <a href={`#${c.id}`} class={`chip chip-${c.id}`}>
+              {c.label} <span class="n">{countFor(c.id)}</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="catalog-wrap">
+      <div class="catalog-head">
+        <span class="eyebrow"><span class="dot"></span>Library</span>
+        <span class="count">
+          Showing <span class="all-name">all resources</span>{
+            categories.map((c) => (
+              <span class={`active-name name-${c.id}`}>{c.label}</span>
+            ))
+          }
+        </span>
+      </div>
+
+      <div class="catalog">
+        {
+          catalog.map((it) => (
+            <a
+              href={it.href}
+              class={`card ${it.cats.map((id) => `cat-${id}`).join(" ")}`}
+              {...(it.newTab ? { target: "_blank", rel: "noopener" } : {})}
+            >
+              <span class="card-type"><span class="glyph">{it.glyph}</span></span>
+              <div class="card-main">
+                <h3><span class="type-kicker">{it.kicker}</span>{it.title}</h3>
+                <p>{it.description}</p>
+              </div>
+              <div class="card-tags">
+                {it.cats.map((id) => <span class="tag">{labelOf[id]}</span>)}
+              </div>
+              <span class="card-action">{it.action}</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<!-- Structural CSS (scoped). Colors via semantic tokens only; the package :root is
+     dropped (Layout → global.css → tokens.css supplies them). -->
+<style>
+  .rz-hero {
+    padding: 72px 0 8px;
+  }
+  .rz-title {
+    max-width: 16ch;
+    margin-top: 26px;
+  }
+  .rz-lede {
+    max-width: 54ch;
+    margin-top: 24px;
+    color: var(--ink-2);
+  }
+
+  .filter-root {
+    padding-top: 40px;
+  }
+
+  /* full-bleed to the .wrap edges (its gutter is 40px desktop, 22px ≤720) */
+  .filter-bar {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin: 12px -40px 0;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    padding: 14px 40px; /* re-align chips to the gutter */
+  }
+  .chips-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    margin-right: 8px;
+  }
+
+  .catalog-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 40px 0 20px;
+    gap: 20px;
+  }
+  .count {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    text-align: right;
+  }
+
+  .catalog {
+    border-top: 1px solid var(--line-strong);
+    margin-bottom: 80px;
+  }
+
+  /* ROW: glyph | title+desc | tags | action */
+  .card {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) 220px 150px;
+    align-items: center;
+    gap: 32px;
+    padding: 26px 12px;
+    border-bottom: 1px solid var(--line);
+    color: inherit;
+    background: var(--bg);
+    transition: background 120ms ease;
+  }
+  .card:hover {
+    background: var(--bg-2);
+  }
+  .card-type .glyph {
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    color: var(--accent);
+  }
+  .card-main {
+    min-width: 0;
+  }
+  .card h3 {
+    font-weight: 700;
+    font-size: 21px;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0 0 5px;
+  }
+  .type-kicker {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    margin-bottom: 7px;
+  }
+  .card p {
+    font-size: 16px; /* content floor */
+    line-height: 1.5;
+    color: var(--ink-3);
+    margin: 0;
+    max-width: 62ch;
+  }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .card-tags .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    border: 1px solid var(--line);
+    padding: 4px 9px;
+  }
+  .card-action {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  /* Mobile — package 860/560 reconciled onto our 720 system. At ≤720 the global
+     .wrap gutter is already 22px; match the full-bleed bar + chips to it, collapse
+     the row to 3-col and hide the tags column (package behavior). ≤560 drops the
+     action below the description. All page mono joins the site bump to 14px. */
+  @media (max-width: 720px) {
+    .filter-bar {
+      margin-left: -22px;
+      margin-right: -22px;
+    }
+    .chips {
+      padding-left: 22px;
+      padding-right: 22px;
+    }
+    .chips-label,
+    .count,
+    .type-kicker,
+    .card-tags .tag {
+      font-size: 14px;
+    }
+    .card {
+      grid-template-columns: 44px minmax(0, 1fr) 130px;
+      gap: 20px;
+    }
+    .card-tags {
+      display: none;
+    }
+  }
+  @media (max-width: 560px) {
+    .card {
+      grid-template-columns: 40px minmax(0, 1fr);
+      row-gap: 12px;
+    }
+    .card-action {
+      grid-column: 2;
+      justify-content: flex-start;
+      text-align: left;
+      margin-top: 2px;
+    }
+  }
+</style>
+
+<!-- Zero-JS :target filter engine + chip styling — GENERATED from the categories
+     collection, injected global so the #id:target sibling selectors aren't rewritten
+     by Astro scoping. -->
+<style is:global set:html={filterCss}></style>

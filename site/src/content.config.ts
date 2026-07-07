@@ -72,6 +72,10 @@ const categories = defineCollection({
   loader: glob({ pattern: "**/*.yaml", base: "./src/content/categories" }),
   schema: z.object({
     label: z.string(),
+    // Curated chip/tag order. Sort ascending where present, then alphabetical by
+    // id for any without one. PROVISIONAL like the labels — one-line edits once the
+    // church confirms the real taxonomy.
+    order: z.number().optional(),
   }),
 });
 
