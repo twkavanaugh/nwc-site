@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Resources — North Wake Church</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f3ed;
+    --bg-2: #ece7dc;
+    --bg-3: #e3ddce;
+    --ink: #1a1814;
+    --ink-2: #3a352c;
+    --ink-3: #6e665a;
+    --ink-4: #a89f8e;
+    --line: rgba(26, 24, 20, 0.12);
+    --line-strong: rgba(26, 24, 20, 0.22);
+    --accent: #8a4d2e;
+    --sans: "Inter Tight", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --serif: "Newsreader", Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 48px; }
+
+  /* ---------- top nav (static, visual context) ---------- */
+  .nav { border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--bg); z-index: 20; }
+  .nav-inner { max-width: 1240px; margin: 0 auto; padding: 0 48px; height: 68px; display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.02em; font-size: 18px; }
+  .brand .cross { width: 20px; height: 20px; position: relative; }
+  .brand .cross::before, .brand .cross::after { content: ""; position: absolute; background: var(--accent); }
+  .brand .cross::before { left: 8px; top: 0; width: 4px; height: 20px; }
+  .brand .cross::after { top: 6px; left: 0; width: 20px; height: 4px; }
+  .nav-links { display: flex; gap: 30px; font-size: 14px; color: var(--ink-2); }
+  .nav-links .active { color: var(--accent); font-weight: 500; }
+  .nav-cta { font-family: var(--sans); font-size: 13px; font-weight: 500; border: 1px solid var(--line-strong); padding: 9px 18px; border-radius: 999px; }
+
+  /* ---------- hero ---------- */
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-3); display: inline-flex; align-items: center; gap: 10px; }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex: none; }
+  .hero { padding: 72px 0 8px; }
+  .hero h1 { font-weight: 700; font-size: clamp(44px, 6vw, 82px); line-height: 1.02; letter-spacing: -0.03em; margin: 26px 0 0; max-width: 16ch; }
+  .hero p { font-size: 20px; line-height: 1.6; color: var(--ink-2); max-width: 54ch; margin: 24px 0 0; }
+
+  /* ---------- filter rail ---------- */
+  .filter-root { padding-top: 40px; }
+  .filter-bar { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 12px; }
+  .chips { max-width: 1240px; margin: 0 auto; padding: 14px 48px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .chips .chips-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-4); margin-right: 8px; }
+  .chip {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--ink-2); padding: 8px 15px; border: 1px solid var(--line-strong);
+    border-radius: 999px; transition: background 120ms, color 120ms, border-color 120ms;
+  }
+  .chip:hover { border-color: var(--ink-3); }
+  .chip .n { color: var(--ink-4); margin-left: 7px; }
+  /* active states driven purely by :target below */
+
+  /* ---------- catalog ---------- */
+  .catalog-head { display: flex; align-items: baseline; justify-content: space-between; padding: 40px 0 20px; }
+  .catalog-head .count { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+  .catalog {
+    border-top: 1px solid var(--line-strong);
+    margin-bottom: 80px;
+  }
+  /* ROW layout: glyph | title+desc | tags | action */
+  .card {
+    background: var(--bg);
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) 220px 150px;
+    align-items: center; gap: 32px;
+    padding: 26px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .card:hover { background: var(--bg-2); }
+  .card-top { display: contents; }
+  .card-type { font-family: var(--mono); font-size: 0; }
+  .card-type .type-label { display: none; }
+  .card-type .glyph {
+    width: 44px; height: 44px; border: 1px solid var(--line-strong); border-radius: 50%;
+    display: grid; place-items: center; font-size: 18px; color: var(--accent);
+  }
+  .card-main { min-width: 0; }
+  .card h3 { font-weight: 700; font-size: 21px; letter-spacing: -0.02em; line-height: 1.2; margin: 0 0 5px; }
+  .card h3 .type-kicker { display: block; font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 7px; }
+  .card p { font-size: 16px; line-height: 1.5; color: var(--ink-3); margin: 0; max-width: 62ch; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-start; }
+  .card-tags .tag { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-4); border: 1px solid var(--line); padding: 4px 9px; }
+  .card-action { font-size: 14px; font-weight: 500; color: var(--accent); display: inline-flex; align-items: center; gap: 8px; justify-content: flex-end; text-align: right; }
+
+  /* meta size floor */
+  .card p, .hero p { font-size: 16px; }
+  .hero p { font-size: 20px; }
+
+  /* ---------- footer ---------- */
+  .foot { border-top: 1px solid var(--line); padding: 40px 0 64px; }
+  .foot .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .foot .muted { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); }
+
+  /* =========================================================
+     ZERO-JS FILTERING via :target
+     Anchor targets sit before .filter-bar and .catalog (siblings).
+     Clicking a chip navigates to #category; CSS shows the match.
+     ========================================================= */
+  .tgt { display: block; height: 0; scroll-margin-top: 120px; }
+
+  /* default: All chip active */
+  .chip-all { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+  /* when any specific category is targeted, de-emphasize All */
+  #new-here:target ~ .filter-bar .chip-all,
+  #families:target ~ .filter-bar .chip-all,
+  #discipleship:target ~ .filter-bar .chip-all,
+  #care:target ~ .filter-bar .chip-all,
+  #missions:target ~ .filter-bar .chip-all,
+  #forms:target ~ .filter-bar .chip-all {
+    background: transparent; color: var(--ink-2); border-color: var(--line-strong);
+  }
+
+  /* activate the targeted category's chip */
+  #new-here:target     ~ .filter-bar .chip-new-here,
+  #families:target     ~ .filter-bar .chip-families,
+  #discipleship:target ~ .filter-bar .chip-discipleship,
+  #care:target         ~ .filter-bar .chip-care,
+  #missions:target     ~ .filter-bar .chip-missions,
+  #forms:target        ~ .filter-bar .chip-forms {
+    background: var(--ink); color: var(--bg); border-color: var(--ink);
+  }
+
+  /* hide non-matching cards for the targeted category */
+  #new-here:target     ~ .catalog-wrap .card:not(.cat-new-here),
+  #families:target     ~ .catalog-wrap .card:not(.cat-families),
+  #discipleship:target ~ .catalog-wrap .card:not(.cat-discipleship),
+  #care:target         ~ .catalog-wrap .card:not(.cat-care),
+  #missions:target     ~ .catalog-wrap .card:not(.cat-missions),
+  #forms:target        ~ .catalog-wrap .card:not(.cat-forms) {
+    display: none;
+  }
+
+  /* swap the count label to the active category name */
+  .count .active-name { display: none; }
+  .count .all-name { display: inline; }
+  #new-here:target ~ .catalog-wrap .count .all-name,
+  #families:target ~ .catalog-wrap .count .all-name,
+  #discipleship:target ~ .catalog-wrap .count .all-name,
+  #care:target ~ .catalog-wrap .count .all-name,
+  #missions:target ~ .catalog-wrap .count .all-name,
+  #forms:target ~ .catalog-wrap .count .all-name { display: none; }
+  #new-here:target     ~ .catalog-wrap .count .name-new-here,
+  #families:target     ~ .catalog-wrap .count .name-families,
+  #discipleship:target ~ .catalog-wrap .count .name-discipleship,
+  #care:target         ~ .catalog-wrap .count .name-care,
+  #missions:target     ~ .catalog-wrap .count .name-missions,
+  #forms:target        ~ .catalog-wrap .count .name-forms { display: inline; }
+
+  @media (max-width: 860px) {
+    .nav-links { display: none; }
+    .wrap, .nav-inner, .chips { padding-left: 28px; padding-right: 28px; }
+    /* rows collapse: drop the tags column into the description flow, stack action */
+    .card { grid-template-columns: 44px minmax(0,1fr) 130px; gap: 20px; }
+    .card-tags { display: none; }
+  }
+  @media (max-width: 560px) {
+    .card { grid-template-columns: 40px minmax(0,1fr); row-gap: 12px; }
+    .card-action { grid-column: 2; justify-content: flex-start; text-align: left; margin-top: 2px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- top nav (static, for context) -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand"><span class="cross"></span>North Wake</div>
+    <div class="nav-links">
+      <span>About</span><span>Mission</span><span>Help</span><span>Community</span>
+      <span class="active">Resources</span>
+    </div>
+    <div class="nav-cta">Plan a Visit</div>
+  </div>
+</nav>
+
+<!-- hero -->
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow"><span class="dot"></span>Resources</span>
+    <h1>A shelf for the whole church family.</h1>
+    <p>Forms, reading plans, guides, and pages written by our staff — gathered in one place. Scan the list, download what you need, follow a link, or read it right here.</p>
+  </div>
+</header>
+
+<!-- ===== filter + catalog root (all :target siblings live here) ===== -->
+<div class="filter-root wrap">
+
+  <!-- anchor targets (zero-JS filter state) -->
+  <a id="all" class="tgt"></a>
+  <a id="new-here" class="tgt"></a>
+  <a id="families" class="tgt"></a>
+  <a id="discipleship" class="tgt"></a>
+  <a id="care" class="tgt"></a>
+  <a id="missions" class="tgt"></a>
+  <a id="forms" class="tgt"></a>
+
+  <!-- chips: real navigation links -->
+  <div class="filter-bar" style="margin-left:-48px;margin-right:-48px;">
+    <div class="chips">
+      <span class="chips-label">Filter</span>
+      <a href="#all" class="chip chip-all">All <span class="n">12</span></a>
+      <a href="#new-here" class="chip chip-new-here">New Here <span class="n">4</span></a>
+      <a href="#families" class="chip chip-families">Families <span class="n">3</span></a>
+      <a href="#discipleship" class="chip chip-discipleship">Discipleship <span class="n">3</span></a>
+      <a href="#care" class="chip chip-care">Care <span class="n">2</span></a>
+      <a href="#missions" class="chip chip-missions">Missions <span class="n">1</span></a>
+      <a href="#forms" class="chip chip-forms">Forms <span class="n">3</span></a>
+    </div>
+  </div>
+
+  <!-- catalog wrap (sibling after targets) -->
+  <div class="catalog-wrap">
+    <div class="catalog-head">
+      <span class="eyebrow"><span class="dot"></span>Library</span>
+      <span class="count">
+        Showing
+        <span class="all-name">all resources</span>
+        <span class="active-name name-new-here">New Here</span>
+        <span class="active-name name-families">Families</span>
+        <span class="active-name name-discipleship">Discipleship</span>
+        <span class="active-name name-care">Care</span>
+        <span class="active-name name-missions">Missions</span>
+        <span class="active-name name-forms">Forms</span>
+      </span>
+    </div>
+
+    <div class="catalog">
+
+      <!-- 1 -->
+      <a href="#" class="card cat-new-here cat-forms">
+        <span class="card-type"><span class="glyph">↓</span></span>
+        <div class="card-main">
+        <h3><span class="type-kicker">Download · PDF</span>Membership Packet</h3>
+        <p>Everything you need to explore covenant membership — our beliefs, expectations, and the path to joining.</p>
+        </div>
+        <div class="card-tags"><span class="tag">New Here</span><span class="tag">Forms</span></div>
+        <span class="card-action">Download PDF →</span>
+      </a>
+
+      <!-- 2 -->
+      <a href="#" class="card cat-forms cat-families">
+        <span class="card-type"><span class="glyph">↓</span></span>
+        <div class="card-main">
+        <h3><span class="type-kicker">Download · PDF</span>Photo &amp; Media Release</h3>
+        <p>Consent form for photos and video of you or your children in church media. Sign once, return to the office.</p>
+        </div>
+        <div class="card-tags"><span class="tag">Forms</span><span class="tag">Families</span></div>
+        <span class="card-action">Download PDF →</span>
+      </a>
+
+      <!-- 3 -->
+      <a href="#" class="card cat-new-here">
+        <span class="card-type"><span class="glyph">→</span></span>
+        <div class="card-main">
+        <h3><span class="type-kicker">Read on site</span>What to Expect at a Baptism</h3>
+        <p>New to baptism, or considering it yourself? A short walk through what happens and what it means.</p>
+        </div>
+        <div class="card-tags"><span class="tag">New Here</span></div>
+        <span class="card-action">Read post →</span>
+      </a>
+
+      <!-- 4 -->
+      <a href="#" class="card cat-discipleship">
+        <span class="card-type"><span class="glyph">↓</span></span>
+        <div class="card-main">
+        <h3><span class="type-kicker">Download · PDF</span>2026 Bible Reading Plan</h3>
+        <p>A year through the Scriptures at a steady pace — printable, with weekly checkpoints and room to note.</p>
+        </div>
+        <div class="card-tags"><span class="tag">Discipleship</span></div>
+        <span class="card-action">Download PDF →</span>
+      </a>
+
+      <!-- 5 -->
+      <a href="#" class="card cat-new-here">
+        <span class="card-type"><span class="glyph">↗</span></span>
+        <div class="card-main">
+        <h3><span class="type-kicker">External link</span>Who Is Jesus?</h3>
+        <p>New to faith, or just curious? A trusted starting point for the biggest question of all — off-site.</p>
+        </div>
+        <div class="card-tags"><span class="tag">New Here</span></div>
+        <span class="card-action">Visit site ↗</span>
+      </a>
+
+      <!-- 6 -->
+      <a href="#" class="card cat-discipleship">
+        <span class="card-type"><span class="glyph">→</span></span>
+        <div class="card-main">
+        <h3><span class="type-kicker">Read on site</span>Grow Groups Overview</h3>
+        <p>How our mid-week groups work, what a typical night looks like, and how to find the one near you.</p>
+        </div>
+        <div class="card-tags"><span class="tag">Discipleship</span></div>
+        <span class="card-action">Read post →</span>
+      </a>
+
+      <!-- 7 -->
+      <a href="#" class="card cat-care cat-forms">
+        <span class="card-type"><span class="glyph">↓</span></span>
+        <div class="card-main">
+        <h3><span class="type-kicker">Download · PDF</span>Counseling Intake Form</h3>
+        <p>Start the conversation with our care team. Fill this out ahead of a first Hope Counseling appointment.</p>
+        </div>
+        <div class="card-tags"><span class="tag">Care</span><span class="tag">Forms</span></div>
+        <span class="card-action">Download PDF →</span>
+      </a>
+
+      <!-- 8 -->
+      <a href="#" class="card cat-missions">
+        <span class="card-type"><span class="glyph">↗</span></span>
+        <div class="card-main">
+        <h3><span class="type-kicker">External link</span>Our Sending Network</h3>
+        <p>Meet the partners and missionaries North Wake supports around the world, and how to pray and give.</p>
+        </div>
+        <div class="card-tags"><span class="tag">Missions</span></div>
+        <span class="card-action">Visit site ↗</span>
+      </a>
+
+      <!-- 9 -->
+      <a href="#" class="card cat-families">
+        <span class="card-type"><span class="glyph">→</span></span>
+        <div class="card-main">
+        <h3><span class="type-kicker">Read on site</span>Family Discipleship at Home</h3>
+        <p>Simple rhythms for pointing your kids to Jesus — at the table, in the car, and at bedtime. Includes downloads.</p>
+        </div>
+        <div class="card-tags"><span class="tag">Families</span></div>
+        <span class="card-action">Read post →</span>
+      </a>
+
+      <!-- 10 -->
+      <a href="#" class="card cat-discipleship cat-families">
+        <span class="card-type"><span class="glyph">↗</span></span>
+        <div class="card-main">
+        <h3><span class="type-kicker">External link</span>Financial Peace — Signup</h3>
+        <p>Register for the next cohort of our money & stewardship class, hosted off-site through our partner.</p>
+        </div>
+        <div class="card-tags"><span class="tag">Discipleship</span><span class="tag">Families</span></div>
+        <span class="card-action">Register ↗</span>
+      </a>
+
+      <!-- 11 -->
+      <a href="#" class="card cat-care">
+        <span class="card-type"><span class="glyph">→</span></span>
+        <div class="card-main">
+        <h3><span class="type-kicker">Read on site</span>How to Ask for Prayer</h3>
+        <p>Ways to share a request, who sees it, and how our prayer team and elders care for the burdens you bring.</p>
+        </div>
+        <div class="card-tags"><span class="tag">Care</span></div>
+        <span class="card-action">Read post →</span>
+      </a>
+
+      <!-- 12 -->
+      <a href="#" class="card cat-new-here">
+        <span class="card-type"><span class="glyph">→</span></span>
+        <div class="card-main">
+        <h3><span class="type-kicker">Read on site</span>Serving at North Wake</h3>
+        <p>Where hands are needed and how to take a first step — from Sunday teams to behind-the-scenes help.</p>
+        </div>
+        <div class="card-tags"><span class="tag">New Here</span></div>
+        <span class="card-action">Read post →</span>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<!-- footer -->
+<footer class="foot">
+  <div class="wrap">
+    <span class="muted">North Wake Church · 1212 S Main St, Wake Forest, NC</span>
+    <span class="muted">Can't find something? Email the office →</span>
+  </div>
+</footer>
+
+</body>
+</html>
