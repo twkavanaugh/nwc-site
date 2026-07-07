@@ -45,10 +45,18 @@ type Card = {
   type: keyof typeof TYPE_META;
   href: string;
   newTab: boolean;
+  inert: boolean;
   glyph: string;
   kicker: string;
   action: string;
 };
+
+// CONVENTION: a pdf/download target whose path begins with "/resources/PLACEHOLDER-"
+// is a document the church hasn't provided yet — its row renders INERT (glyph + label
+// kept, action replaced with muted "Available soon", no link). Swap the placeholder
+// path for the real file and the row goes live automatically. Also enforced in
+// resources/[slug].astro for post attachments.
+const PLACEHOLDER_PREFIX = "/resources/PLACEHOLDER-";
 
 const resourceCards: Card[] = resourceEntries.map((e) => {
   const type = e.data.type as keyof typeof TYPE_META;
@@ -62,6 +70,7 @@ const resourceCards: Card[] = resourceEntries.map((e) => {
     // pdf → /public path; external → absolute URL.
     href: type === "post" ? `/resources/${e.data.target}` : e.data.target,
     newTab: type === "external",
+    inert: String(e.data.target).startsWith(PLACEHOLDER_PREFIX),
     ...TYPE_META[type],
   };
 });
@@ -73,6 +82,7 @@ const postCards: Card[] = postEntries.map((e) => ({
   type: "post",
   href: `/resources/${e.id}`,
   newTab: false,
+  inert: false,
   ...TYPE_META.post,
 }));
 
@@ -176,23 +186,33 @@ ${list((id) => `#${id}:target ~ .catalog-wrap .count .name-${id}`)} { display: i
 
       <div class="catalog">
         {
-          catalog.map((it) => (
-            <a
-              href={it.href}
-              class={`card ${it.cats.map((id) => `cat-${id}`).join(" ")}`}
-              {...(it.newTab ? { target: "_blank", rel: "noopener" } : {})}
-            >
-              <span class="card-type"><span class="glyph">{it.glyph}</span></span>
-              <div class="card-main">
-                <h3><span class="type-kicker">{it.kicker}</span>{it.title}</h3>
-                <p>{it.description}</p>
-              </div>
-              <div class="card-tags">
-                {it.cats.map((id) => <span class="tag">{labelOf[id]}</span>)}
-              </div>
-              <span class="card-action">{it.action}</span>
-            </a>
-          ))
+          catalog.map((it) => {
+            // Inert placeholder rows are a <div> (no link); live rows are an <a>.
+            const Tag = it.inert ? "div" : "a";
+            const linkProps = it.inert
+              ? {}
+              : { href: it.href, ...(it.newTab ? { target: "_blank", rel: "noopener" } : {}) };
+            return (
+              <Tag
+                class={`card${it.inert ? " is-inert" : ""} ${it.cats.map((id) => `cat-${id}`).join(" ")}`}
+                {...linkProps}
+              >
+                <span class="card-type"><span class="glyph">{it.glyph}</span></span>
+                <div class="card-main">
+                  <h3><span class="type-kicker">{it.kicker}</span>{it.title}</h3>
+                  <p>{it.description}</p>
+                </div>
+                <div class="card-tags">
+                  {it.cats.map((id) => <span class="tag">{labelOf[id]}</span>)}
+                </div>
+                {it.inert ? (
+                  <span class="card-action card-soon">Available soon</span>
+                ) : (
+                  <span class="card-action">{it.action}</span>
+                )}
+              </Tag>
+            );
+          })
         }
       </div>
     </div>
@@ -277,6 +297,21 @@ ${list((id) => `#${id}:target ~ .catalog-wrap .count .name-${id}`)} { display: i
   .card:hover {
     background: var(--bg-2);
   }
+  /* Inert (placeholder) row — non-clickable, no hover affordance. */
+  .card.is-inert {
+    cursor: default;
+  }
+  .card.is-inert:hover {
+    background: var(--bg);
+  }
+  .card-soon {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+  }
   .card-type .glyph {
     width: 44px;
     height: 44px;
@@ -355,7 +390,8 @@ ${list((id) => `#${id}:target ~ .catalog-wrap .count .name-${id}`)} { display: i
     .chips-label,
     .count,
     .type-kicker,
-    .card-tags .tag {
+    .card-tags .tag,
+    .card-soon {
       font-size: 14px;
     }
     .card {

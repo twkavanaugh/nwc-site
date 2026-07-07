@@ -1,0 +1,273 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import { getCollection, render } from "astro:content";
+
+// Post detail — a staff-written resource page. Adapts the event-detail
+// "continuous column" typography (brand/prototype/EVENT-DETAIL-CONTINUOUS-SPEC.md)
+// but as a single reading column (.wrap-reading) since posts have no facts rail.
+// One route per NON-DRAFT post; the two pdf `resources` entries are index-only
+// (they generate no route here). Category tags link back to /resources#<id>, which
+// lands on the index pre-filtered via the same :target mechanism.
+export async function getStaticPaths() {
+  const posts = (await getCollection("posts")).filter((p) => !p.data.draft);
+  return posts.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+
+// Resolve category references → labels for the tag chips.
+const categoryEntries = await getCollection("categories");
+const labelOf = Object.fromEntries(categoryEntries.map((c) => [c.id, c.data.label]));
+const catList = d.categories.map((c: { id: string }) => ({
+  id: c.id,
+  label: labelOf[c.id] ?? c.id,
+}));
+
+const attachments = d.attachments ?? [];
+---
+
+<Layout title={`${d.title} · Resources · North Wake Church`} description={d.description}>
+  <!-- Breadcrumb (first in body); Resources is a real link now. -->
+  <Breadcrumb
+    trail={[
+      { label: "Home", href: "/" },
+      { label: "Resources", href: "/resources" },
+      { label: d.title },
+    ]}
+  />
+
+  <section class="rzp">
+    <div class="wrap-reading">
+      <header class="rzp-head">
+        <div class="eyebrow"><span class="dot"></span>Resources</div>
+        <h1 class="rzp-title">{d.title}</h1>
+        <p class="rzp-lede">{d.description}</p>
+        <div class="rzp-tags">
+          {
+            catList.map((c) => (
+              <a class="rzp-tag" href={`/resources#${c.id}`}>{c.label}</a>
+            ))
+          }
+        </div>
+      </header>
+
+      <div class="rzp-prose">
+        <Content />
+      </div>
+
+      {
+        attachments.length > 0 && (
+          <section class="rzp-downloads">
+            <h2 class="rzp-downloads-h">Downloads</h2>
+            {attachments.map((a: { label: string; file: string }) => {
+              // Same convention as resources/index.astro: a "/resources/PLACEHOLDER-"
+              // file renders INERT (no link, "Available soon") until the real file
+              // path replaces the placeholder — then it goes live automatically.
+              const inert = a.file.startsWith("/resources/PLACEHOLDER-");
+              const Tag = inert ? "div" : "a";
+              const linkProps = inert ? {} : { href: a.file };
+              return (
+                <Tag class={`rzp-dl${inert ? " is-inert" : ""}`} {...linkProps}>
+                  <span class="rzp-dl-glyph" aria-hidden="true">↓</span>
+                  <span class="rzp-dl-label">{a.label}</span>
+                  {inert ? (
+                    <span class="rzp-dl-action rzp-dl-soon">Available soon</span>
+                  ) : (
+                    <span class="rzp-dl-action">Download PDF →</span>
+                  )}
+                </Tag>
+              );
+            })}
+          </section>
+        )
+      }
+
+      <div class="rzp-browse">
+        <a class="btn btn-ghost" href="/resources">← Browse all resources</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .rzp {
+    padding-top: 56px;
+  }
+
+  /* Header */
+  .rzp-title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(36px, 5vw, 60px);
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    margin: 22px 0 0;
+  }
+  .rzp-lede {
+    font-size: clamp(18px, 1.8vw, 22px);
+    line-height: 1.5;
+    color: var(--ink-2);
+    margin: 20px 0 0;
+    max-width: 54ch;
+  }
+  .rzp-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 24px;
+  }
+  /* Outlined chip — same vocabulary as the index row tags, but links to the
+     pre-filtered index (#category) via the :target mechanism. */
+  .rzp-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+    border: 1px solid var(--line);
+    padding: 4px 9px;
+    transition: border-color 140ms ease, color 140ms ease;
+  }
+  .rzp-tag:hover {
+    border-color: var(--ink-3);
+    color: var(--ink-2);
+  }
+
+  /* Body prose — mirrors the event-detail treatment (rendered Markdown is unscoped). */
+  .rzp-prose {
+    margin-top: 44px;
+  }
+  .rzp-prose :global(p) {
+    font-size: 18px; /* content; 16 on mobile */
+    line-height: 1.65;
+    color: var(--ink-2);
+    margin: 0 0 20px;
+    max-width: 58ch;
+  }
+  .rzp-prose :global(h2) {
+    font-family: var(--display);
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 40px 0 16px;
+  }
+  .rzp-prose :global(ol),
+  .rzp-prose :global(ul) {
+    margin: 0 0 20px;
+    padding-left: 22px;
+  }
+  .rzp-prose :global(li) {
+    font-size: 16px; /* content floor */
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin: 0 0 8px;
+  }
+  .rzp-prose :global(a) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* YouTube embed (injected by remark-youtube) — responsive 16:9, hairline border,
+     no shadow. Page-local for now; promote to global.css if embeds land elsewhere. */
+  .rzp-prose :global(.yt-embed) {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    margin: 28px 0;
+    border: 1px solid var(--line);
+  }
+  .rzp-prose :global(.yt-embed iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* Downloads — hairline-bordered rows in the index's pdf vocabulary (↓ + label + action) */
+  .rzp-downloads {
+    margin-top: 48px;
+    border-top: 1px solid var(--line-strong);
+  }
+  .rzp-downloads-h {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 20px 0 8px;
+  }
+  .rzp-dl {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 4px;
+    border-bottom: 1px solid var(--line);
+    color: inherit;
+    transition: background 120ms ease;
+  }
+  .rzp-dl:hover {
+    background: var(--bg-2);
+  }
+  /* Inert (placeholder) attachment — non-clickable, no hover affordance. */
+  .rzp-dl.is-inert {
+    cursor: default;
+  }
+  .rzp-dl.is-inert:hover {
+    background: transparent;
+  }
+  .rzp-dl-soon {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+  }
+  .rzp-dl-glyph {
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    color: var(--accent);
+  }
+  .rzp-dl-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+    min-width: 0;
+  }
+  .rzp-dl-action {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  .rzp-browse {
+    padding-top: 64px;
+  }
+
+  @media (max-width: 720px) {
+    .rzp-prose :global(p) {
+      font-size: 16px;
+    }
+    .rzp-dl {
+      grid-template-columns: 40px minmax(0, 1fr);
+      row-gap: 8px;
+    }
+    .rzp-dl-action {
+      grid-column: 2;
+    }
+  }
+</style>
