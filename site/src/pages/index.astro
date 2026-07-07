@@ -144,14 +144,14 @@ const MARQUEE_WORDS = [
       <div class="mission-grid">
         {
           [
-            { verb: "Know", headline: "the love of God in Jesus Christ.", body: "We orient every Sunday and every week around the gospel — that God meets us in Jesus, and that meeting changes everything.", ph: "Worship · candid" },
-            { verb: "Grow", headline: "in love for one another.", body: "We don't grow in isolation. In Grow Groups, classes, and shared meals, we open Scripture, pray honestly, and bear each other's burdens.", ph: "Grow Group · home" },
-            { verb: "Go", headline: "in love to reach our neighbors near and far.", body: "From Wake Forest to the nations, we send and serve — through local outreach, mercy ministry, and global missions.", ph: "Local outreach · serving" },
+            // STOCK PLACEHOLDERS (Unsplash) — replace with real photography per
+            // docs/PHOTOGRAPHER-SHOT-LIST.md; alt text is provisional.
+            { verb: "Know", headline: "the love of God in Jesus Christ.", body: "We orient every Sunday and every week around the gospel — that God meets us in Jesus, and that meeting changes everything.", img: "/mission-know.jpg", alt: "People gathered in worship" },
+            { verb: "Grow", headline: "in love for one another.", body: "We don't grow in isolation. In Grow Groups, classes, and shared meals, we open Scripture, pray honestly, and bear each other's burdens.", img: "/mission-grow.jpg", alt: "A small group gathered together" },
+            { verb: "Go", headline: "in love to reach our neighbors near and far.", body: "From Wake Forest to the nations, we send and serve — through local outreach, mercy ministry, and global missions.", img: "/mission-go.jpg", alt: "Serving the local community" },
           ].map((it, i) => (
             <article class="mission-item">
-              <div class="ph" style="aspect-ratio: 4 / 5;">
-                <span class="ph-label">{it.ph}</span>
-              </div>
+              <img class="mission-photo" src={it.img} alt={it.alt} loading="lazy" />
               <div class="mission-num-row">
                 <span class="mono mission-num">0{i + 1}</span>
                 <span class="display-s mission-verb">{it.verb}</span>
@@ -180,9 +180,15 @@ const MARQUEE_WORDS = [
             <a class="btn btn-primary" href="/visit">I'm new — start here <span class="arr">→</span></a>
           </div>
           <div class="visit-ph">
-            <div class="ph" style="aspect-ratio: 1 / 1;">
-              <span class="ph-label">Welcome Walk-Up Candid</span>
-            </div>
+            <!-- STOCK PLACEHOLDER (Unsplash, alex-gallegos) — replace with a real
+                 Welcome Wall / walk-up photo per docs/PHOTOGRAPHER-SHOT-LIST.md;
+                 alt is provisional. Deliberately SHORT (21:9) band. -->
+            <img
+              class="visit-photo"
+              src="/welcome-STOCK-PLACEHOLDER.jpg"
+              alt="Two people embracing in greeting at church"
+              loading="lazy"
+            />
           </div>
         </div>
         <div>
@@ -266,9 +272,15 @@ const MARQUEE_WORDS = [
 
       <a class="sermon-card" href="/sermons">
         <div class="sermon-art">
-          <div class="mono sermon-art-tl">Series artwork</div>
-          <div class="sermon-art-title">Be<br />Different</div>
-          <div class="mono sermon-art-bl">Romans</div>
+          <!-- STOCK PLACEHOLDER (Unsplash, jon-tyson — same image as the /sermons
+               hero) — replace with real series artwork / photography per
+               docs/PHOTOGRAPHER-SHOT-LIST.md; alt is provisional. -->
+          <img
+            class="sermon-art-img"
+            src="/sermons-hero-STOCK-PLACEHOLDER.jpg"
+            alt="A blue flag with a white dove and the word Peace"
+            loading="lazy"
+          />
         </div>
         <div class="sermon-body">
           <div class="mono sermon-kicker">Current series · Spring 2026</div>
@@ -681,6 +693,15 @@ const MARQUEE_WORDS = [
     flex-direction: column;
     gap: 20px;
   }
+  /* Fills the former .ph slot: same 4/5 portrait proportion + radius, image
+     cover-cropped. Replaces the striped placeholder now that photos exist. */
+  .mission-photo {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius-ph);
+    display: block;
+  }
   .mission-num-row {
     display: flex;
     align-items: baseline;
@@ -727,6 +748,16 @@ const MARQUEE_WORDS = [
   }
   .visit-ph {
     margin-top: 56px;
+  }
+  /* Short wide welcome band (~21:9). object-position biased slightly up so the
+     embracing pair reads within the short crop; no distortion (cover, not stretch). */
+  .visit-photo {
+    width: 100%;
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
+    object-position: center 35%;
+    border-radius: var(--radius-card);
+    display: block;
   }
   .visit-point {
     display: grid;
@@ -833,6 +864,13 @@ const MARQUEE_WORDS = [
     align-items: center;
     justify-content: center;
     border-right: 1px solid var(--line-strong);
+  }
+  /* Fills the square series-artwork tile; center-cropped from the 3:2 source. */
+  .sermon-art-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
   .sermon-art-tl {
     position: absolute;

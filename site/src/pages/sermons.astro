@@ -29,6 +29,14 @@ const SPOTIFY_SHOW = "https://open.spotify.com/show/1jHh4sACzIFhYiV5wh5Mof";
         Browse the full sermon archive — search by date, filter by speaker,
         series, or book of the Bible. Listen, download, or share.
       </p>
+      <!-- STOCK PLACEHOLDER (Unsplash, jon-tyson) — replace with real photography
+           per docs/PHOTOGRAPHER-SHOT-LIST.md; alt is provisional. -->
+      <img
+        class="sermons-hero-photo"
+        src="/sermons-hero-STOCK-PLACEHOLDER.jpg"
+        alt="A blue flag with a white dove and the word Peace"
+        loading="lazy"
+      />
     </div>
   </section>
 
@@ -94,6 +102,15 @@ const SPOTIFY_SHOW = "https://open.spotify.com/show/1jHh4sACzIFhYiV5wh5Mof";
   .sermons-lede {
     max-width: 52ch;
     color: var(--ink-2);
+  }
+  /* Wide hero photo, natural 3:2 (no crop — keeps the dove + "Peace" text intact),
+     bounded by the hero's .wrap-narrow container. */
+  .sermons-hero-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 40px;
+    border-radius: var(--radius-card);
   }
 
   /* Embed — min-height is a pre-resize fallback so the page never renders a
