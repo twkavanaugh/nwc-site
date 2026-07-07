@@ -1,14 +1,29 @@
 ---
-# UNVERIFIED — placeholder seed content; confirm/replace before launch.
-title: "Marriage: Cultivating Friendship"
-description: "A placeholder post on cultivating friendship in marriage."
+title: "Marriage: Cultivating Friendship and Fun"
+description: "A six-chapter curriculum on how God's Spirit works in our marriages — for a class, a retreat, or a couples study, with video testimonies from North Wake couples."
 categories: [discipleship, families]
 attachments:
   - label: "Participant & Leader Guide (PDF)"
     file: "/resources/PLACEHOLDER-marriage-guide.pdf"
 ---
 
-Placeholder paragraph on cultivating friendship in marriage — the everyday habits
-of attention, delight, and repair that keep a marriage warm. Real content to come.
+God designed marriage to be a loving, warm relationship — a friendship that grows
+deeper over a lifetime. This curriculum walks couples through how God's Spirit works
+in a marriage, one fruit at a time, across six chapters:
 
+1. **Love**
+2. **Joy & Delight**
+3. **Peace**
+4. **Kindness & Goodness**
+5. **Gentleness & Humility**
+6. **Patience**
+
+Use it for a class, a retreat, or a couples study at home.
+
+<!-- Gate 3b embed test case — placeholder video; real testimony URLs arrive in migration. -->
 https://www.youtube.com/watch?v=dQw4w9WgXcQ
+
+## TODO — full content migration pending
+
+Full chapter body, the North Wake couples' video testimonies, and inline links
+migrate from the old site.
