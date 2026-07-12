@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>F · Warm Band Photo Hero — reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f3ed;
+    --bg-2: #ece7dc;
+    --bg-3: #e3ddce;
+    --ink: #1a1814;
+    --ink-2: #3a352c;
+    --ink-3: #6e665a;
+    --ink-4: #a89f8e;
+    --line: rgba(26,24,20,0.12);
+    --line-strong: rgba(26,24,20,0.22);
+    --accent: #8a4d2e;
+    --accent-ink: #ffffff;
+    --sans: "Inter Tight", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans); background: var(--bg); color: var(--ink);
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "ss01", "cv11"; letter-spacing: -0.005em; line-height: 1.5;
+  }
+
+  .eyebrow { font-size:12px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--ink-3); }
+  .eyebrow .dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent); margin-right:10px; transform:translateY(-2px); }
+
+  h1.display-l { margin:0; font-family:var(--sans); font-size:clamp(44px,6.4vw,104px); font-weight:600; letter-spacing:-0.03em; line-height:0.98; }
+  .lede { font-size:clamp(18px,1.6vw,22px); line-height:1.5; color:var(--ink-2); font-weight:400; letter-spacing:-0.005em; }
+
+  .btn { display:inline-flex; align-items:center; gap:10px; padding:14px 22px; border-radius:999px; font-size:14px; font-weight:500; letter-spacing:-0.005em; border:1px solid transparent; cursor:default; transition:background 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease; }
+  .btn:hover { transform:translateY(-1px); }
+  .btn-primary { background:var(--ink); color:var(--bg); }
+  .btn-primary:hover { background:var(--accent); }
+  .btn-ghost { background:transparent; color:var(--ink); border-color:var(--line-strong); }
+  .btn-ghost:hover { border-color:var(--ink); }
+  .btn .arr { transition:transform 200ms ease; }
+  .btn:hover .arr { transform:translateX(3px); }
+
+  /* ---- Warm Band hero ---- */
+  .warm-band { padding:0; background:var(--bg-2); border-bottom:1px solid var(--line); }
+  .warm-band-grid { display:grid; grid-template-columns:1.15fr 1fr; align-items:stretch; }
+  .warm-band-text { padding:80px 64px 80px max(40px, calc((100vw - 1320px) / 2 + 40px)); }
+  .warm-band-text h1 { max-width:15ch; }
+  .warm-band-text .lede { margin-top:28px; }
+  .warm-band-actions { display:flex; gap:12px; margin-top:32px; flex-wrap:wrap; }
+  .warm-band-photo { background:url('assets/kids-photo.jpg') center/cover no-repeat, var(--bg-3); min-height:520px; }
+
+  @media (max-width: 880px) {
+    .warm-band-grid { grid-template-columns:1fr; }
+    .warm-band-text { padding:56px 24px; }
+    .warm-band-photo { min-height:320px; order:-1; }
+  }
+</style>
+</head>
+<body>
+
+<section class="warm-band">
+  <div class="warm-band-grid">
+    <div class="warm-band-text">
+      <div class="eyebrow" style="margin-bottom:28px;">
+        <span class="dot"></span>North Wake Kids · Babies – 5th grade
+      </div>
+      <h1 class="display-l">Know the love of Jesus. <span style="color:var(--accent);">Go to share it.</span></h1>
+      <p class="lede">A place for every child to know God in Jesus, grow in love for one another, and be sent out to share that love with friends and family.</p>
+      <div class="warm-band-actions">
+        <button class="btn btn-primary">Plan your visit <span class="arr">→</span></button>
+        <button class="btn btn-ghost">Email the kids team</button>
+      </div>
+    </div>
+    <div class="warm-band-photo"></div>
+  </div>
+</section>
+
+</body>
+</html>
