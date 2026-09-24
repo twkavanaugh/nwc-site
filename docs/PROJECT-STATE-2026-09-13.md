@@ -99,7 +99,7 @@ If any of it was settled in July or during the gap, this doc does not know it.
 ## Stack
 - **Astro 5.x** (pinned `^5.0.0`, 5.18.2 installed — deliberately NOT 7.x).
 - Static output, **near-zero client JS**. CSS-only interactivity (mega-menu, mobile
-  hamburger, dropdowns, marquee, fade-up, details/summary accordions, **`:target` resource
+  hamburger, dropdowns, fade-up, details/summary accordions, **`:target` resource
   filtering**). The ONLY `<script>` in `dist/` is the BranchCast embed resizer on `/sermons`.
 - **Content Layer API** (Astro 5): FOUR collections — `events`, `categories`, `posts`,
   `resources` (see Content model below).
@@ -175,6 +175,10 @@ Commits: `f0587df` (package → `brand/prototype/CHURCH-PLANTING-SPEC.md` + `chu
 - **Copy:** approved text; typos fixed per Todd ("places", "ongoing", "early ’90s"). Design-added
   labels (Our heritage / Our conviction / Heritage + conviction / The churches / Kingdom work /
   How we engage / What we do / How we do it) approved by Todd.
+- **Homepage ticker removed (2026-09-23)** — church didn't like the marquee strip; markup,
+  CSS and its compact-times helpers deleted from `index.astro`. Hero now meets the Service
+  Times band directly. Follow-up: homepage "Get directions" is still inert — `mapsUrl` now
+  exists, so it can be wired.
 - **Only photo slot** is the hero `.ph` — shot description in the spec §9 (add to shot list).
 
 ## ★ COME VISIT — SHIPPED (2026-09-23, 2 gates)
@@ -437,7 +441,8 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
 - **Sermons:** hero headline is Todd's copy, not church-confirmed. Podcast links verified.
 - **NAP / service times** (9:00 & 10:45 confirmed) / `url` northwake.com unconfirmed / mapsUrl.
 - **Copy across mission/jesus/kids/students/feed/mature** + nav mega-menu rail/descriptions +
-  marquee — all prototype-sourced, confirm.
+  — all prototype-sourced, confirm. (Homepage marquee/ticker REMOVED 2026-09-23 — church
+  did not like it.)
 - **Content sign-offs:** Lily Moms personal Gmails + named individuals; `noahj@northwake.com`.
 - **★ Accessibility review of record** — Todd's wife's verdict on live-site type sizes; unknown.
 
