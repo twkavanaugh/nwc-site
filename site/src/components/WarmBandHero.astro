@@ -1,7 +1,7 @@
 ---
 // "F · Warm Band" split hero — text left on a --bg-2 band, photo filling the full
 // band height on the right. Source: brand/prototype/HERO-WARM-BAND.md +
-// hero-warm-band.html. Zero JS. First consumer: /visit.
+// hero-warm-band.html. Zero JS. Consumers: /visit, /mission/church-planting.
 //
 // A CTA with no `href` renders as an inert <button type="button"> — the site's
 // convention for an unwired placeholder action (see help/feed.astro).
@@ -16,27 +16,41 @@ interface Props {
   headlineLead: string;
   headlineAccent: string; // keep to the last clause (kit §7)
   lede: string;
-  photo: { src: string; alt: string };
-  primary: Cta;
+  photo?: { src: string; alt: string };
+  photoPlaceholder?: string; // no photo yet → labeled .ph block (e.g. help/feed hero)
+  headlineSize?: "l" | "m"; // "m" for sentence-length headlines (~80 chars)
+  primary?: Cta;
   ghost?: Cta;
   titleId?: string; // lets the page label the section via aria-labelledby
 }
 
-const { eyebrow, headlineLead, headlineAccent, lede, photo, primary, ghost, titleId = "warm-band-title" } =
-  Astro.props;
+const {
+  eyebrow,
+  headlineLead,
+  headlineAccent,
+  lede,
+  photo,
+  photoPlaceholder = "Photo",
+  headlineSize = "l",
+  primary,
+  ghost,
+  titleId = "warm-band-title",
+} = Astro.props;
+const h1Class = headlineSize === "m" ? "display-m warm-band-h1 warm-band-h1--m" : "display-l warm-band-h1";
 ---
 
 <section class="warm-band" aria-labelledby={titleId}>
   <div class="warm-band-grid">
     <div class="warm-band-text">
       <div class="eyebrow warm-band-eyebrow"><span class="dot"></span>{eyebrow}</div>
-      <h1 id={titleId} class="display-l warm-band-h1">
+      <h1 id={titleId} class={h1Class}>
         {headlineLead} <span class="warm-band-accent">{headlineAccent}</span>
       </h1>
       <p class="lede warm-band-lede">{lede}</p>
+      {(primary || ghost) && (
       <div class="warm-band-actions">
         {
-          primary.href ? (
+          primary && (primary.href ? (
             <a class="btn btn-primary" href={primary.href}>
               {primary.label} <span class="arr" aria-hidden="true">→</span>
             </a>
@@ -44,7 +58,7 @@ const { eyebrow, headlineLead, headlineAccent, lede, photo, primary, ghost, titl
             <button type="button" class="btn btn-primary">
               {primary.label} <span class="arr" aria-hidden="true">→</span>
             </button>
-          )
+          ))
         }
         {
           ghost &&
@@ -55,10 +69,19 @@ const { eyebrow, headlineLead, headlineAccent, lede, photo, primary, ghost, titl
             ))
         }
       </div>
+      )}
     </div>
-    <div class="warm-band-photo">
-      <img src={photo.src} alt={photo.alt} loading="eager" decoding="async" />
-    </div>
+    {
+      photo ? (
+        <div class="warm-band-photo">
+          <img src={photo.src} alt={photo.alt} loading="eager" decoding="async" />
+        </div>
+      ) : (
+        <div class="warm-band-photo ph warm-band-ph">
+          <span class="ph-label">{photoPlaceholder}</span>
+        </div>
+      )
+    }
   </div>
 </section>
 
@@ -87,6 +110,9 @@ const { eyebrow, headlineLead, headlineAccent, lede, photo, primary, ghost, titl
   .warm-band-h1 {
     max-width: 15ch;
   }
+  .warm-band-h1--m {
+    max-width: 16ch;
+  }
   .warm-band-accent {
     color: var(--accent);
   }
@@ -111,6 +137,11 @@ const { eyebrow, headlineLead, headlineAccent, lede, photo, primary, ghost, titl
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  /* Flush-edge placeholder: square corners, like the real photo it stands in for. */
+  .warm-band-ph {
+    border-radius: 0;
   }
 
   @media (max-width: 880px) {
