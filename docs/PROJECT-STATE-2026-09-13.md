@@ -506,7 +506,13 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
   ministry emails (several inert unverified, incl. personal Gmails), photo-release form,
   mega-menu rail copy, the two PDF resources + the marriage guide attachment.
 - **Brand mark** — CSS placeholder; swap for real logo; de-dupe Nav/Footer.
-- **npm audit** advisories (Astro 5 line; not fixed — would break the pin; low risk static).
+- **npm audit** — 2026-09-24: `npm audit fix` (non-breaking, lockfile only; `dist/` byte-identical)
+  took 9 → **3**. Remaining 3 (astro critical, sharp high, esbuild low) need **Astro 5 → 7**
+  (major, against the pin). None reachable here: no `define:vars`, no server islands, spread
+  props use code-defined attribute names only, no `sharp`/astro:assets use, esbuild issue is
+  Windows dev-server only. → **Plan the Astro 7 upgrade as its own read-and-plan project**
+  (branch + full-site QA). Optional: Render build command → `npm run build` (Render already
+  runs `npm install`; the log shows it 3×).
 - **Repo PUBLIC** — consider private. **`/community` index** stand-in. **`mapsUrl` empty.**
 - **Pre-launch hardening pass** (after content): schema/structured data, robots, sitemap,
   custom 404, canonicals + unique titles/descriptions, og/twitter, Lighthouse, image opt.
