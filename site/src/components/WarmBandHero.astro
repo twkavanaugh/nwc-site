@@ -1,0 +1,134 @@
+---
+// "F · Warm Band" split hero — text left on a --bg-2 band, photo filling the full
+// band height on the right. Source: brand/prototype/HERO-WARM-BAND.md +
+// hero-warm-band.html. Zero JS. First consumer: /visit.
+//
+// A CTA with no `href` renders as an inert <button type="button"> — the site's
+// convention for an unwired placeholder action (see help/feed.astro).
+
+interface Cta {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  eyebrow: string;
+  headlineLead: string;
+  headlineAccent: string; // keep to the last clause (kit §7)
+  lede: string;
+  photo: { src: string; alt: string };
+  primary: Cta;
+  ghost?: Cta;
+  titleId?: string; // lets the page label the section via aria-labelledby
+}
+
+const { eyebrow, headlineLead, headlineAccent, lede, photo, primary, ghost, titleId = "warm-band-title" } =
+  Astro.props;
+---
+
+<section class="warm-band" aria-labelledby={titleId}>
+  <div class="warm-band-grid">
+    <div class="warm-band-text">
+      <div class="eyebrow warm-band-eyebrow"><span class="dot"></span>{eyebrow}</div>
+      <h1 id={titleId} class="display-l warm-band-h1">
+        {headlineLead} <span class="warm-band-accent">{headlineAccent}</span>
+      </h1>
+      <p class="lede warm-band-lede">{lede}</p>
+      <div class="warm-band-actions">
+        {
+          primary.href ? (
+            <a class="btn btn-primary" href={primary.href}>
+              {primary.label} <span class="arr" aria-hidden="true">→</span>
+            </a>
+          ) : (
+            <button type="button" class="btn btn-primary">
+              {primary.label} <span class="arr" aria-hidden="true">→</span>
+            </button>
+          )
+        }
+        {
+          ghost &&
+            (ghost.href ? (
+              <a class="btn btn-ghost" href={ghost.href}>{ghost.label}</a>
+            ) : (
+              <button type="button" class="btn btn-ghost">{ghost.label}</button>
+            ))
+        }
+      </div>
+    </div>
+    <div class="warm-band-photo">
+      <img src={photo.src} alt={photo.alt} loading="eager" decoding="async" />
+    </div>
+  </div>
+</section>
+
+<style>
+  /* padding:0 beats the global `section:first-of-type { padding-top: 56px }` —
+     Astro's scoped class selector out-specifies it (0,2,0 vs 0,1,1). */
+  .warm-band {
+    padding: 0;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+  }
+  /* align-items: stretch is what makes the photo fill the band's full height (kit §5). */
+  .warm-band-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    align-items: stretch;
+  }
+  /* Gutter-aware left padding lines the text up with .wrap (1320px max, 40px
+     gutter) while the band runs full width. Coupled to .wrap in global.css. */
+  .warm-band-text {
+    padding: 80px 64px 80px max(40px, calc((100vw - 1320px) / 2 + 40px));
+  }
+  .warm-band-eyebrow {
+    margin-bottom: 36px;
+  }
+  .warm-band-h1 {
+    max-width: 15ch;
+  }
+  .warm-band-accent {
+    color: var(--accent);
+  }
+  .warm-band-lede {
+    margin-top: 32px;
+  }
+  .warm-band-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 36px;
+  }
+  /* --bg-3 shows if the image fails to load (kit §9). */
+  .warm-band-photo {
+    position: relative;
+    min-height: 520px;
+    background: var(--bg-3);
+  }
+  .warm-band-photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 880px) {
+    .warm-band-grid {
+      grid-template-columns: 1fr;
+    }
+    .warm-band-text {
+      padding: 56px 40px;
+    }
+    .warm-band-photo {
+      min-height: 320px;
+      order: -1; /* photo on top when stacked */
+    }
+  }
+  /* 22px matches the .wrap mobile gutter in global.css — change together. */
+  @media (max-width: 720px) {
+    .warm-band-text {
+      padding: 44px 22px 56px;
+    }
+  }
+</style>

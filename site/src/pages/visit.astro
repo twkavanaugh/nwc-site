@@ -1,0 +1,36 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import WarmBandHero from "../components/WarmBandHero.astro";
+
+// Come Visit page (/visit). Built from brand/prototype/COME-VISIT-SPEC.md +
+// come-visit.html. Copy is church-approved and kept verbatim.
+// Gate 1 of 2: hero only. Gate 2 adds facts strip, flow, FAQ, find us.
+---
+
+<Layout
+  title="Come Visit · North Wake Church"
+  description="Your first Sunday at North Wake Church, start to finish — what to expect from the parking lot to the closing prayer."
+>
+  <Breadcrumb trail={[{ label: "Home", href: "/" }, { label: "Come Visit" }]} />
+
+  <WarmBandHero
+    titleId="cv-title"
+    eyebrow="Come visit"
+    headlineLead="Your first Sunday,"
+    headlineAccent="start to finish."
+    lede="Walking into a new church can feel like a lot. We get it. Here's exactly what to expect — from the parking lot to the closing prayer — so you can show up ready to just be present."
+    photo={{
+      // STOCK PLACEHOLDER (Unsplash, alex-gallegos — same image as the homepage
+      // welcome band) — replace with the building-exterior Sunday-morning shot per
+      // docs/PHOTOGRAPHER-SHOT-LIST.md; alt is provisional.
+      src: "/welcome-STOCK-PLACEHOLDER.jpg",
+      alt: "Two people embracing in greeting at church",
+    }}
+    primary={{
+      // Inert until the church's form exists (likely a hosted form) — add `href`
+      // to wire it. Same destination as the Find us ghost button.
+      label: "Tell us you're coming",
+    }}
+  />
+</Layout>
