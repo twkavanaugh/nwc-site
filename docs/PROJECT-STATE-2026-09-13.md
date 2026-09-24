@@ -146,6 +146,7 @@ transfer the GitHub repo to a church org; reassign Render (swap account email, r
 | `/community/women` | ✅ **COMPLETE (2026-09-23)** — Community split hero, "Know. Grow. Go." serif motto, floral photo band with 6 gathering cards, dark contact band. `/womensministry` redirects here (postcard URL). Nav + footer resolve |
 | `/help/mercy-clinic` | ✅ **COMPLETE (2026-09-23)** — condensed from mercyhealthnw.org; Help-group hero, facts, scope panels, Luke 10:37, values, 2 get-involved cards, dark contact band. Footer link (was a 404) now resolves; nav wired |
 | `/help/care` | ✅ **COMPLETE (2026-09-23)** — Help-group split hero (mirrors Feed), facts strip, Our heart, 3 steps + reapply note, dark "where to apply" band. Nav Help→Care Ministry now a real link |
+| `/mission/international` | ✅ **COMPLETE (2026-09-24)** — Warm Band hero, Rev 7:9 statement over a road photo, near-and-far, four ways (Pray/Give/Focus/Equip), dark Entermission band, Break Bread → Training#missionary-sending. Nav wired |
 | `/mission/training` | ✅ **COMPLETE (2026-09-24)** — Warm Band hero, approach + 3-pathway anchor strip, Personal / Elder / Missionary sections (light → warm → dark) with sticky sidebars. Nav wired |
 | `/mission/church-planting` | ✅ **COMPLETE (2026-09-23)** — first `/mission/*` route; Warm Band hero (display-m, no CTAs, .ph photo), two realities + inverse bridge band, church lists, serif statement, engage grid. Nav Mission→Church Planting now a real link |
 | `/visit` | ✅ **COMPLETE (2026-09-23)** — Warm Band hero, facts strip, flow of a Sunday, FAQ, find us. Every "Plan a Visit" CTA now resolves (was a 404) |
@@ -164,6 +165,22 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
 `/sermons`, `/blog` (+`[slug]`, dimmed), `/resources` (+`[slug]`, labeled "Other Resources").
 
 ---
+
+## ★ INTERNATIONAL MISSIONS — SHIPPED (2026-09-24, 1 gate)
+Commits: `38fc8c9` (package) → this commit (page + photo + nav).
+- **Route `/mission/international`** (route map), not the package's `/international-missions`.
+- **Copy:** every seed sentence exactly once, in seed order (script-verified, 13/13). Changes
+  from the package: Pray figure "Sunday gatherings" (package's "Every Sunday" overstated the
+  copy); "Furthermore," restored on the Focus card; the Break Bread lead sentence shown once
+  (Equip card), the section opens with the next seed sentence; "Entermission." plain (the
+  package's italic split was invented). Labels approved by Todd.
+- **Photo band:** the package's flags photo (identifiable national flags incl. Russia/Belarus
+  — a sensitivity risk for workers) was REPLACED with Todd's Unsplash aerial crossroads photo
+  (`public/missions-road.jpg`; source URL in a code comment; no on-page credit per Todd —
+  not required). Token-based radial scrim; positioned `50% 100%` so the fork sits above the
+  quote at desktop (behind it on tall phone bands — accepted).
+- **Cross-links:** `/mission/church-planting` and `/mission/training#missionary-sending`.
+- **Serif heading helper now on 4 pages** → the shared-global-class gate is overdue.
 
 ## ★ MINISTRY TRAINING — SHIPPED (2026-09-24, 1 gate)
 Commits: `010a103` (package) → this commit (page + nav).
@@ -585,6 +602,9 @@ Run once a quarter (Jan / Apr / Jul / Oct), in `site/`, after `git pull --rebase
   "opens 30 minutes early"; "every Sunday is livestreamed and archived"; reserved first-time
   guest parking; "15 minutes north of Raleigh, just off Capital Blvd"; songs "modern and
   traditional". `/community/students` says "Sunday AM" but not the 10:45 service — align.
+- **★ `/mission/international`:** a missions contact (who to talk to about Break Bread /
+  going); optional next Entermission dates; hero photo — SECURITY: never identifiable faces,
+  names or locations of workers in restricted-access countries.
 - **★ `/mission/training`:** no next step on the page — WHO do people contact about each
   pathway (Personal / Elder / Missionary)? Hero photo (mentorship).
 - **★ `/community/lily-moms`:** church sign-off to publish the two Gmails (or church-owned
@@ -659,7 +679,7 @@ Run once a quarter (Jan / Apr / Jul / Oct), in `site/`, after `git pull --rebase
 mission redesign → Newsreader → who-is-jesus → Breadcrumb → kids → feed → hairline-grid →
 mature → watercolor home hero → mega-menu → siteSettings → serif-on-image → hero pilot +
 shot list + type standards → **events build (4 gates)** → `e8643c7` a11y → state 07-04]
-**[2026-09-23]** `1792fe8` Come Visit package + CLAUDE.md → `f773172` WarmBandHero + hero → `df57050` /visit complete → `f0587df` Church Planting package → `b6ffa78` /mission/church-planting → `f2a5e00` ticker removed → `7fef38e` Care package → `3d72fc4` /help/care → `06d23d8` Mercy package → `8c4f3cb` /help/mercy-clinic → `babfdc3` Women package → `058a05b` /community/women → `0da9532` Women's Day email → **[2026-09-24]** `5c4afa4` LILY package → /community/lily-moms → staff CMS (`9c67132`…`993eda3`) → `010a103` Training package → /mission/training.
+**[2026-09-23]** `1792fe8` Come Visit package + CLAUDE.md → `f773172` WarmBandHero + hero → `df57050` /visit complete → `f0587df` Church Planting package → `b6ffa78` /mission/church-planting → `f2a5e00` ticker removed → `7fef38e` Care package → `3d72fc4` /help/care → `06d23d8` Mercy package → `8c4f3cb` /help/mercy-clinic → `babfdc3` Women package → `058a05b` /community/women → `0da9532` Women's Day email → **[2026-09-24]** `5c4afa4` LILY package → /community/lily-moms → staff CMS (`9c67132`…`993eda3`) → `010a103` Training package → /mission/training → `38fc8c9` Missions package → /mission/international.
 **[2026-07-05]** mobile nav (`47d11e9`/`6533063`) → `5b34285` eyebrow fix → `7402b1b`
 /sermons (+`705e551`) → `fd27f93` Pages CMS config → Family Table via CMS (smoke test) →
 `3ee46c5` event-label softening → `75f1974`/`69548c5` placeholder photos → state 07-05 +
