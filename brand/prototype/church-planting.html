@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Church Planting · North Wake Church</title>
+<meta name="description" content="Church planting is at the very center of who North Wake is and will always be.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+/* ============ SITE TOKENS (existing — no new colors) ============ */
+:root{--bg:#f6f3ed;--bg-2:#ece7dc;--bg-3:#e3ddce;--ink:#1a1814;--ink-2:#3a352c;--ink-3:#6e665a;--ink-4:#a89f8e;--line:rgba(26,24,20,0.12);--line-strong:rgba(26,24,20,0.22);--accent:#8a4d2e;--accent-ink:#ffffff;--sans:"Inter Tight",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;--display:"Inter Tight",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;--serif:"Newsreader",Georgia,"Times New Roman",serif}
+[data-theme="dim"]{--bg:#1a1814;--bg-2:#221f1a;--bg-3:#2a2620;--ink:#f4efe5;--ink-2:#d8d2c4;--ink-3:#9c9484;--ink-4:#6e665a;--line:rgba(244,239,229,0.12);--line-strong:rgba(244,239,229,0.22);--accent:#d49271}
+
+/* ============ BASE + SHARED PRIMITIVES (mirror of styles.css) ============ */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-feature-settings:"ss01","cv11";letter-spacing:-0.005em;line-height:1.5}
+h1,h2,h3,p,ul{margin:0}
+.wrap{max-width:1320px;margin:0 auto;padding:0 40px}
+.wrap-narrow{max-width:920px;margin:0 auto;padding:0 40px}
+section{padding:96px 0}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3)}
+.eyebrow .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:10px;transform:translateY(-2px)}
+.display-m{font-family:var(--display);font-size:clamp(36px,4.8vw,72px);font-weight:600;letter-spacing:-0.025em;line-height:1.02}
+.display-s{font-family:var(--display);font-size:clamp(28px,3.4vw,48px);font-weight:600;letter-spacing:-0.02em;line-height:1.05}
+.lede{font-size:clamp(18px,1.6vw,22px);line-height:1.5;color:var(--ink-2);font-weight:400;letter-spacing:-0.005em;max-width:56ch}
+.body{font-size:16px;line-height:1.6;color:var(--ink-2)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-3)}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px;gap:40px}
+.section-head .right{max-width:36ch}
+.ph{background:repeating-linear-gradient(135deg,var(--bg-3) 0 18px,color-mix(in srgb,var(--bg-3) 88%,var(--ink) 4%) 18px 36px);display:flex;align-items:center;justify-content:center}
+.ph .ph-label{font-family:var(--mono);font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-3);background:var(--bg);padding:5px 10px;border:1px solid var(--line)}
+
+/* ============ CHURCH PLANTING PAGE ============ */
+/* 1 · Hero — F · Warm Band */
+.cp-hero{padding:0;background:var(--bg-2);border-bottom:1px solid var(--line)}
+.cp-hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:stretch}
+.cp-hero-text{padding:88px 64px 88px max(40px,calc((100vw - 1320px) / 2 + 40px))}
+.cp-hero-text .eyebrow{margin-bottom:32px}
+.cp-hero-text h1{max-width:16ch}
+.cp-hero-text h1 span{color:var(--accent)}
+.cp-hero-text .lede{margin-top:28px}
+.cp-hero-photo{min-height:520px}
+
+/* 2 · Two realities */
+.cp-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:64px}
+.cp-reality{border-top:2px solid var(--ink);padding-top:28px}
+.cp-reality-num{font-size:clamp(56px,6vw,88px);font-weight:700;letter-spacing:-0.04em;line-height:0.9;color:var(--accent);margin-bottom:20px}
+.cp-reality h2{font-weight:700;margin-bottom:20px}
+.cp-reality p{font-size:18px;line-height:1.65;max-width:50ch}
+
+/* 2b · Bridge statement — dark band via inverse token set */
+.cp-bridge{margin-top:88px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,3fr);gap:64px;align-items:start;background:var(--bg);color:var(--ink);padding:56px 56px 60px}
+.cp-bridge-label{font-family:var(--mono);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);padding-top:10px}
+.cp-bridge p{font-size:clamp(24px,2.4vw,34px);font-weight:500;line-height:1.3;letter-spacing:-0.018em;text-wrap:pretty}
+.cp-bridge p span{color:var(--accent)}
+
+/* 3 · The churches */
+.cp-churches{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cp-churches h2.display-m{max-width:16ch}
+.cp-lists{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.cp-list{background:var(--bg);padding:40px 36px 36px;display:flex;flex-direction:column}
+.cp-list .mono{color:var(--accent);margin-bottom:14px}
+.cp-list h3{margin-bottom:12px}
+.cp-list > p{font-size:17px;margin-bottom:28px;max-width:40ch}
+.cp-list ul{list-style:none;padding:0;margin-top:auto;border-top:1px solid var(--line-strong)}
+.cp-church{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--line)}
+.cp-church-name{font-size:20px;font-weight:600;letter-spacing:-0.012em;line-height:1.3}
+.cp-church-place{font-size:16px;color:var(--ink-3);text-align:right}
+.cp-churches-note{margin-top:40px;font-size:18px;line-height:1.65;max-width:64ch}
+
+/* 4 · Kingdom work statement */
+.cp-kingdom{text-align:center}
+.cp-kingdom .eyebrow{margin-bottom:28px;display:flex;justify-content:center;align-items:center}
+.cp-kingdom p{font-family:var(--serif);font-weight:400;font-size:clamp(28px,3.4vw,46px);line-height:1.25;letter-spacing:-0.015em;color:var(--ink);text-wrap:balance}
+.cp-kingdom p em{font-style:italic;color:var(--accent)}
+
+/* 5 · How we engage */
+.cp-engage-sec{padding-top:0}
+.cp-engage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:64px;align-items:start;border-top:1px solid var(--line-strong);padding-top:56px}
+.cp-engage .eyebrow{margin-bottom:18px}
+.cp-engage .lede{max-width:40ch}
+.cp-engage-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);list-style:none;padding:0}
+.cp-cell{background:var(--bg);padding:28px 24px;min-height:140px}
+.cp-cell.is-how{background:var(--bg-2)}
+.cp-cell .mono{color:var(--accent);margin-bottom:12px}
+.cp-cell.is-how .mono{color:var(--ink-3)}
+.cp-cell-title{font-size:20px;font-weight:600;letter-spacing:-0.012em;line-height:1.25}
+.cp-cell .body{margin-top:6px}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1240px){
+  .cp-engage{grid-template-columns:1fr;gap:40px}
+}
+@media (max-width:880px){
+  .cp-hero-grid{grid-template-columns:1fr}
+  .cp-hero-photo{order:-1;min-height:0;aspect-ratio:4/3}
+  .cp-hero-text{padding:56px 40px 64px}
+  .cp-two,.cp-lists{grid-template-columns:1fr}
+  .cp-two{gap:56px}
+  .cp-bridge{grid-template-columns:1fr;gap:20px;padding:40px 28px 44px;margin-top:72px}
+  .cp-bridge-label{padding-top:0}
+  .cp-engage-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:720px){
+  .wrap,.wrap-narrow{padding:0 22px}
+  section{padding:72px 0}
+  .cp-hero-text{padding:44px 22px 56px}
+  .section-head{flex-direction:column;align-items:flex-start;gap:18px;margin-bottom:36px}
+  .cp-list{padding:32px 22px 28px}
+}
+@media (max-width:560px){
+  .cp-engage-grid{grid-template-columns:1fr}
+  .cp-cell{min-height:0}
+  .cp-church{grid-template-columns:1fr;gap:4px}
+  .cp-church-place{text-align:left}
+  .cp-reality p,.cp-churches-note{font-size:17px}
+}
+</style>
+</head>
+<body>
+<!-- SITE CHROME (nav + footer) already exists in the live Astro site and is not part of this package. -->
+<main id="church-planting">
+
+<!-- 1 · HERO — F · Warm Band -->
+<section class="cp-hero" aria-labelledby="cp-title">
+  <div class="cp-hero-grid">
+    <div class="cp-hero-text">
+      <div class="eyebrow"><span class="dot"></span>Mission · Church planting</div>
+      <h1 id="cp-title" class="display-m">Church planting is at the very center of who North Wake is <span>and will always be.</span></h1>
+      <p class="lede">This is largely due to two realities.</p>
+    </div>
+    <div class="cp-hero-photo ph" role="img" aria-label="A North Wake church plant on launch Sunday"><span class="ph-label">Photo · Church plant · launch Sunday</span></div>
+  </div>
+</section>
+
+<!-- 2 · TWO REALITIES + BRIDGE -->
+<section aria-label="Two realities">
+  <div class="wrap">
+    <div class="cp-two">
+      <article class="cp-reality">
+        <div class="cp-reality-num" aria-hidden="true">01</div>
+        <h2 class="display-s">Our heritage</h2>
+        <p class="body">First, we as a church family were planted in Wake Forest in the early 90’s by another older and more established church. Our very history and heritage depends on the courage of Providence Church (Raleigh NC) to take the risk of starting a new fellowship in an area that needed one.</p>
+      </article>
+      <article class="cp-reality">
+        <div class="cp-reality-num" aria-hidden="true">02</div>
+        <h2 class="display-s">Our conviction</h2>
+        <p class="body">Second, we believe this is the burden and responsibility of vibrant churches; to expand Christ’s kingdom into place where God is working.</p>
+      </article>
+    </div>
+    <div class="cp-bridge" data-theme="dim">
+      <div class="cp-bridge-label">Heritage + conviction</div>
+      <p><span>So based on our heritage and conviction,</span> we likewise have planted several churches over the years. Some continue to this very day, others have run their course and passed the baton to others to continue the work of making disciples.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · THE CHURCHES -->
+<section class="cp-churches" aria-labelledby="cp-churches-title">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow" style="margin-bottom:18px"><span class="dot"></span>The churches</div>
+        <h2 id="cp-churches-title" class="display-m">Churches we’ve planted and partner with.</h2>
+      </div>
+      <p class="body right">We could identify those remaining churches into a couple of categories.</p>
+    </div>
+    <div class="cp-lists">
+      <div class="cp-list">
+        <div class="mono">Self sustaining</div>
+        <h3 class="display-s">Self Sustaining Churches</h3>
+        <p class="body">Those who have grown to no longer require our support and care.</p>
+        <ul>
+          <li class="cp-church"><span class="cp-church-name">Covenant Life Church</span><span class="cp-church-place">Tampa, Florida</span></li>
+          <li class="cp-church"><span class="cp-church-name">Restoration Church</span><span class="cp-church-place">Washington D.C.</span></li>
+          <li class="cp-church"><span class="cp-church-name">Exchange Church</span><span class="cp-church-place">Rolesville, North Carolina</span></li>
+        </ul>
+      </div>
+      <div class="cp-list">
+        <div class="mono">Planting partners</div>
+        <h3 class="display-s">Church Planting Partners</h3>
+        <p class="body">Those whom we continue to partner with to encourage their daily flourishing.</p>
+        <ul>
+          <li class="cp-church"><span class="cp-church-name">Mosaic Church</span><span class="cp-church-place">Provo, Utah</span></li>
+          <li class="cp-church"><span class="cp-church-name">Kings Village Church</span><span class="cp-church-place">Clemmons, North Carolina</span></li>
+          <li class="cp-church"><span class="cp-church-name">Iglesia Biblica Sublime Gracia</span><span class="cp-church-place">Washington D.C.</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="body cp-churches-note">Some of these works we have planted directly out of our fellowship, others have been works that partner with existing churches to assist in the church planting process.</p>
+  </div>
+</section>
+
+<!-- 4 · KINGDOM WORK -->
+<section class="cp-kingdom" aria-label="Kingdom work">
+  <div class="wrap-narrow">
+    <div class="eyebrow"><span class="dot"></span>Kingdom work</div>
+    <p>We believe that church planting is kingdom work, that collaborates with healthy planters, churches, and organizations to advance <em>Christ’s mission to reach all people everywhere.</em></p>
+  </div>
+</section>
+
+<!-- 5 · HOW WE ENGAGE -->
+<section class="cp-engage-sec" aria-labelledby="cp-engage-title">
+  <div class="wrap">
+    <div class="cp-engage">
+      <div>
+        <div class="eyebrow" id="cp-engage-title"><span class="dot"></span>How we engage</div>
+        <p class="lede">We continue to engage in church planting through celebrating our self sustaining churches, supporting our church planting partners, and developing new church planting endeavors. We do this through diligent prayer, generous investment, and on going development of the next generation of church planters.</p>
+      </div>
+      <ul class="cp-engage-grid">
+        <li class="cp-cell"><div class="mono">What we do</div><div class="cp-cell-title">Celebrating</div><div class="body">our self sustaining churches</div></li>
+        <li class="cp-cell"><div class="mono">What we do</div><div class="cp-cell-title">Supporting</div><div class="body">our church planting partners</div></li>
+        <li class="cp-cell"><div class="mono">What we do</div><div class="cp-cell-title">Developing</div><div class="body">new church planting endeavors</div></li>
+        <li class="cp-cell is-how"><div class="mono">How we do it</div><div class="cp-cell-title">Diligent prayer</div></li>
+        <li class="cp-cell is-how"><div class="mono">How we do it</div><div class="cp-cell-title">Generous investment</div></li>
+        <li class="cp-cell is-how"><div class="mono">How we do it</div><div class="cp-cell-title">Ongoing development</div><div class="body">of the next generation of church planters</div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+</body>
+</html>
