@@ -164,7 +164,7 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
 
 ---
 
-## ★ STAFF CMS FOR RESOURCES + TEXT POSTS — GATE 1 COMMITTED (2026-09-24); Gate 2 = Todd's live test
+## ★ STAFF CMS FOR RESOURCES + TEXT POSTS — SHIPPED (2026-09-24, 2 gates)
 **Editors: Karen and Devin** (church staff) — events, resources AND posts. Todd may add names.
 - **Pages CMS now has three sections:** Events · **Resources: links & PDFs** · **Resources: text
   pages** (the `posts` collection). Post bodies `format: markdown` (YouTube transform needs it);
@@ -187,11 +187,25 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
   The 15MB prebuild guard stays as a backstop for developer-committed files.
   **Needs:** a church-OWNED Drive / shared drive (not a staff member's personal Drive — a
   departed editor would break every link). Share docs as **Viewer**, never Editor.
-- **Gate 2 progress:** text page + YouTube embed ✅ (editor saves the pasted URL as a Markdown
-  link — the transform handles it; a trailing empty line saves as `&nbsp;`, harmless). Google
-  Doc as External link ✅. Still to run: PDF-download via Drive link, replace a placeholder,
-  delete an entry, and the EXISTING-post round-trip edit. Test entries live on the site:
-  "Here is a test" (post), "Thermogenics Test" (resource) — delete after testing.
+- **✅ Gate 2 COMPLETE (2026-09-24, Todd live in Pages CMS):** text page + YouTube embed
+  (editor saves a pasted URL as a Markdown link — the transform handles it; a trailing empty
+  line saves as `&nbsp;`, harmless) · PDF upload of 3.16MB ✅ (4.4MB ✗ → ceiling ≈3.2–4.4MB,
+  consistent with 4.5MB ÷ base64 overhead ≈ 3.4MB; "about 3MB" guidance is right) · external
+  link (Google Doc) · edit + delete · **existing-post round-trip**: body Markdown survived
+  intact (numbered bold list unchanged); front matter restyled (quotes dropped, folded lines,
+  `draft: false` added) — semantically identical; renaming the title KEPT the URL. Test edits
+  to `delighting-in-the-company-of-god.md` reverted to the pre-test version; test entries and
+  the test PDF deleted (the PDF via CMS Media — staff CAN delete files there).
+- **★ CMS delete does NOT remove the uploaded file** (resolves the open "orphaned media on
+  event deletion" item — CONFIRMED). The file stays in the repo AND publicly reachable at its
+  URL. Mitigation: helper text on every upload field tells staff to also delete it in Media;
+  **`npm run audit-media`** (site/scripts/audit-media.mjs, read-only) lists unreferenced
+  uploads — run QUARTERLY (see ★ QUARTERLY MAINTENANCE).
+- **★ Keep "needs verification" notes in THIS doc, not inside content files.** A CMS save
+  rewrites front matter (YAML `#` comments won't survive) and may drop HTML `<!-- -->`
+  comments. The Delighting post's hidden LarryT@ note is restored, and is ALSO recorded here:
+  the old page's "LarryT@" contact email + all its external resource links await
+  verification before migrating.
 - **Gate 2 (after push — Pages CMS reads config from GitHub):** Todd adds a PDF resource, an
   external link, replaces the membership-packet placeholder, deletes a test entry; creates a
   draft text page (confirm hidden), publishes it with a bare YouTube line + a PDF download;
@@ -501,6 +515,18 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
 - Honest placeholders only; nothing invented; grow the UNVERIFIED list. Never publish a
   personal email / never wire a `mailto:` to an unverified address (rendered inert).
 
+## ★ QUARTERLY MAINTENANCE (developer — Todd or backup; started 2026-09-24)
+Run once a quarter (Jan / Apr / Jul / Oct), in `site/`, after `git pull --rebase`:
+1. **`npm run audit-media`** — lists uploaded PDFs/photos nothing uses (CMS deletes leave them
+   behind, publicly reachable). Confirm each is unneeded, delete in Pages CMS → Media.
+2. **`npm audit`** — expect the 3 Astro-7-only advisories until the Astro 7 upgrade; anything
+   NEW → look at it.
+3. **Mercy clinic facts** (`src/data/mercy.ts`) — re-check hours/closures/phone against
+   mercyhealthnw.org; update the LAST VERIFIED date.
+4. **Dead links** — spot-check External-link / Drive resources still open (and Drive files are
+   shared "Anyone with the link can view", NOT Editor).
+5. **August only:** LILY Moms fees + Oct–May season; LILY Kids pay.
+
 ## KNOWN DEBT / HARDENING (address before launch; no current risk)
 - **Normalize placeholder image filenames** — `mission-{know,grow,go}.jpg` lack the
   `-STOCK-PLACEHOLDER` suffix the others use. Rename in a sweep.
@@ -510,7 +536,7 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
 - ~~CMS has no `posts`/`resources` collections~~ **DONE 2026-09-24** (see ★ STAFF CMS) —
   pending Todd's live Gate 2 test.
 - ~~CMS media has NO size guard~~ **DONE 2026-09-24** — 15MB prebuild guard (check-content.mjs).
-- **Orphaned CMS media on event deletion UNTESTED.**
+- ~~Orphaned CMS media on event deletion UNTESTED~~ **CONFIRMED 2026-09-24** — files are left behind; see ★ STAFF CMS + ★ QUARTERLY MAINTENANCE.
 - **Nightly Render deploy-hook cron** — still pending (date-rollover freshness).
 - **`/familytable` legacy redirect** — decision logged; implement in hardening.
 - **Watercolor 1.2MB PNG** (`wake-forest-bcg.png`) — compress/WebP.

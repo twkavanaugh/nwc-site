@@ -111,7 +111,7 @@ content:
         type: image
         options:
           media: images
-        description: "A wide banner photo works best (about 2100×800px, under 1MB). Tall poster images will be cropped to a wide strip — if your image is a poster with text on it, consider a photo instead."
+        description: "A wide banner photo works best (about 2100×800px, under 1MB). Tall poster images will be cropped to a wide strip — if your image is a poster with text on it, consider a photo instead. Deleting the event later does NOT delete this photo — also delete it in Media → Event photos."
 
       - name: imageAlt
         label: Photo description (alt text)
@@ -210,7 +210,7 @@ content:
       - name: file
         label: PDF file (for "PDF download" only)
         type: file
-        description: "Small PDFs (under about 3MB) can be uploaded here — bigger uploads fail with a \"413\" error. For larger files, put the PDF in the church Google Drive, set sharing to \"Anyone with the link can view,\" and paste the link below instead. Use the upload OR the link, not both."
+        description: "Small PDFs (under about 3MB) can be uploaded here — bigger uploads fail with a \"413\" error. For larger files, put the PDF in the church Google Drive, set sharing to \"Anyone with the link can view,\" and paste the link below instead. Use the upload OR the link, not both. Deleting this resource later does NOT delete the uploaded PDF — also delete it in Media → Resource PDFs."
         options:
           media: docs
           extensions: [pdf]
@@ -288,7 +288,7 @@ content:
       - name: attachments
         label: Downloads (optional, up to 5)
         type: object
-        description: "PDFs listed at the bottom of the page, e.g. a leader guide. Each needs a label and a file under about 3MB (bigger uploads fail with a \"413\" error). For a larger PDF, put it in the church Google Drive and link to it in the page text instead."
+        description: "PDFs listed at the bottom of the page, e.g. a leader guide. Each needs a label and a file under about 3MB (bigger uploads fail with a \"413\" error). For a larger PDF, put it in the church Google Drive and link to it in the page text instead. Removing a download (or deleting the page) does NOT delete its PDF — also delete it in Media → Resource PDFs."
         list:
           max: 5
           collapsible:

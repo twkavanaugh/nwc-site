@@ -62,7 +62,12 @@ never a code bug. Ctrl+C, `npm run dev`, hard-refresh. The production build is u
   developer-only:** a new one = a YAML file in `site/src/content/categories/` + a line in
   EVERY `CATEGORIES-START/END` block in `.pages.yml` (resources and posts).
   `site/scripts/check-content.mjs` runs as `prebuild` and fails the build if those disagree
-  or any upload exceeds 15MB.
+  or any upload exceeds 15MB. **Hosted Pages CMS caps uploads at ~3MB** (Vercel 413) — larger
+  documents go in the church Google Drive, linked from a "PDF download".
+- **A CMS delete leaves the uploaded file behind (still public).** `npm run audit-media` lists
+  unused uploads — part of the quarterly checklist in the state doc.
+- **Never keep "needs verification" notes only inside content files** — a CMS save rewrites
+  front matter and may drop `<!-- -->` comments. Record them in the state doc's UNVERIFIED list.
 - **Astro `:where()` is zero specificity.** A global override of a page-scoped class needs
   added specificity to win — first suspect when a global rule silently no-ops.
 - **Coupled CSS values carry paired comments** (e.g. the mobile-nav `72px` = `14×2 + 44`).
