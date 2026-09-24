@@ -442,9 +442,8 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
   guest parking; "15 minutes north of Raleigh, just off Capital Blvd"; songs "modern and
   traditional". `/community/students` says "Sunday AM" but not the 10:45 service — align.
 - **★ `/help/care`:** NOT PROVIDED — office hours for the reception desk (in-person only, so
-  this matters most), a contact for questions, Building Five wayfinding. Todd to verify vs
-  source: Building Five, 10-min application, 45-min interview, quarterly release,
-  first-come-first-served, 12-month reapply rule.
+  this matters most), a contact for questions, Building Five wayfinding. Facts VERIFIED
+  2026-09-23 against the church's source copy (Todd); prayer meeting = interview (confirmed).
 - **★ `/mission/church-planting`:** Todd to diff against source copy — the six church names +
   cities, "early ’90s", "Providence Church (Raleigh NC)" (Claude Design mistranslated `/visit`).
   Partner-church website URLs + any CTA destination (giving/contact) not yet provided.
