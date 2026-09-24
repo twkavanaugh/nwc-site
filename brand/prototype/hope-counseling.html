@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HOPE Counseling Center · North Wake Church</title>
+<meta name="description" content="The HOPE Counseling Center is a donation-based biblical counseling ministry of North Wake Church in Wake Forest, NC.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+/* ============ SITE TOKENS (existing — no new colors) ============ */
+:root{--bg:#f6f3ed;--bg-2:#ece7dc;--bg-3:#e3ddce;--ink:#1a1814;--ink-2:#3a352c;--ink-3:#6e665a;--ink-4:#a89f8e;--line:rgba(26,24,20,0.12);--line-strong:rgba(26,24,20,0.22);--accent:#8a4d2e;--accent-ink:#ffffff;--sans:"Inter Tight",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;--display:"Inter Tight",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;--serif:"Newsreader",Georgia,"Times New Roman",serif}
+[data-theme="dim"]{--bg:#1a1814;--bg-2:#221f1a;--bg-3:#2a2620;--ink:#f4efe5;--ink-2:#d8d2c4;--ink-3:#9c9484;--ink-4:#6e665a;--line:rgba(244,239,229,0.12);--line-strong:rgba(244,239,229,0.22);--accent:#d49271}
+
+/* ============ BASE + SHARED PRIMITIVES (mirror of styles.css) ============ */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-feature-settings:"ss01","cv11";letter-spacing:-0.005em;line-height:1.5}
+h1,h2,h3,p,ol,ul,dl,dd{margin:0}
+ol,ul{list-style:none;padding:0}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.wrap{max-width:1320px;margin:0 auto;padding:0 40px}
+.wrap-narrow{max-width:920px;margin:0 auto;padding:0 40px}
+section{padding:96px 0}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3)}
+.eyebrow .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:10px;transform:translateY(-2px)}
+.display-l{font-family:var(--display);font-size:clamp(44px,6.4vw,104px);font-weight:600;letter-spacing:-0.03em;line-height:0.98}
+.display-m{font-family:var(--display);font-size:clamp(36px,4.8vw,72px);font-weight:600;letter-spacing:-0.025em;line-height:1.02}
+.display-s{font-family:var(--display);font-size:clamp(28px,3.4vw,48px);font-weight:600;letter-spacing:-0.02em;line-height:1.05}
+.title{font-size:22px;font-weight:600;letter-spacing:-0.012em}
+.lede{font-size:clamp(18px,1.6vw,22px);line-height:1.5;color:var(--ink-2);font-weight:400;letter-spacing:-0.005em;max-width:56ch}
+.body{font-size:16px;line-height:1.6;color:var(--ink-2)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-3)}
+.btn{display:inline-flex;white-space:nowrap;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;font-size:14px;font-weight:500;letter-spacing:-0.005em;border:1px solid transparent;transition:background 160ms ease,color 160ms ease,border-color 160ms ease,transform 160ms ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--ink);color:var(--bg)}
+.btn-primary:hover{background:var(--accent)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+.btn-ghost:hover{border-color:var(--ink)}
+.btn .arr{transition:transform 200ms ease}
+.btn:hover .arr{transform:translate(2px,-2px)}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px;gap:40px}
+.section-head .right{max-width:36ch}
+.ph{background:repeating-linear-gradient(135deg,var(--bg-3) 0 18px,color-mix(in srgb,var(--bg-3) 88%,var(--ink) 4%) 18px 36px);display:flex;align-items:center;justify-content:center}
+.ph .ph-label{font-family:var(--mono);font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-3);background:var(--bg);padding:5px 10px;border:1px solid var(--line)}
+.serif-h{font-family:var(--serif);font-weight:400;letter-spacing:-0.02em;line-height:1.04}
+.serif-h em{color:var(--accent)}
+
+/* ============ HOPE COUNSELING PAGE ============ */
+/* 0 · Breadcrumb (Help group) */
+.crumbs{padding:32px 0 0}
+.crumbs ol{display:flex;flex-wrap:wrap;gap:10px}
+.crumbs li{display:flex;gap:10px}
+.crumbs li + li::before{content:"/";color:var(--ink-4)}
+.crumbs a:hover{color:var(--ink)}
+.crumbs [aria-current]{color:var(--accent)}
+
+/* 1 · Hero — Help-group split */
+.hc-hero{padding:56px 0 0}
+.hc-hero-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:64px;align-items:end}
+.hc-hero .eyebrow{margin-bottom:28px}
+.hc-hero h1{max-width:14ch}
+.hc-hero h1 span{color:var(--accent)}
+.hc-hero .lede{margin-top:28px}
+.hc-actions{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+.hc-hero-photo{aspect-ratio:4/5}
+
+/* 2 · Facts */
+.hc-facts-sec{padding:80px 0 0}
+.hc-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong)}
+.hc-fact{background:var(--bg);padding:28px 24px}
+.hc-fact dt{margin-bottom:10px}
+.hc-fact dd{font-size:19px;font-weight:500;letter-spacing:-0.012em;line-height:1.35}
+
+/* 3 · Testimony — light-through-trees photo band */
+.hc-testimony{position:relative;margin-top:96px;padding:150px 0;background:url('assets/hope-light.jpg') center 55%/cover no-repeat,var(--ink);overflow:hidden}
+/* PHOTO SCRIM — explicit literal exception: rgba of --ink (#1a1814) */
+.hc-scrim{position:absolute;inset:0;background:radial-gradient(ellipse 72% 78% at 50% 52%,rgba(26,24,20,0.84) 0%,rgba(26,24,20,0.70) 55%,rgba(26,24,20,0.50) 100%)}
+.hc-testimony-inner{position:relative;text-align:center;color:var(--ink)}
+.hc-testimony .eyebrow{margin-bottom:32px;display:flex;justify-content:center;align-items:center;color:var(--ink-2)}
+.hc-testimony blockquote{margin:0;font-family:var(--serif);font-size:clamp(30px,3.8vw,54px);line-height:1.22;letter-spacing:-0.015em;color:var(--ink);text-wrap:balance}
+.hc-testimony blockquote em{color:var(--accent)}
+.hc-testimony-tail{margin-top:28px;font-size:18px;line-height:1.5;color:var(--ink-2)}
+
+/* 4 · Who we are */
+.hc-who{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:72px;align-items:start}
+.hc-who .eyebrow{margin-bottom:18px}
+.hc-who h2{max-width:12ch}
+.hc-who-body{border-top:2px solid var(--ink);padding-top:28px}
+.hc-who-body > p{max-width:58ch}
+.hc-who-lead{font-size:19px;line-height:1.6;color:var(--ink);margin-bottom:20px}
+.hc-who-body > p + p{font-size:18px;line-height:1.6;margin-bottom:28px}
+.hc-note{display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:baseline;border:1px solid var(--line-strong);padding:20px 24px}
+.hc-note .mono,.hc-note p{color:var(--ink)}
+.hc-note p{font-size:17px}
+
+/* 5 · What to expect */
+.hc-expect-sec{padding-top:0}
+.hc-expect-wrap{border-top:1px solid var(--line-strong);padding-top:72px}
+.hc-expect-wrap h2{max-width:14ch}
+.hc-expect{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+.hc-expect li{border-top:2px solid var(--ink);padding-top:22px}
+.hc-expect-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:16px}
+.hc-expect-top .mono{color:var(--accent)}
+.hc-ref{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--accent);white-space:nowrap}
+.hc-expect h3{font-weight:700;margin-bottom:12px}
+.hc-expect p{font-size:17px}
+
+/* 6 · What we help with */
+.hc-scope-sec{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.hc-scope-sec h2{max-width:14ch}
+.hc-scope{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.hc-panel{background:var(--bg);padding:32px 28px}
+.hc-panel.is-limit{background:var(--bg-3)}
+.hc-panel .mono{color:var(--accent);margin-bottom:14px}
+.hc-panel.is-limit .mono{color:var(--ink)}
+.hc-panel li{font-size:19px;font-weight:600;line-height:1.4;letter-spacing:-0.01em;padding:10px 0;border-bottom:1px solid var(--line);color:var(--ink)}
+.hc-panel.is-group li{font-size:17px;font-weight:400}
+.hc-panel.is-limit li{font-size:16px;font-weight:400;line-height:1.45;color:var(--ink-2);letter-spacing:0}
+
+/* 7 · How to begin */
+.hc-begin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:72px;align-items:start}
+.hc-begin .eyebrow{margin-bottom:18px}
+.hc-begin h2{font-size:clamp(40px,5vw,72px);max-width:11ch;margin-bottom:24px}
+.hc-begin-lead{font-size:18px;max-width:38ch}
+.hc-steps{border-top:1px solid var(--line-strong)}
+.hc-steps li{display:grid;grid-template-columns:72px minmax(0,1fr);gap:20px;padding:26px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.hc-step-num{font-size:40px;font-weight:700;letter-spacing:-0.04em;line-height:0.9;color:var(--accent)}
+.hc-steps h3{margin-bottom:6px}
+.hc-steps p{font-size:17px}
+.hc-begin .hc-actions{margin-top:28px}
+
+/* 8 · Contact — dark band via inverse tokens */
+.hc-contact-sec{background:var(--bg);color:var(--ink)}
+.hc-contact{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:64px;align-items:end}
+.hc-contact .eyebrow{margin-bottom:24px}
+.hc-contact h2{max-width:14ch}
+.hc-contact h2 span{color:var(--accent);overflow-wrap:anywhere}
+.hc-contact dl{border-top:1px solid var(--line-strong)}
+.hc-contact dl > div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;padding:18px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.hc-contact dd{font-size:clamp(16px,1.8vw,19px);font-weight:500}
+.hc-contact dd a:hover{color:var(--accent)}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1080px){
+  .hc-facts,.hc-scope{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:880px){
+  .hc-hero-grid,.hc-who,.hc-begin,.hc-contact{grid-template-columns:1fr;gap:40px}
+  .hc-hero-photo{aspect-ratio:4/3}
+  .hc-expect{grid-template-columns:1fr;gap:40px}
+  .hc-testimony{padding:112px 0}
+}
+@media (max-width:720px){
+  .wrap,.wrap-narrow{padding:0 22px}
+  section{padding:72px 0}
+  .hc-hero{padding-top:40px}
+  .hc-facts-sec{padding-top:64px}
+  .hc-testimony{margin-top:72px;padding:88px 0}
+  .section-head{flex-direction:column;align-items:flex-start;gap:18px;margin-bottom:36px}
+  .hc-expect-wrap{padding-top:56px}
+  .hc-panel{padding:28px 22px}
+}
+@media (max-width:560px){
+  .hc-facts,.hc-scope{grid-template-columns:1fr}
+  .hc-note,.hc-contact dl > div{grid-template-columns:1fr;gap:6px}
+  .hc-steps li{grid-template-columns:52px minmax(0,1fr)}
+  .hc-actions .btn{flex:1 1 100%;justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<!-- SITE CHROME (nav + footer) already exists in the live Astro site and is not part of this package. -->
+<main id="hope-counseling">
+
+<!-- 0 · BREADCRUMB -->
+<nav class="crumbs" aria-label="Breadcrumb">
+  <div class="wrap">
+    <ol class="mono">
+      <li><a href="/">Home</a></li>
+      <li><span>Help</span></li>
+      <li><span aria-current="page">HOPE Counseling</span></li>
+    </ol>
+  </div>
+</nav>
+
+<!-- 1 · HERO -->
+<section class="hc-hero" aria-labelledby="hc-title">
+  <div class="wrap">
+    <div class="hc-hero-grid">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>The HOPE Counseling Center · A ministry of North Wake</div>
+        <h1 id="hc-title" class="display-l">Compassion, mercy, practical help — <span>and hope.</span></h1>
+        <p class="lede">We want to pass on to others the compassion, mercy, practical help and hope that God has given to us (2 Corinthians 1:3-4). We believe God provides realistic and effective solutions for the struggles of life in his Word and through his Son, Jesus Christ.</p>
+        <div class="hc-actions">
+          <a class="btn btn-primary" href="https://www.thehopecounselingcenter.org/request-counseling" target="_blank" rel="noopener">Request counseling <span class="arr" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+          <a class="btn btn-ghost" href="tel:+19195561546,509">Call 919.556.1546 x509</a>
+        </div>
+      </div>
+      <div class="hc-hero-photo ph" role="img" aria-label="A quiet, welcoming counseling room"><span class="ph-label">Photo · HOPE · a quiet counseling room</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · FACTS -->
+<section class="hc-facts-sec" aria-label="Counseling at a glance">
+  <div class="wrap">
+    <dl class="hc-facts">
+      <div class="hc-fact"><dt class="mono">Cost</dt><dd>Donation basis — no set fee per session</dd></div>
+      <div class="hc-fact"><dt class="mono">Deposit</dt><dd>$35 cash, refundable</dd></div>
+      <div class="hc-fact"><dt class="mono">When</dt><dd>Typically Mon–Fri, 9–5 · some after hours</dd></div>
+      <div class="hc-fact"><dt class="mono">Response</dt><dd>Our Scheduler replies within 24 hours</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- 3 · TESTIMONY — photo band -->
+<section class="hc-testimony" aria-label="A counselee's testimony">
+  <div class="hc-scrim" aria-hidden="true"></div>
+  <div class="wrap-narrow hc-testimony-inner" data-theme="dim">
+    <div class="eyebrow"><span class="dot"></span>In a counselee's words</div>
+    <blockquote>“At HOPE, it was immediately different. <em>Scripture was the authority and my heart was the target.</em>”</blockquote>
+    <p class="hc-testimony-tail">“The words of Christ diagnosed me better than anyone else.”</p>
+  </div>
+</section>
+
+<!-- 4 · WHO WE ARE -->
+<section aria-labelledby="hc-who-title">
+  <div class="wrap">
+    <div class="hc-who">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Who we are</div>
+        <h2 id="hc-who-title" class="display-m">A church-based counseling center.</h2>
+      </div>
+      <div class="hc-who-body">
+        <p class="body hc-who-lead">In 2001, North Wake Church saw a need in Wake Forest and the surrounding communities to address depression, anxiety, and marriage problems from a distinctively biblical counseling perspective.</p>
+        <p class="body">We are a team of committed Christian counselors and members of North Wake Church who volunteer to provide free or donation-based biblical counseling to those in need, under the oversight of our church Elders and Pastoral Staff.</p>
+        <div class="hc-note" role="note">
+          <div class="mono">Please know</div>
+          <p class="body">We are not licensed counselors, psychiatrists, or psychologists. Many of our counselors are formally trained, with a Master's in Biblical Counseling or Divinity from an accredited seminary, or are pursuing one.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · WHAT TO EXPECT -->
+<section class="hc-expect-sec" aria-labelledby="hc-expect-title">
+  <div class="wrap">
+    <div class="hc-expect-wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow" style="margin-bottom:18px"><span class="dot"></span>What to expect</div>
+          <h2 id="hc-expect-title" class="display-m">Three things you can count on.</h2>
+        </div>
+      </div>
+      <ol class="hc-expect">
+        <li><div class="hc-expect-top"><span class="mono">01</span><span class="hc-ref">Proverbs 18:13</span></div><h3 class="display-s">A listening counselor</h3><p class="body">In every session — especially the first several — your counselor will work hard to listen and understand your situation.</p></li>
+        <li><div class="hc-expect-top"><span class="mono">02</span><span class="hc-ref">Isaiah 9:6</span></div><h3 class="display-s">A look at Scripture</h3><p class="body">We place our hope not in a counselor or program, but in the Wonderful Counselor. The source of our counseling is Scripture.</p></li>
+        <li><div class="hc-expect-top"><span class="mono">03</span><span class="hc-ref">2 Timothy 3:16–17</span></div><h3 class="display-s">Real work</h3><p class="body">Counseling is not a passive activity. Your counselor will give you homework to complete before your next session.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · WHAT WE HELP WITH -->
+<section class="hc-scope-sec" aria-labelledby="hc-scope-title">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow" style="margin-bottom:18px"><span class="dot"></span>Services</div>
+        <h2 id="hc-scope-title" class="display-m">What we help with.</h2>
+      </div>
+      <p class="body right">We counsel across the emotional and relational spectrum.</p>
+    </div>
+    <div class="hc-scope">
+      <div class="hc-panel"><div class="mono">Emotional</div><ul><li>Depression</li><li>Anxiety</li><li>Grief</li><li>Trauma</li><li>Anger and other emotional struggles</li></ul></div>
+      <div class="hc-panel"><div class="mono">Relational</div><ul><li>Pre-marital</li><li>Marital</li><li>Parenting</li><li>Conflict resolution</li></ul></div>
+      <div class="hc-panel is-group"><div class="mono">Group</div><ul><li>Living Waters — group counseling focused on sexual brokenness, with separate men's and women's small groups</li></ul></div>
+      <div class="hc-panel is-limit"><div class="mono">Outside our scope</div><ul><li>Substance abuse cases requiring detox</li><li>Counseling of minors younger than sixteen</li><li>Emotional struggles with psychotic features</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · HOW TO BEGIN -->
+<section aria-labelledby="hc-begin-title">
+  <div class="wrap">
+    <div class="hc-begin">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>How to begin</div>
+        <h2 id="hc-begin-title" class="serif-h">The first step <em>toward change.</em></h2>
+        <p class="body hc-begin-lead">We believe the first step toward change is to admit you have a problem — to yourself, to God, and to others who care and are able to help.</p>
+      </div>
+      <div>
+        <ol class="hc-steps">
+          <li><div class="hc-step-num" aria-hidden="true">01</div><div><h3 class="title">Request counseling</h3><p class="body">Complete the counseling request form. Your request is treated with care and confidentiality.</p></div></li>
+          <li><div class="hc-step-num" aria-hidden="true">02</div><div><h3 class="title">Hear from our Scheduler</h3><p class="body">Our Scheduler will typically contact you within 24 hours to discuss the best way to serve you.</p></div></li>
+          <li><div class="hc-step-num" aria-hidden="true">03</div><div><h3 class="title">Begin</h3><p class="body">Bring a pen, a journal or notepad, and a Bible if you have one. A $35 refundable deposit is due before your first session.</p></div></li>
+        </ol>
+        <div class="hc-actions">
+          <a class="btn btn-primary" href="https://www.thehopecounselingcenter.org/request-counseling" target="_blank" rel="noopener">Request counseling <span class="arr" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+          <a class="btn btn-ghost" href="https://www.thehopecounselingcenter.org/faq" target="_blank" rel="noopener">Read the FAQ ↗<span class="sr-only"> (opens in a new tab)</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · CONTACT — dark band -->
+<section class="hc-contact-sec" data-theme="dim" aria-labelledby="hc-contact-title">
+  <div class="wrap">
+    <div class="hc-contact">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Contact HOPE</div>
+        <h2 id="hc-contact-title" class="display-m">More about HOPE at <span>thehopecounseling<wbr>center.org</span></h2>
+        <div class="hc-actions">
+          <a class="btn btn-primary" href="https://www.thehopecounselingcenter.org/" target="_blank" rel="noopener">Visit the HOPE site <span class="arr" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+        </div>
+      </div>
+      <dl>
+        <div><dt class="mono">Scheduler</dt><dd><a href="tel:+19195561546,509">919.556.1546 x509</a></dd></div>
+        <div><dt class="mono">Address</dt><dd>1212 S. Main Street · Wake Forest, NC 27587</dd></div>
+        <div><dt class="mono">Donations</dt><dd><a href="#NORTHWAKE-GIVING-URL">Through North Wake Church's giving page</a></dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+</main>
+</body>
+</html>
