@@ -14,8 +14,8 @@ package**, and **shot list v2**.
 > continues.
 
 > **🟢 2026-09-23 UPDATE — `/visit`, `/mission/church-planting`, `/help/care`, `/help/mercy-clinic`,
-> `/community/women` SHIPPED; homepage ticker removed; first redirect (`/womensministry`).** See the
-> ★ WOMEN'S MINISTRY, ★ MERCY HEALTH, ★ CARE MINISTRY, ★ CHURCH PLANTING and ★ COME VISIT sections. Read that section first; the rest of this doc is as of 09-13 except where marked.
+> `/community/women`, `/community/lily-moms` SHIPPED; homepage ticker removed; first redirect
+> (`/womensministry`).** See the ★ LILY MOMS, ★ WOMEN'S MINISTRY, ★ MERCY HEALTH, ★ CARE MINISTRY, ★ CHURCH PLANTING and ★ COME VISIT sections. Read that section first; the rest of this doc is as of 09-13 except where marked.
 
 ---
 
@@ -142,6 +142,7 @@ transfer the GitHub repo to a church org; reassign Render (swap account email, r
 | `/help/feed` | ✅ COMPLETE |
 | `/community/mature-adults` | ✅ COMPLETE |
 | `/sermons` | ✅ COMPLETE — BranchCast embed + podcast links |
+| `/community/lily-moms` | ✅ **COMPLETE (2026-09-24)** — Community split hero + ministry logo, warm heartbeat band, facts, lily photo band with 4 steps + 2 notes, fees, dark LILY Kids band. Emails + Register gated (see ★ LILY MOMS). Nav wired; footer has no LILY entry |
 | `/community/women` | ✅ **COMPLETE (2026-09-23)** — Community split hero, "Know. Grow. Go." serif motto, floral photo band with 6 gathering cards, dark contact band. `/womensministry` redirects here (postcard URL). Nav + footer resolve |
 | `/help/mercy-clinic` | ✅ **COMPLETE (2026-09-23)** — condensed from mercyhealthnw.org; Help-group hero, facts, scope panels, Luke 10:37, values, 2 get-involved cards, dark contact band. Footer link (was a 404) now resolves; nav wired |
 | `/help/care` | ✅ **COMPLETE (2026-09-23)** — Help-group split hero (mirrors Feed), facts strip, Our heart, 3 steps + reapply note, dark "where to apply" band. Nav Help→Care Ministry now a real link |
@@ -162,6 +163,25 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
 `/sermons`, `/blog` (+`[slug]`, dimmed), `/resources` (+`[slug]`, labeled "Other Resources").
 
 ---
+
+## ★ LILY MOMS — SHIPPED (2026-09-24, 1 gate)
+Commits: `5c4afa4` (package; assets in `site/public`) → this commit (page + nav).
+- **Route `/community/lily-moms`** (route map), not the package's `/lilymoms`.
+- **Copy verified** line by line against the ministry's "Updated text" — all FACTs match
+  (1st & 3rd Weds, Oct–May, 9:00–11:30; fees $20/$60/$100; teachers 8:30–11:45, $35,
+  babies–age five). Design labels approved by Todd.
+- **★ EMAILS GATED:** `NWlilymoms@gmail.com` + `NWLilyKids@gmail.com` are Gmail accounts →
+  `EMAILS_APPROVED = false` at the top of `lily-moms.astro`: email buttons inert, addresses NOT
+  printed anywhere in `dist/`. Flip to `true` once the church approves (restores the questions
+  line, Contact row and real `mailto:`s). Consider asking for church-owned addresses.
+- **Register inert** until `REGISTER_URL` is set (the page's primary action — used twice).
+- **Logo** (`public/lily-moms-logo.png`, downscaled 448px for 112px display): ministry teal/
+  orchid kept as a flat image, never recolored, light backgrounds only. Not tokenized.
+- **Lily photo band** (`public/lily-flowers-dark.jpg`, Unsplash — Benson John): token scrim,
+  74% held to 44% (intro ends ~43% at 1440 with the 3-line h2).
+- **Serif heading now used on 2 pages** (`.wm-serif-h2`, `.lily-serif-h`) → promote to a global
+  class in its own global.css gate (prove-twice met).
+- **Seasonal:** fees + Oct–May season — re-confirm each August.
 
 ## ★ WOMEN'S MINISTRY — SHIPPED (2026-09-23, 1 gate)
 Commits: `babfdc3` (package) → `058a05b` (page + floral image + redirect + nav) → `0da9532`
@@ -482,6 +502,9 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
   "opens 30 minutes early"; "every Sunday is livestreamed and archived"; reserved first-time
   guest parking; "15 minutes north of Raleigh, just off Capital Blvd"; songs "modern and
   traditional". `/community/students` says "Sunday AM" but not the 10:45 service — align.
+- **★ `/community/lily-moms`:** church sign-off to publish the two Gmails (or church-owned
+  replacements); the registration URL; hero photo (child-photo consent). Optional: "bi-monthly"
+  → "twice-monthly" wording (ministry's call).
 - **★ `/community/women`:** Facebook page URL for "North Wake-Women" (renders as plain text
   until provided); a one-line Spring Retreat description (card currently repeats "Annually
   around April"); hero photo. Women's Day event date/time still UNVERIFIED in its event file.
@@ -547,7 +570,7 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
 mission redesign → Newsreader → who-is-jesus → Breadcrumb → kids → feed → hairline-grid →
 mature → watercolor home hero → mega-menu → siteSettings → serif-on-image → hero pilot +
 shot list + type standards → **events build (4 gates)** → `e8643c7` a11y → state 07-04]
-**[2026-09-23]** `1792fe8` Come Visit package + CLAUDE.md → `f773172` WarmBandHero + hero → `df57050` /visit complete → `f0587df` Church Planting package → `b6ffa78` /mission/church-planting → `f2a5e00` ticker removed → `7fef38e` Care package → `3d72fc4` /help/care → `06d23d8` Mercy package → `8c4f3cb` /help/mercy-clinic → `babfdc3` Women package → `058a05b` /community/women → `0da9532` Women's Day email.
+**[2026-09-23]** `1792fe8` Come Visit package + CLAUDE.md → `f773172` WarmBandHero + hero → `df57050` /visit complete → `f0587df` Church Planting package → `b6ffa78` /mission/church-planting → `f2a5e00` ticker removed → `7fef38e` Care package → `3d72fc4` /help/care → `06d23d8` Mercy package → `8c4f3cb` /help/mercy-clinic → `babfdc3` Women package → `058a05b` /community/women → `0da9532` Women's Day email → **[2026-09-24]** `5c4afa4` LILY package → /community/lily-moms.
 **[2026-07-05]** mobile nav (`47d11e9`/`6533063`) → `5b34285` eyebrow fix → `7402b1b`
 /sermons (+`705e551`) → `fd27f93` Pages CMS config → Family Table via CMS (smoke test) →
 `3ee46c5` event-label softening → `75f1974`/`69548c5` placeholder photos → state 07-05 +
