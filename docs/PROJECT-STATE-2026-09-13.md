@@ -13,9 +13,9 @@ package**, and **shot list v2**.
 > written down, and they need to be recovered from Todd before the church-facing work
 > continues.
 
-> **🟢 2026-09-23 UPDATE — `/visit`, `/mission/church-planting`, `/help/care`, `/help/mercy-clinic`
-> SHIPPED; homepage ticker removed.** See **★ MERCY HEALTH**, **★ CARE MINISTRY**, **★ CHURCH
-> PLANTING** and **★ COME VISIT** below. Read that section first; the rest of this doc is as of 09-13 except where marked.
+> **🟢 2026-09-23 UPDATE — `/visit`, `/mission/church-planting`, `/help/care`, `/help/mercy-clinic`,
+> `/community/women` SHIPPED; homepage ticker removed; first redirect (`/womensministry`).** See the
+> ★ WOMEN'S MINISTRY, ★ MERCY HEALTH, ★ CARE MINISTRY, ★ CHURCH PLANTING and ★ COME VISIT sections. Read that section first; the rest of this doc is as of 09-13 except where marked.
 
 ---
 
@@ -142,6 +142,7 @@ transfer the GitHub repo to a church org; reassign Render (swap account email, r
 | `/help/feed` | ✅ COMPLETE |
 | `/community/mature-adults` | ✅ COMPLETE |
 | `/sermons` | ✅ COMPLETE — BranchCast embed + podcast links |
+| `/community/women` | ✅ **COMPLETE (2026-09-23)** — Community split hero, "Know. Grow. Go." serif motto, floral photo band with 6 gathering cards, dark contact band. `/womensministry` redirects here (postcard URL). Nav + footer resolve |
 | `/help/mercy-clinic` | ✅ **COMPLETE (2026-09-23)** — condensed from mercyhealthnw.org; Help-group hero, facts, scope panels, Luke 10:37, values, 2 get-involved cards, dark contact band. Footer link (was a 404) now resolves; nav wired |
 | `/help/care` | ✅ **COMPLETE (2026-09-23)** — Help-group split hero (mirrors Feed), facts strip, Our heart, 3 steps + reapply note, dark "where to apply" band. Nav Help→Care Ministry now a real link |
 | `/mission/church-planting` | ✅ **COMPLETE (2026-09-23)** — first `/mission/*` route; Warm Band hero (display-m, no CTAs, .ph photo), two realities + inverse bridge band, church lists, serif statement, engage grid. Nav Mission→Church Planting now a real link |
@@ -161,6 +162,29 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
 `/sermons`, `/blog` (+`[slug]`, dimmed), `/resources` (+`[slug]`, labeled "Other Resources").
 
 ---
+
+## ★ WOMEN'S MINISTRY — SHIPPED (2026-09-23, 1 gate)
+Commits: `babfdc3` (package) → `058a05b` (page + floral image + redirect + nav) → `0da9532`
+(Women's Day event email).
+- **Route `/community/women`** (footer already linked it). **First redirect on the site:**
+  `astro.config.mjs` `redirects` `'/womensministry' → '/community/women'` — the ministry postcard
+  prints `northwake.com/womensministry`. Static meta-refresh page, no JS. **Same mechanism is
+  now ready for the queued `/familytable` legacy redirect.**
+- **Copy verified** against the seed text AND the postcard PDF (both pages; page 2 = seed
+  verbatim; no dates anywhere). PDF had no text layer at page 1 → rendered via a PDFKit swift
+  script (poppler isn't installed).
+- **Motto = "Know. Grow. Go."** — the postcard emphasizes exactly those verbs (the church-wide
+  motto); the package invented a 4th "Glorify" pillar. Glorify clause stays verbatim in the
+  statement. Purpose breakdown is 3 items.
+- **Card kickers:** only sourced timings (Twice a year / Around April / October); the other
+  three come from each card's own text. The package's "Ongoing"/"Throughout the year" were
+  invented.
+- **Floral band** (`public/women-flowers.jpg`, Unsplash — Dallas Reedy): scrim is `color-mix` of
+  `--bg-inverse` (no literal exception) and **holds 72% to 38%** so the on-photo intro stays AA
+  (package gradient ≈ 4:1 over the brightest petals). Retune if the heading block grows.
+- **Email** `womensministry@northwake.com` is postcard-verified → real `mailto:` links. Women's
+  Day event `contactEmail` corrected from the unverified `women@` (event template still renders
+  all event emails inert — site-wide question, untouched).
 
 ## ★ MERCY HEALTH CLINIC — SHIPPED (2026-09-23, 1 gate)
 Commits: `06d23d8` (package → `brand/prototype/MERCY-HEALTH-SPEC.md` + `mercy-health.html`) →
@@ -458,6 +482,9 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
   "opens 30 minutes early"; "every Sunday is livestreamed and archived"; reserved first-time
   guest parking; "15 minutes north of Raleigh, just off Capital Blvd"; songs "modern and
   traditional". `/community/students` says "Sunday AM" but not the 10:45 service — align.
+- **★ `/community/women`:** Facebook page URL for "North Wake-Women" (renders as plain text
+  until provided); a one-line Spring Retreat description (card currently repeats "Annually
+  around April"); hero photo. Women's Day event date/time still UNVERIFIED in its event file.
 - **★ `/help/mercy-clinic`:** (1) **patient-portal URL** — the clinic's own site doesn't link it;
   once provided, set `MERCY.portalUrl` + add a "Book an appointment ↗" hero button. (2) **Update
   owner** — who re-checks `mercy.ts` when the clinic changes hours/closures? Undecided.
@@ -520,7 +547,7 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
 mission redesign → Newsreader → who-is-jesus → Breadcrumb → kids → feed → hairline-grid →
 mature → watercolor home hero → mega-menu → siteSettings → serif-on-image → hero pilot +
 shot list + type standards → **events build (4 gates)** → `e8643c7` a11y → state 07-04]
-**[2026-09-23]** `1792fe8` Come Visit package + CLAUDE.md → `f773172` WarmBandHero + hero → `df57050` /visit complete → `f0587df` Church Planting package → `b6ffa78` /mission/church-planting → `f2a5e00` ticker removed → `7fef38e` Care package → `3d72fc4` /help/care → `06d23d8` Mercy package → /help/mercy-clinic.
+**[2026-09-23]** `1792fe8` Come Visit package + CLAUDE.md → `f773172` WarmBandHero + hero → `df57050` /visit complete → `f0587df` Church Planting package → `b6ffa78` /mission/church-planting → `f2a5e00` ticker removed → `7fef38e` Care package → `3d72fc4` /help/care → `06d23d8` Mercy package → `8c4f3cb` /help/mercy-clinic → `babfdc3` Women package → `058a05b` /community/women → `0da9532` Women's Day email.
 **[2026-07-05]** mobile nav (`47d11e9`/`6533063`) → `5b34285` eyebrow fix → `7402b1b`
 /sermons (+`705e551`) → `fd27f93` Pages CMS config → Family Table via CMS (smoke test) →
 `3ee46c5` event-label softening → `75f1974`/`69548c5` placeholder photos → state 07-05 +
