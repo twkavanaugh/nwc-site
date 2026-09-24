@@ -1,0 +1,602 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import { BUSINESS } from "../../data/business";
+import { MERCY } from "../../data/mercy";
+
+// Mercy Health Clinic page (/help/mercy-clinic). Built from
+// brand/prototype/MERCY-HEALTH-SPEC.md + mercy-health.html — a condensed version of
+// mercyhealthnw.org, which stays the authority (linked throughout). Clinic facts
+// live in src/data/mercy.ts; every line here was checked against the clinic's live
+// site 2026-09-23.
+// Sections: 1) Breadcrumb, 2) Hero (Help-group split — mirrors help/feed.astro),
+// 3) Facts, 4) Who we are, 5) Why we serve, 6) Core values, 7) Get involved,
+// 8) Contact (dark band).
+//
+// Get involved is TWO cards, not the package's three: its Partner card copy was
+// written by design and wrong — the clinic's Partner page is financial partnership
+// only, i.e. the same thing as Give (Todd, 2026-09-23).
+// Deliberately NOT on the page: provider/leadership/board names and personal
+// emails (they change; one is a personal Gmail).
+//
+// Dark band: inverse tokens + .btn-accent (the package's .btn-primary is
+// ink-on-ink here). No global change; .text-link is page-scoped.
+
+const facts = [
+  { l: "Cost", v: "100% free — visits, dental, labs & medications" },
+  { l: "When", v: MERCY.when },
+  { l: "Where", v: `North Wake Church · ${BUSINESS.streetAddress}` },
+  { l: "Who", v: MERCY.who },
+];
+
+const offer = ["Comprehensive primary care", "Limited dental care", "Health education", "Case management"];
+
+const limits = [
+  "Pain management and prescription of controlled substances",
+  "Obstetrical care",
+  "Pediatric care",
+  "Emergency care",
+  "Complex psychiatric care",
+  "Surgical care",
+  "Reconstructive dental work",
+  "Dentures",
+];
+
+const values = [
+  { t: "Dignity and Respect", b: "Imago Dei — we believe all mankind is created in the image of God and that all human life is sacred." },
+  { t: "Collaboration", b: "We cultivate partnerships throughout our community." },
+  { t: "Integrity", b: "We endeavor to show Christlike honesty and transparency." },
+  { t: "Compassion", b: "We genuinely care about the physical, psychosocial and spiritual needs of all." },
+  { t: "Stewardship", b: "We strive to be good stewards of what God provides to this ministry." },
+  { t: "Quality", b: "We pursue excellence in all endeavors." },
+];
+
+const cards = [
+  {
+    t: "Volunteer",
+    b: "Primary care providers, licensed RNs, clinic administration, medical translators, and systems and data managers.",
+    links: [{ label: "See current needs", href: MERCY.volunteerUrl }],
+  },
+  {
+    // Clinic's own wording (Partner + About pages): partnership = financial.
+    t: "Give",
+    b: "The clinic is 100% funded by donations. Join its mission by partnering with it financially.",
+    links: [
+      { label: "Donate today", href: MERCY.donateUrl },
+      { label: "Partner with Mercy", href: MERCY.partnerUrl },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Mercy Health Clinic · North Wake Church"
+  description="Mercy Health Clinic of North Wake delivers free medical and dental care to our North Wake County region neighbors in need."
+>
+  <!-- 1. Breadcrumb ("Help" has no page → non-clickable chip) -->
+  <Breadcrumb trail={[{ label: "Home", href: "/" }, { label: "Help" }, { label: "Mercy Health Clinic" }]} />
+
+  <!-- 2. Hero — Help-group split (same shape/values as the Feed + Care heroes) -->
+  <section class="mh-hero" aria-labelledby="mh-title">
+    <div class="wrap">
+      <div class="mh-hero-grid">
+        <div>
+          <div class="eyebrow mh-hero-eyebrow"><span class="dot"></span>{MERCY.name}</div>
+          <h1 id="mh-title" class="display-l mh-h1">
+            Free medical and dental care for <span class="mh-accent">our neighbors in need.</span>
+          </h1>
+          <p class="lede mh-lede">
+            To share the love of Jesus Christ with our North Wake County region neighbors in need by delivering free medical and dental care.
+          </p>
+          <div class="mh-actions">
+            <a class="btn btn-primary" href={MERCY.siteUrl} target="_blank" rel="noopener">
+              Visit {MERCY.siteLabel} <span class="arr mh-arr-out" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span>
+            </a>
+            <a class="btn btn-ghost" href={`tel:${MERCY.phoneTel}`}>Call {MERCY.phone}</a>
+          </div>
+        </div>
+        <!-- PHOTO PLACEHOLDER. PRIVACY (HIPAA + dignity): never show an identifiable
+             patient — volunteers, hands, equipment or the space only
+             (MERCY-HEALTH-SPEC.md §9). -->
+        <div class="ph mh-hero-ph"><span class="ph-label">Photo · Mercy Health · clinic evening</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Facts -->
+  <section class="mh-facts-sec" aria-label="Clinic at a glance">
+    <div class="wrap">
+      <dl class="mh-facts">
+        {
+          facts.map((f) => (
+            <div class="mh-fact">
+              <dt class="mono">{f.l}</dt>
+              <dd>{f.v}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="body mh-facts-note">
+        Clinics are <strong>not</strong> held {MERCY.closures}. Appointments can be secured through the clinic's patient portal.
+      </p>
+    </div>
+  </section>
+
+  <!-- 4. Who we are -->
+  <section aria-labelledby="mh-who-title">
+    <div class="wrap">
+      <div class="section-head mh-who-head">
+        <div>
+          <div class="eyebrow mh-eyebrow"><span class="dot"></span>Who we are</div>
+          <h2 id="mh-who-title" class="display-m mh-who-h2">A Gospel-centered free health care clinic.</h2>
+        </div>
+        <p class="body right">
+          North Wake Church provides leadership and space for the clinic. It is a 501(c)(3) nonprofit, primarily staffed by volunteers, and 100% funded by donations.
+        </p>
+      </div>
+      <div class="mh-scope">
+        <div class="mh-panel">
+          <div class="mono mh-panel-label">What we offer</div>
+          <ul class="mh-offer">{offer.map((o) => <li>{o}</li>)}</ul>
+        </div>
+        <div class="mh-panel">
+          <div class="mono mh-panel-label">Who we serve</div>
+          <p class="body mh-serve">
+            Our neighbors in the North Wake region, including <strong>Franklin, Granville, and Vance</strong> counties.
+          </p>
+          <p class="body mh-serve">Adults 18 years and older whose household income is below 200% of the federal poverty level.</p>
+        </div>
+        <div class="mh-panel is-limit">
+          <div class="mono mh-panel-label">Outside our scope of practice</div>
+          <ul class="mh-limit">{limits.map((l) => <li>{l}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Why we serve — the page's one serif moment -->
+  <section class="mh-why" aria-label="Why we serve">
+    <div class="wrap-narrow">
+      <div class="eyebrow mh-why-eyebrow"><span class="dot"></span>Why we serve · Luke 10:37</div>
+      <blockquote class="mh-quote">And Jesus said to him, <em>“You go, and do likewise.”</em></blockquote>
+      <p class="lede mh-why-lede">
+        Mercy Health is founded on the Great Commandment — love the Lord your God, and love your neighbor as yourself. In the parable of the Good Samaritan, the neighbor is “the one who showed mercy.”
+      </p>
+    </div>
+  </section>
+
+  <!-- 6. Core values -->
+  <section aria-labelledby="mh-values-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow mh-eyebrow"><span class="dot"></span>Core values</div>
+          <h2 id="mh-values-title" class="display-m">What guides the clinic.</h2>
+        </div>
+      </div>
+      <ul class="mh-values">
+        {
+          values.map((v) => (
+            <li class="mh-value">
+              <h3 class="title mh-value-h">{v.t}</h3>
+              <p class="body mh-value-body">{v.b}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- 7. Get involved -->
+  <section class="mh-involve-sec" aria-labelledby="mh-involve-title">
+    <div class="wrap">
+      <div class="mh-involve-wrap">
+        <div class="eyebrow mh-eyebrow"><span class="dot"></span>Go and do likewise</div>
+        <h2 id="mh-involve-title" class="display-m mh-involve-h2">Get involved.</h2>
+        <div class="mh-involve">
+          {
+            cards.map((c) => (
+              <div class="mh-card">
+                <h3 class="display-s mh-card-h">{c.t}</h3>
+                <p class="body mh-card-body">{c.b}</p>
+                <div class="mh-card-links">
+                  {c.links.map((l) => (
+                    <a class="mh-text-link" href={l.href} target="_blank" rel="noopener">
+                      {l.label} ↗<span class="sr-only"> (opens in a new tab)</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Contact — DARK band, inverse tokens -->
+  <section class="mh-contact-sec" aria-labelledby="mh-contact-title">
+    <div class="wrap">
+      <div class="mh-contact">
+        <div>
+          <div class="eyebrow mh-contact-eyebrow"><span class="dot"></span>Contact the clinic</div>
+          <!-- <wbr> + overflow-wrap:anywhere keep the one long "word" from overflowing
+               a 375px column — keep both. -->
+          <h2 id="mh-contact-title" class="display-m mh-contact-h2">
+            The full story lives at <span class="mh-contact-accent">mercyhealthnw<wbr />.org.</span>
+          </h2>
+          <div class="mh-actions">
+            <a class="btn btn-accent" href={MERCY.siteUrl} target="_blank" rel="noopener">
+              Visit the Mercy Health site <span class="arr mh-arr-out" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span>
+            </a>
+          </div>
+        </div>
+        <dl class="mh-contact-list">
+          <div><dt class="mono">Telephone</dt><dd><a href={`tel:${MERCY.phoneTel}`}>{MERCY.phone}</a></dd></div>
+          <div><dt class="mono">Fax</dt><dd>{MERCY.fax}</dd></div>
+          <div>
+            <dt class="mono">Address</dt>
+            <dd>{BUSINESS.streetAddress} · {BUSINESS.city}, {BUSINESS.state} {BUSINESS.postalCode}</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Page-scoped (no global .sr-only exists; kept local to avoid a global.css change). */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .mh-eyebrow {
+    margin-bottom: 18px;
+  }
+  .mh-accent {
+    color: var(--accent);
+  }
+  /* External-link arrow nudges up-right (global .arr nudges right). */
+  .btn:hover .mh-arr-out {
+    transform: translate(2px, -2px);
+  }
+  /* Page-scoped text link (package proposed it as a new global primitive). */
+  .mh-text-link {
+    color: var(--accent);
+    font-size: 16px;
+    font-weight: 500;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+  }
+  .mh-text-link:hover {
+    color: var(--ink);
+  }
+
+  /* 2 · Hero — values mirror help/feed.astro + help/care.astro. */
+  .mh-hero {
+    padding: 56px 0 0;
+  }
+  .mh-hero-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 64px;
+    align-items: end;
+  }
+  .mh-hero-eyebrow {
+    margin-bottom: 28px;
+  }
+  .mh-h1 {
+    max-width: 15ch;
+  }
+  .mh-lede {
+    margin-top: 28px;
+  }
+  .mh-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+  .mh-hero-ph {
+    aspect-ratio: 4 / 5;
+  }
+
+  /* 3 · Facts */
+  .mh-facts-sec {
+    padding: 80px 0 0;
+  }
+  .mh-facts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    margin: 0;
+    background: var(--line);
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .mh-fact {
+    background: var(--bg);
+    padding: 28px 24px;
+  }
+  .mh-fact dt {
+    margin-bottom: 10px;
+  }
+  .mh-fact dd {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    line-height: 1.35;
+  }
+  .mh-facts-note {
+    margin: 16px 0 0;
+  }
+  .mh-facts-note strong {
+    color: var(--ink);
+  }
+
+  /* 4 · Who we are — 3-panel hairline grid; the "limit" panel reads as separate. */
+  .mh-who-head .right {
+    max-width: 40ch;
+  }
+  .mh-who-h2 {
+    max-width: 16ch;
+  }
+  .mh-scope {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .mh-panel {
+    background: var(--bg);
+    padding: 36px 32px;
+  }
+  .mh-panel.is-limit {
+    background: var(--bg-2);
+  }
+  .mh-panel-label {
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .mh-panel.is-limit .mh-panel-label {
+    color: var(--ink); /* ink, not accent — signals a limit */
+  }
+  .mh-offer,
+  .mh-limit {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .mh-offer li {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .mh-serve {
+    margin: 0;
+    font-size: 18px;
+    color: var(--ink);
+  }
+  .mh-serve + .mh-serve {
+    margin-top: 18px;
+  }
+  .mh-limit li {
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--ink-2);
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* 5 · Why we serve */
+  .mh-why {
+    background: var(--bg-2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    text-align: center;
+  }
+  .mh-why-eyebrow {
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .mh-quote {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(34px, 4.4vw, 60px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .mh-quote em {
+    color: var(--accent);
+  }
+  .mh-why-lede {
+    margin: 28px auto 0;
+    max-width: 58ch;
+  }
+
+  /* 6 · Core values */
+  .mh-values {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .mh-value {
+    background: var(--bg);
+    padding: 30px 28px 32px;
+  }
+  .mh-value-h {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .mh-value-body {
+    margin: 0;
+  }
+
+  /* 7 · Get involved (hairline above acts as the divider → no top padding) */
+  .mh-involve-sec {
+    padding-top: 0;
+  }
+  .mh-involve-wrap {
+    border-top: 1px solid var(--line-strong);
+    padding-top: 56px;
+  }
+  .mh-involve-h2 {
+    margin-bottom: 40px;
+  }
+  .mh-involve {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+  }
+  /* 2px ink rule — same device as Church Planting + Care. */
+  .mh-card {
+    border-top: 2px solid var(--ink);
+    padding-top: 24px;
+    display: flex;
+    flex-direction: column;
+  }
+  .mh-card-h {
+    margin-bottom: 14px;
+  }
+  .mh-card-body {
+    margin: 0 0 24px;
+    font-size: 17px;
+    max-width: 52ch;
+  }
+  .mh-card-links {
+    margin-top: auto; /* links line up across cards */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+  }
+
+  /* 8 · Contact — DARK band, inverse semantic tokens only (accent TEXT on dark
+     must be --accent-on-inverse; clay-600 fails at 2.69:1). */
+  .mh-contact-sec {
+    background: var(--bg-inverse);
+    color: var(--ink-on-inverse);
+  }
+  .mh-contact {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: end;
+  }
+  .mh-contact-eyebrow {
+    margin-bottom: 24px;
+    color: var(--ink-on-inverse-2);
+  }
+  .mh-contact-eyebrow .dot {
+    background: var(--accent-on-inverse);
+  }
+  .mh-contact-h2 {
+    max-width: 14ch;
+  }
+  .mh-contact-accent {
+    color: var(--accent-on-inverse);
+    overflow-wrap: anywhere;
+  }
+  .mh-contact-list {
+    margin: 0;
+    border-top: 1px solid var(--line-on-inverse-strong);
+  }
+  .mh-contact-list > div {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line-on-inverse);
+    align-items: baseline;
+  }
+  .mh-contact-list dt {
+    color: var(--ink-on-inverse-2);
+  }
+  .mh-contact-list dd {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 500;
+  }
+  .mh-contact-list dd a:hover {
+    color: var(--accent-on-inverse);
+  }
+
+  /* Responsive — hero stacks at 720 like Feed/Care; the rest per the spec. */
+  @media (max-width: 1080px) {
+    .mh-facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .mh-scope {
+      grid-template-columns: 1fr 1fr;
+    }
+    .mh-panel.is-limit {
+      grid-column: 1 / -1; /* longest list spans the row underneath */
+    }
+    .mh-values {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 880px) {
+    .mh-contact {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .mh-involve {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+  @media (max-width: 720px) {
+    .mh-hero {
+      padding-top: 40px;
+    }
+    .mh-hero-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .mh-facts-sec {
+      padding-top: 64px;
+    }
+    .mh-panel {
+      padding: 28px 22px;
+    }
+    /* Don't undercut the site's mobile type scale (global.css §j: .body → 18px). */
+    .mh-card-body,
+    .mh-limit li {
+      font-size: 18px;
+    }
+  }
+  @media (max-width: 560px) {
+    .mh-facts,
+    .mh-scope,
+    .mh-values {
+      grid-template-columns: 1fr;
+    }
+    .mh-contact-list > div {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    .mh-actions .btn {
+      flex: 1 1 100%;
+      justify-content: center;
+    }
+  }
+</style>
