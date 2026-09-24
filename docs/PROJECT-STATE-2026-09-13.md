@@ -179,6 +179,19 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
   (resolves the "CMS media has NO size guard" debt) or if the category files disagree with
   EITHER `CATEGORIES-START/END` pick-list in `.pages.yml`. All failure paths tested.
 - **Categories are developer-only:** new one = YAML file + a line in both pick-lists.
+- **★ Upload ceiling ~3MB (2026-09-24):** hosted Pages CMS runs on **Vercel** (4.5MB request
+  body limit → `413 FUNCTION_PAYLOAD_TOO_LARGE`; a 4.4MB PDF failed). Exact ceiling unpinned.
+  **Policy (Todd):** bigger documents live in the **church Google Drive** ("Anyone with the
+  link can view") — keeps them alive beyond the site. A "PDF download" now takes an upload
+  OR a link (exactly one, build-enforced); linked PDFs render "Download PDF ↗", new tab.
+  The 15MB prebuild guard stays as a backstop for developer-committed files.
+  **Needs:** a church-OWNED Drive / shared drive (not a staff member's personal Drive — a
+  departed editor would break every link). Share docs as **Viewer**, never Editor.
+- **Gate 2 progress:** text page + YouTube embed ✅ (editor saves the pasted URL as a Markdown
+  link — the transform handles it; a trailing empty line saves as `&nbsp;`, harmless). Google
+  Doc as External link ✅. Still to run: PDF-download via Drive link, replace a placeholder,
+  delete an entry, and the EXISTING-post round-trip edit. Test entries live on the site:
+  "Here is a test" (post), "Thermogenics Test" (resource) — delete after testing.
 - **Gate 2 (after push — Pages CMS reads config from GitHub):** Todd adds a PDF resource, an
   external link, replaces the membership-packet placeholder, deletes a test entry; creates a
   draft text page (confirm hidden), publishes it with a bare YouTube line + a PDF download;
