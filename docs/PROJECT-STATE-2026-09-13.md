@@ -13,8 +13,8 @@ package**, and **shot list v2**.
 > written down, and they need to be recovered from Todd before the church-facing work
 > continues.
 
-> **🟢 2026-09-23 UPDATE — `/visit` + `/mission/church-planting` SHIPPED.** See **★ COME VISIT**
-> and **★ CHURCH PLANTING** below. Read that section first; the rest of this doc is as of 09-13 except where marked.
+> **🟢 2026-09-23 UPDATE — `/visit`, `/mission/church-planting`, `/help/care` SHIPPED; homepage
+> ticker removed.** See **★ CARE MINISTRY**, **★ CHURCH PLANTING** and **★ COME VISIT** below. Read that section first; the rest of this doc is as of 09-13 except where marked.
 
 ---
 
@@ -141,6 +141,7 @@ transfer the GitHub repo to a church org; reassign Render (swap account email, r
 | `/help/feed` | ✅ COMPLETE |
 | `/community/mature-adults` | ✅ COMPLETE |
 | `/sermons` | ✅ COMPLETE — BranchCast embed + podcast links |
+| `/help/care` | ✅ **COMPLETE (2026-09-23)** — Help-group split hero (mirrors Feed), facts strip, Our heart, 3 steps + reapply note, dark "where to apply" band. Nav Help→Care Ministry now a real link |
 | `/mission/church-planting` | ✅ **COMPLETE (2026-09-23)** — first `/mission/*` route; Warm Band hero (display-m, no CTAs, .ph photo), two realities + inverse bridge band, church lists, serif statement, engage grid. Nav Mission→Church Planting now a real link |
 | `/visit` | ✅ **COMPLETE (2026-09-23)** — Warm Band hero, facts strip, flow of a Sunday, FAQ, find us. Every "Plan a Visit" CTA now resolves (was a 404) |
 | `/events` | ✅ COMPLETE — date-filtered, sorted index |
@@ -158,6 +159,22 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
 `/sermons`, `/blog` (+`[slug]`, dimmed), `/resources` (+`[slug]`, labeled "Other Resources").
 
 ---
+
+## ★ CARE MINISTRY — SHIPPED (2026-09-23, 1 gate)
+Commits: `7fef38e` (package → `brand/prototype/CARE-MINISTRY-SPEC.md` + `care-ministry.html`)
+→ `3d72fc4` (page + nav href).
+- **Route `/help/care`**; site `Breadcrumb` (Home › Help › Care Ministry), not the package's
+  plain `.crumbs`. Hero copies **Feed's real hero** values (stacks at 720 like Feed, not 880).
+- **Dark band** on inverse tokens; CTA is **`.btn-accent`** — the package's `.btn-primary` is
+  ink-on-ink on this site. Dark-band CTA precedent: who-is-jesus, mature-adults.
+- **"How to apply"** is a plain `#how-to-apply` jump with `scroll-margin-top: 80px` (verified
+  clears the sticky nav desktop + mobile). Smooth scroll skipped — needs a global `html` rule.
+- **Copy:** Claude Design's step splits/recasts + labels + distilled h1 approved by Todd.
+  "dispersed" → "disbursed"; duplicate "Funds are released quarterly." intro removed.
+- **Mobile type:** page text respects global.css §j (`.body` → 18px at ≤720). **Known gap:**
+  `/mission/church-planting` drops 3 body styles to 17px on phones (undercuts §j) — one-line fix
+  offered, not yet made.
+- **Photo privacy:** hero `.ph` carries an in-code rule — never an identifiable recipient.
 
 ## ★ CHURCH PLANTING — SHIPPED (2026-09-23, 1 gate)
 Commits: `f0587df` (package → `brand/prototype/CHURCH-PLANTING-SPEC.md` + `church-planting.html`)
@@ -424,6 +441,10 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
   "opens 30 minutes early"; "every Sunday is livestreamed and archived"; reserved first-time
   guest parking; "15 minutes north of Raleigh, just off Capital Blvd"; songs "modern and
   traditional". `/community/students` says "Sunday AM" but not the 10:45 service — align.
+- **★ `/help/care`:** NOT PROVIDED — office hours for the reception desk (in-person only, so
+  this matters most), a contact for questions, Building Five wayfinding. Todd to verify vs
+  source: Building Five, 10-min application, 45-min interview, quarterly release,
+  first-come-first-served, 12-month reapply rule.
 - **★ `/mission/church-planting`:** Todd to diff against source copy — the six church names +
   cities, "early ’90s", "Providence Church (Raleigh NC)" (Claude Design mistranslated `/visit`).
   Partner-church website URLs + any CTA destination (giving/contact) not yet provided.
@@ -479,7 +500,7 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
 mission redesign → Newsreader → who-is-jesus → Breadcrumb → kids → feed → hairline-grid →
 mature → watercolor home hero → mega-menu → siteSettings → serif-on-image → hero pilot +
 shot list + type standards → **events build (4 gates)** → `e8643c7` a11y → state 07-04]
-**[2026-09-23]** `1792fe8` Come Visit package + CLAUDE.md → `f773172` WarmBandHero + hero → `df57050` /visit complete → `f0587df` Church Planting package → `b6ffa78` /mission/church-planting.
+**[2026-09-23]** `1792fe8` Come Visit package + CLAUDE.md → `f773172` WarmBandHero + hero → `df57050` /visit complete → `f0587df` Church Planting package → `b6ffa78` /mission/church-planting → `f2a5e00` ticker removed → `7fef38e` Care package → `3d72fc4` /help/care.
 **[2026-07-05]** mobile nav (`47d11e9`/`6533063`) → `5b34285` eyebrow fix → `7402b1b`
 /sermons (+`705e551`) → `fd27f93` Pages CMS config → Family Table via CMS (smoke test) →
 `3ee46c5` event-label softening → `75f1974`/`69548c5` placeholder photos → state 07-05 +
