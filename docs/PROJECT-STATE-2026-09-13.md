@@ -1,0 +1,427 @@
+# North Wake Church Site — Project State (2026-09-13)
+
+**Purpose of this file:** complete, current context so a fresh chat (Claude as SME/
+prompt-writer) can resume at full speed without the prior conversation. Drop into
+Project knowledge. **Supersedes `docs/PROJECT-STATE-2026-07-05.md`** — which predates the
+**posts/resources/categories collections**, the **`/resources` index + `/resources/[slug]`
+post template**, the **sanctioned YouTube embed transform**, the **Warm Band hero design
+package**, and **shot list v2**.
+
+> **⏸ DORMANCY NOTE.** The last commit landed **2026-07-12**. The repo sat untouched for
+> roughly two months and work resumed **2026-09-13**. Nothing decayed — the build is green
+> and the tree is clean — but see **★ CONTEXT GAP** below: several July decisions were never
+> written down, and they need to be recovered from Todd before the church-facing work
+> continues.
+
+---
+
+## TL;DR — where things stand
+A static Astro 5 marketing site for North Wake Church (Wake Forest, NC), **LIVE on Render**,
+auto-deploying from GitHub `main`. **20 routes build** (was 14 at the last state doc).
+
+Since 07-05, two bodies of work landed:
+1. **The resources/posts/categories system shipped** (07-07, a 4-gate sequence) — three new
+   collections, five real Adult Discipleship seed posts, a zero-JS `:target`-filtered
+   `/resources` index, a `/resources/[slug]` post template with an attachments block, the
+   inert-placeholder-download convention, and a **remark transform** that turns bare YouTube
+   URLs into lazy nocookie embeds (the site's second sanctioned third-party exception).
+2. **Two design/docs packages landed** (07-12) — the **Warm Band photo hero** kit and
+   **shot list v2**. Both are *specs only*. Neither has been built or acted on.
+
+**Build status verified 2026-09-13:** `npm run build` green, 20 pages, 1.3s, working tree clean.
+
+**Two commits are local-only and unpushed** (`1e2dc9b`, `40062f9`). Both touch `docs/` and
+`brand/` ONLY — zero `site/` changes, so nothing is waiting to deploy and the live site
+matches `origin/main`.
+
+**Live URL:** https://nwc-site.onrender.com  ·  **Repo:** https://github.com/twkavanaugh/nwc-site (public)
+
+---
+
+## ★ CONTEXT GAP — recover these from Todd before church-facing work
+The 07-05 doc set four next-tasks. Commits show **task 3 (collections) was done**. There is
+**no written record** of the others, and the state doc was never updated. Open questions:
+
+1. **The Tuesday 2026-07-07 pastor meeting — what happened?** The 07-05 doc made this the
+   critical path (name a CMS test employee; schedule the content-verification meeting).
+   Commits resumed the morning of 07-07, so the freeze lifted, but the outcomes were never
+   recorded. **Was a CMS test employee named? Was the content meeting scheduled or held?**
+2. **The Pages CMS employee vertical-slice test** — never recorded as run. Still open?
+3. **What happened in the July 12 → September 13 gap?** Any church-side movement (photos
+   shot, content returned, documents provided, decisions made) that the repo doesn't know about?
+4. **Accessibility review of record** — Todd's wife's verdict on live-site type sizes. Was
+   carried as "status unknown" on 07-05 and is still unknown.
+
+Everything in the UNVERIFIED section below is stated as of 07-05 plus what the code shows.
+If any of it was settled in July or during the gap, this doc does not know it.
+
+---
+
+## Roles & workflow (how we work — keep doing this)
+- **Claude (chat)** = SME, prompt-writer, reviewer. Writes CC instructions as ONE
+  self-contained inline code block. Explains the *why*, pushes back honestly, flags ONE
+  next action. Recommends rather than bouncing decisions back when Todd has no preference.
+- **Claude Code (CC)** = build agent on Todd's **personal MacBook Air**.
+- **User (Todd)** = directs strategy, runs commands, reviews each step in the browser.
+  Brings in Claude-Design exports mid-stream — treat each as a system-integration moment
+  (extract chosen direction → commit to `brand/prototype/` → translate to tokens).
+- **Cadence:** ONE gated task at a time; browser review before the next. Multi-part
+  infrastructure runs as an explicit gate sequence (events 4 gates; mobile nav 2;
+  **resources 4: collections → list design package → index → post template**).
+- **Command labeling:** **[Terminal]** = Todd runs it; **[CC]** = prompt for Claude Code.
+  The label is human-facing — never typed into the terminal.
+- **`pwd` discipline:** CC confirms it's in the NWC Site repo before acting (a separate
+  `Heritage-Metal-Site` project exists on the machine — they collided once).
+- **COMMIT DISCIPLINE:** "approved" = "commit now," same turn. The `git status` STOP-gate at
+  the top of each task keeps catching drift — keep it.
+- **PUSH-BEFORE-REVIEW GATE (standing rule):** because a push deploys, the browser review
+  that gates a change happens BEFORE the push.
+- **DESIGN-IMPORT GATE:** new Claude-Design export → READ-AND-PLAN first (no build): locate
+  assets, read the page, decide inline→token translation, flag literal exceptions, sequence.
+
+## Environment
+- Repo root: `/Users/toddkavanaugh/Documents/NWC Site`
+- **Git identity:** Todd Kavanaugh (`263997182+twkavanaugh@users.noreply.github.com`).
+- Build agent: Claude Code on the **personal MacBook Air** (the work machine's ThreatLocker
+  SIGKILLs esbuild on npm install).
+- Dev server: `[Terminal]` `cd "…/NWC Site/site" && npm run dev` → localhost:4321.
+- **DEV-SERVER LESSON (burned twice):** RESTART the dev server after any `npm install` or
+  change to global.css/tokens. A stale long-running server can't resolve a newly added
+  package → global.css breaks at request time → since it @imports tokens.css, ALL tokens go
+  undefined → page looks catastrophically broken. NOT a code bug. Fix = Ctrl+C, `npm run
+  dev`, hard-refresh. Production build is the source of truth and is unaffected.
+- **Image processing:** `sips` (built-in macOS). Resize `sips --resampleWidth N` (or `-Z N`
+  for long-edge), quality `-s formatOptions 80`.
+
+## Stack
+- **Astro 5.x** (pinned `^5.0.0`, 5.18.2 installed — deliberately NOT 7.x).
+- Static output, **near-zero client JS**. CSS-only interactivity (mega-menu, mobile
+  hamburger, dropdowns, marquee, fade-up, details/summary accordions, **`:target` resource
+  filtering**). The ONLY `<script>` in `dist/` is the BranchCast embed resizer on `/sermons`.
+- **Content Layer API** (Astro 5): FOUR collections — `events`, `categories`, `posts`,
+  `resources` (see Content model below).
+- **Markdown pipeline:** one remark plugin, `src/lib/remark-youtube.mjs`, wired in
+  `astro.config.mjs`.
+- Fonts self-hosted via `@fontsource-variable` + explicit `@font-face`. THREE families:
+  Inter Tight (display/sans), JetBrains Mono, Newsreader (serif).
+- Design source: committed prototypes in `brand/prototype/` (read by CC).
+
+## Deploy (LIVE — proven, auto-deploy working)
+- **GitHub:** `twkavanaugh/nwc-site`, branch `main`. Fine-grained PAT. Future pushes = `git push`.
+- **Render:** Static Site `nwc-site` under the North Wake Church workspace (Todd's Yahoo
+  email, for later transfer). Root `site` · Build `npm install && npm run build` · Publish
+  `dist` · Auto-Deploy On Commit. `git push` → Render builds `main` → live.
+- **The push IS the deploy gate** — review before pushing.
+- **CMS commits + CC commits coexist:** Pages CMS pushes commits directly to `main`. When CC
+  has local commits and a CMS push landed first, `git pull --rebase` replays CC's commits
+  cleanly on top (PROVEN at `3ee46c5`).
+- **Nightly rebuild cron STILL PENDING** (hardening): build-time date filtering won't roll a
+  now-past event off "Events" until the next deploy. Accepted v1 tradeoff.
+
+## ⚠️ OWNERSHIP / HANDOFF OBLIGATION (do not lose this)
+Built under **Todd's personal accounts** (GitHub `twkavanaugh`, Render under a Yahoo email),
+**plus** the **Pages CMS GitHub App** (installed by Todd, scoped to `nwc-site` only).
+Decision: build now, **transfer to church-owned accounts at handoff**. REQUIRED at handoff:
+transfer the GitHub repo to a church org; reassign Render (swap account email, remove Todd);
+**re-install / re-authorize the Pages CMS GitHub App under the church-owned repo.**
+
+---
+
+## Pages — current state (20 routes build)
+| Route | Status |
+|---|---|
+| `/` (homepage) | ✅ COMPLETE — watercolor hero; Events section queries the collection; placeholder photos in mission triad, sermon-card art, welcome band, people photo |
+| `/community/students` | ✅ COMPLETE |
+| `/about/mission` | ✅ COMPLETE — Devotional redesign |
+| `/who-is-jesus` | ✅ COMPLETE |
+| `/community/kids` | ✅ COMPLETE — serif-on-image photo hero (stock) |
+| `/help/feed` | ✅ COMPLETE |
+| `/community/mature-adults` | ✅ COMPLETE |
+| `/sermons` | ✅ COMPLETE — BranchCast embed + podcast links |
+| `/events` | ✅ COMPLETE — date-filtered, sorted index |
+| `/events/[slug]` | ✅ COMPLETE — continuous-column detail (5 entries; `family-table` is CMS-created) |
+| `/resources` | ✅ **COMPLETE (NEW)** — merged catalog, zero-JS `:target` category filter |
+| `/resources/[slug]` | ✅ **COMPLETE (NEW)** — post template + attachments (5 post routes) |
+| `/blog` | ⏸ **DELIBERATELY DIMMED** — nav + footer entries are non-links pending the blog-vs-resources decision |
+| All other nav routes | ❌ 404 — not built yet (expected; nav links are real) |
+
+**Route map (canonical, encoded in the nav — nested):** Top: `/`, `/visit`, `/who-is-jesus`,
+`/blog`, Give=EXTERNAL onRealm. About: beliefs/leadership/mission/membership. Mission:
+international/church-planting/local-outreach/training/serve. Help:
+hope-counseling/mercy-clinic/feed/care. Community: grow-groups/adult-discipleship/kids/
+students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+`[slug]`),
+`/sermons`, `/blog` (+`[slug]`, dimmed), `/resources` (+`[slug]`, labeled "Other Resources").
+
+---
+
+## ★ RESOURCES / POSTS / CATEGORIES — SHIPPED (2026-07-07, 4 gates)
+Commits: `4c065b5` (Gate 1 collections) → `a42b9a7` (seed content) → `979d5b4` (YouTube
+transform) → `ff6920e` (list-view design package) → `2bdc160` (Gate 3a index) → `4ab7c10`
+(Gate 3b post template). Design sources: `brand/prototype/RESOURCES-LIST-SPEC.md` +
+`RESOURCES-LIST.html`.
+
+### Content model (`site/src/content.config.ts`)
+- **`categories`** — flat taxonomy, **YAML data files** (not empty-bodied Markdown) because
+  they're data-only. Filename = id. Fields: `label`, optional `order` (curated sort;
+  ascending where present, then alphabetical by id for the rest). Seed set (ALL PROVISIONAL,
+  each file carries an UNVERIFIED comment): New Here (1), Families (2), Discipleship (3),
+  Care (4), Missions (5), Forms (6).
+- **`posts`** — long-form staff-written pages. `title`, `description` (the card blurb),
+  `categories: z.array(reference("categories"))` — **validated by reference(), so a bad
+  category id fails the BUILD rather than silently rendering wrong** — optional
+  `attachments` (array of `{label, file}`, **capped at 5**), `draft` (default false, hidden
+  from listings). Narrative lives in the Markdown BODY (same prose-not-arrays convention as
+  events).
+- **`resources`** — pointer entries. `title`, `description`, `categories`,
+  `type: z.enum(["pdf","external","post"])`, `target`. **`target` is deliberately
+  `z.string()` NOT `.url()`** — it holds a `/public` path (pdf), an absolute URL (external),
+  or a post slug (post); `.url()` would reject the internal forms and fail the build. Same
+  rationale as `events.registrationUrl`.
+
+### `/resources` index (`2bdc160`)
+- **The catalog MERGES two collections:** every `resources` entry (rendered per its type)
+  plus every non-draft `posts` entry (rendered as a "Read on site" card → `/resources/<id>`).
+- **Filtering is 100% CSS via `:target`** — zero JS, the page's non-negotiable. The
+  per-category filter rules are **GENERATED from the categories collection**, so adding a
+  category needs **zero CSS edits**. One sorted array drives anchors, chips, tags, counts,
+  and the generated CSS in lockstep.
+- `TYPE_META` maps the schema enum → glyph / kicker / action label:
+  `pdf` = `↓` / "Download · PDF" / "Download PDF →"; `external` = `↗` / "External link" /
+  "Visit site ↗"; `post` = `→` / "Read on site" / "Read post →".
+- Catalog order is alphabetical by title (no curated sort field yet).
+- Nav wiring: the Resources group's "Other Resources" item is a real link.
+
+### ★ INERT-PLACEHOLDER-DOWNLOAD CONVENTION (important, easy to lose)
+A download target whose path begins with **`/resources/PLACEHOLDER-`** renders **INERT** —
+glyph and label kept, action replaced with a muted "Available soon", no link. **Swap the
+placeholder path for the real file and the row goes live automatically.** Enforced in BOTH
+`resources/index.astro` and `resources/[slug].astro` (attachments). This is the mechanism
+for every church document that doesn't exist yet — nothing dead-links.
+
+### `/resources/[slug]` post template (`4ab7c10`)
+Adapts the event-detail "continuous column" typography
+(`brand/prototype/EVENT-DETAIL-CONTINUOUS-SPEC.md`) as a **single reading column**
+(`.wrap-reading`) — posts have no facts rail. Breadcrumb → eyebrow → title → lede → category
+tag chips (each links to `/resources#<id>`, landing on the index **pre-filtered** via the
+same `:target` mechanism) → prose → optional Downloads block. One route per NON-DRAFT post;
+the two `pdf` resources entries are index-only and generate no route here.
+
+### Blog dimmed (`4ab7c10`)
+`/blog` was a real link in Nav and Footer but the route doesn't exist. Both are now dimmed
+static text with paired comments. **The blog-vs-resources question is OPEN** — do posts live
+under `/resources`, under `/blog`, or both? Decide before building `/blog`.
+
+### ★ SANCTIONED YOUTUBE EMBED EXCEPTION (`979d5b4`)
+`site/src/lib/remark-youtube.mjs` — a paragraph whose **sole** content is a bare YouTube URL
+becomes a lazy, privacy-mode `youtube-nocookie.com` 16:9 iframe. URLs inside a sentence, or
+written as a Markdown link, are **left untouched**. Accepts `youtube.com/watch?v=` and
+`youtu.be/` (11-char id, optional trailing query/hash). Plain `.mjs`, no external deps
+(walks top-level mdast children rather than pulling in `unist-util-visit`).
+**Why it was allowed:** the migrated Adult Discipleship course pages are video-heavy and
+embed parity is a content requirement. It is the **second and last** sanctioned third-party
+embed alongside the BranchCast widget. The decision comment lives in `astro.config.mjs`.
+**No other third-party embeds without a documented decision.**
+
+### Seed content (`a42b9a7`) — REAL migrated content, partially stubbed
+Five Adult Discipleship posts, each currently an outline + an explicit
+**`## TODO — full content migration pending`** heading (full bodies migrate from the old site):
+- `fall-in-love-with-the-family-of-god` — 6-week ADC course (discipleship)
+- `delighting-in-the-company-of-god` — Larry Trotter, 6-week training (discipleship)
+- `parenting-six-lessons` (families, discipleship) — **leader/guest names on the old page
+  need church sign-off before migrating** (noted in an HTML comment in the file)
+- `marriage-cultivating-friendship` (discipleship, families) — carries the one **attachment**:
+  `PLACEHOLDER-marriage-guide.pdf`, currently inert
+- `when-i-demand-what-i-want` — James 4 / HOPE Counseling teaching article (care, discipleship)
+
+Two `resources` pdf entries, both inert placeholders pending church documents:
+`membership-packet` (new-here, forms) and `photo-media-release` (forms, families) — the
+latter is the **new home for the real photo-release form currently flagged on the kids page**.
+
+---
+
+## ★ WARM BAND HERO — DESIGN PACKAGE COMMITTED, NOT BUILT (2026-07-12, `1e2dc9b`)
+`brand/prototype/HERO-WARM-BAND.md` + `hero-warm-band.html` (standalone, runnable — treat
+the HTML as source of truth). Variant **F**: split hero on a `--bg-2` band, text left,
+**full-height photo flush right**, hairline bottom border.
+
+**The two moves that ARE the effect** (don't lose them in translation):
+1. `align-items: stretch` on a `1.15fr 1fr` grid — the photo column stretches to the text
+   column's natural height. No fixed hero height, no letterboxing.
+2. Gutter-aware left padding `max(40px, calc((100vw - 1320px) / 2 + 40px))` — aligns text to
+   the site's 1320px centered container while the band runs full-bleed.
+
+Text column padding `80px 64px 80px <that>`; the 64px right padding IS the gap (grid gap
+none) so the photo stays flush right. Photo column `min-height:520px`, no radius. Newsreader
+is deliberately NOT used here (serif is reserved for devotional heroes). §10 of the spec is a
+build checklist addressed to CC: make it `WarmBandHero.astro` with props (`eyebrow`,
+`headlineLead`, `headlineAccent`, `lede`, `photo`, `primaryLabel`/`Href`,
+`ghostLabel`/`Href`), inline styles → classes, tokens not hexes, add ONE breakpoint at 880px
+(stack; text padding `56px 24px`; photo `min-height:320px`, optional `order:-1`).
+**Intended consumers: the Mission and Help pages.** Ship photos ≥1600px wide.
+
+**NOT STARTED.** `site/src/components/` still holds only Nav, Footer, Breadcrumb.
+
+## ★ SHOT LIST v2 — COMMITTED, NOT ACTED ON (2026-07-12, `40062f9`)
+`docs/PHOTOGRAPHER-SHOT-LIST.md`. v2 changes: framing split into two **recipes**, Help pages
+moved to Column, 5 Mission entries added, about pages excluded.
+- **RECIPE 1 — OVERLAY** (text sits on the photo): landscape; subject in the upper two-thirds;
+  quiet lower third; horizontally center-weighted (phones crop to roughly the middle third);
+  no blown-out white dead center.
+- **RECIPE 2 — COLUMN** (photo fills a side column, no overlay): subject centered; must
+  survive any crop from 4:5 through square; no legibility constraints. **This is the Warm
+  Band recipe** — the two 07-12 commits are one idea.
+- Totals: **18 ministry heroes** (Community 1–9 OVERLAY, Help 10–13 COLUMN, Mission 14–18
+  COLUMN), **4 homepage** shots (hero is an ultra-wide 21:9 crop — compose very horizontal),
+  **1 wide environmental splash** (shoot both interior and exterior), plus a B-roll wishlist.
+- **Mission 14–16 (Local Outreach, Serve, Training) have TBD subjects — Todd to confirm.**
+  **17–18 (International, Church Planting) are SOURCED, NOT SHOT** — partner missionaries /
+  sending orgs, and each needs **explicit usage permission** (a verification item).
+- Global: **min 2000px wide**, candid > posed, warm natural light, full-res originals.
+- **Consent:** several shots involve congregation faces and minors (flagged
+  CONSENT-SENSITIVE). The church must settle its announcement / release / opt-out approach
+  BEFORE the session — content-meeting agenda item. The kids photo-release form is itself
+  still an unverified placeholder.
+
+---
+
+## Foundation (done, proven)
+- `brand/design-tokens.md` — HUMAN SOURCE OF TRUTH (raw palette → semantic aliases; also the
+  16px type-floor policy). `site/src/styles/tokens.css` — generated ONE-WAY; NEVER hand-edit.
+- **Inverse tokens** for dark bands: `--bg-inverse`, `--ink-on-inverse[-2]`,
+  `--line-on-inverse[-strong]`, `--border-on-inverse`, **`--accent-on-inverse`** (`e8643c7`
+  a11y fix — clay-600 text on dark failed WCAG at 2.69:1; clay-300 = 9.54:1 AAA). Accent TEXT
+  on dark bands MUST use `--accent-on-inverse`; decorative accent (dots/borders) exempt.
+- **On-image tokens** `--on-image-fg` (#f6f3ed) / `--on-image-accent` (#e8b394) — image-only.
+- **Type:** Inter Tight / JetBrains Mono / Newsreader (`--serif`). **16px content floor at all
+  viewports** (mono/eyebrow/caption micro-type exempt but never the sole carrier of meaning).
+  **`:where()` scoping lesson:** Astro scopes component styles at zero specificity, so a
+  global override of a page-scoped class needs added specificity (the `.wrap`-prefixed mobile
+  rules) to win — first suspect when a global rule silently no-ops.
+- **`site/src/data/business.ts`** — SSOT for church facts (NAP, `serviceTimes: ['9:00 AM',
+  '10:45 AM']` confirmed, `givingUrl`, `mapsUrl` empty-TODO). Never hardcode NAP/times/give
+  URL in a page.
+- **Events:** `site/src/lib/date.ts` (isUpcoming = `(expirationDate ?? endDate ?? startDate)
+  >= today`; all displayed date strings DERIVED from startDate). Facts in frontmatter,
+  narrative in the Markdown body.
+
+## Shared globals (consume, don't recreate)
+`.btn*` (incl. on-image variants), `.arr`, `.section-head`, `.row-arr`, `.row-link`, `.ph*`,
+`.eyebrow`+`.dot`, `.mono`/`.body`/`.lede`/`.small`/`.display-*`/`.title`, `.fade-up`;
+containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif idioms
+`.serif`/`.em-accent`/`.pull-quote`; `.hairline-grid` (5 consumers, columns stay per-page).
+
+## Components
+- `Layout.astro` — shell; props `title`/`description` only. **No social/OG meta, no
+  canonicals, no analytics yet** (hardening step).
+- **`Nav.astro`** — sticky full-width MEGA-MENU (desktop, zero-JS `:hover`/`:focus-within`) +
+  a **CSS-only `<details>`/`<summary>` hamburger below 980px**. Both render from one `GROUPS`
+  array. Panel `max-height: calc(100vh - 72px)`; **COUPLED value:** 72px = 14px×2 `.nav-inner`
+  padding + 44px `.mnav-toggle` — commented in both places; change one → change the other.
+  Featured-rail + item descriptions are UNVERIFIED copy.
+- `Footer.astro` — 5-col; NAP from business.ts; brand-mark CSS duplicated from Nav.
+- **`Breadcrumb.astro`** — full-bleed chip bar; `trail` (last = current filled chip; href-less
+  = placeholder chip) + optional `action` (hidden <720px). Must be FIRST in page body.
+
+## Token/architecture rules (keep enforcing)
+- Components consume SEMANTIC tokens only — no raw hex, no `var(--raw-*)`, no inline
+  `rgba()`/`#fff`, no inline styles. Dark bands → inverse tokens; accent text on dark →
+  `--accent-on-inverse`.
+- DOCUMENTED literal EXCEPTIONS (real-image scrims / non-theme values): home hero scrims +
+  `#f3ecdf` watercolor fallback; kids serif-on-image charcoal scrim; `--shadow-dropdown`;
+  Feed donation swatch `var(--raw-teal)` (the ONE sanctioned raw token). Each commented.
+- **THE TWO SANCTIONED THIRD-PARTY EXCEPTIONS — and only these two:** the `/sermons`
+  BranchCast resizer (the only `<script>` in `dist/`) and the remark YouTube nocookie embed.
+- Build against REAL committed prototype source. Prove-twice-then-extract for shared patterns.
+- Honest placeholders only; nothing invented; grow the UNVERIFIED list. Never publish a
+  personal email / never wire a `mailto:` to an unverified address (rendered inert).
+
+## KNOWN DEBT / HARDENING (address before launch; no current risk)
+- **Normalize placeholder image filenames** — `mission-{know,grow,go}.jpg` lack the
+  `-STOCK-PLACEHOLDER` suffix the others use. Rename in a sweep.
+- **Dead CSS sweep** — `.shero-people-pending`, `.sermon-art-tl`/`-title`/`-bl` orphaned; the
+  stale `who-is-jesus.astro` `.crumb*` comment; `brand/prototype/.gitkeep`. One cleanup commit.
+- **`/blog` decision** — blog vs resources; nav/footer entries dimmed until decided.
+- **CMS has no `posts`/`resources` collections yet** — `.pages.yml` covers events ONLY. The
+  office cannot edit posts/resources through the CMS. Add once the model is confirmed.
+- **CMS media has NO size guard** — only helper text warns. Hardening decision pending.
+- **Orphaned CMS media on event deletion UNTESTED.**
+- **Nightly Render deploy-hook cron** — still pending (date-rollover freshness).
+- **`/familytable` legacy redirect** — decision logged; implement in hardening.
+- **Watercolor 1.2MB PNG** (`wake-forest-bcg.png`) — compress/WebP.
+- **tel:/mailto:** on footer + verified contacts (after verification).
+- **Inert buttons / unwired placeholders** — "Plan a visit"/`/visit` (unbuilt), various
+  ministry emails (several inert unverified, incl. personal Gmails), photo-release form,
+  mega-menu rail copy, the two PDF resources + the marriage guide attachment.
+- **Brand mark** — CSS placeholder; swap for real logo; de-dupe Nav/Footer.
+- **npm audit** advisories (Astro 5 line; not fixed — would break the pin; low risk static).
+- **Repo PUBLIC** — consider private. **`/community` index** stand-in. **`mapsUrl` empty.**
+- **Pre-launch hardening pass** (after content): schema/structured data, robots, sitemap,
+  custom 404, canonicals + unique titles/descriptions, og/twitter, Lighthouse, image opt.
+
+## OPEN ITEMS / UNDER CONSIDERATION
+- **White-canvas trial** — near-white `--bg`/`--bg-2` under consideration. Needs its own
+  branch + read-and-plan gate. Risks: watercolor-hero scrim interaction; site-wide `--bg-2`
+  separation quieting (many bands/cards rely on the sand-50/100 tonal step).
+- **`/events` eyebrow + h1 redundancy** ("Events" / "Events.") — Todd aware; low priority.
+
+## UNVERIFIED CONTENT — confirm with church (the real launch gate)
+> As of 07-05 + what the code shows. See ★ CONTEXT GAP — some of this may have moved in July.
+- **★ CMS test employee** + **content-verification meeting** — status unknown (see gap).
+- **Category taxonomy** — all six labels PROVISIONAL; each YAML carries an UNVERIFIED comment.
+- **The five ADC posts** — real migrated outlines, bodies still TODO; `parenting-six-lessons`
+  leader/guest names need sign-off before migrating.
+- **Two PDF resources** (membership packet, photo & media release) — documents don't exist yet.
+- **Events:** tell the church the recurring-calendar feature is NOT returning in v1 (date-range
+  model). All five seed events UNVERIFIED.
+- **All placeholder photos** — stock, pending real photography per the shot list.
+- **Sermons:** hero headline is Todd's copy, not church-confirmed. Podcast links verified.
+- **NAP / service times** (9:00 & 10:45 confirmed) / `url` northwake.com unconfirmed / mapsUrl.
+- **Copy across mission/jesus/kids/students/feed/mature** + nav mega-menu rail/descriptions +
+  marquee — all prototype-sourced, confirm.
+- **Content sign-offs:** Lily Moms personal Gmails + named individuals; `noahj@northwake.com`.
+- **★ Accessibility review of record** — Todd's wife's verdict on live-site type sizes; unknown.
+
+## NEXT TASKS (as of resumption)
+0. **Recover the context gap** (above) — especially the July 7 pastor-meeting outcomes.
+1. **Push the two local docs/brand commits** (`1e2dc9b`, `40062f9`) — no deploy impact.
+2. **Build `WarmBandHero.astro`** per `HERO-WARM-BAND.md` §10, then apply to a Mission or
+   Help page. The design package has been sitting committed and unbuilt since 07-12; it is
+   the clearest queued build.
+3. **Pages CMS employee vertical-slice test** (still unrecorded) — dated event w/ poster,
+   link-heavy page, undated post, PDF upload/replace, edit-and-republish; **rebuild the REAL
+   Family Table** as the link-heavy-page test; verify orphaned media on delete.
+4. **Extend `.pages.yml` to posts + resources** so the office can edit them.
+5. **Hardening pass** — its own pass after content lands.
+
+## LESSONS (workflow — keep sharp)
+- **A state doc that isn't updated is worse than none** — two months of decisions (the pastor
+  meeting, whatever moved over the summer) are now unrecoverable from the repo. Write the
+  state doc at the END of a work block, not just when one starts.
+- **Push-before-review is the gate.** A push deploys.
+- **CMS + CC commits coexist via rebase** — `git pull --rebase` replays CC's commits cleanly.
+- **Astro `:where()` = zero specificity** — first suspect for a no-op global override.
+- **Multi-part work as gate sequences** (events 4, mobile-nav 2, resources 4) works well.
+- **Coupled CSS values get paired comments** (the mobile-nav 72px = 14×2 + 44).
+- **Generate CSS from content, don't hand-maintain it** — the `/resources` `:target` filter
+  rules come from the categories collection, so a new category costs zero CSS.
+- **Conventions beat one-off flags** — the `/resources/PLACEHOLDER-` prefix means "not
+  provided yet" everywhere, and swapping the path is the entire go-live action.
+- **Commit discipline** ("approved" = commit now) + the `git status` STOP-gate; **dev-server
+  staleness**; the **[CC]/[Terminal] label-not-a-command** trap — all still live.
+
+## Commit history (high level — chronological)
+[through 07-04: scaffold → tokens → global+fonts → chrome → homepage → students → deploy →
+mission redesign → Newsreader → who-is-jesus → Breadcrumb → kids → feed → hairline-grid →
+mature → watercolor home hero → mega-menu → siteSettings → serif-on-image → hero pilot +
+shot list + type standards → **events build (4 gates)** → `e8643c7` a11y → state 07-04]
+**[2026-07-05]** mobile nav (`47d11e9`/`6533063`) → `5b34285` eyebrow fix → `7402b1b`
+/sermons (+`705e551`) → `fd27f93` Pages CMS config → Family Table via CMS (smoke test) →
+`3ee46c5` event-label softening → `75f1974`/`69548c5` placeholder photos → state 07-05 +
+freeze.
+**[2026-07-07]** `55685c4`/`df159d3` copy for pastor review → `4c065b5` collections (Gate 1)
+→ `a42b9a7` seed content → `2bdc160` /resources index (Gate 3a) → `ff6920e` list design
+package → `979d5b4` YouTube remark transform → `4ab7c10` /resources/[slug] + blog dimming
+(Gate 3b).
+**[2026-07-12]** `1e2dc9b` Warm Band hero package → `40062f9` shot list v2. *(both unpushed)*
+**[2026-07-13 → 2026-09-12]** dormant.
+**[2026-09-13]** work resumes; this doc + `CLAUDE.md`.
