@@ -11,6 +11,4 @@ humble. This article, drawn from the HOPE Counseling Center training material, l
 at where anger comes from, what James 4 says about it, and the path from demand to
 humility.
 
-## TODO — full content migration pending
-
-The full edited transcript migrates from the old site.
+Full content coming soon.

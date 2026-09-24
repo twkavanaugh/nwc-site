@@ -14,8 +14,6 @@ one session theme per week:
 5. **Affection**
 6. **Encouragement**
 
-## TODO — full content migration pending
-
-Full session content migrates from the old site.
+Full content coming soon.
 
 <!-- The noahj@ contact email awaits church sign-off before it goes live (existing flag). -->

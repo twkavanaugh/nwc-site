@@ -13,8 +13,6 @@ Six lessons to encourage and equip parents:
 5. **Authority**
 6. **Disciple-Making**
 
-## TODO — full content migration pending
-
-Full lesson content migrates from the old site.
+Full content coming soon.
 
 <!-- Leader / guest names on the old page require church sign-off before migrating. -->

@@ -23,7 +23,4 @@ Use it for a class, a retreat, or a couples study at home.
 <!-- Gate 3b embed test case — placeholder video; real testimony URLs arrive in migration. -->
 https://www.youtube.com/watch?v=dQw4w9WgXcQ
 
-## TODO — full content migration pending
-
-Full chapter body, the North Wake couples' video testimonies, and inline links
-migrate from the old site.
+Full content coming soon.

@@ -603,13 +603,17 @@ Run once a quarter (Jan / Apr / Jul / Oct), in `site/`, after `git pull --rebase
 - **★ `/mission/church-planting`:** Todd to diff against source copy — the six church names +
   cities, "early ’90s", "Providence Church (Raleigh NC)" (Claude Design mistranslated `/visit`).
   Partner-church website URLs + any CTA destination (giving/contact) not yet provided.
-- **★ CMS "New Event Test"** (`c538f33`, 2026-09-22, lorem ipsum, expired 09-22) is in the
-  repo — delete after the CMS test is recorded ("deal with events after" — Todd).
+- ~~CMS "New Event Test"~~ **DELETED 2026-09-24** by Todd in Pages CMS; its orphaned photo removed
+  (first real catch by `npm run audit-media`).
 > As of 07-05 + what the code shows. See ★ CONTEXT GAP — some of this may have moved in July.
 - **★ CMS test employee** + **content-verification meeting** — status unknown (see gap).
 - **Category taxonomy** — all six labels PROVISIONAL; each YAML carries an UNVERIFIED comment.
-- **The five ADC posts** — real migrated outlines, bodies still TODO; `parenting-six-lessons`
-  leader/guest names need sign-off before migrating.
+- **The five ADC posts** — real migrated outlines; bodies still to migrate (the visible "TODO"
+  heading was replaced with "Full content coming soon." on all five, 2026-09-24 — Karen/Devin
+  can finish them in the CMS). Still to migrate/verify: Delighting — the old page's LarryT@
+  email + external resource links; Fall in Love — noahj@ email (sign-off); Marriage — full
+  chapter body, the North Wake couples' video testimonies, inline links; Parenting — leader/
+  guest names need sign-off; When I Demand — the full edited transcript.
 - **Two PDF resources** (membership packet, photo & media release) — documents don't exist yet.
 - **Events:** tell the church the recurring-calendar feature is NOT returning in v1 (date-range
   model). All five seed events UNVERIFIED.
