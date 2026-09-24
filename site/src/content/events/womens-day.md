@@ -5,7 +5,7 @@ subtitle: "Women Encouraging Women"
 startDate: 2026-10-24 # UNVERIFIED
 time: "8:30 AM – 3:30 PM" # UNVERIFIED
 cost: "Free"
-contactEmail: "women@northwake.com" # UNVERIFIED — rendered inert until confirmed
+contactEmail: "womensministry@northwake.com" # VERIFIED 2026-09-23 (Women's Ministry postcard). The event template still renders every contactEmail inert.
 ministryId: "women"
 # TEMP placeholder image — reuses the committed stock photo to exercise variant D
 # (21:8 featured image + shaded rail); swap for a real Women's Day photo when it lands.
