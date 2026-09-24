@@ -1,0 +1,486 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import WarmBandHero from "../../components/WarmBandHero.astro";
+
+// International Missions page (/mission/international). Built from
+// brand/prototype/INTERNATIONAL-MISSIONS-SPEC.md + international-missions.html.
+// Copy is the church's verified seed, kept as close to verbatim as possible — every
+// seed sentence appears exactly ONCE, in seed order (Todd, 2026-09-24):
+// - Pray card figure "Sunday gatherings" (the package's "Every Sunday" claimed more
+//   than the copy says).
+// - Focus card keeps "Furthermore," (the package dropped it).
+// - The Break Bread lead sentence lives in the Equip card only; the Break Bread
+//   section opens with the next seed sentence (the package repeated it).
+// - "Entermission." shown plainly (the package's italic split was a design invention).
+// Design labels (headline, eyebrows, section h2s, Pray/Give/Focus/Equip, button)
+// are Claude Design's — pending Todd's approval at review.
+// Sections: 1) Breadcrumb, 2) Hero (Warm Band), 3) Our hope · Rev 7:9 (photo band),
+// 4) Near and far, 5) Four ways, 6) Entermission (dark band), 7) Break Bread.
+//
+// Cross-links tie the Mission pages together: /mission/church-planting and
+// /mission/training#missionary-sending (stable anchor on the Training page).
+
+const ways = [
+  {
+    k: "Pray",
+    stat: "Sunday gatherings",
+    b: "In our Sunday gatherings, we pray for the nations and for those we have sent, whom we call our Far Flung Family.",
+  },
+  {
+    k: "Give",
+    stat: "~40 families",
+    b: "We also sacrificially give a portion of our tithes and offerings to partially support roughly 40 families sent out from our church.",
+  },
+  {
+    k: "Focus",
+    stat: "3 Sundays",
+    b: "Furthermore, we annually set aside three consecutive Sundays for our missions conference Entermission.",
+  },
+  {
+    k: "Equip",
+    stat: "Break Bread",
+    b: "For those that are feeling led by the Father to serve overseas, we seek to equip them by having them join our Break Bread Program.",
+  },
+];
+
+const focus = [
+  { t: "Local engagement" },
+  { t: "Church plants around the USA", href: "/mission/church-planting", label: "Church Planting" },
+  { t: "Throughout the world" },
+];
+---
+
+<Layout
+  title="International Missions · North Wake Church"
+  description="North Wake Church has a heartbeat to faithfully proclaim the love of Jesus Christ to the ends of the earth."
+>
+  <!-- 1. Breadcrumb ("Mission" has no index page → non-clickable chip) -->
+  <Breadcrumb trail={[{ label: "Home", href: "/" }, { label: "Mission" }, { label: "International Missions" }]} />
+
+  <!-- 2. Hero — F · Warm Band.
+       PHOTO PLACEHOLDER — SECURITY: many Far Flung Family members serve in sensitive
+       locations. Never show identifiable faces, names or locations of workers in
+       restricted-access countries (photograph from behind, or cleared workers only). -->
+  <WarmBandHero
+    titleId="im-title"
+    headlineSize="m"
+    eyebrow="Mission · International missions"
+    headlineLead="Proclaiming the love of Jesus"
+    headlineAccent="to the ends of the earth."
+    lede="North Wake Church has a heartbeat to faithfully proclaim the love of Jesus Christ to the ends of the earth."
+    photoPlaceholder="Photo · Far Flung Family · commissioning"
+  />
+
+  <!-- 3. Our hope · Revelation 7:9 — photo band.
+       PHOTO: Unsplash (attribution not required; not credited on the page per Todd)
+       https://unsplash.com/photos/aerial-photo-of-green-and-beige-fields-during-daytime-M_w21PVzSI8
+       Replaces the package's flags photo (identifiable national flags — a sensitivity
+       risk for workers in some contexts). Decorative background → no alt text. -->
+  <section class="im-hope" aria-label="Our hope, Revelation 7:9">
+    <div class="im-hope-scrim" aria-hidden="true"></div>
+    <div class="wrap-narrow im-hope-inner">
+      <div class="eyebrow im-hope-eyebrow"><span class="dot"></span>Our hope · Revelation 7:9</div>
+      <blockquote class="im-hope-quote">
+        We eagerly hope and long for the day in heaven when we will be praising King Jesus seated on the throne alongside <em>peoples from every nation, tribe, and language.</em>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- 4. Near and far -->
+  <section aria-labelledby="im-near-title">
+    <div class="wrap">
+      <div class="im-near">
+        <div>
+          <div class="eyebrow im-eyebrow"><span class="dot"></span>Sending as discipleship</div>
+          <h2 id="im-near-title" class="im-serif-h im-near-h2">Going in love, <em>near and far.</em></h2>
+        </div>
+        <div class="im-near-body">
+          <p class="im-near-p">
+            Therefore, our mission statement at North Wake Church reminds us to focus daily on going in love to our neighbors, both near and far. For decades, we have deeply desired to send numerous church members to spread the kingdom of Jesus Christ to every corner of the earth.
+          </p>
+          <p class="im-near-p">
+            And once sent, the entire church remains committed to caring for those brothers and sisters who have gone to share God's love for all.
+          </p>
+          <div class="im-note" role="note">
+            <div class="mono im-note-label">Our model</div>
+            <p class="body im-note-body">
+              This process of sending members is a part of our church discipleship model where we intentionally equip them for overseas service.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Four ways -->
+  <section class="im-ways-sec" aria-labelledby="im-ways-title">
+    <div class="wrap">
+      <div class="im-ways-wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow im-eyebrow"><span class="dot"></span>Through our church ministries</div>
+            <h2 id="im-ways-title" class="display-m im-ways-h2">Showing God's heart for the nations.</h2>
+          </div>
+          <p class="body right">We seek to show God's heart for the nations through our church ministries.</p>
+        </div>
+        <ul class="im-ways">
+          {
+            ways.map((w) => (
+              <li class="im-way">
+                <div class="mono im-way-label">{w.k}</div>
+                <div class="im-way-stat">{w.stat}</div>
+                <p class="body im-way-body">{w.b}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Entermission — DARK band, inverse tokens -->
+  <section class="im-enter-sec" aria-labelledby="im-enter-title">
+    <div class="wrap">
+      <div class="im-enter">
+        <div>
+          <div class="eyebrow im-inv-eyebrow"><span class="dot"></span>Annual missions conference</div>
+          <h2 id="im-enter-title" class="im-enter-h2">Entermission.</h2>
+          <p class="lede im-enter-lede">
+            Entermission is the opportunity for our church to intently focus on God's work around the world through our local engagement, church plants around the USA, and throughout the world.
+          </p>
+        </div>
+        <div>
+          <div class="mono im-enter-list-label">Three consecutive Sundays · every year</div>
+          <ol class="im-enter-list">
+            {
+              focus.map((f, i) => (
+                <li>
+                  <span class="mono im-enter-num" aria-hidden="true">0{i + 1}</span>
+                  <span class="im-enter-item">{f.t}</span>
+                  {f.href ? <a class="im-enter-link" href={f.href}>{f.label} →</a> : <span />}
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Break Bread -->
+  <section aria-labelledby="im-bread-title">
+    <div class="wrap">
+      <div class="im-bread">
+        <div>
+          <div class="eyebrow im-eyebrow"><span class="dot"></span>Feeling led to serve overseas?</div>
+          <h2 id="im-bread-title" class="display-l im-bread-h2">The Break Bread <span class="im-accent">Program.</span></h2>
+        </div>
+        <div class="im-bread-body">
+          <!-- The seed's lead sentence ("For those that are feeling led…") is in the
+               Equip card above — shown once, not repeated here. -->
+          <p class="body im-bread-p">
+            This is a program intending to help prepare individuals to grow and thrive, for God's glory, in a cross-cultural setting.
+          </p>
+          <a class="btn btn-ghost im-bread-btn" href="/mission/training#missionary-sending">
+            See the Missionary Sending Pathway <span class="arr" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .im-eyebrow {
+    margin-bottom: 18px;
+  }
+  .im-accent {
+    color: var(--accent);
+  }
+  /* Serif heading — same recipe as women / lily-moms / training (4th use → promote
+     to a shared global class in its own global.css gate). */
+  .im-serif-h {
+    font-family: var(--serif);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.04;
+  }
+  .im-serif-h em {
+    color: var(--accent);
+  }
+
+  /* 3 · Our hope — photo band. Token-based radial scrim (color-mix of --bg-inverse),
+     darkest behind the statement so the photo shows most at the edges. The road
+     photo is far darker/calmer than the package's flags (measured brightest cell
+     ≈0.30 luminance vs a white sky), so a lighter scrim than the package's still
+     keeps the cream text AA. The fork + red car sit near the photo's centre; at
+     desktop widths "50% 100%" lifts them ABOVE the quote (the most the 16:9 photo can
+     shift). On tall/narrow phone bands the fork sits behind the text — accepted; the
+     photo is mood, the words carry the meaning. */
+  .im-hope {
+    position: relative;
+    padding: 140px 0;
+    background: url("/missions-road.jpg") 50% 100% / cover no-repeat, var(--bg-inverse);
+    overflow: hidden;
+  }
+  .im-hope-scrim {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 70% 80% at 50% 50%,
+      color-mix(in srgb, var(--bg-inverse) 78%, transparent) 0%,
+      color-mix(in srgb, var(--bg-inverse) 62%, transparent) 55%,
+      color-mix(in srgb, var(--bg-inverse) 45%, transparent) 100%
+    );
+  }
+  .im-hope-inner {
+    position: relative;
+    text-align: center;
+  }
+  .im-hope-eyebrow {
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--ink-on-inverse-2);
+  }
+  .im-hope-eyebrow .dot {
+    background: var(--accent-on-inverse);
+  }
+  .im-hope-quote {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(30px, 3.8vw, 52px);
+    line-height: 1.22;
+    letter-spacing: -0.015em;
+    color: var(--ink-on-inverse);
+    text-wrap: balance;
+  }
+  .im-hope-quote em {
+    color: var(--accent-on-inverse);
+  }
+
+  /* 4 · Near and far */
+  .im-near {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    gap: 72px;
+    align-items: start;
+  }
+  .im-near-h2 {
+    font-size: clamp(40px, 5vw, 72px);
+    max-width: 11ch;
+  }
+  .im-near-body {
+    border-top: 2px solid var(--ink);
+    padding-top: 28px;
+  }
+  .im-near-p {
+    margin: 0 0 22px;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--ink);
+    max-width: 58ch;
+  }
+  .im-near-p + .im-near-p {
+    margin-bottom: 28px;
+  }
+  .im-note {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 20px;
+    align-items: baseline;
+    border: 1px solid var(--line-strong);
+    padding: 20px 24px;
+  }
+  .im-note-label,
+  .im-note-body {
+    color: var(--ink);
+  }
+  .im-note-body {
+    margin: 0;
+    font-size: 17px;
+  }
+
+  /* 5 · Four ways (hairline above acts as the divider → no top padding) */
+  .im-ways-sec {
+    padding-top: 0;
+  }
+  .im-ways-wrap {
+    border-top: 1px solid var(--line-strong);
+    padding-top: 72px;
+  }
+  .im-ways-h2 {
+    max-width: 15ch;
+  }
+  .im-ways {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .im-way {
+    background: var(--bg);
+    padding: 32px 28px 36px;
+    display: flex;
+    flex-direction: column;
+  }
+  .im-way-label {
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .im-way-stat {
+    font-size: clamp(28px, 2.8vw, 40px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 18px;
+  }
+  .im-way-body {
+    margin: 0;
+  }
+
+  /* 6 · Entermission — DARK band, inverse semantic tokens only (accent TEXT on dark
+     must be --accent-on-inverse; clay-600 fails at 2.69:1). */
+  .im-enter-sec {
+    background: var(--bg-inverse);
+    color: var(--ink-on-inverse);
+  }
+  .im-enter {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: end;
+  }
+  .im-inv-eyebrow {
+    margin-bottom: 24px;
+    color: var(--ink-on-inverse-2);
+  }
+  .im-inv-eyebrow .dot {
+    background: var(--accent-on-inverse);
+  }
+  .im-enter-h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(56px, 7vw, 112px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere; /* one long word — never overflow at 375 */
+  }
+  .im-enter-lede {
+    margin-top: 28px;
+    max-width: 48ch;
+    color: var(--ink-on-inverse-2);
+  }
+  .im-enter-list-label {
+    margin-bottom: 12px;
+    color: var(--ink-on-inverse-2);
+  }
+  .im-enter-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line-on-inverse-strong);
+  }
+  .im-enter-list li {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    gap: 12px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line-on-inverse);
+    align-items: baseline;
+  }
+  .im-enter-num {
+    color: var(--accent-on-inverse);
+  }
+  .im-enter-item {
+    font-size: 20px;
+    font-weight: 500;
+  }
+  /* 16px (package: 15) — a real link, so it meets the 16px content floor. */
+  .im-enter-link {
+    color: var(--accent-on-inverse);
+    font-size: 16px;
+    white-space: nowrap;
+  }
+  .im-enter-link:hover {
+    color: var(--ink-on-inverse);
+  }
+
+  /* 7 · Break Bread */
+  .im-bread {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: end;
+  }
+  .im-bread-h2 {
+    max-width: 12ch;
+  }
+  .im-bread-body {
+    border-top: 2px solid var(--ink);
+    padding-top: 24px;
+  }
+  .im-bread-p {
+    margin: 0 0 28px;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  /* Responsive — breakpoints per INTERNATIONAL-MISSIONS-SPEC.md §7 */
+  @media (max-width: 1080px) {
+    .im-ways {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 880px) {
+    .im-near,
+    .im-enter,
+    .im-bread {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .im-hope {
+      padding: 112px 0;
+    }
+  }
+  @media (max-width: 720px) {
+    .im-hope {
+      padding: 88px 0;
+    }
+    .im-ways-wrap {
+      padding-top: 56px;
+    }
+    /* Don't undercut the site's mobile type scale (global.css §j: .body → 18px). */
+    .im-note-body {
+      font-size: 18px;
+    }
+  }
+  @media (max-width: 560px) {
+    .im-ways {
+      grid-template-columns: 1fr;
+    }
+    .im-note {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .im-enter-list li {
+      grid-template-columns: 32px minmax(0, 1fr);
+    }
+    .im-enter-link {
+      grid-column: 2;
+    }
+    .im-bread-btn {
+      width: 100%;
+      justify-content: center;
+      white-space: normal;
+      text-align: center;
+    }
+  }
+</style>
