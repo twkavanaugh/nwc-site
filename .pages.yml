@@ -8,10 +8,21 @@
 # This file has NO effect on the Astro site build. It is read only by Pages CMS
 # (from GitHub) to render the office's editing forms. It never ships to dist/.
 
+# Two named upload locations (2026-09-24). Pages CMS has NO upload size limit, so
+# site/scripts/check-content.mjs fails the build (nothing deploys) for any file over
+# 15MB in either folder — keep its UPLOAD_DIRS in sync with these inputs.
 media:
-  input: site/public/events        # uploads are committed here (repo path)
-  output: /events                  # value stored in image fields → /events/<file> (public URL)
-  extensions: [jpg, jpeg, png, webp]
+  - name: images
+    label: Event photos
+    input: site/public/events      # uploads are committed here (repo path)
+    output: /events                # value stored in image fields → /events/<file> (public URL)
+    extensions: [jpg, jpeg, png, webp]
+  - name: docs
+    label: Resource PDFs
+    input: site/public/resources
+    output: /resources             # → /resources/<file>.pdf
+    extensions: [pdf]
+    rename: safe                   # lowercase, no spaces — safe for URLs
 
 content:
   - name: events
@@ -98,6 +109,8 @@ content:
       - name: image
         label: Featured photo
         type: image
+        options:
+          media: images
         description: "A wide banner photo works best (about 2100×800px, under 1MB). Tall poster images will be cropped to a wide strip — if your image is a poster with text on it, consider a photo instead."
 
       - name: imageAlt
@@ -121,3 +134,185 @@ content:
         label: Details
         type: rich-text
         description: "The full write-up. Use Heading 2 for sections like 'Who it's for' and 'What's included'."
+
+  # ---------------------------------------------------------------------------
+  # RESOURCES — edited by church staff (Karen, Devin). One entry = one row in the
+  # /resources catalog. Destination is split by kind: a PDF upload (file) OR a web
+  # address (link). The site build checks that the right one is filled in and
+  # FAILS (nothing deploys) otherwise — see site/src/content.config.ts.
+  # Text-only resources are the separate "posts" collection below.
+  # ---------------------------------------------------------------------------
+  - name: resources
+    label: 'Resources: links & PDFs'
+    type: collection
+    path: site/src/content/resources
+    filename: '{primary}.md'        # title slugified → membership-packet.md
+    view:
+      primary: title
+      fields: [title, type, categories]
+      sort: [title]
+      default:
+        sort: title
+        order: asc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+        description: "The name people see in the resource list, e.g. 'Membership Packet'."
+
+      - name: description
+        label: Short description
+        type: text
+        required: true
+        description: "One or two sentences shown under the title in the list."
+
+      # Categories are DEVELOPER-ONLY. To add one, a developer adds a file in
+      # site/src/content/categories/ AND a line here — the build fails if the two
+      # disagree (site/scripts/check-content.mjs). Keep the markers below.
+      - name: categories
+        label: Categories
+        type: select
+        required: true
+        description: "Pick one or more. These are the filter buttons on the Resources page."
+        options:
+          multiple: true
+          min: 1
+          placeholder: "Choose categories"
+          values:
+            # CATEGORIES-START
+            - name: new-here
+              label: New Here
+            - name: families
+              label: Families
+            - name: discipleship
+              label: Discipleship
+            - name: care
+              label: Care
+            - name: missions
+              label: Missions
+            - name: forms
+              label: Forms
+            # CATEGORIES-END
+
+      - name: type
+        label: Type
+        type: select
+        required: true
+        description: "PDF download = you upload a file below. External link = a page on another website (fill in Link)."
+        options:
+          values:
+            - name: pdf
+              label: PDF download
+            - name: external
+              label: External link
+
+      - name: file
+        label: PDF file (for "PDF download" only)
+        type: file
+        description: "Upload the PDF. Must be under 15MB — larger files stop the site from updating. Leave empty for an external link."
+        options:
+          media: docs
+          extensions: [pdf]
+
+      - name: link
+        label: Link (for "External link" only)
+        type: string
+        description: "The full web address, starting with https:// — e.g. https://www.rightnowmedia.org. Leave empty for a PDF download."
+
+  # ---------------------------------------------------------------------------
+  # POSTS — text-only resource pages, edited by church staff (Karen, Devin).
+  # Each becomes /resources/<title-slug> and appears in the /resources catalog as
+  # "Read on site". Body is saved as MARKDOWN (format: markdown) — required for the
+  # YouTube embed (a paragraph that is only a YouTube link becomes a video; see
+  # site/src/lib/remark-youtube.mjs). Images inside the text are disabled for now
+  # (no size-guarded folder for them).
+  # ---------------------------------------------------------------------------
+  - name: posts
+    label: 'Resources: text pages'
+    type: collection
+    path: site/src/content/posts
+    filename: '{primary}.md'        # title slugified → becomes the page address
+    view:
+      primary: title
+      fields: [title, categories, draft]
+      sort: [title]
+      default:
+        sort: title
+        order: asc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+        description: "The page title. It also becomes the page's web address when first saved (renaming later keeps the old address)."
+
+      - name: description
+        label: Short description
+        type: text
+        required: true
+        description: "One or two sentences shown under the title in the Resources list."
+
+      # Categories are DEVELOPER-ONLY — keep this list identical to the one in
+      # Resources above (the build checks every CATEGORIES block).
+      - name: categories
+        label: Categories
+        type: select
+        required: true
+        description: "Pick one or more. These are the filter buttons on the Resources page."
+        options:
+          multiple: true
+          min: 1
+          placeholder: "Choose categories"
+          values:
+            # CATEGORIES-START
+            - name: new-here
+              label: New Here
+            - name: families
+              label: Families
+            - name: discipleship
+              label: Discipleship
+            - name: care
+              label: Care
+            - name: missions
+              label: Missions
+            - name: forms
+              label: Forms
+            # CATEGORIES-END
+
+      - name: draft
+        label: Draft (hide from the site)
+        type: boolean
+        description: "Turn on while you're still writing. Draft pages don't appear on the site at all. Turn off to publish."
+
+      - name: attachments
+        label: Downloads (optional, up to 5)
+        type: object
+        description: "PDFs listed at the bottom of the page, e.g. a leader guide. Each needs a label and a file (under 15MB)."
+        list:
+          max: 5
+          collapsible:
+            collapsed: true
+            summary: "{fields.label}"
+        fields:
+          - name: label
+            label: Label
+            type: string
+            required: true
+            description: "What the download is, e.g. 'Participant & Leader Guide (PDF)'."
+          - name: file
+            label: PDF file
+            type: file
+            required: true
+            options:
+              media: docs
+              extensions: [pdf]
+
+      - name: body
+        label: Page text
+        type: rich-text
+        options:
+          format: markdown
+          media: false
+        description: "Use Heading 2 for sections. To show a YouTube video, put the YouTube link on its own line with nothing else on that line."
+

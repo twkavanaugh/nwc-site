@@ -66,11 +66,12 @@ const resourceCards: Card[] = resourceEntries.map((e) => {
     description: e.data.description,
     cats,
     type,
-    // type:post resources resolve target (a post slug) to the /resources route;
-    // pdf → /public path; external → absolute URL.
-    href: type === "post" ? `/resources/${e.data.target}` : e.data.target,
+    // pdf → `file` (/public path); external → `link` (absolute URL); post → `link`
+    // (a post slug) resolved to the /resources route. The schema guarantees the
+    // right one is set for each type.
+    href: type === "pdf" ? e.data.file! : type === "post" ? `/resources/${e.data.link}` : e.data.link!,
     newTab: type === "external",
-    inert: String(e.data.target).startsWith(PLACEHOLDER_PREFIX),
+    inert: type === "pdf" && e.data.file!.startsWith(PLACEHOLDER_PREFIX),
     ...TYPE_META[type],
   };
 });

@@ -53,8 +53,16 @@ never a code bug. Ctrl+C, `npm run dev`, hard-refresh. The production build is u
   Adding a category needs zero CSS edits.
 - **Content collections:** facts in frontmatter, narrative in the Markdown body. `categories`
   are validated via `reference()`, so a bad id fails the build rather than rendering wrong.
-  `target` / `registrationUrl` are deliberately `z.string()` not `.url()` — they accept
-  internal paths and slugs.
+  Resources store `file` (PDF upload) OR `link` (URL / post slug) — exactly one, matched to
+  `type`, enforced by the schema. `link` / `registrationUrl` are deliberately `z.string()`
+  not `.url()` — they accept internal paths and slugs.
+- **Staff edit events, resources and posts (text pages) in Pages CMS (`.pages.yml`)** —
+  Karen and Devin. Design every CMS field for a non-technical editor. Post bodies are saved
+  as Markdown (`format: markdown`) — required by the YouTube transform. **Categories are
+  developer-only:** a new one = a YAML file in `site/src/content/categories/` + a line in
+  EVERY `CATEGORIES-START/END` block in `.pages.yml` (resources and posts).
+  `site/scripts/check-content.mjs` runs as `prebuild` and fails the build if those disagree
+  or any upload exceeds 15MB.
 - **Astro `:where()` is zero specificity.** A global override of a page-scoped class needs
   added specificity to win — first suspect when a global rule silently no-ops.
 - **Coupled CSS values carry paired comments** (e.g. the mobile-nav `72px` = `14×2 + 44`).

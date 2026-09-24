@@ -5,5 +5,5 @@ title: "Photo & Media Release"
 description: "Consent form for photos and video of you or your children in church media."
 categories: [forms, families]
 type: pdf
-target: "/resources/PLACEHOLDER-photo-media-release.pdf"
+file: "/resources/PLACEHOLDER-photo-media-release.pdf"
 ---
