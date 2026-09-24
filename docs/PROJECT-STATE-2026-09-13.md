@@ -164,6 +164,27 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
 
 ---
 
+## ★ STAFF CMS FOR RESOURCES + TEXT POSTS — GATE 1 COMMITTED (2026-09-24); Gate 2 = Todd's live test
+**Editors: Karen and Devin** (church staff) — events, resources AND posts. Todd may add names.
+- **Pages CMS now has three sections:** Events · **Resources: links & PDFs** · **Resources: text
+  pages** (the `posts` collection). Post bodies `format: markdown` (YouTube transform needs it);
+  rich-text image uploads disabled (no size-guarded folder); Draft switch; up to 5 PDF downloads.
+- **Schema change:** resource `target` → **`file`** (PDF upload, `site/public/resources/`) OR
+  **`link`** (URL; post slug for dev use). `superRefine` fails the build with plain messages
+  on a type/field mismatch. Staff Type choices: PDF download / External link only (posts
+  appear in the catalog on their own).
+- **Media is now two named sources:** `images` (events) and `docs` (resource PDFs, `rename: safe`).
+- **★ Build guard `site/scripts/check-content.mjs` (`prebuild`)** — runs on Render's
+  `npm run build`. Fails (nothing deploys) if any file in `public/resources|events` > **15MB**
+  (resolves the "CMS media has NO size guard" debt) or if the category files disagree with
+  EITHER `CATEGORIES-START/END` pick-list in `.pages.yml`. All failure paths tested.
+- **Categories are developer-only:** new one = YAML file + a line in both pick-lists.
+- **Gate 2 (after push — Pages CMS reads config from GitHub):** Todd adds a PDF resource, an
+  external link, replaces the membership-packet placeholder, deletes a test entry; creates a
+  draft text page (confirm hidden), publishes it with a bare YouTube line + a PDF download;
+  opens an EXISTING post, changes a word, saves — inspect that commit's diff for rich-text
+  round-trip reformatting of the old Markdown.
+
 ## ★ LILY MOMS — SHIPPED (2026-09-24, 1 gate)
 Commits: `5c4afa4` (package; assets in `site/public`) → this commit (page + nav).
 - **Route `/community/lily-moms`** (route map), not the package's `/lilymoms`.
@@ -473,9 +494,9 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
 - **Dead CSS sweep** — `.shero-people-pending`, `.sermon-art-tl`/`-title`/`-bl` orphaned; the
   stale `who-is-jesus.astro` `.crumb*` comment; `brand/prototype/.gitkeep`. One cleanup commit.
 - **`/blog` decision** — blog vs resources; nav/footer entries dimmed until decided.
-- **CMS has no `posts`/`resources` collections yet** — `.pages.yml` covers events ONLY. The
-  office cannot edit posts/resources through the CMS. Add once the model is confirmed.
-- **CMS media has NO size guard** — only helper text warns. Hardening decision pending.
+- ~~CMS has no `posts`/`resources` collections~~ **DONE 2026-09-24** (see ★ STAFF CMS) —
+  pending Todd's live Gate 2 test.
+- ~~CMS media has NO size guard~~ **DONE 2026-09-24** — 15MB prebuild guard (check-content.mjs).
 - **Orphaned CMS media on event deletion UNTESTED.**
 - **Nightly Render deploy-hook cron** — still pending (date-rollover freshness).
 - **`/familytable` legacy redirect** — decision logged; implement in hardening.
@@ -546,7 +567,7 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
 3. **Pages CMS employee vertical-slice test** (still unrecorded) — dated event w/ poster,
    link-heavy page, undated post, PDF upload/replace, edit-and-republish; **rebuild the REAL
    Family Table** as the link-heavy-page test; verify orphaned media on delete.
-4. **Extend `.pages.yml` to posts + resources** so the office can edit them.
+4. ~~Extend `.pages.yml` to posts + resources~~ **Gate 1 done 2026-09-24** — Gate 2 = Todd's live CMS test.
 5. **Hardening pass** — its own pass after content lands.
 
 ## LESSONS (workflow — keep sharp)
