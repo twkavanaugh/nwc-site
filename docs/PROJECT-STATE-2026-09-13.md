@@ -13,8 +13,8 @@ package**, and **shot list v2**.
 > written down, and they need to be recovered from Todd before the church-facing work
 > continues.
 
-> **🟢 2026-09-23 UPDATE — `/visit` SHIPPED.** See **★ COME VISIT — SHIPPED (2026-09-23)**
-> below. Read that section first; the rest of this doc is as of 09-13 except where marked.
+> **🟢 2026-09-23 UPDATE — `/visit` + `/mission/church-planting` SHIPPED.** See **★ COME VISIT**
+> and **★ CHURCH PLANTING** below. Read that section first; the rest of this doc is as of 09-13 except where marked.
 
 ---
 
@@ -141,6 +141,7 @@ transfer the GitHub repo to a church org; reassign Render (swap account email, r
 | `/help/feed` | ✅ COMPLETE |
 | `/community/mature-adults` | ✅ COMPLETE |
 | `/sermons` | ✅ COMPLETE — BranchCast embed + podcast links |
+| `/mission/church-planting` | ✅ **COMPLETE (2026-09-23)** — first `/mission/*` route; Warm Band hero (display-m, no CTAs, .ph photo), two realities + inverse bridge band, church lists, serif statement, engage grid. Nav Mission→Church Planting now a real link |
 | `/visit` | ✅ **COMPLETE (2026-09-23)** — Warm Band hero, facts strip, flow of a Sunday, FAQ, find us. Every "Plan a Visit" CTA now resolves (was a 404) |
 | `/events` | ✅ COMPLETE — date-filtered, sorted index |
 | `/events/[slug]` | ✅ COMPLETE — continuous-column detail (5 entries; `family-table` is CMS-created) |
@@ -157,6 +158,24 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
 `/sermons`, `/blog` (+`[slug]`, dimmed), `/resources` (+`[slug]`, labeled "Other Resources").
 
 ---
+
+## ★ CHURCH PLANTING — SHIPPED (2026-09-23, 1 gate)
+Commits: `f0587df` (package → `brand/prototype/CHURCH-PLANTING-SPEC.md` + `church-planting.html`)
+→ `b6ffa78` (page + WarmBandHero options + nav href).
+- **Route is `/mission/church-planting`** (package said `/church-planting`; route map nests it).
+  Breadcrumb Home › Mission (non-link chip — no `/mission` index) › Church Planting.
+- **WarmBandHero gained opt-in props:** `headlineSize="m"`, optional `primary`/`ghost`, and
+  `photoPlaceholder` (no `photo` → square-cornered `.ph`). `/visit` verified unchanged
+  (identical body markup; every hero rule still present).
+- **Dark bridge band** uses `--bg-inverse`/`--ink-on-inverse`/`--accent-on-inverse`, NOT the
+  package's `[data-theme="dim"]` (which the site doesn't have). Accent is clay-300, not the
+  package's `#d49271`.
+- **Churches are a data array in the page** (`category: self-sustaining | partner`, optional
+  `url`). Names are plain text — no URLs provided. No CTA on the page (none in approved copy).
+- **Copy:** approved text; typos fixed per Todd ("places", "ongoing", "early ’90s"). Design-added
+  labels (Our heritage / Our conviction / Heritage + conviction / The churches / Kingdom work /
+  How we engage / What we do / How we do it) approved by Todd.
+- **Only photo slot** is the hero `.ph` — shot description in the spec §9 (add to shot list).
 
 ## ★ COME VISIT — SHIPPED (2026-09-23, 2 gates)
 Commits: `1792fe8` (design package → `brand/prototype/COME-VISIT-SPEC.md` + `come-visit.html`;
@@ -401,6 +420,9 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
   "opens 30 minutes early"; "every Sunday is livestreamed and archived"; reserved first-time
   guest parking; "15 minutes north of Raleigh, just off Capital Blvd"; songs "modern and
   traditional". `/community/students` says "Sunday AM" but not the 10:45 service — align.
+- **★ `/mission/church-planting`:** Todd to diff against source copy — the six church names +
+  cities, "early ’90s", "Providence Church (Raleigh NC)" (Claude Design mistranslated `/visit`).
+  Partner-church website URLs + any CTA destination (giving/contact) not yet provided.
 - **★ CMS "New Event Test"** (`c538f33`, 2026-09-22, lorem ipsum, expired 09-22) is in the
   repo — delete after the CMS test is recorded ("deal with events after" — Todd).
 > As of 07-05 + what the code shows. See ★ CONTEXT GAP — some of this may have moved in July.
@@ -422,8 +444,8 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
 ## NEXT TASKS (as of resumption)
 0. **Recover the context gap** (above) — especially the July 7 pastor-meeting outcomes.
 1. **Push the two local docs/brand commits** (`1e2dc9b`, `40062f9`) — no deploy impact.
-2. ~~Build `WarmBandHero.astro`~~ **DONE 2026-09-23 (on `/visit`)** — next: apply to a Mission or
-   Help page. The design package has been sitting committed and unbuilt since 07-12; it is
+2. ~~Build `WarmBandHero.astro`~~ **DONE 2026-09-23 (on `/visit`)** — and on `/mission/church-planting`.
+   Next: apply to a Help page or remaining Mission pages. The design package has been sitting committed and unbuilt since 07-12; it is
    the clearest queued build.
 3. **Pages CMS employee vertical-slice test** (still unrecorded) — dated event w/ poster,
    link-heavy page, undated post, PDF upload/replace, edit-and-republish; **rebuild the REAL
@@ -452,7 +474,7 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
 mission redesign → Newsreader → who-is-jesus → Breadcrumb → kids → feed → hairline-grid →
 mature → watercolor home hero → mega-menu → siteSettings → serif-on-image → hero pilot +
 shot list + type standards → **events build (4 gates)** → `e8643c7` a11y → state 07-04]
-**[2026-09-23]** `1792fe8` Come Visit package + CLAUDE.md → `f773172` WarmBandHero + hero → `df57050` /visit complete.
+**[2026-09-23]** `1792fe8` Come Visit package + CLAUDE.md → `f773172` WarmBandHero + hero → `df57050` /visit complete → `f0587df` Church Planting package → `b6ffa78` /mission/church-planting.
 **[2026-07-05]** mobile nav (`47d11e9`/`6533063`) → `5b34285` eyebrow fix → `7402b1b`
 /sermons (+`705e551`) → `fd27f93` Pages CMS config → Family Table via CMS (smoke test) →
 `3ee46c5` event-label softening → `75f1974`/`69548c5` placeholder photos → state 07-05 +
