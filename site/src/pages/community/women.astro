@@ -1,0 +1,487 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+
+// Women's Ministry page (/community/women). Built from
+// brand/prototype/WOMENS-MINISTRY-SPEC.md + womens-ministry.html. Copy is the
+// ministry's seed text + postcard (both pages checked 2026-09-23); design labels
+// (hero h1, "Questions? We'd love to hear from you.", button labels) approved by Todd.
+// Sections: 1) Breadcrumb, 2) Hero (Community split — same values as Feed/Care/Mercy),
+// 3) Why we exist (serif motto), 4) Ways to get connected (floral photo band),
+// 5) Stay connected (dark band).
+//
+// Decisions (Todd, 2026-09-23):
+// - Motto is "Know. Grow. Go." — the postcard emphasizes exactly those three verbs
+//   (the church-wide motto); the package had added "Glorify" as a 4th pillar. The
+//   glorify clause stays verbatim in the full statement.
+// - Card kickers: only real timings are timings ("Twice a year", "Around April",
+//   "October"); the other three are drawn from each card's own text — none invented.
+// - The postcard prints northwake.com/womensministry → redirected here in
+//   astro.config.mjs.
+// - Facebook has no URL yet → plain text, not a link.
+//
+// Photo band: scrim is color-mix of --bg-inverse (token-based — no literal
+// exception needed); heading on the photo uses the inverse text tokens.
+
+const EMAIL = "womensministry@northwake.com"; // printed on the ministry's postcard
+const INSTAGRAM = { handle: "northwakewomen", url: "https://www.instagram.com/northwakewomen/" };
+const FACEBOOK = { name: "North Wake-Women", url: "" }; // URL not provided yet
+
+const purpose = [
+  { t: "Know", b: "The love of God." },
+  { t: "Grow", b: "Grow into the likeness of Christ." },
+  { t: "Go", b: "Go in the power of the Holy Spirit to reach women for the kingdom of God." },
+];
+
+const ways = [
+  { k: "Twice a year", t: "Women Caring for Women", b: "Teachings/panel discussions held 2 times a year." },
+  { k: "Around April", t: "Women’s Spring Retreat", b: "Annually around April." },
+  {
+    k: "October",
+    t: "Women’s Day",
+    b: "An in-town conference of workshops taught by North Wake Women held in October.",
+    href: "/events/womens-day",
+    linkLabel: "Women’s Day details",
+  },
+  { k: "At church & in homes", t: "Women’s Bible Studies", b: "Held both at the church and in North Wake women’s homes." },
+  { k: "Good food & conversation", t: "Fellowship Nights", b: "Built around good food and conversation." },
+  { k: "One on one", t: "Mentorship", b: "Connecting mentors with mentees for individual life on life growth." },
+];
+---
+
+<Layout
+  title="Women’s Ministry · North Wake Church"
+  description="North Wake Women’s Ministry exists to help women know the love of God, glorify God, grow into the likeness of Christ, and go in the power of the Holy Spirit."
+>
+  <!-- 1. Breadcrumb ("Community" has no index page → non-clickable chip) -->
+  <Breadcrumb trail={[{ label: "Home", href: "/" }, { label: "Community" }, { label: "Women’s Ministry" }]} />
+
+  <!-- 2. Hero — Community split (same shape/values as the Help-group heroes) -->
+  <section class="wm-hero" aria-labelledby="wm-title">
+    <div class="wrap">
+      <div class="wm-hero-grid">
+        <div>
+          <div class="eyebrow wm-hero-eyebrow"><span class="dot"></span>Women’s Ministry · North Wake Women</div>
+          <h1 id="wm-title" class="display-l wm-h1">
+            Growing into the <span class="wm-accent">likeness of Christ,</span> together.
+          </h1>
+          <p class="lede wm-lede">
+            North Wake Women’s Ministry hosts several gatherings throughout the year to help you connect with others, be encouraged in your faith, and grow in Christ.
+          </p>
+          <div class="wm-actions">
+            <a class="btn btn-primary" href="/events">See upcoming events <span class="arr" aria-hidden="true">→</span></a>
+            <a class="btn btn-ghost" href={`mailto:${EMAIL}`}>Email the ministry</a>
+          </div>
+        </div>
+        <!-- PHOTO PLACEHOLDER — candid women's gathering; consent from anyone
+             recognizable (WOMENS-MINISTRY-SPEC.md §9). -->
+        <div class="ph wm-hero-ph"><span class="ph-label">Photo · Women’s ministry · gathering</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Why we exist — serif motto + statement -->
+  <section aria-labelledby="wm-why-title">
+    <div class="wrap">
+      <div class="eyebrow wm-eyebrow"><span class="dot"></span>Why we exist</div>
+      <h2 id="wm-why-title" class="wm-serif-h2 wm-why-h2">Know. <em>Grow.</em> Go.</h2>
+      <p class="wm-statement">
+        North Wake Women’s Ministry exists to help women <em>know</em> the love of God, to develop a passion to glorify God with every part of their lives, to <em>grow</em> into the likeness of Christ, and to <em>go</em> in the power of the Holy Spirit to reach women for the kingdom of God.
+      </p>
+      <ol class="wm-purpose">
+        {
+          purpose.map((p, i) => (
+            <li class="wm-purpose-item">
+              <div class="mono wm-purpose-num" aria-hidden="true">0{i + 1}</div>
+              <h3 class="display-s wm-purpose-h">{p.t}</h3>
+              <p class="body wm-purpose-body">{p.b}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- 4. Ways to get connected — floral photo band -->
+  <section class="wm-ways-sec" aria-labelledby="wm-ways-title">
+    <div class="wm-ways-scrim" aria-hidden="true"></div>
+    <div class="wrap wm-ways-wrap">
+      <div class="section-head wm-ways-head">
+        <div>
+          <div class="eyebrow wm-ways-eyebrow"><span class="dot"></span>Throughout the year</div>
+          <h2 id="wm-ways-title" class="wm-serif-h2 wm-ways-h2">Ways to get <em>connected.</em></h2>
+        </div>
+        <p class="body right wm-ways-intro">
+          Gatherings to help you connect with others, be encouraged in your faith, and grow in Christ.
+        </p>
+      </div>
+      <ul class="wm-ways">
+        {
+          ways.map((w) => (
+            <li class="wm-way">
+              <div class="mono wm-way-kicker">{w.k}</div>
+              <h3 class="title wm-way-h">{w.t}</h3>
+              <p class="body wm-way-body">{w.b}</p>
+              {w.href && (
+                <div class="wm-way-link">
+                  <a class="wm-text-link" href={w.href}>{w.linkLabel} →</a>
+                </div>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. Stay connected — DARK band, inverse tokens -->
+  <section class="wm-stay-sec" aria-labelledby="wm-stay-title">
+    <div class="wrap">
+      <div class="wm-stay">
+        <div>
+          <div class="eyebrow wm-stay-eyebrow"><span class="dot"></span>Stay connected</div>
+          <h2 id="wm-stay-title" class="display-l wm-stay-h2">
+            Questions? <span class="wm-stay-accent">We’d love to hear from you.</span>
+          </h2>
+          <div class="wm-actions">
+            <a class="btn btn-accent" href={`mailto:${EMAIL}`}>Email the ministry <span class="arr" aria-hidden="true">→</span></a>
+            <a class="btn wm-stay-ghost" href="/events">All church events</a>
+          </div>
+        </div>
+        <dl class="wm-contact">
+          <div>
+            <dt class="mono">Email</dt>
+            <!-- <wbr> after the @ + overflow-wrap:break-word → breaks only at the @. -->
+            <dd><a href={`mailto:${EMAIL}`}>womensministry@<wbr />northwake.com</a></dd>
+          </div>
+          <div>
+            <dt class="mono">Instagram</dt>
+            <dd>
+              <a href={INSTAGRAM.url} target="_blank" rel="noopener">
+                @{INSTAGRAM.handle} ↗<span class="sr-only"> (opens in a new tab)</span>
+              </a>
+            </dd>
+          </div>
+          <div>
+            <dt class="mono">Facebook</dt>
+            <dd>
+              {
+                FACEBOOK.url ? (
+                  <a href={FACEBOOK.url} target="_blank" rel="noopener">
+                    {FACEBOOK.name} ↗<span class="sr-only"> (opens in a new tab)</span>
+                  </a>
+                ) : (
+                  FACEBOOK.name
+                )
+              }
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Page-scoped (no global .sr-only exists; kept local to avoid a global.css change). */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .wm-eyebrow {
+    margin-bottom: 18px;
+  }
+  .wm-accent {
+    color: var(--accent);
+  }
+  .wm-text-link {
+    color: var(--accent);
+    font-size: 16px;
+    font-weight: 500;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+  }
+  .wm-text-link:hover {
+    color: var(--ink);
+  }
+  /* Serif display heading (used twice). balance keeps "Go." off a line of its own. */
+  .wm-serif-h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(48px, 6.4vw, 96px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  /* 2 · Hero — values mirror help/feed.astro, care.astro, mercy-clinic.astro. */
+  .wm-hero {
+    padding: 56px 0 0;
+  }
+  .wm-hero-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 64px;
+    align-items: end;
+  }
+  .wm-hero-eyebrow {
+    margin-bottom: 28px;
+  }
+  .wm-h1 {
+    max-width: 14ch;
+  }
+  .wm-lede {
+    margin-top: 28px;
+  }
+  .wm-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+  .wm-hero-ph {
+    aspect-ratio: 4 / 5;
+  }
+
+  /* 3 · Why we exist */
+  .wm-why-h2 {
+    max-width: 24ch;
+    margin-bottom: 40px;
+  }
+  .wm-why-h2 em,
+  .wm-statement em {
+    color: var(--accent);
+  }
+  .wm-statement {
+    font-family: var(--serif);
+    font-size: clamp(22px, 2.3vw, 32px);
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 0 0 56px;
+    max-width: 46ch;
+  }
+  .wm-purpose {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
+  }
+  /* 2px ink rule — same device as Church Planting, Care, Mercy. */
+  .wm-purpose-item {
+    border-top: 2px solid var(--ink);
+    padding-top: 22px;
+  }
+  .wm-purpose-num {
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .wm-purpose-h {
+    margin-bottom: 10px;
+  }
+  .wm-purpose-body {
+    margin: 0;
+    font-size: 17px;
+  }
+
+  /* 4 · Ways — floral photo band. Decorative photo (Unsplash, Dallas Reedy),
+     --bg-inverse fallback if it fails to load. */
+  .wm-ways-sec {
+    position: relative;
+    background: url("/women-flowers.jpg") center / cover no-repeat, var(--bg-inverse);
+  }
+  /* Scrim: darkest behind the heading, lighter behind the cards so the flowers show
+     through the 1px gaps. Token-based (color-mix of --bg-inverse). The 72% stop is
+     HELD to 38% (package faded from 0%) so the cream intro, which sits over the
+     brightest petals, stays AA — ~4:1 with the package's gradient. At 1440 the intro
+     ends at ~34% of the band and the cards start at ~40% — retune if the head grows. */
+  .wm-ways-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--bg-inverse) 72%, transparent) 0%,
+      color-mix(in srgb, var(--bg-inverse) 72%, transparent) 38%,
+      color-mix(in srgb, var(--bg-inverse) 45%, transparent) 60%,
+      color-mix(in srgb, var(--bg-inverse) 35%, transparent) 100%
+    );
+  }
+  .wm-ways-wrap {
+    position: relative;
+  }
+  .wm-ways-eyebrow {
+    margin-bottom: 20px;
+    color: var(--ink-on-inverse-2);
+  }
+  .wm-ways-eyebrow .dot {
+    background: var(--accent-on-inverse);
+  }
+  .wm-ways-h2 {
+    max-width: 12ch;
+    color: var(--ink-on-inverse);
+  }
+  .wm-ways-h2 em {
+    color: var(--accent-on-inverse);
+  }
+  .wm-ways-intro {
+    margin: 0;
+    font-size: 18px;
+    color: var(--ink-on-inverse);
+  }
+  .wm-ways {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  /* Opaque light cards — readability never depends on the photo. */
+  .wm-way {
+    background: var(--bg);
+    padding: 32px 30px 34px;
+    display: flex;
+    flex-direction: column;
+    min-height: 220px;
+  }
+  .wm-way-kicker {
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .wm-way-h {
+    margin-bottom: 10px;
+  }
+  .wm-way-body {
+    margin: 0;
+  }
+  .wm-way-link {
+    margin-top: auto;
+    padding-top: 20px;
+  }
+
+  /* 5 · Stay connected — DARK band, inverse semantic tokens only (accent TEXT on
+     dark must be --accent-on-inverse; clay-600 fails at 2.69:1). */
+  .wm-stay-sec {
+    background: var(--bg-inverse);
+    color: var(--ink-on-inverse);
+  }
+  .wm-stay {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: end;
+  }
+  .wm-stay-eyebrow {
+    margin-bottom: 24px;
+    color: var(--ink-on-inverse-2);
+  }
+  .wm-stay-eyebrow .dot {
+    background: var(--accent-on-inverse);
+  }
+  .wm-stay-h2 {
+    max-width: 12ch;
+  }
+  .wm-stay-accent {
+    color: var(--accent-on-inverse);
+  }
+  /* Ghost button on dark — same recipe as mature-adults' .mature-cta-ghost. */
+  .wm-stay-ghost {
+    background: transparent;
+    color: var(--ink-on-inverse);
+    border: 1px solid var(--border-on-inverse);
+  }
+  .wm-stay-ghost:hover {
+    border-color: var(--ink-on-inverse);
+  }
+  .wm-contact {
+    margin: 0;
+    border-top: 1px solid var(--line-on-inverse-strong);
+  }
+  .wm-contact > div {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line-on-inverse);
+    align-items: baseline;
+  }
+  .wm-contact dt {
+    color: var(--ink-on-inverse-2);
+  }
+  .wm-contact dd {
+    margin: 0;
+    font-size: clamp(16px, 1.8vw, 19px);
+    font-weight: 500;
+    overflow-wrap: break-word;
+  }
+  .wm-contact dd a:hover {
+    color: var(--accent-on-inverse);
+  }
+
+  /* Responsive — hero stacks at 720 like the other ministry heroes. */
+  @media (max-width: 1100px) {
+    .wm-contact > div {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+  }
+  @media (max-width: 1080px) {
+    .wm-ways {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 880px) {
+    .wm-stay {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+  @media (max-width: 720px) {
+    .wm-hero {
+      padding-top: 40px;
+    }
+    .wm-hero-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .wm-statement {
+      margin-bottom: 44px;
+    }
+    /* Three purpose items stay 3-up to 720 (a 2-col grid would orphan the third). */
+    .wm-purpose {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .wm-way {
+      padding: 28px 22px 30px;
+    }
+    /* Don't undercut the site's mobile type scale (global.css §j: .body → 18px). */
+    .wm-purpose-body,
+    .wm-contact dd {
+      font-size: 18px;
+    }
+  }
+  @media (max-width: 560px) {
+    .wm-ways {
+      grid-template-columns: 1fr;
+    }
+    .wm-way {
+      min-height: 0;
+    }
+    .wm-actions .btn {
+      flex: 1 1 100%;
+      justify-content: center;
+    }
+  }
+</style>

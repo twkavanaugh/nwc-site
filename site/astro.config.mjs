@@ -16,6 +16,11 @@ import remarkYoutube from './src/lib/remark-youtube.mjs';
 export default defineConfig({
   site: 'https://northwake.com',
   output: 'static',
+  // Legacy URLs printed on church materials. Static redirect pages (meta refresh +
+  // canonical) — no JS. /womensministry is on the Women's Ministry postcard.
+  redirects: {
+    '/womensministry': '/community/women',
+  },
   markdown: {
     remarkPlugins: [remarkYoutube],
   },
