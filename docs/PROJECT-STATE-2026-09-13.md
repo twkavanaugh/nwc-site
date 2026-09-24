@@ -146,6 +146,7 @@ transfer the GitHub repo to a church org; reassign Render (swap account email, r
 | `/community/women` | ✅ **COMPLETE (2026-09-23)** — Community split hero, "Know. Grow. Go." serif motto, floral photo band with 6 gathering cards, dark contact band. `/womensministry` redirects here (postcard URL). Nav + footer resolve |
 | `/help/mercy-clinic` | ✅ **COMPLETE (2026-09-23)** — condensed from mercyhealthnw.org; Help-group hero, facts, scope panels, Luke 10:37, values, 2 get-involved cards, dark contact band. Footer link (was a 404) now resolves; nav wired |
 | `/help/care` | ✅ **COMPLETE (2026-09-23)** — Help-group split hero (mirrors Feed), facts strip, Our heart, 3 steps + reapply note, dark "where to apply" band. Nav Help→Care Ministry now a real link |
+| `/help/hope-counseling` | ✅ **COMPLETE (2026-09-24)** — distilled from thehopecounselingcenter.org; Help-group hero, facts, testimony over sunburst photo, who we are + licensing note, 4 expectations, services + scope, 4 steps, dark contact band. Nav, nav featured card, footer all resolve (were 404) |
 | `/mission/international` | ✅ **COMPLETE (2026-09-24)** — Warm Band hero, Rev 7:9 statement over a road photo, near-and-far, four ways (Pray/Give/Focus/Equip), dark Entermission band, Break Bread → Training#missionary-sending. Nav wired |
 | `/mission/training` | ✅ **COMPLETE (2026-09-24)** — Warm Band hero, approach + 3-pathway anchor strip, Personal / Elder / Missionary sections (light → warm → dark) with sticky sidebars. Nav wired |
 | `/mission/church-planting` | ✅ **COMPLETE (2026-09-23)** — first `/mission/*` route; Warm Band hero (display-m, no CTAs, .ph photo), two realities + inverse bridge band, church lists, serif statement, engage grid. Nav Mission→Church Planting now a real link |
@@ -165,6 +166,25 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
 `/sermons`, `/blog` (+`[slug]`, dimmed), `/resources` (+`[slug]`, labeled "Other Resources").
 
 ---
+
+## ★ HOPE COUNSELING — SHIPPED (2026-09-24, 1 gate)
+Commits: `5427bf1` (package; photo in `site/public`) → this commit (page + `src/data/hope.ts` +
+`/give` redirect + guard).
+- **No church seed** — the ministry lead's direction was to distill thehopecounselingcenter.org
+  to one page. Every line checked against HOPE's live site (Home/About/Services/FAQ/Contact/
+  Donate) 2026-09-24; facts in `src/data/hope.ts` (LAST VERIFIED stamp).
+- **Package errors fixed:** 2 Tim 3:16–17 was on "Real work" (belongs to Scripture); added
+  "Expect to pray" (Col 1:9–11); "Three things you can count on" → "What to expect."; testimony
+  un-trimmed (full quote verbatim); steps 3 → 4 (forms to the church office); "typically"
+  restored; HOPE email `hopecounseling@northwake.com` added; Donations → HOPE's Donate page.
+- **★ `/give` redirect (first EXTERNAL redirect):** → `BUSINESS.givingUrl`. HOPE's Donate button
+  links to `northwake.com/give/` (old site). `check-content.mjs` check #3 fails the build if
+  the redirect and `business.ts` disagree (tested).
+- **Sunburst band:** token scrim held at 86% across all small text (AA over ≈0.95-luminance
+  sky); phone variant holds to 80% of the ellipse (small lines reach ~0.67 there). Measured.
+- **Footer finding (pre-existing, site-wide):** footer link lists render at 14px on phones —
+  below the 16px content floor. Separate small fix to `Footer.astro`.
+- **Serif heading helper now on 5 pages** → promote to a global class (overdue).
 
 ## ★ INTERNATIONAL MISSIONS — SHIPPED (2026-09-24, 1 gate)
 Commits: `38fc8c9` (package) → this commit (page + photo + nav).
@@ -556,7 +576,8 @@ Run once a quarter (Jan / Apr / Jul / Oct), in `site/`, after `git pull --rebase
 2. **`npm audit`** — expect the 3 Astro-7-only advisories until the Astro 7 upgrade; anything
    NEW → look at it.
 3. **Mercy clinic facts** (`src/data/mercy.ts`) — re-check hours/closures/phone against
-   mercyhealthnw.org; update the LAST VERIFIED date.
+   mercyhealthnw.org; update the LAST VERIFIED date. **Same for HOPE** (`src/data/hope.ts`)
+   against thehopecounselingcenter.org (deposit, hours, age, phone/email, links).
 4. **Dead links** — spot-check External-link / Drive resources still open (and Drive files are
    shared "Anyone with the link can view", NOT Editor).
 5. **August only:** LILY Moms fees + Oct–May season; LILY Kids pay.
@@ -602,6 +623,9 @@ Run once a quarter (Jan / Apr / Jul / Oct), in `site/`, after `git pull --rebase
   "opens 30 minutes early"; "every Sunday is livestreamed and archived"; reserved first-time
   guest parking; "15 minutes north of Raleigh, just off Capital Blvd"; songs "modern and
   traditional". `/community/students` says "Sunday AM" but not the 10:45 service — align.
+- **★ `/help/hope-counseling`:** HOPE sign-off on the licensing note ("Please know" — legal
+  weight), the distilled lines, and the **minimum age** (their site says 16 in two places,
+  13 in one; page uses 16). Hero photo — never counselees; the empty room.
 - **★ `/mission/international`:** a missions contact (who to talk to about Break Bread /
   going); optional next Entermission dates; hero photo — SECURITY: never identifiable faces,
   names or locations of workers in restricted-access countries.
@@ -679,7 +703,7 @@ Run once a quarter (Jan / Apr / Jul / Oct), in `site/`, after `git pull --rebase
 mission redesign → Newsreader → who-is-jesus → Breadcrumb → kids → feed → hairline-grid →
 mature → watercolor home hero → mega-menu → siteSettings → serif-on-image → hero pilot +
 shot list + type standards → **events build (4 gates)** → `e8643c7` a11y → state 07-04]
-**[2026-09-23]** `1792fe8` Come Visit package + CLAUDE.md → `f773172` WarmBandHero + hero → `df57050` /visit complete → `f0587df` Church Planting package → `b6ffa78` /mission/church-planting → `f2a5e00` ticker removed → `7fef38e` Care package → `3d72fc4` /help/care → `06d23d8` Mercy package → `8c4f3cb` /help/mercy-clinic → `babfdc3` Women package → `058a05b` /community/women → `0da9532` Women's Day email → **[2026-09-24]** `5c4afa4` LILY package → /community/lily-moms → staff CMS (`9c67132`…`993eda3`) → `010a103` Training package → /mission/training → `38fc8c9` Missions package → /mission/international.
+**[2026-09-23]** `1792fe8` Come Visit package + CLAUDE.md → `f773172` WarmBandHero + hero → `df57050` /visit complete → `f0587df` Church Planting package → `b6ffa78` /mission/church-planting → `f2a5e00` ticker removed → `7fef38e` Care package → `3d72fc4` /help/care → `06d23d8` Mercy package → `8c4f3cb` /help/mercy-clinic → `babfdc3` Women package → `058a05b` /community/women → `0da9532` Women's Day email → **[2026-09-24]** `5c4afa4` LILY package → /community/lily-moms → staff CMS (`9c67132`…`993eda3`) → `010a103` Training package → /mission/training → `38fc8c9` Missions package → /mission/international → `5427bf1` HOPE package → /help/hope-counseling.
 **[2026-07-05]** mobile nav (`47d11e9`/`6533063`) → `5b34285` eyebrow fix → `7402b1b`
 /sermons (+`705e551`) → `fd27f93` Pages CMS config → Family Table via CMS (smoke test) →
 `3ee46c5` event-label softening → `75f1974`/`69548c5` placeholder photos → state 07-05 +
