@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ministry Training · North Wake Church</title>
+<meta name="description" content="North Wake Church has multiple pathways for preparing others to make disciples wherever they are or wherever they might go.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+/* ============ SITE TOKENS (existing — no new colors) ============ */
+:root{--bg:#f6f3ed;--bg-2:#ece7dc;--bg-3:#e3ddce;--ink:#1a1814;--ink-2:#3a352c;--ink-3:#6e665a;--ink-4:#a89f8e;--line:rgba(26,24,20,0.12);--line-strong:rgba(26,24,20,0.22);--accent:#8a4d2e;--accent-ink:#ffffff;--sans:"Inter Tight",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;--display:"Inter Tight",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;--serif:"Newsreader",Georgia,"Times New Roman",serif}
+[data-theme="dim"]{--bg:#1a1814;--bg-2:#221f1a;--bg-3:#2a2620;--ink:#f4efe5;--ink-2:#d8d2c4;--ink-3:#9c9484;--ink-4:#6e665a;--line:rgba(244,239,229,0.12);--line-strong:rgba(244,239,229,0.22);--accent:#d49271}
+
+/* ============ BASE + SHARED PRIMITIVES (mirror of styles.css) ============ */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-feature-settings:"ss01","cv11";letter-spacing:-0.005em;line-height:1.5}
+h1,h2,h3,p,ol,dl,dd{margin:0}
+ol{list-style:none;padding:0}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1320px;margin:0 auto;padding:0 40px}
+section{padding:96px 0}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3)}
+.eyebrow .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:10px;transform:translateY(-2px)}
+.display-m{font-family:var(--display);font-size:clamp(36px,4.8vw,72px);font-weight:600;letter-spacing:-0.025em;line-height:1.02}
+.display-s{font-family:var(--display);font-size:clamp(28px,3.4vw,48px);font-weight:600;letter-spacing:-0.02em;line-height:1.05}
+.title{font-size:22px;font-weight:600;letter-spacing:-0.012em}
+.lede{font-size:clamp(18px,1.6vw,22px);line-height:1.5;color:var(--ink-2);font-weight:400;letter-spacing:-0.005em;max-width:56ch}
+.body{font-size:16px;line-height:1.6;color:var(--ink-2)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-3)}
+.ph{background:repeating-linear-gradient(135deg,var(--bg-3) 0 18px,color-mix(in srgb,var(--bg-3) 88%,var(--ink) 4%) 18px 36px);display:flex;align-items:center;justify-content:center}
+.ph .ph-label{font-family:var(--mono);font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-3);background:var(--bg);padding:5px 10px;border:1px solid var(--line)}
+.serif-h{font-family:var(--serif);font-weight:400;letter-spacing:-0.02em;line-height:1.04}
+.serif-h em,.serif-p em{color:var(--accent)}
+.serif-p{font-family:var(--serif);font-size:clamp(22px,2.2vw,30px);line-height:1.4;letter-spacing:-0.01em;color:var(--ink)}
+
+/* ============ MINISTRY TRAINING PAGE ============ */
+/* 1 · Hero — F · Warm Band (Mission group) */
+.tr-hero{padding:0;background:var(--bg-2);border-bottom:1px solid var(--line)}
+.tr-hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:stretch}
+.tr-hero-text{padding:88px 64px 88px max(40px,calc((100vw - 1320px) / 2 + 40px))}
+.tr-hero-text .eyebrow{margin-bottom:32px}
+.tr-hero-text h1{max-width:15ch}
+.tr-hero-text h1 span{color:var(--accent)}
+.tr-hero-text .lede{margin-top:28px}
+.tr-hero-photo{min-height:520px}
+
+/* 2 · Approach + pathway strip */
+.tr-approach{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:72px;align-items:start;margin-bottom:56px}
+.tr-approach .eyebrow{margin-bottom:18px}
+.tr-approach h2{font-size:clamp(40px,5vw,72px);max-width:11ch}
+.tr-approach-body{border-top:2px solid var(--ink);padding-top:28px}
+.tr-approach-body .serif-p{margin-bottom:22px;max-width:42ch}
+.tr-approach-body .body{font-size:19px;max-width:52ch}
+.tr-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.tr-strip li{background:var(--bg-2)}
+.tr-strip li:first-child{background:var(--bg)}
+.tr-strip a{display:block;padding:28px 28px 30px;height:100%}
+.tr-strip a:hover h3{color:var(--accent)}
+.tr-strip-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;color:var(--accent)}
+.tr-strip h3{margin-bottom:6px;transition:color 160ms ease}
+.tr-strip .body{color:var(--ink-3)}
+
+/* 3 · Pathway sections — shared layout */
+.tr-pathway{scroll-margin-top:80px}
+.tr-pw{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:72px;align-items:start}
+.tr-side{position:sticky;top:120px}
+.tr-num{font-size:clamp(56px,6vw,88px);font-weight:700;letter-spacing:-0.04em;line-height:0.9;color:var(--accent);margin-bottom:18px}
+.tr-side .eyebrow{margin-bottom:14px}
+.tr-side h2{font-weight:700;max-width:12ch}
+.tr-meta{margin-top:28px;border-top:1px solid var(--line-strong)}
+.tr-meta div{display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.tr-meta dd{font-size:17px;font-weight:500;line-height:1.4}
+.tr-copy{font-size:18px;line-height:1.65;color:var(--ink-2);margin-bottom:22px;max-width:62ch}
+.tr-close{margin-top:10px;max-width:42ch}
+
+/* 3a · Personal Ministry */
+.tr-personal{padding-top:0}
+.tr-personal .tr-pw{border-top:1px solid var(--line-strong);padding-top:72px}
+.tr-questions{margin:0 0 32px;border-top:1px solid var(--line-strong)}
+.tr-questions li{display:grid;grid-template-columns:40px minmax(0,1fr);gap:12px;padding:16px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.tr-questions .mono{color:var(--accent)}
+.tr-questions span:last-child{font-family:var(--serif);font-size:clamp(19px,1.8vw,23px);line-height:1.35;color:var(--ink)}
+.tr-badge{display:inline-flex;gap:12px;align-items:baseline;border:1px solid var(--line-strong);padding:14px 18px}
+.tr-badge .mono,.tr-badge .body{color:var(--ink)}
+.tr-badge .body{font-size:17px}
+
+/* 3b · Elder Preparation — warm band */
+.tr-elder{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.tr-verbs{display:flex;flex-wrap:wrap;gap:1px;background:var(--line);border:1px solid var(--line);margin:8px 0 30px}
+.tr-verbs div{flex:1 1 0;min-width:120px;background:var(--bg);padding:20px 22px;font-size:22px;font-weight:600;letter-spacing:-0.012em}
+
+/* 3c · Missionary Sending — dark band via inverse tokens */
+.tr-mission{background:var(--bg);color:var(--ink)}
+.tr-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:0 0 30px}
+.tr-values li{background:var(--bg-2);padding:22px 22px 24px}
+.tr-values .mono{color:var(--accent);margin-bottom:10px}
+.tr-values div:last-child{font-size:19px;font-weight:600;line-height:1.3;letter-spacing:-0.01em}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:880px){
+  .tr-hero-grid{grid-template-columns:1fr}
+  .tr-hero-photo{order:-1;min-height:0;aspect-ratio:4/3}
+  .tr-hero-text{padding:56px 40px 64px}
+  .tr-approach,.tr-pw{grid-template-columns:1fr;gap:40px}
+  .tr-side{position:static}
+  .tr-strip{grid-template-columns:1fr}
+  .tr-strip-top span:last-child{transform:rotate(90deg)}
+}
+@media (max-width:720px){
+  .wrap{padding:0 22px}
+  section{padding:72px 0}
+  .tr-hero-text{padding:44px 22px 56px}
+  .tr-personal .tr-pw{padding-top:56px}
+  .tr-values{grid-template-columns:1fr}
+  .tr-copy{font-size:17px}
+}
+@media (max-width:560px){
+  .tr-badge{flex-direction:column;gap:6px}
+  .tr-verbs div{flex:1 1 100%}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<!-- SITE CHROME (nav + footer) already exists in the live Astro site and is not part of this package. -->
+<main id="ministry-training">
+
+<!-- 1 · HERO — Warm Band -->
+<section class="tr-hero" aria-labelledby="tr-title">
+  <div class="tr-hero-grid">
+    <div class="tr-hero-text">
+      <div class="eyebrow"><span class="dot"></span>Mission · Ministry training</div>
+      <h1 id="tr-title" class="display-m">Training followers of Jesus to <span>minister to others.</span></h1>
+      <p class="lede">To that end North Wake Church has multiple pathways for preparing others to make disciples wherever they are or wherever they might go.</p>
+    </div>
+    <div class="tr-hero-photo ph" role="img" aria-label="A mentor and trainee studying Scripture together"><span class="ph-label">Photo · Ministry training · mentorship</span></div>
+  </div>
+</section>
+
+<!-- 2 · APPROACH + PATHWAY STRIP -->
+<section aria-labelledby="tr-approach-title">
+  <div class="wrap">
+    <div class="tr-approach">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Our approach</div>
+        <h2 id="tr-approach-title" class="serif-h">From general <em>to specific.</em></h2>
+      </div>
+      <div class="tr-approach-body">
+        <p class="serif-p">Training followers of Jesus to minister to others is one of the greatest privileges and responsibilities that God has given the church.</p>
+        <p class="body">Our approach is to move from general training in personal ministry to specific training in areas of vocational ministry.</p>
+      </div>
+    </div>
+    <ol class="tr-strip" aria-label="Training pathways">
+      <li><a href="#personal-ministry"><div class="tr-strip-top"><span class="mono" style="color:inherit">01</span><span aria-hidden="true">→</span></div><h3 class="title">Personal Ministry</h3><div class="body">General · every follower of Jesus</div></a></li>
+      <li><a href="#elder-preparation"><div class="tr-strip-top"><span class="mono" style="color:inherit">02</span><span aria-hidden="true">→</span></div><h3 class="title">Elder Preparation</h3><div class="body">Specific · ordained ministry</div></a></li>
+      <li><a href="#missionary-sending"><div class="tr-strip-top"><span class="mono" style="color:inherit">03</span><span aria-hidden="true">↓</span></div><h3 class="title">Missionary Sending</h3><div class="body">Specific · the ends of the earth</div></a></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 3a · PERSONAL MINISTRY -->
+<section id="personal-ministry" class="tr-pathway tr-personal" aria-labelledby="tr-p1">
+  <div class="wrap">
+    <div class="tr-pw">
+      <div class="tr-side">
+        <div class="tr-num" aria-hidden="true">01</div>
+        <div class="eyebrow"><span class="dot"></span>Pathway</div>
+        <h2 id="tr-p1" class="display-s">Personal Ministry Pathway</h2>
+        <dl class="tr-meta">
+          <div><dt class="mono">Length</dt><dd>9 months</dd></div>
+          <div><dt class="mono">For</dt><dd>All followers of Jesus</dd></div>
+          <div><dt class="mono">Credit</dt><dd>Available for SEBTS students</dd></div>
+        </dl>
+      </div>
+      <div>
+        <p class="tr-copy">Personal ministry is that to which all followers of Jesus have been called into, making disciples for Jesus. Often we are not sure where to start when it come to ministering to others, so over a 9 months period, we try to cover some of the basics. Including;</p>
+        <ol class="tr-questions">
+          <li><span class="mono">01</span><span>Who is God at the most essential level?</span></li>
+          <li><span class="mono">02</span><span>How do I shape my life to more closely follow Jesus daily?</span></li>
+          <li><span class="mono">03</span><span>What is the gospel?</span></li>
+          <li><span class="mono">04</span><span>How do I engage my neighbors with the gospel?</span></li>
+          <li><span class="mono">05</span><span>How does the church engage in discipleship?</span></li>
+        </ol>
+        <p class="tr-copy">We seek to address these concerns through a mixture of guided readings, study of Scripture, mentorship, project work, and intentional writing. This internship style approach engages the mind, heart, and hands of those asking how they might become disciple makers for Jesus.</p>
+        <div class="tr-badge"><span class="mono">SEBTS</span><span class="body">It is available for credit for SEBTS students.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3b · ELDER PREPARATION — warm band -->
+<section id="elder-preparation" class="tr-pathway tr-elder" aria-labelledby="tr-p2">
+  <div class="wrap">
+    <div class="tr-pw">
+      <div class="tr-side">
+        <div class="tr-num" aria-hidden="true">02</div>
+        <div class="eyebrow"><span class="dot"></span>Pathway</div>
+        <h2 id="tr-p2" class="display-s">Elder Preparation Pathway</h2>
+        <dl class="tr-meta">
+          <div><dt class="mono">Length</dt><dd>9-month cohort</dd></div>
+          <div><dt class="mono">For</dt><dd>Men seeking ordained ministry</dd></div>
+          <div><dt class="mono">Toward</dt><dd>Church planting, pastoral ministry, or other ordained assignments</dd></div>
+        </dl>
+      </div>
+      <div>
+        <p class="tr-copy">This pathway offers specific equipping for those seeking to serve the church through church planting, pastoral ministry, or other ministry assignments requiring ordination. This 9 month elder trainee cohort seeks to prepare, assess, and deploy men to advance Christ’s mission throughout underserved contexts of the United States.</p>
+        <div class="tr-verbs" aria-label="Cohort objectives"><div>Prepare</div><div>Assess</div><div>Deploy</div></div>
+        <p class="tr-copy">These objectives are addressed through a deeply relational process of considering the role elders occupy and the character necessary to fill it. Through reading, discussion, observation, practice, and mentoring, elder trainees embark on the slow journey to eldership.</p>
+        <p class="serif-p tr-close">As the term pathway implies, aspiring to eldership takes time and guidance. It is our goal to help men start their journey with <em>sobriety and patience.</em></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3c · MISSIONARY SENDING — dark band -->
+<section id="missionary-sending" class="tr-pathway tr-mission" data-theme="dim" aria-labelledby="tr-p3">
+  <div class="wrap">
+    <div class="tr-pw">
+      <div class="tr-side">
+        <div class="tr-num" aria-hidden="true">03</div>
+        <div class="eyebrow"><span class="dot"></span>Pathway</div>
+        <h2 id="tr-p3" class="display-s">Missionary Sending Pathway</h2>
+        <dl class="tr-meta">
+          <div><dt class="mono">For</dt><dd>Men, women, and families</dd></div>
+          <div><dt class="mono">Process</dt><dd>Assessment, coaching, and support</dd></div>
+          <div><dt class="mono">To</dt><dd>The ends of the earth</dd></div>
+        </dl>
+      </div>
+      <div>
+        <p class="tr-copy">Sending men, women, and families to the ends of the earth to advance God’s global mission has always been the passion of North Wake Church. We continue in this rich heritage of sending through leveraging decades of experience to send those who desire to go. Assessment, coaching, and support permeate our deployment process.</p>
+        <p class="tr-copy">We have learned that the best way to send well is to ensure that missionary candidates:</p>
+        <ol class="tr-values">
+          <li><div class="mono">01</div><div>Walk closely with Jesus</div></li>
+          <li><div class="mono">02</div><div>Love those close to them sacrificially</div></li>
+          <li><div class="mono">03</div><div>Passionately speak of Christ when they have the opportunity</div></li>
+        </ol>
+        <p class="tr-copy">All of these values rest on being known, which requires time, transparency, and training.</p>
+        <p class="serif-p tr-close">We are happy to send our best, to the best of our ability, for the good of the world and <em>glory of Christ.</em></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+</body>
+</html>
