@@ -1,0 +1,564 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import WarmBandHero from "../../components/WarmBandHero.astro";
+
+// Ministry Training page (/mission/training). Built from
+// brand/prototype/MINISTRY-TRAINING-SPEC.md + ministry-training.html. Copy is the
+// church's verified seed, kept AS CLOSE TO VERBATIM AS POSSIBLE (Todd, 2026-09-24).
+// Only five grammar slips fixed: "called into" → "called" (a "called to" would
+// double the "to" in "to which"), "it come" → "it comes", "9 months period" →
+// "9-month period", "Including;" → "Including:", "9 month elder" → "9-month
+// elder". The five questions and three missionary values are shown as lists — same
+// words (the values are that sentence's three clauses). SEBTS is left as written
+// and wrapped in <abbr> + an sr-only expansion. Design labels approved by Todd.
+// No next-step link: the copy names no contact/application route (open item).
+// Sections: 1) Breadcrumb, 2) Hero (Warm Band), 3) Approach + pathway strip,
+// 4) Personal (light), 5) Elder (warm band), 6) Missionary (dark band).
+//
+// Anchor IDs are STABLE — other pages may deep-link: #personal-ministry,
+// #elder-preparation, #missionary-sending. Dark band uses the site's inverse
+// tokens (the package's [data-theme="dim"] doesn't exist here).
+
+const strip = [
+  { id: "personal-ministry", n: "01", t: "Personal Ministry", s: "General · every follower of Jesus", arr: "→" },
+  { id: "elder-preparation", n: "02", t: "Elder Preparation", s: "Specific · ordained ministry", arr: "→" },
+  { id: "missionary-sending", n: "03", t: "Missionary Sending", s: "Specific · the ends of the earth", arr: "↓" },
+];
+
+const questions = [
+  "Who is God at the most essential level?",
+  "How do I shape my life to more closely follow Jesus daily?",
+  "What is the gospel?",
+  "How do I engage my neighbors with the gospel?",
+  "How does the church engage in discipleship?",
+];
+
+const values = [
+  "Walk closely with Jesus",
+  "Love those close to them sacrificially",
+  "Passionately speak of Christ when they have the opportunity",
+];
+---
+
+<Layout
+  title="Ministry Training · North Wake Church"
+  description="North Wake Church has multiple pathways for preparing others to make disciples wherever they are or wherever they might go."
+>
+  <!-- 1. Breadcrumb ("Mission" has no index page → non-clickable chip) -->
+  <Breadcrumb trail={[{ label: "Home", href: "/" }, { label: "Mission" }, { label: "Ministry Training" }]} />
+
+  <!-- 2. Hero — F · Warm Band (sentence-length headline → display-m, no CTAs) -->
+  <WarmBandHero
+    titleId="tr-title"
+    headlineSize="m"
+    eyebrow="Mission · Ministry training"
+    headlineLead="Training followers of Jesus to"
+    headlineAccent="minister to others."
+    lede="To that end North Wake Church has multiple pathways for preparing others to make disciples wherever they are or wherever they might go."
+    photoPlaceholder="Photo · Ministry training · mentorship"
+  />
+
+  <!-- 3. Approach + pathway strip -->
+  <section aria-labelledby="tr-approach-title">
+    <div class="wrap">
+      <div class="tr-approach">
+        <div>
+          <div class="eyebrow tr-eyebrow"><span class="dot"></span>Our approach</div>
+          <h2 id="tr-approach-title" class="tr-serif-h tr-approach-h2">From general <em>to specific.</em></h2>
+        </div>
+        <div class="tr-approach-body">
+          <p class="tr-serif-p tr-approach-lead">
+            Training followers of Jesus to minister to others is one of the greatest privileges and responsibilities that God has given the church.
+          </p>
+          <p class="body tr-approach-text">
+            Our approach is to move from general training in personal ministry to specific training in areas of vocational ministry.
+          </p>
+        </div>
+      </div>
+      <ol class="tr-strip" aria-label="Training pathways">
+        {
+          strip.map((p) => (
+            <li class="tr-strip-item">
+              <a class="tr-strip-link" href={`#${p.id}`}>
+                <div class="tr-strip-top">
+                  <span class="mono tr-strip-num">{p.n}</span>
+                  <span class="tr-strip-arr" aria-hidden="true">{p.arr}</span>
+                </div>
+                <h3 class="title tr-strip-h">{p.t}</h3>
+                <div class="body tr-strip-sub">{p.s}</div>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- 4. 01 · Personal Ministry Pathway -->
+  <section id="personal-ministry" class="tr-pathway tr-personal" aria-labelledby="tr-p1">
+    <div class="wrap">
+      <div class="tr-pw">
+        <div class="tr-side">
+          <div class="tr-num" aria-hidden="true">01</div>
+          <div class="eyebrow tr-side-eyebrow"><span class="dot"></span>Pathway</div>
+          <h2 id="tr-p1" class="display-s tr-side-h">Personal Ministry Pathway</h2>
+          <dl class="tr-meta">
+            <div><dt class="mono">Length</dt><dd>9 months</dd></div>
+            <div><dt class="mono">For</dt><dd>All followers of Jesus</dd></div>
+            <div>
+              <dt class="mono">Credit</dt>
+              <dd>Available for <abbr title="Southeastern Baptist Theological Seminary">SEBTS</abbr> students</dd>
+            </div>
+          </dl>
+        </div>
+        <div>
+          <p class="tr-copy">
+            Personal ministry is that to which all followers of Jesus have been called, making disciples for Jesus. Often we are not sure where to start when it comes to ministering to others, so over a 9-month period, we try to cover some of the basics. Including:
+          </p>
+          <ol class="tr-questions">
+            {
+              questions.map((q, i) => (
+                <li>
+                  <span class="mono tr-q-num" aria-hidden="true">0{i + 1}</span>
+                  <span class="tr-q">{q}</span>
+                </li>
+              ))
+            }
+          </ol>
+          <p class="tr-copy">
+            We seek to address these concerns through a mixture of guided readings, study of Scripture, mentorship, project work, and intentional writing. This internship style approach engages the mind, heart, and hands of those asking how they might become disciple makers for Jesus.
+          </p>
+          <div class="tr-badge">
+            <span class="mono tr-badge-label" aria-hidden="true">SEBTS</span>
+            <span class="body tr-badge-text">
+              It is available for credit for <abbr title="Southeastern Baptist Theological Seminary">SEBTS</abbr><span class="sr-only"> (Southeastern Baptist Theological Seminary)</span> students.
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 02 · Elder Preparation Pathway — warm band -->
+  <section id="elder-preparation" class="tr-pathway tr-elder" aria-labelledby="tr-p2">
+    <div class="wrap">
+      <div class="tr-pw">
+        <div class="tr-side">
+          <div class="tr-num" aria-hidden="true">02</div>
+          <div class="eyebrow tr-side-eyebrow"><span class="dot"></span>Pathway</div>
+          <h2 id="tr-p2" class="display-s tr-side-h">Elder Preparation Pathway</h2>
+          <dl class="tr-meta">
+            <div><dt class="mono">Length</dt><dd>9-month cohort</dd></div>
+            <div><dt class="mono">For</dt><dd>Men seeking ordained ministry</dd></div>
+            <div><dt class="mono">Toward</dt><dd>Church planting, pastoral ministry, or other ordained assignments</dd></div>
+          </dl>
+        </div>
+        <div>
+          <p class="tr-copy">
+            This pathway offers specific equipping for those seeking to serve the church through church planting, pastoral ministry, or other ministry assignments requiring ordination. This 9-month elder trainee cohort seeks to prepare, assess, and deploy men to advance Christ’s mission throughout underserved contexts of the United States.
+          </p>
+          <!-- The copy's own three verbs, echoed as a strip (aria-hidden: already read above). -->
+          <div class="tr-verbs" aria-hidden="true">
+            <div>Prepare</div>
+            <div>Assess</div>
+            <div>Deploy</div>
+          </div>
+          <p class="tr-copy">
+            These objectives are addressed through a deeply relational process of considering the role elders occupy and the character necessary to fill it. Through reading, discussion, observation, practice, and mentoring, elder trainees embark on the slow journey to eldership.
+          </p>
+          <p class="tr-serif-p tr-close">
+            As the term pathway implies, aspiring to eldership takes time and guidance. It is our goal to help men start their journey with <em>sobriety and patience.</em>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 03 · Missionary Sending Pathway — DARK band, inverse tokens -->
+  <section id="missionary-sending" class="tr-pathway tr-mission" aria-labelledby="tr-p3">
+    <div class="wrap">
+      <div class="tr-pw">
+        <div class="tr-side">
+          <div class="tr-num tr-num-inv" aria-hidden="true">03</div>
+          <div class="eyebrow tr-side-eyebrow tr-inv-eyebrow"><span class="dot"></span>Pathway</div>
+          <h2 id="tr-p3" class="display-s tr-side-h">Missionary Sending Pathway</h2>
+          <dl class="tr-meta tr-meta-inv">
+            <div><dt class="mono">For</dt><dd>Men, women, and families</dd></div>
+            <div><dt class="mono">Process</dt><dd>Assessment, coaching, and support</dd></div>
+            <div><dt class="mono">To</dt><dd>The ends of the earth</dd></div>
+          </dl>
+        </div>
+        <div>
+          <p class="tr-copy tr-copy-inv">
+            Sending men, women, and families to the ends of the earth to advance God’s global mission has always been the passion of North Wake Church. We continue in this rich heritage of sending through leveraging decades of experience to send those who desire to go. Assessment, coaching, and support permeate our deployment process.
+          </p>
+          <p class="tr-copy tr-copy-inv">
+            We have learned that the best way to send well is to ensure that missionary candidates:
+          </p>
+          <ol class="tr-values">
+            {
+              values.map((v, i) => (
+                <li>
+                  <div class="mono tr-v-num" aria-hidden="true">0{i + 1}</div>
+                  <div class="tr-v">{v}</div>
+                </li>
+              ))
+            }
+          </ol>
+          <p class="tr-copy tr-copy-inv">
+            All of these values rest on being known, which requires time, transparency, and training.
+          </p>
+          <p class="tr-serif-p tr-close tr-close-inv">
+            We are happy to send our best, to the best of our ability, for the good of the world and <em>glory of Christ.</em>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Page-scoped (no global .sr-only exists; kept local to avoid a global.css change). */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  abbr[title] {
+    text-decoration: underline dotted;
+    text-underline-offset: 3px;
+    cursor: help;
+  }
+  .tr-eyebrow {
+    margin-bottom: 18px;
+  }
+  /* Serif helpers — same recipe as women.astro / lily-moms.astro. Third use: promote
+     all three to a shared global class in their own (global.css) gate. */
+  .tr-serif-h {
+    font-family: var(--serif);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.04;
+  }
+  .tr-serif-p {
+    font-family: var(--serif);
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .tr-serif-h em,
+  .tr-serif-p em {
+    color: var(--accent);
+  }
+
+  /* 3 · Approach + strip */
+  .tr-approach {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    gap: 72px;
+    align-items: start;
+    margin-bottom: 56px;
+  }
+  .tr-approach-h2 {
+    font-size: clamp(40px, 5vw, 72px);
+    max-width: 11ch;
+  }
+  .tr-approach-body {
+    border-top: 2px solid var(--ink);
+    padding-top: 28px;
+  }
+  .tr-approach-lead {
+    margin: 0 0 22px;
+    max-width: 42ch;
+  }
+  .tr-approach-text {
+    margin: 0;
+    font-size: 19px;
+    max-width: 52ch;
+  }
+  .tr-strip {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  /* Cell 1 on --bg, 2–3 on --bg-2: previews the general → specific steps. */
+  .tr-strip-item {
+    background: var(--bg-2);
+  }
+  .tr-strip-item:first-child {
+    background: var(--bg);
+  }
+  .tr-strip-link {
+    display: block;
+    height: 100%;
+    padding: 28px 28px 30px;
+  }
+  .tr-strip-link:hover .tr-strip-h {
+    color: var(--accent);
+  }
+  .tr-strip-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+    color: var(--accent);
+  }
+  .tr-strip-num {
+    color: inherit;
+  }
+  .tr-strip-arr {
+    display: inline-block;
+  }
+  .tr-strip-h {
+    margin-bottom: 6px;
+    transition: color 160ms ease;
+  }
+  .tr-strip-sub {
+    color: var(--ink-3);
+  }
+
+  /* 4–6 · Pathway sections — shared layout. scroll-margin clears the sticky nav
+     (18px×2 padding + ~44px row ≈ 80px) when a strip link jumps here. */
+  .tr-pathway {
+    scroll-margin-top: 80px;
+  }
+  .tr-pw {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+    gap: 72px;
+    align-items: start;
+  }
+  /* Sticky sidebar (desktop only — see ≤880). top:120 = nav (~80) + breathing room. */
+  .tr-side {
+    position: sticky;
+    top: 120px;
+  }
+  .tr-num {
+    font-size: clamp(56px, 6vw, 88px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+  .tr-side-eyebrow {
+    margin-bottom: 14px;
+  }
+  .tr-side-h {
+    max-width: 12ch;
+  }
+  .tr-meta {
+    margin: 28px 0 0;
+    border-top: 1px solid var(--line-strong);
+  }
+  .tr-meta > div {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .tr-meta dd {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .tr-copy {
+    margin: 0 0 22px;
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    max-width: 62ch;
+  }
+  .tr-close {
+    margin: 10px 0 0;
+    max-width: 42ch;
+  }
+
+  /* 4 · Personal — light; hairline + 72px separates it from the approach block. */
+  .tr-personal {
+    padding-top: 0;
+  }
+  .tr-personal .tr-pw {
+    border-top: 1px solid var(--line-strong);
+    padding-top: 72px;
+  }
+  .tr-questions {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px;
+    border-top: 1px solid var(--line-strong);
+  }
+  .tr-questions li {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .tr-q-num {
+    color: var(--accent);
+  }
+  .tr-q {
+    font-family: var(--serif);
+    font-size: clamp(19px, 1.8vw, 23px);
+    line-height: 1.35;
+    color: var(--ink);
+  }
+  .tr-badge {
+    display: inline-flex;
+    gap: 12px;
+    align-items: baseline;
+    border: 1px solid var(--line-strong);
+    padding: 14px 18px;
+  }
+  .tr-badge-label,
+  .tr-badge-text {
+    color: var(--ink);
+  }
+  .tr-badge-text {
+    font-size: 17px;
+  }
+
+  /* 5 · Elder — warm band */
+  .tr-elder {
+    background: var(--bg-2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .tr-verbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin: 8px 0 30px;
+  }
+  .tr-verbs div {
+    flex: 1 1 0;
+    min-width: 120px;
+    background: var(--bg);
+    padding: 20px 22px;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+  }
+
+  /* 6 · Missionary — DARK band, inverse semantic tokens only (accent TEXT on dark
+     must be --accent-on-inverse; clay-600 fails at 2.69:1). */
+  .tr-mission {
+    background: var(--bg-inverse);
+    color: var(--ink-on-inverse);
+  }
+  .tr-num-inv,
+  .tr-mission .tr-close em,
+  .tr-v-num {
+    color: var(--accent-on-inverse);
+  }
+  .tr-inv-eyebrow {
+    color: var(--ink-on-inverse-2);
+  }
+  .tr-inv-eyebrow .dot {
+    background: var(--accent-on-inverse);
+  }
+  .tr-meta-inv {
+    border-top-color: var(--line-on-inverse-strong);
+  }
+  .tr-meta-inv > div {
+    border-bottom-color: var(--line-on-inverse);
+  }
+  .tr-meta-inv dt {
+    color: var(--ink-on-inverse-2);
+  }
+  .tr-copy-inv {
+    color: var(--ink-on-inverse-2);
+  }
+  .tr-close-inv {
+    color: var(--ink-on-inverse);
+  }
+  .tr-values {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line-on-inverse);
+    border: 1px solid var(--line-on-inverse);
+  }
+  /* Slightly lifted charcoal — same token recipe as .ph-dark in global.css. */
+  .tr-values li {
+    background: color-mix(in srgb, var(--ink-on-inverse) 6%, var(--bg-inverse));
+    padding: 22px 22px 24px;
+  }
+  .tr-v-num {
+    margin-bottom: 10px;
+  }
+  .tr-v {
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  /* Responsive — breakpoints per MINISTRY-TRAINING-SPEC.md §7 */
+  @media (max-width: 880px) {
+    .tr-approach,
+    .tr-pw {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .tr-side {
+      position: static; /* sticky off when stacked — it would cover the copy */
+    }
+    .tr-strip {
+      grid-template-columns: 1fr;
+    }
+    .tr-strip-arr {
+      transform: rotate(90deg); /* vertical flow */
+    }
+  }
+  @media (max-width: 720px) {
+    .tr-personal .tr-pw {
+      padding-top: 56px;
+    }
+    .tr-values {
+      grid-template-columns: 1fr;
+    }
+    /* Don't undercut the site's mobile type scale (global.css §j: .body → 18px). */
+    .tr-meta dd,
+    .tr-badge-text {
+      font-size: 18px;
+    }
+  }
+  @media (max-width: 560px) {
+    .tr-badge {
+      flex-direction: column;
+      gap: 6px;
+    }
+    .tr-verbs div {
+      flex: 1 1 100%;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tr-strip-h {
+      transition: none;
+    }
+  }
+</style>
