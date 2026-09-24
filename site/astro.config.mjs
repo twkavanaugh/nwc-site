@@ -20,6 +20,9 @@ export default defineConfig({
   // canonical) — no JS. /womensministry is on the Women's Ministry postcard.
   redirects: {
     '/womensministry': '/community/women',
+    // Old-site giving URL — HOPE Counseling's Donate button (thehopecounselingcenter.org/donate)
+    // links here. Keep in sync with BUSINESS.givingUrl in src/data/business.ts.
+    '/give': 'https://onrealm.org/NorthWake/-/form/give/now',
   },
   markdown: {
     remarkPlugins: [remarkYoutube],

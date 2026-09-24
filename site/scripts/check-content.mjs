@@ -1,12 +1,13 @@
 // Pre-build guard (runs automatically as `prebuild` before `npm run build`, locally
 // and on Render). A failure here FAILS THE BUILD, so Render never deploys it — the
-// live site keeps the last good version. Two checks:
+// live site keeps the last good version. Three checks:
 //
 // 1. UPLOAD SIZE — Pages CMS has no upload size limit, so staff could commit a huge
 //    scanned PDF or photo. Any file over MAX_MB in the CMS upload folders fails.
 // 2. CATEGORY SYNC — categories are developer-only: each one is a YAML file in
 //    src/content/categories/ AND an entry in EVERY pick-list in ../.pages.yml (each
 //    between CATEGORIES-START/END markers). If they disagree, staff see a stale list.
+// 3. GIVING-URL SYNC — the /give redirect must match BUSINESS.givingUrl.
 //
 // No dependencies (plain Node) so it runs anywhere the build runs.
 
@@ -59,6 +60,15 @@ if (!existsSync(cmsPath)) {
     if (missing.length) errors.push(`Categories missing from ${where}: ${missing.join(", ")}`);
     if (extra.length) errors.push(`${where} lists categories with no file in ${catDir}/: ${extra.join(", ")}`);
   });
+}
+
+// --- 3. Giving-URL sync — the /give redirect in astro.config.mjs must point at
+//        BUSINESS.givingUrl (business.ts is the SSOT; the config can't import it).
+{
+  const biz = readFileSync("src/data/business.ts", "utf8").match(/givingUrl:\s*'([^']+)'/);
+  const cfg = readFileSync("astro.config.mjs", "utf8").match(/'\/give':\s*'([^']+)'/);
+  if (biz && cfg && biz[1] !== cfg[1])
+    errors.push(`astro.config.mjs /give redirect (${cfg[1]}) doesn't match BUSINESS.givingUrl (${biz[1]}).`);
 }
 
 if (errors.length) {
