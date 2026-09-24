@@ -13,6 +13,9 @@ package**, and **shot list v2**.
 > written down, and they need to be recovered from Todd before the church-facing work
 > continues.
 
+> **🟢 2026-09-23 UPDATE — `/visit` SHIPPED.** See **★ COME VISIT — SHIPPED (2026-09-23)**
+> below. Read that section first; the rest of this doc is as of 09-13 except where marked.
+
 ---
 
 ## TL;DR — where things stand
@@ -138,6 +141,7 @@ transfer the GitHub repo to a church org; reassign Render (swap account email, r
 | `/help/feed` | ✅ COMPLETE |
 | `/community/mature-adults` | ✅ COMPLETE |
 | `/sermons` | ✅ COMPLETE — BranchCast embed + podcast links |
+| `/visit` | ✅ **COMPLETE (2026-09-23)** — Warm Band hero, facts strip, flow of a Sunday, FAQ, find us. Every "Plan a Visit" CTA now resolves (was a 404) |
 | `/events` | ✅ COMPLETE — date-filtered, sorted index |
 | `/events/[slug]` | ✅ COMPLETE — continuous-column detail (5 entries; `family-table` is CMS-created) |
 | `/resources` | ✅ **COMPLETE (NEW)** — merged catalog, zero-JS `:target` category filter |
@@ -153,6 +157,33 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
 `/sermons`, `/blog` (+`[slug]`, dimmed), `/resources` (+`[slug]`, labeled "Other Resources").
 
 ---
+
+## ★ COME VISIT — SHIPPED (2026-09-23, 2 gates)
+Commits: `1792fe8` (design package → `brand/prototype/COME-VISIT-SPEC.md` + `come-visit.html`;
+also committed `CLAUDE.md` + this doc) → `f773172` (Gate 1: `WarmBandHero.astro` + hero) →
+`df57050` (Gate 2: rest of page + `mapsUrl`). Pushed/deployed 2026-09-23.
+- **`WarmBandHero.astro` is now BUILT** (was queued since 07-12). Props: eyebrow,
+  headlineLead/Accent, lede, photo, primary/ghost CTA — a CTA with no `href` renders an inert
+  `<button>`. First consumer `/visit`; Mission/Help pages can adopt it next.
+- **Page-scoped by design:** facts strip, FAQ accordion, find-us split live in
+  `visit.astro` only (prove-twice-then-extract). Zero changes to global.css/Nav/Footer/other
+  pages — Todd's explicit constraint. `.sr-only` is page-scoped (no global exists).
+- **Facts from `business.ts`:** service times, address, and the 10:45 "students" time.
+  **`mapsUrl` is now filled** (Google Maps search URL built from the address; no API).
+- **Content corrections (Todd, 2026-09-23)** — Claude Design mistranslated the source copy:
+  removed the "Stay / Next Step lunch" step (not a real program → flow is 3 steps, 3-up);
+  removed orange-vest greeters; removed the communion line (schedule varies); removed service
+  length everywhere (facts cell, Worship step, FAQ item → 5 FAQs). Added **Students
+  (6th–12th) meet during the second service (10:45)** — facts strip + kids FAQ answer.
+- **Inert:** both "Tell us you're coming" CTAs — will likely go to a hosted form (TBD). Wire
+  by adding `href` to the hero prop + the Find-us button.
+- **Map slot = `.ph` placeholder.** Todd wants a **Google Maps embed** eventually → that is a
+  **third third-party exception** and needs a written decision (non-negotiable #1) first.
+- **Photos:** hero reuses `welcome-STOCK-PLACEHOLDER.jpg` (same as homepage band); 3 step
+  photos + map are labeled `.ph`. Shot descriptions: `COME-VISIT-SPEC.md` §9 (add to shot list).
+- **FAQ "link below"** for livestream → a **Sermons →** ghost button to `/sermons`.
+- **Dev-server staleness bit again:** after an edit, the dev server kept serving old scoped
+  CSS (4-col flow) until restarted. Production build was correct. Same lesson as before.
 
 ## ★ RESOURCES / POSTS / CATEGORIES — SHIPPED (2026-07-07, 4 gates)
 Commits: `4c065b5` (Gate 1 collections) → `a42b9a7` (seed content) → `979d5b4` (YouTube
@@ -349,7 +380,7 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
 - **`/familytable` legacy redirect** — decision logged; implement in hardening.
 - **Watercolor 1.2MB PNG** (`wake-forest-bcg.png`) — compress/WebP.
 - **tel:/mailto:** on footer + verified contacts (after verification).
-- **Inert buttons / unwired placeholders** — "Plan a visit"/`/visit` (unbuilt), various
+- **Inert buttons / unwired placeholders** — `/visit` "Tell us you're coming" (form TBD), various
   ministry emails (several inert unverified, incl. personal Gmails), photo-release form,
   mega-menu rail copy, the two PDF resources + the marriage guide attachment.
 - **Brand mark** — CSS placeholder; swap for real logo; de-dupe Nav/Footer.
@@ -365,6 +396,13 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
 - **`/events` eyebrow + h1 redundancy** ("Events" / "Events.") — Todd aware; low priority.
 
 ## UNVERIFIED CONTENT — confirm with church (the real launch gate)
+- **★ `/visit` (2026-09-23):** copy is church-approved, but Claude Design mistranslated some of
+  it (see ★ COME VISIT). Still unconfirmed: Welcome Wall / coffee / campus maps; kids check-in
+  "opens 30 minutes early"; "every Sunday is livestreamed and archived"; reserved first-time
+  guest parking; "15 minutes north of Raleigh, just off Capital Blvd"; songs "modern and
+  traditional". `/community/students` says "Sunday AM" but not the 10:45 service — align.
+- **★ CMS "New Event Test"** (`c538f33`, 2026-09-22, lorem ipsum, expired 09-22) is in the
+  repo — delete after the CMS test is recorded ("deal with events after" — Todd).
 > As of 07-05 + what the code shows. See ★ CONTEXT GAP — some of this may have moved in July.
 - **★ CMS test employee** + **content-verification meeting** — status unknown (see gap).
 - **Category taxonomy** — all six labels PROVISIONAL; each YAML carries an UNVERIFIED comment.
@@ -384,7 +422,7 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
 ## NEXT TASKS (as of resumption)
 0. **Recover the context gap** (above) — especially the July 7 pastor-meeting outcomes.
 1. **Push the two local docs/brand commits** (`1e2dc9b`, `40062f9`) — no deploy impact.
-2. **Build `WarmBandHero.astro`** per `HERO-WARM-BAND.md` §10, then apply to a Mission or
+2. ~~Build `WarmBandHero.astro`~~ **DONE 2026-09-23 (on `/visit`)** — next: apply to a Mission or
    Help page. The design package has been sitting committed and unbuilt since 07-12; it is
    the clearest queued build.
 3. **Pages CMS employee vertical-slice test** (still unrecorded) — dated event w/ poster,
@@ -414,6 +452,7 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
 mission redesign → Newsreader → who-is-jesus → Breadcrumb → kids → feed → hairline-grid →
 mature → watercolor home hero → mega-menu → siteSettings → serif-on-image → hero pilot +
 shot list + type standards → **events build (4 gates)** → `e8643c7` a11y → state 07-04]
+**[2026-09-23]** `1792fe8` Come Visit package + CLAUDE.md → `f773172` WarmBandHero + hero → `df57050` /visit complete.
 **[2026-07-05]** mobile nav (`47d11e9`/`6533063`) → `5b34285` eyebrow fix → `7402b1b`
 /sermons (+`705e551`) → `fd27f93` Pages CMS config → Family Table via CMS (smoke test) →
 `3ee46c5` event-label softening → `75f1974`/`69548c5` placeholder photos → state 07-05 +
