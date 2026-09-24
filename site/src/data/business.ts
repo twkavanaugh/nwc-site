@@ -27,5 +27,5 @@ export const BUSINESS: Business = {
   url: 'https://northwake.com', // CONFIRM later — placeholder canonical
   serviceTimes: ['9:00 AM', '10:45 AM'], // CONFIRMED with church 2026-06-28 (was 9 & 11 on homepage — 11 was an error)
   givingUrl: 'https://onrealm.org/NorthWake/-/form/give/now',
-  mapsUrl: '', // TODO: add real directions URL once street address is church-verified
+  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=1212+S+Main+St+Wake+Forest+NC', // built from the address above; no Maps API needed
 };

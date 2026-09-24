@@ -2,18 +2,80 @@
 import Layout from "../layouts/Layout.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
 import WarmBandHero from "../components/WarmBandHero.astro";
+import { BUSINESS } from "../data/business";
 
 // Come Visit page (/visit). Built from brand/prototype/COME-VISIT-SPEC.md +
-// come-visit.html. Copy is church-approved and kept verbatim.
-// Gate 1 of 2: hero only. Gate 2 adds facts strip, flow, FAQ, find us.
+// come-visit.html. Copy is church-approved and kept verbatim; church FACTS
+// (service times, address, maps link) come from business.ts.
+// Sections: 1) Breadcrumb, 2) Hero, 3) Facts strip, 4) Flow of a Sunday,
+// 5) FAQ, 6) Find us.
+//
+// Facts strip / FAQ / Find us are page-scoped for now (prove-twice-then-extract);
+// promote to components when a second page needs them.
+
+// "9:00 AM", "10:45 AM" → "9:00 & 10:45 AM" (shared meridiem collapsed).
+const times = BUSINESS.serviceTimes;
+const meridiems = new Set(times.map((t) => t.split(" ")[1]));
+const serviceTimesLabel =
+  meridiems.size === 1
+    ? `${times.map((t) => t.split(" ")[0]).join(" & ")} ${[...meridiems][0]}`
+    : times.join(" & ");
+const lateService = times[times.length - 1]; // students meet during this one
+const street = BUSINESS.streetAddress;
+const cityState = `${BUSINESS.city}, ${BUSINESS.state}`;
+
+const facts = [
+  { l: "Service times", v: serviceTimesLabel },
+  { l: "Address", v: `${street} · ${cityState}` },
+  { l: "Kids", v: "Birth – 5th grade" },
+  { l: "Students", v: `6th – 12th grade · ${lateService}` },
+];
+
+// Photo slots are labeled .ph placeholders pending real photography
+// (docs/PHOTOGRAPHER-SHOT-LIST.md; shot descriptions in COME-VISIT-SPEC.md §9).
+// The package's 04 · Stay step ("Next Step" lunch) was REMOVED 2026-09-23 —
+// Todd flagged it as not a real program. Three steps, three columns.
+// Also 2026-09-23 (Todd): orange-vest greeters removed (not real); communion
+// line removed (schedule varies); students-meet-second-service added to FAQ;
+// service length removed everywhere (facts cell, Worship step, FAQ item).
+const steps = [
+  {
+    k: "Arrive",
+    b: `Pull into our main lot off S Main St. Plenty of free parking, with reserved spots up front for first-time guests.`,
+  },
+  {
+    k: "Welcome",
+    b: "Stop by the Welcome Wall in the lobby. Grab a coffee, get a campus map, and meet someone who can answer questions or walk you to Kids check-in.",
+  },
+  {
+    k: "Worship",
+    b: "Each service includes songs (modern and traditional), Scripture reading, prayer, and a sermon.",
+  },
+];
+
+// Two independent stacks so opening one answer never shifts the other column.
+// Split row-by-row so desktop reading order matches the prototype.
+const faqCols = [
+  [
+    { q: "What should I wear?", a: "Whatever you'd wear to dinner with friends. Most people land somewhere between jeans-and-a-shirt and business casual." },
+    { q: "What about my kids?", a: `We have safe, joyful programming for birth through 5th grade in both services. Check-in opens 30 minutes early — we'll walk you there. Students (6th–12th grade) meet during the ${lateService} service.` },
+    { q: "Is there parking?", a: "Yes — free, with reserved guest spots near the main entrance." },
+  ],
+  [
+    { q: "Will I be singled out?", a: "Nope. We don't ask first-time guests to stand up, raise hands, or wear anything that marks them out." },
+    { q: "Can I just watch online first?", a: "Absolutely. Every Sunday is livestreamed and archived — link below." },
+  ],
+];
 ---
 
 <Layout
   title="Come Visit · North Wake Church"
-  description="Your first Sunday at North Wake Church, start to finish — what to expect from the parking lot to the closing prayer."
+  description={`Your first Sunday at North Wake Church, start to finish. Services at ${serviceTimesLabel} at ${street}, ${cityState}.`}
 >
+  <!-- 1. Breadcrumb -->
   <Breadcrumb trail={[{ label: "Home", href: "/" }, { label: "Come Visit" }]} />
 
+  <!-- 2. Hero — F · Warm Band -->
   <WarmBandHero
     titleId="cv-title"
     eyebrow="Come visit"
@@ -29,8 +91,330 @@ import WarmBandHero from "../components/WarmBandHero.astro";
     }}
     primary={{
       // Inert until the church's form exists (likely a hosted form) — add `href`
-      // to wire it. Same destination as the Find us ghost button.
+      // to wire it. Same destination as the Find us ghost button below.
       label: "Tell us you're coming",
     }}
   />
+
+  <!-- 3. Facts strip — hairline grid (gap:1px over --line) -->
+  <section class="cv-facts-sec" aria-label="Visit at a glance">
+    <div class="wrap">
+      <dl class="cv-facts">
+        {
+          facts.map((f) => (
+            <div class="cv-fact">
+              <dt class="mono">{f.l}</dt>
+              <dd>{f.v}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <!-- 4. The flow of a Sunday -->
+  <section aria-labelledby="cv-flow-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow cv-eyebrow"><span class="dot"></span>What to expect</div>
+          <h2 id="cv-flow-title" class="display-m cv-flow-h2">The flow of a Sunday.</h2>
+        </div>
+        <p class="body right">
+          Same rhythm every week, no surprises. Whether it's your first time or your hundredth, here's what your morning looks like.
+        </p>
+      </div>
+      <ol class="cv-flow">
+        {
+          steps.map((s, i) => (
+            <li class="cv-step">
+              <div class="ph cv-step-ph"><span class="ph-label">Photo · {s.k}</span></div>
+              <div class="cv-step-head">
+                <span class="mono cv-step-num">0{i + 1}</span>
+                <h3>{s.k}</h3>
+              </div>
+              <p class="body">{s.b}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- 5. FAQ — native <details> accordion -->
+  <section class="cv-faq-sec" aria-labelledby="cv-faq-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow cv-eyebrow"><span class="dot"></span>Common questions</div>
+          <h2 id="cv-faq-title" class="display-m">FAQ.</h2>
+        </div>
+      </div>
+      <div class="cv-faq">
+        {
+          faqCols.map((col) => (
+            <div class="cv-faq-col">
+              {col.map((f) => (
+                <details>
+                  <summary>
+                    {f.q}
+                    <span class="cv-faq-icon" aria-hidden="true">+</span>
+                  </summary>
+                  <p class="body">{f.a}</p>
+                </details>
+              ))}
+            </div>
+          ))
+        }
+      </div>
+      <!-- The "link below" the livestream answer points to (decided 2026-09-23). -->
+      <div class="cv-faq-after">
+        <a class="btn btn-ghost" href="/sermons">Sermons <span class="arr" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Find us — map slot + address -->
+  <section id="find-us" aria-labelledby="cv-find-title">
+    <div class="wrap">
+      <div class="cv-find">
+        <!-- MAP PLACEHOLDER — slot reserved for a Google Maps embed. An embed is a
+             third-party script/iframe: it needs a written decision before it lands
+             (CLAUDE.md non-negotiable #1). -->
+        <div class="ph cv-map"><span class="ph-label">Map · Wake Forest campus</span></div>
+        <div class="cv-find-text">
+          <div class="eyebrow cv-eyebrow"><span class="dot"></span>Find us</div>
+          <h2 id="cv-find-title" class="display-m">{street}<br />{cityState}</h2>
+          <p class="lede cv-find-lede">
+            15 minutes north of Raleigh, just off Capital Blvd. Free parking on site, with first-time guest spots near the main entrance.
+          </p>
+          <div class="cv-find-actions">
+            <a class="btn btn-primary" href={BUSINESS.mapsUrl} target="_blank" rel="noopener">
+              Open in Maps <span class="arr" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span>
+            </a>
+            {/* Inert until the church's form exists — same destination as the hero CTA. */}
+            <button type="button" class="btn btn-ghost">Tell us you're coming</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  /* Page-scoped (no global .sr-only exists; kept local to avoid a global.css change). */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .cv-eyebrow {
+    margin-bottom: 18px;
+  }
+
+  /* 3 · Facts strip */
+  .cv-facts-sec {
+    padding: 72px 0 0;
+  }
+  .cv-facts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    margin: 0;
+    background: var(--line);
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .cv-fact {
+    background: var(--bg);
+    padding: 32px 28px;
+  }
+  .cv-fact dt {
+    margin-bottom: 10px;
+  }
+  .cv-fact dd {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    line-height: 1.3;
+  }
+
+  /* 4 · Flow */
+  .cv-flow-h2 {
+    max-width: 14ch;
+  }
+  .cv-flow {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .cv-step {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .cv-step-ph {
+    aspect-ratio: 4 / 5;
+  }
+  .cv-step-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-top: 6px;
+  }
+  .cv-step-num {
+    color: var(--accent);
+  }
+  .cv-step h3 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+  }
+  .cv-step .body {
+    margin: 0;
+  }
+
+  /* 5 · FAQ */
+  .cv-faq-sec {
+    background: var(--bg-2);
+  }
+  .cv-faq {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 80px;
+    align-items: start;
+  }
+  .cv-faq-col {
+    border-top: 1px solid var(--line-strong);
+  }
+  .cv-faq details {
+    border-bottom: 1px solid var(--line);
+  }
+  .cv-faq summary {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 26px 0;
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    cursor: pointer;
+  }
+  .cv-faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .cv-faq-icon {
+    flex: none;
+    color: var(--accent);
+    font-size: 22px;
+    line-height: 1;
+    transition: transform 200ms ease;
+  }
+  .cv-faq details[open] .cv-faq-icon {
+    transform: rotate(45deg);
+  }
+  .cv-faq details p {
+    margin: 0;
+    padding: 0 0 26px;
+    max-width: 44ch;
+  }
+  .cv-faq-after {
+    margin-top: 40px;
+  }
+
+  /* 6 · Find us */
+  .cv-find {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: center;
+  }
+  .cv-map {
+    aspect-ratio: 4 / 3;
+  }
+  .cv-find-lede {
+    margin-top: 24px;
+  }
+  .cv-find-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+  }
+
+  /* Responsive — breakpoints per COME-VISIT-SPEC.md §7 */
+  @media (max-width: 1080px) {
+    .cv-facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 880px) {
+    .cv-faq {
+      grid-template-columns: 1fr;
+    }
+    .cv-faq-col + .cv-faq-col {
+      border-top: 0; /* keeps the stacked dividers continuous */
+    }
+    .cv-find {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .cv-find-text {
+      order: -1; /* address + buttons before the map */
+    }
+  }
+  /* Three steps stay 3-up down to 720 (a 2-col grid would orphan the third). */
+  @media (max-width: 720px) {
+    .cv-flow {
+      grid-template-columns: 1fr;
+      gap: 44px;
+    }
+    .cv-step-ph {
+      aspect-ratio: 3 / 2; /* keeps stacked steps from running tall on phones */
+    }
+  }
+  @media (max-width: 560px) {
+    .cv-facts {
+      grid-template-columns: 1fr;
+    }
+    .cv-fact {
+      padding: 22px 4px;
+      display: grid;
+      grid-template-columns: 120px minmax(0, 1fr);
+      gap: 16px;
+      align-items: baseline;
+    }
+    .cv-fact dt {
+      margin: 0;
+    }
+    .cv-fact dd {
+      font-size: 18px;
+    }
+    .cv-faq summary {
+      font-size: 18px;
+      padding: 22px 0;
+    }
+    .cv-find-actions .btn {
+      flex: 1 1 100%;
+      justify-content: center;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cv-faq-icon {
+      transition: none;
+    }
+  }
+</style>
