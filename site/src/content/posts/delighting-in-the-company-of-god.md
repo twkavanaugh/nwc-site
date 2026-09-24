@@ -1,9 +1,12 @@
 ---
-title: "Delighting in the Company of God"
-description: "A six-week training experience led by Larry Trotter on sustaining, deepening, and ceaseless practices for enjoying the company of God — with a rich library of recommended resources."
-categories: [discipleship]
+title: Delighting in the Company of God (test)
+description: A six-week training experience led by Larry Trotter on sustaining,
+  deepening, and ceaseless practices for enjoying the company of God — with a
+  rich library of recommended resources. (test)
+categories:
+  - discipleship
+draft: false
 ---
-
 A six-week training experience in the practices that help us enjoy the company of
 God — grouped into three movements, each paired with a discussion week:
 
@@ -14,9 +17,5 @@ God — grouped into three movements, each paired with a discussion week:
 5. **Session 5 — Ceaseless practices**
 6. **Session 6 — Ceaseless practices (discussion)**
 
-## TODO — full content migration pending
+### test heading
 
-Full session content and the recommended-resources library migrate from the old site.
-
-<!-- The old page's "LarryT@" contact email and all external resource links await
-     verification / migration before they go live. -->
