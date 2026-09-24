@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LILY Moms · North Wake Church</title>
+<meta name="description" content="LILY Moms—Life in the Little Years—is a welcoming community for moms with children from pregnancy through kindergarten at North Wake Church.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+/* ============ SITE TOKENS (existing — no new colors) ============ */
+:root{--bg:#f6f3ed;--bg-2:#ece7dc;--bg-3:#e3ddce;--ink:#1a1814;--ink-2:#3a352c;--ink-3:#6e665a;--ink-4:#a89f8e;--line:rgba(26,24,20,0.12);--line-strong:rgba(26,24,20,0.22);--accent:#8a4d2e;--accent-ink:#ffffff;--sans:"Inter Tight",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;--display:"Inter Tight",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;--serif:"Newsreader",Georgia,"Times New Roman",serif}
+[data-theme="dim"]{--bg:#1a1814;--bg-2:#221f1a;--bg-3:#2a2620;--ink:#f4efe5;--ink-2:#d8d2c4;--ink-3:#9c9484;--ink-4:#6e665a;--line:rgba(244,239,229,0.12);--line-strong:rgba(244,239,229,0.22);--accent:#d49271}
+
+/* ============ BASE + SHARED PRIMITIVES (mirror of styles.css) ============ */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-feature-settings:"ss01","cv11";letter-spacing:-0.005em;line-height:1.5}
+h1,h2,h3,p,ol,dl,dd{margin:0}
+ol{list-style:none;padding:0}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1320px;margin:0 auto;padding:0 40px}
+section{padding:96px 0}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3)}
+.eyebrow .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:10px;transform:translateY(-2px)}
+.display-l{font-family:var(--display);font-size:clamp(44px,6.4vw,104px);font-weight:600;letter-spacing:-0.03em;line-height:0.98}
+.title{font-size:22px;font-weight:600;letter-spacing:-0.012em}
+.lede{font-size:clamp(18px,1.6vw,22px);line-height:1.5;color:var(--ink-2);font-weight:400;letter-spacing:-0.005em;max-width:56ch}
+.body{font-size:16px;line-height:1.6;color:var(--ink-2)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-3)}
+.btn{display:inline-flex;white-space:nowrap;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;font-size:14px;font-weight:500;letter-spacing:-0.005em;border:1px solid transparent;transition:background 160ms ease,color 160ms ease,border-color 160ms ease,transform 160ms ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--ink);color:var(--bg)}
+.btn-primary:hover{background:var(--accent)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+.btn-ghost:hover{border-color:var(--ink)}
+.btn .arr{transition:transform 200ms ease}
+.btn:hover .arr{transform:translateX(3px)}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px;gap:40px}
+.section-head .right{max-width:36ch}
+.ph{background:repeating-linear-gradient(135deg,var(--bg-3) 0 18px,color-mix(in srgb,var(--bg-3) 88%,var(--ink) 4%) 18px 36px);display:flex;align-items:center;justify-content:center}
+.ph .ph-label{font-family:var(--mono);font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-3);background:var(--bg);padding:5px 10px;border:1px solid var(--line)}
+.serif-h{font-family:var(--serif);font-weight:400;letter-spacing:-0.02em;line-height:1.04}
+.serif-h em{color:var(--accent)}
+.text-link{color:var(--accent);border-bottom:1px solid currentColor}
+.text-link:hover{color:var(--ink)}
+
+/* ============ LILY MOMS PAGE ============ */
+/* 0 · Breadcrumb (Community group) */
+.crumbs{padding:32px 0 0}
+.crumbs ol{display:flex;flex-wrap:wrap;gap:10px}
+.crumbs li{display:flex;gap:10px}
+.crumbs li + li::before{content:"/";color:var(--ink-4)}
+.crumbs a:hover{color:var(--ink)}
+.crumbs [aria-current]{color:var(--accent)}
+
+/* 1 · Hero — Community split + ministry logo */
+.lily-hero{padding:56px 0 0}
+.lily-hero-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:64px;align-items:end}
+.lily-logo{width:112px;height:auto;margin-bottom:32px}
+.lily-hero .eyebrow{margin-bottom:28px}
+.lily-hero h1{max-width:14ch}
+.lily-hero h1 span{color:var(--accent)}
+.lily-hero .lede{margin-top:28px}
+.lily-actions{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+.lily-hero-photo{aspect-ratio:4/5}
+
+/* 2 · Heartbeat — warm band (separation from hero) */
+.lily-heart-sec{margin-top:72px;background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.lily-heart{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:72px;align-items:start}
+.lily-heart .eyebrow{margin-bottom:18px}
+.lily-heart h2{font-size:clamp(40px,5vw,76px);max-width:10ch}
+.lily-heart-body{border-top:2px solid var(--ink);padding-top:28px}
+.lily-heart-lead{font-family:var(--serif);font-size:clamp(22px,2.2vw,30px);line-height:1.4;letter-spacing:-0.01em;color:var(--ink);margin-bottom:24px;max-width:40ch}
+.lily-heart-body .body{font-size:19px;max-width:54ch}
+
+/* 3 · Facts */
+.lily-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong)}
+.lily-fact{background:var(--bg);padding:28px 24px}
+.lily-fact dt{margin-bottom:10px}
+.lily-fact dd{font-size:19px;font-weight:500;letter-spacing:-0.012em;line-height:1.35}
+
+/* 4 · A LILY morning — dark lily photo */
+.lily-morning-sec{position:relative;background:url('assets/lily-flowers-dark.jpg') center 45%/cover no-repeat,var(--ink);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+/* PHOTO SCRIM — explicit literal exception: rgba of --ink (#1a1814) */
+.lily-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,24,20,0.74) 0%,rgba(26,24,20,0.46) 42%,rgba(26,24,20,0.30) 100%)}
+.lily-morning-sec .wrap{position:relative}
+.lily-morning-head{color:var(--ink)}
+.lily-morning-head .eyebrow{margin-bottom:20px;color:var(--ink-2)}
+.lily-morning-head h2{font-size:clamp(48px,6.4vw,96px);line-height:1.02;max-width:12ch;color:var(--ink);text-wrap:balance}
+.lily-morning-head .right{font-size:18px;color:var(--ink)}
+.lily-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.lily-step{background:var(--bg);padding:32px 28px 36px}
+.lily-step-num{font-size:clamp(40px,4vw,56px);font-weight:700;letter-spacing:-0.04em;line-height:0.9;color:var(--accent);margin-bottom:18px}
+.lily-step h3{margin-bottom:8px}
+.lily-extras{margin-top:1px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-top:0}
+.lily-extra{background:var(--bg-2);padding:26px 28px 28px}
+.lily-extra .mono{color:var(--accent);margin-bottom:10px}
+.lily-extra .body{font-size:17px;color:var(--ink)}
+
+/* 5 · Join us / register */
+.lily-reg{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:64px;align-items:end}
+.lily-reg .eyebrow{margin-bottom:18px}
+.lily-reg h2{font-size:clamp(40px,5vw,76px);max-width:12ch}
+.lily-reg-note{margin-top:20px}
+.lily-fees{border-top:1px solid var(--line-strong)}
+.lily-fees div{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:20px 0;border-bottom:1px solid var(--line)}
+.lily-fees dt{font-size:18px;color:var(--ink-2)}
+.lily-fees dd{font-size:32px;font-weight:600;letter-spacing:-0.02em}
+
+/* 6 · Serve with LILY Kids — dark band via inverse tokens */
+.lily-kids-sec{background:var(--bg);color:var(--ink)}
+.lily-kids{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:64px;align-items:start}
+.lily-kids .eyebrow{margin-bottom:24px}
+.lily-kids h2{max-width:12ch}
+.lily-kids h2 span{color:var(--accent)}
+.lily-kids .lede{margin-top:28px}
+.lily-kids dl{border-top:1px solid var(--line-strong)}
+.lily-kids dl > div{display:grid;grid-template-columns:140px minmax(0,1fr);gap:16px;padding:18px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.lily-kids dd{font-size:clamp(16px,1.8vw,19px);font-weight:500;overflow-wrap:break-word}
+.lily-kids dd a:hover{color:var(--accent)}
+.lily-kids-note{margin-top:20px}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1080px){
+  .lily-facts,.lily-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:880px){
+  .lily-hero-grid,.lily-heart,.lily-reg,.lily-kids{grid-template-columns:1fr;gap:40px}
+  .lily-hero-photo{aspect-ratio:4/3}
+}
+@media (max-width:720px){
+  .wrap{padding:0 22px}
+  section{padding:72px 0}
+  .lily-hero{padding-top:40px}
+  .lily-heart-sec{margin-top:56px}
+  .section-head{flex-direction:column;align-items:flex-start;gap:18px;margin-bottom:36px}
+  .lily-step{padding:28px 22px 30px}
+  .lily-extra{padding:22px}
+}
+@media (max-width:560px){
+  .lily-facts,.lily-steps,.lily-extras{grid-template-columns:1fr}
+  .lily-kids dl > div{grid-template-columns:1fr;gap:4px}
+  .lily-actions .btn{flex:1 1 100%;justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<!-- SITE CHROME (nav + footer) already exists in the live Astro site and is not part of this package. -->
+<main id="lily-moms">
+
+<!-- 0 · BREADCRUMB -->
+<nav class="crumbs" aria-label="Breadcrumb">
+  <div class="wrap">
+    <ol class="mono">
+      <li><a href="/">Home</a></li>
+      <li><span>Community</span></li>
+      <li><span aria-current="page">LILY Moms</span></li>
+    </ol>
+  </div>
+</nav>
+
+<!-- 1 · HERO -->
+<section class="lily-hero" aria-labelledby="lily-title">
+  <div class="wrap">
+    <div class="lily-hero-grid">
+      <div>
+        <img class="lily-logo" src="assets/lily-moms-logo.png" alt="LILY Moms" width="112" height="101">
+        <div class="eyebrow"><span class="dot"></span>Life in the Little Years · Pregnancy through kindergarten</div>
+        <h1 id="lily-title" class="display-l">No mom should walk through these <span>little years alone.</span></h1>
+        <p class="lede">LILY Moms—short for Life in the Little Years—is a welcoming community for moms with children from pregnancy through kindergarten.</p>
+        <div class="lily-actions">
+          <a class="btn btn-primary" href="#LILY-REGISTER-URL">Register <span class="arr" aria-hidden="true">→</span></a>
+          <a class="btn btn-ghost" href="mailto:NWlilymoms@gmail.com">Email LILY Moms</a>
+        </div>
+      </div>
+      <div class="lily-hero-photo ph" role="img" aria-label="Moms sharing breakfast and conversation at a LILY Moms morning"><span class="ph-label">Photo · LILY Moms · morning gathering</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · HEARTBEAT — warm band -->
+<section class="lily-heart-sec" aria-labelledby="lily-heart-title">
+  <div class="wrap">
+    <div class="lily-heart">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Our heartbeat</div>
+        <h2 id="lily-heart-title" class="serif-h">Deep joy. <em>Real exhaustion.</em></h2>
+      </div>
+      <div class="lily-heart-body">
+        <p class="lily-heart-lead">Motherhood with little ones can bring both deep joy and real exhaustion.</p>
+        <p class="body">We believe no mom should walk through these little years alone and we strive to provide a safe place where you can come as you are, find encouragement, and connect with other women who understand this unique season of life.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · FACTS -->
+<section aria-label="LILY Moms at a glance">
+  <div class="wrap">
+    <dl class="lily-facts">
+      <div class="lily-fact"><dt class="mono">Who</dt><dd>Moms with children from pregnancy through kindergarten</dd></div>
+      <div class="lily-fact"><dt class="mono">When</dt><dd>1st &amp; 3rd Wednesdays</dd></div>
+      <div class="lily-fact"><dt class="mono">Season</dt><dd>October through May</dd></div>
+      <div class="lily-fact"><dt class="mono">Time</dt><dd>9:00–11:30 a.m. · North Wake Church</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- 4 · A LILY MORNING — dark lily photo -->
+<section class="lily-morning-sec" aria-labelledby="lily-morning-title">
+  <div class="lily-scrim" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="section-head lily-morning-head" data-theme="dim">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Regular rhythms</div>
+        <h2 id="lily-morning-title" class="serif-h">What a LILY morning <em>looks like.</em></h2>
+      </div>
+      <p class="body right">We meet on the 1st and 3rd Wednesdays from October through May, 9:00–11:30 a.m. at North Wake Church.</p>
+    </div>
+    <ol class="lily-steps">
+      <li class="lily-step"><div class="lily-step-num" aria-hidden="true">01</div><h3 class="title">Breakfast</h3><p class="body">(yes—uninterrupted!)</p></li>
+      <li class="lily-step"><div class="lily-step-num" aria-hidden="true">02</div><h3 class="title">A talk</h3><p class="body">From an experienced speaker on topics related to motherhood.</p></li>
+      <li class="lily-step"><div class="lily-step-num" aria-hidden="true">03</div><h3 class="title">Meaningful conversation</h3><p class="body">We discuss motherhood, faith, everyday life, and everything in between.</p></li>
+      <li class="lily-step"><div class="lily-step-num" aria-hidden="true">04</div><h3 class="title">Creative activities</h3><p class="body">And opportunities to connect with other moms.</p></li>
+    </ol>
+    <div class="lily-extras">
+      <div class="lily-extra"><div class="mono">Beyond the meetings</div><p class="body">There are also monthly playdates outside of our bi-monthly meetings.</p></div>
+      <div class="lily-extra"><div class="mono">For your little ones</div><p class="body">While moms gather, children enjoy safe and engaging childcare where they can learn, play, and build friendships of their own.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · JOIN US -->
+<section aria-labelledby="lily-reg-title">
+  <div class="wrap">
+    <div class="lily-reg">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Join us</div>
+        <h2 id="lily-reg-title" class="serif-h">Come as <em>you are.</em></h2>
+        <div class="lily-actions">
+          <a class="btn btn-primary" href="#LILY-REGISTER-URL">Register <span class="arr" aria-hidden="true">→</span></a>
+        </div>
+        <p class="body lily-reg-note">Further questions? Email us at <a class="text-link" href="mailto:NWlilymoms@gmail.com">NWlilymoms@gmail.com</a></p>
+      </div>
+      <dl class="lily-fees" aria-label="Fees">
+        <div><dt>Annual registration</dt><dd>$20</dd></div>
+        <div><dt>Fall semester</dt><dd>$60</dd></div>
+        <div><dt>Spring semester</dt><dd>$100</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · SERVE WITH LILY KIDS — dark band -->
+<section class="lily-kids-sec" data-theme="dim" aria-labelledby="lily-kids-title">
+  <div class="wrap">
+    <div class="lily-kids">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Serve with LILY Kids</div>
+        <h2 id="lily-kids-title" class="display-l">Love caring for <span>kids?</span></h2>
+        <p class="lede">Join our LILY Kids team! We’re looking for teachers to care for children (babies–age five) during LILY Moms meetings on the 1st and 3rd Wednesdays, October–May.</p>
+        <div class="lily-actions">
+          <a class="btn btn-primary" href="mailto:NWLilyKids@gmail.com">Email LILY Kids <span class="arr" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div>
+        <dl>
+          <div><dt class="mono">Teachers serve</dt><dd>8:30–11:45 a.m.</dd></div>
+          <div><dt class="mono">Ages</dt><dd>Babies–age five</dd></div>
+          <div><dt class="mono">Pay</dt><dd>$35 per meeting</dd></div>
+          <div><dt class="mono">Contact</dt><dd><a href="mailto:NWLilyKids@gmail.com">NWLilyKids@<wbr>gmail.com</a></dd></div>
+        </dl>
+        <p class="body lily-kids-note">Teachers serve 8:30–11:45 a.m. creating a safe, fun environment while moms attend the gathering. Paid positions are available ($35 per meeting), and volunteers are always welcome.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+</body>
+</html>
