@@ -104,9 +104,12 @@ const posts = defineCollection({
 // resources — pointer entries (a PDF, an external link, or an internal post).
 // Staff (Karen, Devin) add these through Pages CMS (.pages.yml), so the destination
 // is split by kind (2026-09-24): `file` = an uploaded PDF (/resources/<name>.pdf),
-// `link` = an absolute URL (external) or a post slug (post; developer use — posts
-// already appear in the catalog on their own). Exactly one must be set, matching
-// `type`; a mismatch FAILS THE BUILD (so it never deploys) with a plain message.
+// `link` = an absolute URL or a post slug (post; developer use — posts already
+// appear in the catalog on their own). A PDF may be EITHER uploaded (`file`) OR
+// hosted elsewhere (`link`, e.g. the church Google Drive) — hosted CMS uploads fail
+// above ~3MB (Vercel 4.5MB body limit → 413), and Drive keeps the document beyond
+// the site. External/post need `link`. Exactly one of file/link must be set; a
+// mismatch FAILS THE BUILD (so it never deploys) with a plain message.
 // -----------------------------------------------------------------------------
 const resources = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/resources" }),
@@ -124,10 +127,10 @@ const resources = defineCollection({
     .superRefine((d, ctx) => {
       const hasFile = !!d.file?.trim();
       const hasLink = !!d.link?.trim();
-      if (d.type === "pdf" && !hasFile)
-        ctx.addIssue({ code: "custom", path: ["file"], message: "A PDF download needs a PDF file uploaded." });
-      if (d.type === "pdf" && hasLink)
-        ctx.addIssue({ code: "custom", path: ["link"], message: "A PDF download should not also have a link — clear the Link field." });
+      if (d.type === "pdf" && !hasFile && !hasLink)
+        ctx.addIssue({ code: "custom", path: ["file"], message: "A PDF download needs either an uploaded PDF or a link to the PDF (e.g. Google Drive)." });
+      if (d.type === "pdf" && hasFile && hasLink)
+        ctx.addIssue({ code: "custom", path: ["link"], message: "A PDF download should have an uploaded file OR a link, not both — clear one." });
       if (d.type !== "pdf" && !hasLink)
         ctx.addIssue({ code: "custom", path: ["link"], message: "An external link needs the web address filled in." });
       if (d.type !== "pdf" && hasFile)

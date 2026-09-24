@@ -199,7 +199,7 @@ content:
         label: Type
         type: select
         required: true
-        description: "PDF download = you upload a file below. External link = a page on another website (fill in Link)."
+        description: "PDF download = a PDF — upload it below, OR paste a link to it (e.g. Google Drive). External link = a page on another website (fill in Link)."
         options:
           values:
             - name: pdf
@@ -210,15 +210,15 @@ content:
       - name: file
         label: PDF file (for "PDF download" only)
         type: file
-        description: "Upload the PDF. Must be under 15MB — larger files stop the site from updating. Leave empty for an external link."
+        description: "Small PDFs (under about 3MB) can be uploaded here — bigger uploads fail with a \"413\" error. For larger files, put the PDF in the church Google Drive, set sharing to \"Anyone with the link can view,\" and paste the link below instead. Use the upload OR the link, not both."
         options:
           media: docs
           extensions: [pdf]
 
       - name: link
-        label: Link (for "External link" only)
+        label: Link
         type: string
-        description: "The full web address, starting with https:// — e.g. https://www.rightnowmedia.org. Leave empty for a PDF download."
+        description: "The full web address, starting with https://. For an External link: the web page. For a PDF download: the Google Drive link to the PDF (sharing set to \"Anyone with the link can view\"). Leave empty if you uploaded a PDF above."
 
   # ---------------------------------------------------------------------------
   # POSTS — text-only resource pages, edited by church staff (Karen, Devin).
@@ -288,7 +288,7 @@ content:
       - name: attachments
         label: Downloads (optional, up to 5)
         type: object
-        description: "PDFs listed at the bottom of the page, e.g. a leader guide. Each needs a label and a file (under 15MB)."
+        description: "PDFs listed at the bottom of the page, e.g. a leader guide. Each needs a label and a file under about 3MB (bigger uploads fail with a \"413\" error). For a larger PDF, put it in the church Google Drive and link to it in the page text instead."
         list:
           max: 5
           collapsible:
