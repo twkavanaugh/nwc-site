@@ -13,8 +13,9 @@ package**, and **shot list v2**.
 > written down, and they need to be recovered from Todd before the church-facing work
 > continues.
 
-> **🟢 2026-09-23 UPDATE — `/visit`, `/mission/church-planting`, `/help/care` SHIPPED; homepage
-> ticker removed.** See **★ CARE MINISTRY**, **★ CHURCH PLANTING** and **★ COME VISIT** below. Read that section first; the rest of this doc is as of 09-13 except where marked.
+> **🟢 2026-09-23 UPDATE — `/visit`, `/mission/church-planting`, `/help/care`, `/help/mercy-clinic`
+> SHIPPED; homepage ticker removed.** See **★ MERCY HEALTH**, **★ CARE MINISTRY**, **★ CHURCH
+> PLANTING** and **★ COME VISIT** below. Read that section first; the rest of this doc is as of 09-13 except where marked.
 
 ---
 
@@ -141,6 +142,7 @@ transfer the GitHub repo to a church org; reassign Render (swap account email, r
 | `/help/feed` | ✅ COMPLETE |
 | `/community/mature-adults` | ✅ COMPLETE |
 | `/sermons` | ✅ COMPLETE — BranchCast embed + podcast links |
+| `/help/mercy-clinic` | ✅ **COMPLETE (2026-09-23)** — condensed from mercyhealthnw.org; Help-group hero, facts, scope panels, Luke 10:37, values, 2 get-involved cards, dark contact band. Footer link (was a 404) now resolves; nav wired |
 | `/help/care` | ✅ **COMPLETE (2026-09-23)** — Help-group split hero (mirrors Feed), facts strip, Our heart, 3 steps + reapply note, dark "where to apply" band. Nav Help→Care Ministry now a real link |
 | `/mission/church-planting` | ✅ **COMPLETE (2026-09-23)** — first `/mission/*` route; Warm Band hero (display-m, no CTAs, .ph photo), two realities + inverse bridge band, church lists, serif statement, engage grid. Nav Mission→Church Planting now a real link |
 | `/visit` | ✅ **COMPLETE (2026-09-23)** — Warm Band hero, facts strip, flow of a Sunday, FAQ, find us. Every "Plan a Visit" CTA now resolves (was a 404) |
@@ -159,6 +161,21 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
 `/sermons`, `/blog` (+`[slug]`, dimmed), `/resources` (+`[slug]`, labeled "Other Resources").
 
 ---
+
+## ★ MERCY HEALTH CLINIC — SHIPPED (2026-09-23, 1 gate)
+Commits: `06d23d8` (package → `brand/prototype/MERCY-HEALTH-SPEC.md` + `mercy-health.html`) →
+this commit (page + `src/data/mercy.ts` + nav).
+- **Route `/help/mercy-clinic`** (the footer already linked it). Hero mirrors Feed/Care.
+- **Clinic facts live in `src/data/mercy.ts`** (hours, closures, eligibility, phone/fax, URLs),
+  stamped LAST VERIFIED 2026-09-23 against the live clinic site (Home/About/Volunteer/Partner/
+  Contact — all matched). Address comes from `business.ts` (clinic meets at the church).
+- **The package's Partner card was invented AND wrong** — the clinic's Partner page is financial
+  partnership only. Get involved = 2 cards: Volunteer + Give (clinic wording; Donate + Partner
+  links). Lesson: Claude Design writes filler when it hasn't read a source page — check.
+- **Nav description corrected:** "Care for the uninsured…" → "Free medical and dental care for
+  neighbors in need." (eligibility is income-based, not insurance-based).
+- **Deliberately omitted:** provider/leadership/board names; personal emails (incl. a Gmail).
+- Dark band: inverse tokens + `.btn-accent`. `.text-link` kept page-scoped (`.mh-text-link`).
 
 ## ★ CARE MINISTRY — SHIPPED (2026-09-23, 1 gate)
 Commits: `7fef38e` (package → `brand/prototype/CARE-MINISTRY-SPEC.md` + `care-ministry.html`)
@@ -441,6 +458,10 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
   "opens 30 minutes early"; "every Sunday is livestreamed and archived"; reserved first-time
   guest parking; "15 minutes north of Raleigh, just off Capital Blvd"; songs "modern and
   traditional". `/community/students` says "Sunday AM" but not the 10:45 service — align.
+- **★ `/help/mercy-clinic`:** (1) **patient-portal URL** — the clinic's own site doesn't link it;
+  once provided, set `MERCY.portalUrl` + add a "Book an appointment ↗" hero button. (2) **Update
+  owner** — who re-checks `mercy.ts` when the clinic changes hours/closures? Undecided.
+  (3) Clinic sign-off on the distilled lines (optional courtesy).
 - **★ `/help/care`:** NOT PROVIDED — office hours for the reception desk (in-person only, so
   this matters most), a contact for questions, Building Five wayfinding. Facts VERIFIED
   2026-09-23 against the church's source copy (Todd); prayer meeting = interview (confirmed).
@@ -499,7 +520,7 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
 mission redesign → Newsreader → who-is-jesus → Breadcrumb → kids → feed → hairline-grid →
 mature → watercolor home hero → mega-menu → siteSettings → serif-on-image → hero pilot +
 shot list + type standards → **events build (4 gates)** → `e8643c7` a11y → state 07-04]
-**[2026-09-23]** `1792fe8` Come Visit package + CLAUDE.md → `f773172` WarmBandHero + hero → `df57050` /visit complete → `f0587df` Church Planting package → `b6ffa78` /mission/church-planting → `f2a5e00` ticker removed → `7fef38e` Care package → `3d72fc4` /help/care.
+**[2026-09-23]** `1792fe8` Come Visit package + CLAUDE.md → `f773172` WarmBandHero + hero → `df57050` /visit complete → `f0587df` Church Planting package → `b6ffa78` /mission/church-planting → `f2a5e00` ticker removed → `7fef38e` Care package → `3d72fc4` /help/care → `06d23d8` Mercy package → /help/mercy-clinic.
 **[2026-07-05]** mobile nav (`47d11e9`/`6533063`) → `5b34285` eyebrow fix → `7402b1b`
 /sermons (+`705e551`) → `fd27f93` Pages CMS config → Family Table via CMS (smoke test) →
 `3ee46c5` event-label softening → `75f1974`/`69548c5` placeholder photos → state 07-05 +
