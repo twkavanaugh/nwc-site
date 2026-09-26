@@ -20,7 +20,7 @@ package**, and **shot list v2**.
 > **🟢 2026-09-26 UPDATE — `/blog` SHIPPED: "TwelveTwelve: The Leader Blog" (2 gates, LIVE).**
 > Separate dated/authored `blog` collection + Pages CMS "Blog" section. See ★ BLOG. Also
 > decided: the ADC page's class roll + "Current until" mechanics (★ BLOG → Decided next), and a
-> **★ DOMAIN CUTOVER PUNCH LIST** now exists. Gate 3 (Todd's live CMS test) is pending.
+> **★ DOMAIN CUTOVER PUNCH LIST** now exists. Gate 3 (Todd's live CMS test) passed the same day.
 
 ---
 
@@ -173,7 +173,7 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
 
 ---
 
-## ★ BLOG — "TwelveTwelve: The Leader Blog" — SHIPPED (2026-09-26, Gates 1–2 LIVE; Gate 3 pending)
+## ★ BLOG — "TwelveTwelve: The Leader Blog" — SHIPPED (2026-09-26, 3 gates, COMPLETE)
 Commits: `c0ee04a` (Gate 1: collection + `/blog` + `/blog/[slug]`) → `8083aa1` (Gate 2: CMS,
 series, image pipeline, nav/footer links). Design source: `brand/prototype/page-blog.jsx`.
 - **★ Decision (Todd, 2026-09-26): a SEPARATE blog.** Rule of thumb, printed in CMS help text on
@@ -202,12 +202,16 @@ series, image pipeline, nav/footer links). Design source: `brand/prototype/page-
   `site/src/assets/blog/` (media `blogimages`), stored as `../../assets/blog/<file>` relative to
   the post; the build emits resized WebP (tested: 515KB → 35–255KB). An unused upload there is
   NEVER published (Astro only emits used images) — audit-media reports it as clutter only.
-  Covered by the 15MB guard. **UNPROVEN until Gate 3:** that hosted Pages CMS writes the
-  relative `../../assets/blog/` value — if not, the build fails (safe) and we adjust `output`.
+  Covered by the 15MB guard. **PROVEN in Gate 3:** hosted Pages CMS writes the relative
+  `../../assets/blog/<file>` value and the build resizes it.
 - **Zero client JS** — the series filter is generated `:target` CSS (as `/resources`), rendered
   only at 2+ series; while filtered, the featured slot hides and its duplicate row shows.
-- **Gate 3 (Todd, live CMS):** new post with a photo → confirm it builds + resizes; draft hidden;
-  scripture box; blank optional fields; pin; edit an existing seed post and inspect the diff.
+- **✅ Gate 3 COMPLETE (2026-09-26, Todd live in Pages CMS):** added a photo to The Heart is Like
+  a Ship (`e0a48ad` upload + `dbda83f` edit) → deployed; shows in the /blog featured slot and on
+  the post. CMS round-trip added `featured: false` / `draft: false` (harmless). Notes: the upload
+  was Unsplash's SMALL size (640px, soft at 800px) — guide staff to "Download → Large"; alt text
+  was left blank (falls back to the title). A stale browser cache hid the post image at first —
+  hard-refresh (Cmd+Shift+R) after a deploy.
 - **Decided next (Todd, 2026-09-26) — ADC page:** a high-level ADC overview (SEED CONTENT
   PENDING from the church), then **"Current classes"** = resource text pages tagged a new ADC
   category (Karen writes a class description post, tags it, it appears). Mechanic: an optional
@@ -749,8 +753,8 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
    Family Table** as the link-heavy-page test; verify orphaned media on delete.
 4. ~~Extend `.pages.yml` to posts + resources~~ **Gate 1 done 2026-09-24** — Gate 2 = Todd's live CMS test.
 5. **Hardening pass** — its own pass after content lands.
-6. **Blog Gate 3** — Todd's live Pages CMS test (see ★ BLOG). Todd: rewrite the `/blog` h1 +
-   lede; pick the Meditation for Preparation default image.
+6. ~~Blog Gate 3~~ **DONE 2026-09-26.** Todd: rewrite the `/blog` h1 + lede; pick the Meditation
+   for Preparation default image.
 7. **Homepage "latest from the blog" strip** — one gate.
 8. **ADC page** — overview (seed content pending) + "Current classes" / "Previous classes" via an
    ADC category + "Current until" date on posts. Needs a design decision first.
