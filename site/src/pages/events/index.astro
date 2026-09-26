@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import { getCollection } from "astro:content";
 import { isUpcoming, byStartDateAsc, formatMonth, formatDay } from "../../lib/date";
+import ChurchCalendar from "../../components/ChurchCalendar.astro";
 
 // Events index — date-aware upcoming list. Filters out past events (the
 // expirationDate ?? endDate ?? startDate rule) and sorts soonest-first, which is the
@@ -31,6 +32,9 @@ const upcoming = (await getCollection("events"))
       </p>
     </div>
   </section>
+
+  <!-- Church calendar (Google feed, built daily) — week view, zero JS. -->
+  <ChurchCalendar />
 
   <!-- Event list -->
   <section class="ev-list-section">
