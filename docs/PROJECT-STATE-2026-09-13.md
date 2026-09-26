@@ -773,6 +773,7 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
   (all? last N?) and/or redirect old slugs → `/blog/<slug>` or `/blog`. At minimum redirect
   `/leader-blog/` → `/blog`.
 - **`/familytable`** legacy redirect (already logged under hardening).
+- **`/new-member-course/`** → `/resources/new-members-course` (content migrated 2026-09-26).
 - **Inventory the rest of the old site's URLs** (sitemap) and map each to a new route or a
   redirect; old printed materials (postcards) carry URLs — `/womensministry` already handled.
 - **`/give`** redirect already exists (HOPE's Donate button links to it).
