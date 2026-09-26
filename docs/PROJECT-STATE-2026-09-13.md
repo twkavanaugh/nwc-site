@@ -196,8 +196,12 @@ series, image pipeline, nav/footer links). Design source: `brand/prototype/page-
   `site/src/content/blog-series/` + a line in the `SERIES-START/END` pick-list in `.pages.yml`;
   `check-content.mjs` fails the build if they disagree (failure path tested). A pick-list, not
   free text, so a typo can't split a series. **Each series can carry a default `image`** used by
-  any post without its own (Todd approved) — **Meditation for Preparation has none yet: Todd to
-  pick one.**
+  any post without its own (Todd approved). **Meditation for Preparation default SET
+  (2026-09-26, `b10cf91`):** `series-meditation-for-preparation-titled.webp`, a photo with the
+  series name lettered IN, so the alt carries the title. **Pre-cropped to 16:9** (sky trimmed):
+  the post page cover-crops to 16:9 and clipped the "p" descender at the source's 3:2. A future
+  lettered image needs the same pre-crop, since the template can't know where the text sits.
+  The earlier clean photo `series-meditation-for-preparation.jpg` sits untracked and unused.
 - **★ Images go through astro:assets (first use on the site).** Blog photos upload to
   `site/src/assets/blog/` (media `blogimages`), stored as `../../assets/blog/<file>` relative to
   the post; the build emits resized WebP (tested: 515KB → 35–255KB). An unused upload there is
@@ -753,8 +757,8 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
    Family Table** as the link-heavy-page test; verify orphaned media on delete.
 4. ~~Extend `.pages.yml` to posts + resources~~ **Gate 1 done 2026-09-24** — Gate 2 = Todd's live CMS test.
 5. **Hardening pass** — its own pass after content lands.
-6. ~~Blog Gate 3~~ **DONE 2026-09-26.** Todd: rewrite the `/blog` h1 + lede; pick the Meditation
-   for Preparation default image.
+6. ~~Blog Gate 3~~ **DONE 2026-09-26.** Todd: rewrite the `/blog` h1 + lede. (Meditation for
+   Preparation default image DONE 2026-09-26, `b10cf91`.)
 7. **Homepage "latest from the blog" strip** — one gate.
 8. **ADC page** — overview (seed content pending) + "Current classes" / "Previous classes" via an
    ADC category + "Current until" date on posts. Needs a design decision first.
