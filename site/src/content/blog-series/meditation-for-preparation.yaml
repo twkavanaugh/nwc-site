@@ -1,4 +1,8 @@
 # The old site's weekly Sunday-prep series (TwelveTwelve). `image` = the series
 # default: shown for any post in this series that has no photo of its own.
-# Path is relative to THIS file, e.g. ../../assets/blog/series-meditation.jpg
+# Path is relative to THIS file. Chosen by Todd 2026-09-26. The series title is
+# lettered INTO this image, so the alt carries it too. Pre-cropped to 16:9
+# (sky trimmed) so the post page's 16:9 cover-crop never clips the lettering.
 label: Meditation for Preparation
+image: ../../assets/blog/series-meditation-for-preparation-titled.webp
+imageAlt: "Meditation for Preparation, lettered over a mountain valley under clouds with yellow wildflowers in the foreground"
