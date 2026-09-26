@@ -23,8 +23,9 @@ package**, and **shot list v2**.
 > **★ DOMAIN CUTOVER PUNCH LIST** now exists. Gate 3 (Todd's live CMS test) passed the same day.
 >
 > **🟢 2026-09-26 (later) — `/resources` SEARCH SHIPPED (`45dacd7`, ADR 0002).** The site's third
-> script exception, first-party and inline. Next: the **FEATURED SET** (Pastor Carson Cobb's
-> ask). See ★ RESOURCES SEARCH + FEATURED SET.
+> script exception, first-party and inline. **Featured resource photo card SHIPPED (`1e54590`)**
+> (Pastor Carson Cobb's ask). Next: Gate 3, the featured item in the Resources mega-menu rail.
+> See ★ RESOURCES SEARCH + FEATURED RESOURCE.
 
 ---
 
@@ -178,7 +179,7 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
 
 ---
 
-## ★ RESOURCES SEARCH + FEATURED SET (started 2026-09-26)
+## ★ RESOURCES SEARCH + FEATURED RESOURCE (started 2026-09-26)
 
 - **Search — SHIPPED `45dacd7`** (decision `992f175`, `docs/adr-0002-resources-search.md`). A
   search row above the category chips filters the catalog already in the HTML by each row's
@@ -193,16 +194,31 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
   2026-09-28. **Categories stay PROVISIONAL until that curation is done** (Todd). Renaming or
   removing a category later fails the build for anything still tagged with it (`reference()`);
   retag in bulk in the same pass.
-- **Next: FEATURED SET** (Pastor Carson Cobb's ask, e.g. Advent; also Lent, anything
-  seasonal). Agreed shape: a "Featured" switch on each resource + ONE CMS "Featured section"
-  entry (heading, intro line, "Show until" date). Active → a band at the top of `/resources`
-  AND the Resources mega-menu's feature rail (currently hard-coded "This Sunday → /sermons",
-  which stays as the fallback). Open: what search does to the band while typing.
-- **Needs a DAILY SCHEDULED REBUILD** for "Show until" to take effect by itself (the site is
-  static; dates only apply at build). The same need applies to the ADC "Current until" date,
-  and check how past events drop off today.
-- **Gates:** 1 search ✅ → 2 featured band on `/resources` + CMS fields → 3 mega-menu rail +
-  daily rebuild.
+- **Featured resource — SHIPPED `1e54590`** (design kit `d2cb1ec`,
+  `brand/prototype/FEATURED-RESOURCE-PHOTO-SPEC.md`). The design changed from the planned
+  "featured SET" to ONE photo card in the hero's right column, filled from the item:
+  title, `featuredDescription` (optional, else the description clamped to 3 lines), the type
+  kicker, a button worded by type ("Read the post" / "Download PDF" / "Visit site ↗"), and the
+  link. **Staff overhead is one switch** ("Feature at the top of the Resources page") on
+  resources AND text pages. The first featured item by title wins; drafts and "Available soon"
+  placeholders never feature. None featured → no card, hero single-column. For a season
+  (Advent, Lent): write one hub text page linking everything, and feature it.
+- **Todd's calls (2026-09-26):** static background photo (not per item); **no "Show until"
+  date** (staff turn it off by hand, so NO daily rebuild needed); the kit's Format / Led by /
+  Category row NOT built (no such fields); the card stays visible during search and filtering
+  (it sits above the search box).
+- **Kit → site translation:** the kit's `[data-theme="dim"]` NOT used (dropped site-wide). The
+  card uses `--on-image-fg` / `--on-image-accent` / `--ink-on-inverse-2` / the inverse line
+  tokens, `.btn-on-image-primary`, and an astro:assets `<Image>` (eager; 1200w cap, 39–269kB).
+  Documented scrim exception, **darkened to 0.75 at the label row** (the kit's 35% top left the
+  11px labels at ~1.5:1 over cloud). The labels wrap whole at the 14px phone mono bump. The kit's
+  "−48/−28px filter-bar fix" is prototype-gutter-specific and doesn't apply here.
+- **Seed:** *Delighting in the Company of God* is featured, with a featuredDescription taken from
+  its own description. Staff will change it.
+- **Gate 3 (next):** the Resources mega-menu feature rail shows the featured item when one is
+  set; otherwise it falls back to today's hard-coded "This Sunday → /sermons".
+- **Small, not done:** the search placeholder "Search titles and descriptions" is cut off at
+  375px ("Search resources" would fit). Todd hasn't decided.
 
 ## ★ BLOG — "TwelveTwelve: The Leader Blog" — SHIPPED (2026-09-26, 3 gates, COMPLETE)
 Commits: `c0ee04a` (Gate 1: collection + `/blog` + `/blog/[slug]`) → `8083aa1` (Gate 2: CMS,
@@ -719,6 +735,9 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
 - **`/give`** redirect already exists (HOPE's Donate button links to it).
 
 ## UNVERIFIED CONTENT — confirm with church (the real launch gate)
+- **★ `/resources` featured-card photo (2026-09-26):** a PLACEHOLDER Unsplash landscape (Marlon
+  Reyes; the Unsplash licence was confirmed by Todd) at `site/src/assets/resources/featured-landscape.jpg`.
+  Swap it for a photographer's image when those arrive (one file, same name).
 - **★ `/blog` (2026-09-26):** the h1 "Words from our pastors and leaders." and the lede
   ("Weekly meditations to help you prepare for Sunday…") are Claude placeholder copy — **Todd is
   rewriting**. Blog name (TwelveTwelve) is real. Seed posts are verbatim from the old site.
@@ -790,13 +809,17 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
 5. **Hardening pass** — its own pass after content lands.
 6. ~~Blog Gate 3~~ **DONE 2026-09-26.** Todd: rewrite the `/blog` h1 + lede. (Meditation for
    Preparation default image DONE 2026-09-26, `b10cf91`.)
-7. **Resources FEATURED SET** — Gate 2 (band + CMS fields), then Gate 3 (mega-menu rail + daily
-   rebuild). See ★ RESOURCES SEARCH + FEATURED SET. Search (Gate 1) DONE `45dacd7`.
+7. **Resources featured → mega-menu rail (Gate 3)**. Search `45dacd7` and the featured card
+   `1e54590` are DONE. See ★ RESOURCES SEARCH + FEATURED RESOURCE.
 7b. **Homepage "latest from the blog" strip** — one gate.
 8. **ADC page** — overview (seed content pending) + "Current classes" / "Previous classes" via an
    ADC category + "Current until" date on posts. Needs a design decision first.
 
 ## LESSONS (workflow — keep sharp)
+- **Stale scoped CSS in dev (2026-09-26, happened 3×):** after editing an `.astro` `<style>`,
+  the dev server kept serving the OLD scoped CSS, and a hard refresh didn't fix it. Check
+  `getComputedStyle` or `npm run build` output; if they disagree, restart the dev server. Not
+  a code bug. A new file under `src/assets/` also needs a restart ("ImageNotFound").
 - **Git push auth (2026-09-26):** the Keychain token had expired. Fix = a fine-grained PAT
   (twkavanaugh/nwc-site, **Contents: Read and write**) pasted at git's "Password" prompt —
   the prompt wants the TOKEN, never the GitHub password. 401-style "Invalid username or token"
