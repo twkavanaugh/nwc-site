@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resources hero + Featured Resource (photo card) · reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+/* ============ SITE TOKENS (existing — no new colors) ============ */
+:root{--bg:#f6f3ed;--bg-2:#ece7dc;--bg-3:#e3ddce;--ink:#1a1814;--ink-2:#3a352c;--ink-3:#6e665a;--ink-4:#a89f8e;--line:rgba(26,24,20,0.12);--line-strong:rgba(26,24,20,0.22);--accent:#8a4d2e;--accent-ink:#ffffff;--sans:"Inter Tight",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;--serif:"Newsreader",Georgia,"Times New Roman",serif}
+[data-theme="dim"]{--bg:#1a1814;--bg-2:#221f1a;--bg-3:#2a2620;--ink:#f4efe5;--ink-2:#d8d2c4;--ink-3:#9c9484;--ink-4:#6e665a;--line:rgba(244,239,229,0.12);--line-strong:rgba(244,239,229,0.22);--accent:#d49271}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;letter-spacing:-0.005em;line-height:1.5}
+h1,h2,p,dl,dd{margin:0}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 48px}
+
+/* ---------- Resources hero (unchanged from the List View package) ---------- */
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3);display:inline-flex;align-items:center;gap:10px}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex:none}
+.hero{padding:72px 0 8px}
+.hero h1{font-weight:700;font-size:clamp(44px,6vw,82px);line-height:1.02;letter-spacing:-0.03em;margin:26px 0 0;max-width:16ch}
+.hero p{font-size:20px;line-height:1.6;color:var(--ink-2);max-width:54ch;margin:24px 0 0}
+
+/* ---------- NEW: hero grid + Featured Resource photo card ---------- */
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:64px;align-items:end}
+
+.feat{position:relative;overflow:hidden;display:flex;flex-direction:column;min-height:520px;padding:34px 32px 32px;color:var(--ink);background:url('assets/resources-landscape.jpg') center 62%/cover no-repeat,var(--bg)}
+/* PHOTO SCRIM — the one literal exception: rgba of --ink #1a1814. Light at top (sky shows), dense behind text. */
+.feat::before{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(26,24,20,0.35) 0%,rgba(26,24,20,0.55) 32%,rgba(26,24,20,0.86) 62%,rgba(26,24,20,0.94) 100%);transition:opacity 200ms ease}
+.feat>*{position:relative;z-index:1}
+.feat:hover::before{opacity:0.92}
+
+.feat-top{display:flex;justify-content:space-between;gap:16px;margin-bottom:auto;padding-bottom:40px;font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase}
+.feat-kicker{color:var(--accent);font-weight:500;display:inline-flex;align-items:center;gap:10px}
+.feat-kicker::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.feat-type{color:var(--ink-2)}
+
+.feat-title{font-family:var(--serif);font-weight:400;font-size:clamp(30px,2.8vw,40px);line-height:1.1;letter-spacing:-0.015em;margin:0 0 14px}
+.feat-desc{font-size:17px;line-height:1.55;color:var(--ink-2);margin:0 0 22px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
+
+.feat-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line);margin:0 0 22px}
+.feat-meta div{padding:12px 12px 12px 0}
+.feat-meta dt{font-family:var(--mono);font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
+.feat-meta dd{font-size:16px;font-weight:500}
+
+.feat-cta{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;background:var(--ink);color:var(--bg);border-radius:999px;padding:13px 20px;font-size:14px;font-weight:500;transition:background 160ms ease}
+.feat:hover .feat-cta{background:var(--accent)}
+.feat-cta span{transition:transform 200ms ease}
+.feat:hover .feat-cta span{transform:translateX(3px)}
+
+@media (max-width:960px){
+  .hero-grid{grid-template-columns:1fr;gap:40px}
+  .feat{min-height:460px}
+}
+@media (max-width:860px){ .wrap{padding:0 28px} }
+@media (max-width:560px){
+  .feat{min-height:420px;padding:26px 20px 24px}
+  .feat-meta{grid-template-columns:1fr 1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<!-- Nav, search, filter bar and catalog are unchanged — see the Resources List View package (resources-list.html). -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow"><span class="dot"></span>Resources</span>
+        <h1>A shelf for the whole church family.</h1>
+        <p>Forms, reading plans, guides, and pages written by our staff — gathered in one place. Scan the list, download what you need, follow a link, or read it right here.</p>
+      </div>
+      <a class="feat" data-theme="dim" href="/resources/delighting-in-the-company-of-god" aria-labelledby="feat-title">
+        <div class="feat-top"><span class="feat-kicker">Featured resource</span><span class="feat-type">Read on site</span></div>
+        <h2 class="feat-title" id="feat-title">Delighting in the Company of God</h2>
+        <p class="feat-desc">A six-week training experience led by Larry Trotter on sustaining, deepening, and ceaseless practices for enjoying the company of God — with a rich library of recommended resources.</p>
+        <dl class="feat-meta"><div><dt>Format</dt><dd>Six weeks</dd></div><div><dt>Led by</dt><dd>Larry Trotter</dd></div><div><dt>Category</dt><dd>Discipleship</dd></div></dl>
+        <span class="feat-cta">Read the post <span aria-hidden="true">→</span></span>
+      </a>
+    </div>
+  </div>
+</header>
+</body>
+</html>
