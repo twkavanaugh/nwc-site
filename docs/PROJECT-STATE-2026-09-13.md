@@ -21,6 +21,10 @@ package**, and **shot list v2**.
 > Separate dated/authored `blog` collection + Pages CMS "Blog" section. See ★ BLOG. Also
 > decided: the ADC page's class roll + "Current until" mechanics (★ BLOG → Decided next), and a
 > **★ DOMAIN CUTOVER PUNCH LIST** now exists. Gate 3 (Todd's live CMS test) passed the same day.
+>
+> **🟢 2026-09-26 (later) — `/resources` SEARCH SHIPPED (`45dacd7`, ADR 0002).** The site's third
+> script exception, first-party and inline. Next: the **FEATURED SET** (Pastor Carson Cobb's
+> ask). See ★ RESOURCES SEARCH + FEATURED SET.
 
 ---
 
@@ -106,7 +110,8 @@ If any of it was settled in July or during the gap, this doc does not know it.
 - **Astro 5.x** (pinned `^5.0.0`, 5.18.2 installed — deliberately NOT 7.x).
 - Static output, **near-zero client JS**. CSS-only interactivity (mega-menu, mobile
   hamburger, dropdowns, fade-up, details/summary accordions, **`:target` resource
-  filtering**). The ONLY `<script>` in `dist/` is the BranchCast embed resizer on `/sermons`.
+  filtering**). The ONLY `<script>`s in `dist/` are the BranchCast embed resizer on `/sermons`
+  and the first-party inline search on `/resources` (ADR 0002).
 - **Content Layer API** (Astro 5): FOUR collections — `events`, `categories`, `posts`,
   `resources` (see Content model below).
 - **Markdown pipeline:** one remark plugin, `src/lib/remark-youtube.mjs`, wired in
@@ -158,7 +163,7 @@ transfer the GitHub repo to a church org; reassign Render (swap account email, r
 | `/visit` | ✅ **COMPLETE (2026-09-23)** — Warm Band hero, facts strip, flow of a Sunday, FAQ, find us. Every "Plan a Visit" CTA now resolves (was a 404) |
 | `/events` | ✅ COMPLETE — date-filtered, sorted index |
 | `/events/[slug]` | ✅ COMPLETE — continuous-column detail (5 entries; `family-table` is CMS-created) |
-| `/resources` | ✅ **COMPLETE (NEW)** — merged catalog, zero-JS `:target` category filter |
+| `/resources` | ✅ **COMPLETE** — merged catalog, zero-JS `:target` category filter + inline search (2026-09-26, ADR 0002) |
 | `/resources/[slug]` | ✅ **COMPLETE (NEW)** — post template + attachments (5 post routes) |
 | `/blog` | ✅ **COMPLETE (2026-09-26)** — TwelveTwelve index: featured (newest or pinned) + date-stamped rows; series filter auto-appears at 2+ series. Nav + footer live |
 | `/blog/[slug]` | ✅ **COMPLETE (2026-09-26)** — post: series tag, By/Published, "Read" scripture box, serif prose, boxed quotes, author footer (3 real seed posts) |
@@ -172,6 +177,32 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
 `/sermons`, `/blog` (+`[slug]`), `/resources` (+`[slug]`, labeled "Other Resources").
 
 ---
+
+## ★ RESOURCES SEARCH + FEATURED SET (started 2026-09-26)
+
+- **Search — SHIPPED `45dacd7`** (decision `992f175`, `docs/adr-0002-resources-search.md`). A
+  search row above the category chips filters the catalog already in the HTML by each row's
+  text (title, description, type kicker, category tags). Case/accent-insensitive; every word
+  must match; words of 5+ letters drop a trailing -ies/-es/-s/-y so singular and plural meet
+  (added after "family" missed the Families items). Composes with the CSS `:target` filter.
+  Ships `hidden`, revealed by the script, so no-JS visitors get the old page. Result count in
+  a polite live region; empty state with Clear search / Search all categories. Todd's styling
+  calls: chips band shaded `--bg-2` with chips kept on `--bg`; "Search" label in `--accent`.
+  Chrome's native ✕ in the box is unstyled (left as-is).
+- **Why now:** a LARGE batch of resources curated from the old site lands the week of
+  2026-09-28. **Categories stay PROVISIONAL until that curation is done** (Todd). Renaming or
+  removing a category later fails the build for anything still tagged with it (`reference()`);
+  retag in bulk in the same pass.
+- **Next: FEATURED SET** (Pastor Carson Cobb's ask, e.g. Advent; also Lent, anything
+  seasonal). Agreed shape: a "Featured" switch on each resource + ONE CMS "Featured section"
+  entry (heading, intro line, "Show until" date). Active → a band at the top of `/resources`
+  AND the Resources mega-menu's feature rail (currently hard-coded "This Sunday → /sermons",
+  which stays as the fallback). Open: what search does to the band while typing.
+- **Needs a DAILY SCHEDULED REBUILD** for "Show until" to take effect by itself (the site is
+  static; dates only apply at build). The same need applies to the ADC "Current until" date,
+  and check how past events drop off today.
+- **Gates:** 1 search ✅ → 2 featured band on `/resources` + CMS fields → 3 mega-menu rail +
+  daily rebuild.
 
 ## ★ BLOG — "TwelveTwelve: The Leader Blog" — SHIPPED (2026-09-26, 3 gates, COMPLETE)
 Commits: `c0ee04a` (Gate 1: collection + `/blog` + `/blog/[slug]`) → `8083aa1` (Gate 2: CMS,
@@ -619,8 +650,9 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
 - DOCUMENTED literal EXCEPTIONS (real-image scrims / non-theme values): home hero scrims +
   `#f3ecdf` watercolor fallback; kids serif-on-image charcoal scrim; `--shadow-dropdown`;
   Feed donation swatch `var(--raw-teal)` (the ONE sanctioned raw token). Each commented.
-- **THE TWO SANCTIONED THIRD-PARTY EXCEPTIONS — and only these two:** the `/sermons`
-  BranchCast resizer (the only `<script>` in `dist/`) and the remark YouTube nocookie embed.
+- **THE THREE SANCTIONED SCRIPT EXCEPTIONS — and only these three:** the `/sermons`
+  BranchCast resizer, the remark YouTube nocookie embed, and the first-party inline search on
+  `/resources` (`docs/adr-0002-resources-search.md`). A fourth needs a new ADR.
 - Build against REAL committed prototype source. Prove-twice-then-extract for shared patterns.
 - Honest placeholders only; nothing invented; grow the UNVERIFIED list. Never publish a
   personal email / never wire a `mailto:` to an unverified address (rendered inert).
@@ -758,7 +790,9 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
 5. **Hardening pass** — its own pass after content lands.
 6. ~~Blog Gate 3~~ **DONE 2026-09-26.** Todd: rewrite the `/blog` h1 + lede. (Meditation for
    Preparation default image DONE 2026-09-26, `b10cf91`.)
-7. **Homepage "latest from the blog" strip** — one gate.
+7. **Resources FEATURED SET** — Gate 2 (band + CMS fields), then Gate 3 (mega-menu rail + daily
+   rebuild). See ★ RESOURCES SEARCH + FEATURED SET. Search (Gate 1) DONE `45dacd7`.
+7b. **Homepage "latest from the blog" strip** — one gate.
 8. **ADC page** — overview (seed content pending) + "Current classes" / "Previous classes" via an
    ADC category + "Current until" date on posts. Needs a design decision first.
 
