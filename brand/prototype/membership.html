@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Membership · North Wake Church</title>
+<meta name="description" content="Considering membership at North Wake Church? Here are the five steps, walked together.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+/* ============ SITE TOKENS (existing — no new colors) ============ */
+:root{--bg:#f6f3ed;--bg-2:#ece7dc;--bg-3:#e3ddce;--ink:#1a1814;--ink-2:#3a352c;--ink-3:#6e665a;--ink-4:#a89f8e;--line:rgba(26,24,20,0.12);--line-strong:rgba(26,24,20,0.22);--accent:#8a4d2e;--accent-ink:#ffffff;--sans:"Inter Tight",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;--display:"Inter Tight",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;--serif:"Newsreader",Georgia,"Times New Roman",serif}
+[data-theme="dim"]{--bg:#1a1814;--bg-2:#221f1a;--bg-3:#2a2620;--ink:#f4efe5;--ink-2:#d8d2c4;--ink-3:#9c9484;--ink-4:#6e665a;--line:rgba(244,239,229,0.12);--line-strong:rgba(244,239,229,0.22);--accent:#d49271}
+
+/* ============ BASE + SHARED PRIMITIVES (mirror of styles.css) ============ */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-feature-settings:"ss01","cv11";letter-spacing:-0.005em;line-height:1.5}
+h1,h2,h3,p,ol,ul,dl,dd{margin:0}
+ol,ul{list-style:none;padding:0}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.wrap{max-width:1320px;margin:0 auto;padding:0 40px}
+section{padding:96px 0}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3)}
+.eyebrow .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:10px;transform:translateY(-2px)}
+.display-l{font-family:var(--display);font-size:clamp(44px,6.4vw,104px);font-weight:600;letter-spacing:-0.03em;line-height:0.98}
+.display-s{font-family:var(--display);font-size:clamp(28px,3.4vw,48px);font-weight:600;letter-spacing:-0.02em;line-height:1.05}
+.lede{font-size:clamp(18px,1.6vw,22px);line-height:1.5;color:var(--ink-2);font-weight:400;letter-spacing:-0.005em;max-width:56ch}
+.body{font-size:16px;line-height:1.6;color:var(--ink-2)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-3)}
+.btn{display:inline-flex;white-space:nowrap;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;font-size:14px;font-weight:500;letter-spacing:-0.005em;border:1px solid transparent;transition:background 160ms ease,color 160ms ease,border-color 160ms ease,transform 160ms ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--ink);color:var(--bg)}
+.btn-primary:hover{background:var(--accent)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+.btn-ghost:hover{border-color:var(--ink)}
+.btn .arr{transition:transform 200ms ease}
+.btn:hover .arr{transform:translateX(3px)}
+.btn:hover .arr-out{transform:translate(2px,-2px)}
+.ph{background:repeating-linear-gradient(135deg,var(--bg-3) 0 18px,color-mix(in srgb,var(--bg-3) 88%,var(--ink) 4%) 18px 36px);display:flex;align-items:center;justify-content:center}
+.ph .ph-label{font-family:var(--mono);font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-3);background:var(--bg);padding:5px 10px;border:1px solid var(--line)}
+.serif-h{font-family:var(--serif);font-weight:400;letter-spacing:-0.02em;line-height:1.04}
+.serif-h em{color:var(--accent)}
+
+/* ============ MEMBERSHIP PAGE ============ */
+/* 0 · Breadcrumb */
+.crumbs{padding:32px 0 0}
+.crumbs ol{display:flex;flex-wrap:wrap;gap:10px}
+.crumbs li{display:flex;gap:10px}
+.crumbs li + li::before{content:"/";color:var(--ink-4)}
+.crumbs a:hover{color:var(--ink)}
+.crumbs [aria-current]{color:var(--accent)}
+
+/* 1 · Hero — F · Warm Band */
+.mb-hero{padding:0;margin-top:32px;background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.mb-hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:stretch}
+.mb-hero-text{padding:88px 64px 88px max(40px,calc((100vw - 1320px) / 2 + 40px))}
+.mb-hero-text .eyebrow{margin-bottom:28px}
+.mb-hero-text h1{max-width:14ch}
+.mb-hero-text h1 span{color:var(--accent)}
+.mb-hero-text .lede{margin-top:28px}
+.mb-actions{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+.mb-hero-photo{min-height:520px}
+
+/* 2 · Facts strip */
+.mb-facts-sec{padding:80px 0 0}
+.mb-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong)}
+.mb-fact{background:var(--bg);padding:28px 24px}
+.mb-fact dt{margin-bottom:10px}
+.mb-fact dd{font-size:20px;font-weight:500;letter-spacing:-0.012em;line-height:1.3}
+
+/* 3 · Process */
+.mb-process{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:72px;align-items:start}
+.mb-intro{position:sticky;top:120px}
+.mb-intro .eyebrow{margin-bottom:18px}
+.mb-intro h2{font-size:clamp(40px,4.6vw,68px);margin-bottom:20px;max-width:10ch}
+.mb-intro p{font-size:17px;max-width:34ch}
+.mb-steps{border-top:2px solid var(--ink);padding-top:40px}
+.mb-step{display:grid;grid-template-columns:96px minmax(0,1fr);gap:40px;position:relative;padding-bottom:56px}
+.mb-step:last-child{padding-bottom:0}
+.mb-step:not(:last-child)::after{content:"";position:absolute;left:27px;top:64px;bottom:0;width:1px;background:var(--line-strong)}
+.mb-num{width:56px;height:56px;border-radius:50%;border:1px solid var(--ink);display:grid;place-items:center;font-size:20px;font-weight:600;letter-spacing:-0.02em;background:var(--bg);position:relative}
+.mb-step-body{padding-top:8px;min-width:0}
+.mb-step-body h3{margin-bottom:14px}
+.mb-step-body > p{font-size:18px;max-width:56ch}
+.mb-step-body > p + *{margin-top:22px}
+.mb-connect{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.mb-connect li{background:var(--bg);padding:22px 20px 24px}
+.mb-connect-k{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--accent);margin-bottom:10px}
+.mb-connect-h{font-size:17px;font-weight:600;line-height:1.3;letter-spacing:-0.01em;margin-bottom:8px}
+.mb-connect p{color:var(--ink-3)}
+.mb-reqs{border-top:1px solid var(--line-strong)}
+.mb-reqs li{display:grid;grid-template-columns:32px minmax(0,1fr) auto;gap:14px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line)}
+.mb-reqs .mono{color:var(--accent)}
+.mb-reqs li > span:nth-child(2){font-size:18px;font-weight:500;line-height:1.4}
+.mb-tag{font-family:var(--mono);font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink);border:1px solid var(--ink);padding:3px 8px}
+.mb-note{margin-top:20px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:baseline;padding:16px 20px;border:1px solid var(--line-strong);background:var(--bg-2)}
+.mb-note .mono,.mb-note p{color:var(--ink)}
+.mb-link{display:inline-flex;gap:8px;margin-top:20px;color:var(--accent);font-size:16px;font-weight:500;border-bottom:1px solid currentColor;padding-bottom:2px}
+.mb-link:hover{color:var(--ink)}
+
+/* 4 · Contact — dark band via inverse tokens */
+.mb-contact-sec{background:var(--bg);color:var(--ink);scroll-margin-top:80px}
+.mb-contact{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:64px;align-items:end}
+.mb-contact .eyebrow{margin-bottom:24px}
+.mb-contact h2{font-size:clamp(44px,5.6vw,88px);line-height:1.02;max-width:12ch}
+.mb-contact .lede{margin-top:24px;max-width:46ch}
+.mb-office{border-top:1px solid var(--line-strong);padding-top:24px}
+.mb-office .mono{margin-bottom:8px}
+.mb-office address{font-style:normal;font-size:22px;font-weight:500;line-height:1.35;margin-bottom:28px}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:980px){
+  .mb-process,.mb-contact{grid-template-columns:1fr;gap:48px}
+  .mb-intro{position:static}
+}
+@media (max-width:880px){
+  .mb-hero-grid{grid-template-columns:1fr}
+  .mb-hero-photo{order:-1;min-height:0;aspect-ratio:4/3}
+  .mb-hero-text{padding:56px 40px 64px}
+  .mb-facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mb-connect{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  .wrap{padding:0 22px}
+  section{padding:72px 0}
+  .mb-facts-sec{padding-top:64px}
+}
+@media (max-width:560px){
+  .mb-hero-text{padding:44px 22px 56px}
+  .mb-facts{grid-template-columns:1fr}
+  .mb-step{grid-template-columns:44px minmax(0,1fr);gap:16px}
+  .mb-num{width:40px;height:40px;font-size:16px}
+  .mb-step:not(:last-child)::after{left:19px;top:48px}
+  .mb-note{grid-template-columns:1fr;gap:6px}
+  .mb-actions .btn{flex:1 1 100%;justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<!-- SITE CHROME (nav + footer) already exists in the live Astro site and is not part of this package. -->
+<main id="membership">
+
+<!-- 0 · BREADCRUMB -->
+<nav class="crumbs" aria-label="Breadcrumb">
+  <div class="wrap">
+    <ol class="mono">
+      <li><a href="/">Home</a></li>
+      <li><span>About</span></li>
+      <li><span aria-current="page">Membership</span></li>
+    </ol>
+  </div>
+</nav>
+
+<!-- 1 · HERO — Warm Band -->
+<section class="mb-hero" aria-labelledby="mb-title">
+  <div class="mb-hero-grid">
+    <div class="mb-hero-text">
+      <div class="eyebrow"><span class="dot"></span>Considering membership</div>
+      <h1 id="mb-title" class="display-l">A way of <span>belonging</span>, growing, and sharing life together.</h1>
+      <p class="lede">If you’re exploring North Wake and wondering what it looks like to make this your church home, we’d love to walk with you.</p>
+      <div class="mb-actions">
+        <a class="btn btn-primary" href="#contact">Contact the church office <span class="arr" aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href="https://northwake.com/new-member-course/" target="_blank" rel="noopener">New Members Course <span class="arr arr-out" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+      </div>
+    </div>
+    <div class="mb-hero-photo ph" role="img" aria-label="New members being welcomed by the congregation"><span class="ph-label">Photo · new members welcomed</span></div>
+  </div>
+</section>
+
+<!-- 2 · FACTS -->
+<section class="mb-facts-sec" aria-label="Membership at a glance">
+  <div class="wrap">
+    <dl class="mb-facts">
+      <div class="mb-fact"><dt class="mono">The process</dt><dd>Five steps</dd></div>
+      <div class="mb-fact"><dt class="mono">Conversation</dt><dd>A brief 30 minutes with a staff leader</dd></div>
+      <div class="mb-fact"><dt class="mono">New Members Course</dt><dd>Six classes</dd></div>
+      <div class="mb-fact"><dt class="mono">To complete it</dt><dd>Attend at least 4 of 6</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- 3 · PROCESS -->
+<section aria-labelledby="mb-process-title">
+  <div class="wrap">
+    <div class="mb-process">
+      <div class="mb-intro">
+        <div class="eyebrow"><span class="dot"></span>The membership process</div>
+        <h2 id="mb-process-title" class="serif-h">Five steps, <em>walked together.</em></h2>
+        <p class="body">It begins simply — by letting the church office know you’d like to pursue or consider membership.</p>
+      </div>
+      <ol class="mb-steps">
+        <li class="mb-step">
+          <div class="mb-num" aria-hidden="true">1</div>
+          <div class="mb-step-body">
+            <h3 class="display-s"><span class="sr-only">Step 1: </span>Contact the church office</h3>
+            <p class="body">Simply contact the church office to let us know you’d like to pursue or consider membership.</p>
+          </div>
+        </li>
+        <li class="mb-step">
+          <div class="mb-num" aria-hidden="true">2</div>
+          <div class="mb-step-body">
+            <h3 class="display-s"><span class="sr-only">Step 2: </span>Get connected</h3>
+            <p class="body">Our office will let you know the dates for the next New Members Course and encourage you to:</p>
+            <ul class="mb-connect">
+              <li><div class="mb-connect-k" aria-hidden="true">a.</div><div class="mb-connect-h">Get connected to a Grow Group</div><p class="body">We’ll send you a Grow Groups brochure to help you find one.</p></li>
+              <li><div class="mb-connect-k" aria-hidden="true">b.</div><div class="mb-connect-h">Begin attending an Adult Discipleship Course</div><p class="body">We’ll send you information on current courses.</p></li>
+              <li><div class="mb-connect-k" aria-hidden="true">c.</div><div class="mb-connect-h">Complete “My Story”</div><p class="body">We’ll send you a short online form to share your story with us.</p></li>
+            </ul>
+          </div>
+        </li>
+        <li class="mb-step">
+          <div class="mb-num" aria-hidden="true">3</div>
+          <div class="mb-step-body">
+            <h3 class="display-s"><span class="sr-only">Step 3: </span>A get-to-know-each-other conversation</h3>
+            <p class="body">We’ll then schedule a brief, 30-minute conversation with a staff leader — a chance to get to know each other.</p>
+          </div>
+        </li>
+        <li class="mb-step">
+          <div class="mb-num" aria-hidden="true">4</div>
+          <div class="mb-step-body">
+            <h3 class="display-s"><span class="sr-only">Step 4: </span>Attend the New Members Course</h3>
+            <p class="body">Attend the course and complete the following:</p>
+            <ul class="mb-reqs">
+              <li><span class="mono" aria-hidden="true">A</span><span>Attend at least 4 of the 6 classes</span><span></span></li>
+              <li><span class="mono" aria-hidden="true">B</span><span>Turn in all required documents</span><span></span></li>
+              <li><span class="mono" aria-hidden="true">C</span><span>Sign the membership covenant</span><span class="mb-tag">Required</span></li>
+            </ul>
+            <div class="mb-note" role="note">
+              <span class="mono">Missed a class?</span>
+              <p class="body">If fewer than 4 classes are attended, you’ll attend the missing classes at the next course to be considered for membership.</p>
+            </div>
+            <a class="mb-link" href="https://northwake.com/new-member-course/" target="_blank" rel="noopener">New Members Course details <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+          </div>
+        </li>
+        <li class="mb-step">
+          <div class="mb-num" aria-hidden="true">5</div>
+          <div class="mb-step-body">
+            <h3 class="display-s"><span class="sr-only">Step 5: </span>Presented and affirmed</h3>
+            <p class="body">New members are presented to and affirmed by the congregation.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · CONTACT — dark band -->
+<section id="contact" class="mb-contact-sec" data-theme="dim" aria-labelledby="mb-contact-title">
+  <div class="wrap">
+    <div class="mb-contact">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Step one</div>
+        <h2 id="mb-contact-title" class="serif-h">We’d love to <em>walk with you.</em></h2>
+        <p class="lede">Simply contact the church office to let us know you’d like to pursue or consider membership.</p>
+      </div>
+      <div class="mb-office">
+        <div class="mono">Church office</div>
+        <address>1212 S Main St<br>Wake Forest, NC</address>
+        <div class="mb-actions">
+          <a class="btn btn-primary" href="#CHURCH-OFFICE-CONTACT">Contact the church office <span class="arr" aria-hidden="true">→</span></a>
+          <a class="btn btn-ghost" href="https://northwake.com/new-member-course/" target="_blank" rel="noopener">New Members Course <span class="arr arr-out" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+</body>
+</html>
