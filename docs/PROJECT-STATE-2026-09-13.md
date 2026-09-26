@@ -30,6 +30,10 @@ package**, and **shot list v2**.
 > **🟢 2026-09-26 (evening) — `/about/membership` SHIPPED (`43c4fe6`), plus the New Members
 > Course text page migrated from the old site (`cacd991`).** This fixes the nav/footer
 > Membership dead link. See ★ MEMBERSHIP.
+>
+> **🟢 2026-09-26 (late) — `/community/grow-groups` SHIPPED (`8f2e907`)** with a staff-editable
+> directory in Pages CMS. This fixes 8 dead links. See ★ GROW GROUPS. Also: the logo mark +
+> caps wordmark (★ BRAND).
 
 ---
 
@@ -152,6 +156,7 @@ transfer the GitHub repo to a church org; reassign Render (swap account email, r
 | `/` (homepage) | ✅ COMPLETE — watercolor hero; Events section queries the collection; placeholder photos in mission triad, sermon-card art, welcome band, people photo |
 | `/community/students` | ✅ COMPLETE |
 | `/about/mission` | ✅ COMPLETE — Devotional redesign |
+| `/community/grow-groups` | ✅ **COMPLETE (2026-09-26)** — Warm Band hero, facts (computed), heartbeat, 4 rhythms, day-grouped directory from the CMS, dark contact band (mailto + tel). 8 inbound links were 404s |
 | `/about/membership` | ✅ **COMPLETE (2026-09-26)** — Warm Band hero, facts strip, sticky intro + 5-step timeline, dark contact band (mailto office@). Nav/footer link was a 404 before |
 | `/who-is-jesus` | ✅ COMPLETE |
 | `/community/kids` | ✅ COMPLETE — serif-on-image photo hero (stock) |
@@ -183,6 +188,31 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
 `/sermons`, `/blog` (+`[slug]`), `/resources` (+`[slug]`, labeled "Other Resources").
 
 ---
+
+## ★ GROW GROUPS — SHIPPED (2026-09-26, `8f2e907`)
+Design: `brand/prototype/GROW-GROUPS-SPEC.md` + `grow-groups.html` (`3c2c36b`). Copy = the
+church's Grow Groups text (Todd), verbatim; "love - developing" set as an em dash.
+- **Directory = the `growGroups` collection** (`src/content/grow-groups/*.md`, one file per
+  group: name, day, time "HH:MM", place). **Staff-edited in Pages CMS** ("Grow Groups": day +
+  time are pick-lists, 6:00 AM–9:30 PM in 15-min steps, so a typo can't fail the build; town is
+  free text). **NO phone/contact field, BY DESIGN.** Leaders' personal numbers (in Todd's
+  source list) were never committed; grep-verified that none of the 17 are in the repo. All
+  enquiries go through the office.
+- `src/lib/grow-groups.ts` = the one source: day order (Sun→Sat, empty days hidden), sort by
+  time then name (so same-time groups list alphabetically, not in the source order), "6:30 PM"
+  formatting, counts. The facts strip ("17 groups across Wake Forest & nearby", days list), the
+  day jump counts, and the **homepage's "N active groups" (was hardcoded 12)** all compute from it.
+- Site translation: shared WarmBandHero, site Breadcrumb ("Community" non-clickable),
+  inverse-token dark band (`.btn-accent`), the kit's inline `style=` → classes, the ≤680
+  stacked-row table as the kit specifies (thead visually hidden). The 4th rhythm label is
+  "Regularly" (the copy's word), not the kit's "Always".
+- **Office phone `(919) 556-1546` CONFIRMED** by Todd ("the only published number") → tel:
+  wired here. Email + phone marked confirmed in `business.ts`.
+- Cross-links added: Membership step 2a → "See the Grow Groups"; the New Members Course page
+  regained its "Resources" → Grow Groups link. The kids breadcrumb / homepage "See all
+  ministries" stand-ins deliberately still point here (Todd).
+- QA 1440/1024/768/375: no overflow; day jumps land below the sticky nav (desktop + phone);
+  two-couple names wrap; time·town stays on one line on phones.
 
 ## ★ BRAND — logo mark + wordmark (2026-09-26, `8ab9a24`)
 - The real logo mark replaces the CSS placeholder in the **Nav (26px)** and **Footer (30px)**
@@ -278,6 +308,11 @@ church office's process notes (Todd, 2026-09-26).
   about 3 lines, fill in "Short description for the featured card"; (5) the card and the
   Resources menu update together a couple of minutes after saving. Brief them before next
   week's resource load.
+  **Grow Groups section:** (1) one entry per group; add or delete a group to change the
+  directory; (2) the name as it should appear, with no "GG" suffix; (3) day + start time from
+  the menus; (4) the town only (e.g. "Wake Forest", spelled out), never an address; (5) NEVER
+  add phone numbers or emails; people contact the office; (6) counts on the page and the
+  homepage update themselves.
 
 ## ★ BLOG — "TwelveTwelve: The Leader Blog" — SHIPPED (2026-09-26, 3 gates, COMPLETE)
 Commits: `c0ee04a` (Gate 1: collection + `/blog` + `/blog/[slug]`) → `8083aa1` (Gate 2: CMS,
@@ -802,6 +837,12 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
 - **`/give`** redirect already exists (HOPE's Donate button links to it).
 
 ## UNVERIFIED CONTENT — confirm with church (the real launch gate)
+- **★ `/community/grow-groups` (2026-09-26):** LABEL copy needing church sign-off: the hero h1
+  "Ordinary people, growing into wholehearted followers of Jesus.", "Shaped not just in what
+  we know, but in what we love.", "Life together, week by week.", the 4 rhythm titles and
+  frequency labels, the trimmed rhythm bodies, the directory intro, and the contact h2/lede.
+  The directory is the list as of 2026-09-26 (staff maintain it in Pages CMS). Hero photo =
+  placeholder. The hero h1 runs to 6 lines on desktop at display-l (display-m is an option).
 - **★ `/about/membership` (2026-09-26):** the course is **6 classes** per the office notes, but
   the old course page has only **5 recorded weeks**. Is there a 6th session? The hero h1/lede,
   "Five steps, walked together" and "We'd love to walk with you" are REUSED prototype copy.
