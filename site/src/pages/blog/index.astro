@@ -1,0 +1,357 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import { formatMonth, formatDay } from "../../lib/date";
+import { getPublishedPosts, formatPublished, excerptOf, seriesId } from "../../lib/blog";
+
+// Blog index — "TwelveTwelve: The Leader Blog". Design source:
+// brand/prototype/page-blog.jsx (BlogPage). Newest post (or a `featured` one) gets
+// the featured slot; the rest roll below as date-stamped rows.
+//
+// Series filter: GENERATED from the distinct `series` values (same zero-JS :target
+// mechanism as /resources) and only rendered once there are 2+ series — today every
+// post is "Meditation for Preparation", so a one-chip bar would be noise. While a
+// filter is active the featured slot hides and the featured post's duplicate row
+// (.is-featured-dup, hidden by default) shows in the list instead, so nothing matching
+// the filter disappears.
+const posts = await getPublishedPosts();
+const featured = posts.find((p) => p.data.featured) ?? posts[0];
+const rest = posts.filter((p) => p !== featured);
+
+const seriesList = [...new Set(posts.map((p) => p.data.series).filter(Boolean))] as string[];
+const showFilter = seriesList.length >= 2;
+const seriesIds = seriesList.map(seriesId);
+const countFor = (label: string) => posts.filter((p) => p.data.series === label).length;
+
+const NAV_CLEARANCE = 96; // sticky Nav (~72px) + breathing room — matches /resources
+const list = (fn: (id: string) => string) => seriesIds.map(fn).join(",\n");
+const filterCss = showFilter
+  ? `
+.tgt { display: block; height: 0; scroll-margin-top: ${NAV_CLEARANCE}px; }
+.bchip {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--ink-2);
+  padding: 8px 15px; border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+.bchip:hover { border-color: var(--ink-3); }
+.bchip .n { color: var(--ink-4); margin-left: 7px; }
+.bchip-all { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+${list((id) => `#${id}:target ~ .bfilter .bchip-all`)} {
+  background: transparent; color: var(--ink-2); border-color: var(--line-strong);
+}
+${list((id) => `#${id}:target ~ .bfilter .bchip-${id}`)} {
+  background: var(--ink); color: var(--bg); border-color: var(--ink);
+}
+${list((id) => `#${id}:target ~ .bfeatured`)} { display: none; }
+${list((id) => `#${id}:target ~ .blist .brow.is-featured-dup`)} { display: grid; }
+${list((id) => `#${id}:target ~ .blist .brow:not(.${id})`)} { display: none; }
+@media (max-width: 720px) { .bchip { font-size: 14px; } }
+`
+  : "";
+
+const tagsFor = (p: (typeof posts)[number]) => (p.data.series ? [p.data.series] : []);
+---
+
+<Layout
+  title="TwelveTwelve: The Leader Blog · North Wake Church"
+  description="TwelveTwelve, the leader blog of North Wake Church: weekly meditations from our pastors and leaders to help you prepare for Sunday."
+>
+  <Breadcrumb trail={[{ label: "Home", href: "/" }, { label: "Blog" }]} />
+
+  <!-- Header — blog name is real (old site: "TwelveTwelve: The Leader Blog of North
+       Wake Church"); the h1 + lede are UNVERIFIED placeholder copy (state doc). -->
+  <section class="bhero">
+    <div class="wrap">
+      <div class="eyebrow"><span class="dot"></span>TwelveTwelve · The Leader Blog</div>
+      <div class="bhero-grid">
+        <h1 class="display-l bhero-title">Words from our pastors and leaders.</h1>
+        <p class="lede bhero-lede">
+          Weekly meditations to help you prepare for Sunday, written for the people of
+          North Wake and anyone else who’d find them useful.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap broot">
+    {showFilter && <a id="all" class="tgt"></a>}
+    {showFilter && seriesIds.map((id) => <a id={id} class="tgt"></a>)}
+
+    {
+      showFilter && (
+        <div class="bfilter">
+          <a href="#all" class="bchip bchip-all">
+            All <span class="n">{posts.length}</span>
+          </a>
+          {seriesList.map((label) => (
+            <a href={`#${seriesId(label)}`} class={`bchip bchip-${seriesId(label)}`}>
+              {label} <span class="n">{countFor(label)}</span>
+            </a>
+          ))}
+        </div>
+      )
+    }
+
+    {
+      featured && (
+        <a class={`bfeatured${featured.data.image ? " has-image" : ""}`} href={`/blog/${featured.id}`}>
+          {featured.data.image && (
+            <img
+              class="bfeatured-img"
+              src={featured.data.image}
+              alt={featured.data.imageAlt ?? featured.data.title}
+              loading="eager"
+            />
+          )}
+          <div class="bfeatured-copy">
+            <div class="mono bfeatured-kicker">
+              Latest{featured.data.series ? ` · ${featured.data.series}` : ""}
+            </div>
+            <h2 class="bfeatured-title">{featured.data.title}</h2>
+            <p class="bfeatured-excerpt">{excerptOf(featured)}</p>
+            <p class="bmeta">
+              By {featured.data.author} · {formatPublished(featured.data.date)}
+            </p>
+            <span class="btn btn-ghost">
+              Read post <span class="arr">→</span>
+            </span>
+          </div>
+        </a>
+      )
+    }
+
+    {
+      (rest.length > 0 || showFilter) && (
+        <div class="blist">
+          <div class="eyebrow blist-head">
+            <span class="dot"></span>More posts
+          </div>
+          {[featured, ...rest].filter(Boolean).map((p) => (
+            <a
+              class={`brow row-link${p === featured ? " is-featured-dup" : ""} ${p.data.series ? seriesId(p.data.series) : ""}`}
+              href={`/blog/${p.id}`}
+            >
+              <div class="brow-date" aria-hidden="true">
+                <div class="mono brow-mon">{formatMonth(p.data.date)}</div>
+                <div class="brow-day">{formatDay(p.data.date)}</div>
+              </div>
+              <div class="brow-main">
+                {tagsFor(p).length > 0 && (
+                  <div class="brow-tags">
+                    {tagsFor(p).map((t) => (
+                      <span class="mono brow-tag">{t}</span>
+                    ))}
+                  </div>
+                )}
+                <h3 class="brow-title">{p.data.title}</h3>
+                <p class="brow-excerpt">{excerptOf(p)}</p>
+                <p class="bmeta">
+                  By {p.data.author} · {formatPublished(p.data.date)}
+                </p>
+              </div>
+              <span class="row-arr brow-arr" aria-hidden="true">→</span>
+            </a>
+          ))}
+        </div>
+      )
+    }
+
+    {posts.length === 0 && <p class="bempty">New posts are on the way. Check back soon.</p>}
+  </div>
+</Layout>
+
+{showFilter && <style is:global set:html={filterCss} />}
+
+<style>
+  .bhero {
+    padding: 64px 0 0;
+  }
+  .bhero-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 64px;
+    align-items: end;
+    margin-top: 28px;
+  }
+  .bhero-title {
+    max-width: 18ch;
+  }
+  .bhero-lede {
+    color: var(--ink-2);
+    margin: 0 0 8px;
+  }
+
+  .broot {
+    padding-top: 56px;
+    padding-bottom: 96px;
+  }
+
+  /* Series filter bar (only rendered with 2+ series; chip styles live in filterCss) */
+  .bfilter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 56px;
+  }
+
+  /* Featured — image + copy side by side; text-only when the post has no image
+     (no fake placeholder art on a live page). */
+  .bfeatured {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 56px;
+    align-items: center;
+    color: inherit;
+    padding-bottom: 72px;
+    border-bottom: 1px solid var(--line);
+  }
+  .bfeatured.has-image {
+    grid-template-columns: 1.1fr 1fr;
+  }
+  .bfeatured-img {
+    width: 100%;
+    aspect-ratio: 5 / 4;
+    object-fit: cover;
+    border: 1px solid var(--line-strong);
+    display: block;
+  }
+  .bfeatured-copy {
+    max-width: 720px;
+  }
+  .bfeatured-kicker {
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+  .bfeatured-title {
+    font-size: clamp(36px, 4.8vw, 72px);
+    line-height: 1.02;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    margin-bottom: 20px;
+    transition: color 140ms ease;
+  }
+  .bfeatured:hover .bfeatured-title {
+    color: var(--accent);
+  }
+  .bfeatured-excerpt {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin: 0 0 24px;
+    max-width: 52ch;
+  }
+  .bfeatured .bmeta {
+    margin-bottom: 28px;
+  }
+
+  .bmeta {
+    font-size: 16px; /* content floor — author name is real content */
+    line-height: 1.5;
+    color: var(--ink-3);
+    margin: 0;
+  }
+
+  /* List */
+  .blist {
+    padding-top: 72px;
+  }
+  .blist-head {
+    margin-bottom: 16px;
+  }
+  .brow {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr) auto;
+    gap: 32px;
+    align-items: baseline;
+    padding-top: 32px;
+    padding-bottom: 32px;
+    color: inherit;
+  }
+  .brow.is-featured-dup {
+    display: none; /* shown only while a series filter is active (filterCss) */
+  }
+  .brow-mon {
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .brow-day {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+  }
+  .brow-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .brow-tag {
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    color: var(--ink-3);
+  }
+  .brow-title {
+    font-size: clamp(28px, 3.4vw, 40px);
+    line-height: 1.08;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+    max-width: 32ch;
+  }
+  .brow-excerpt {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink-3);
+    margin: 0 0 12px;
+    max-width: 60ch;
+  }
+  .brow-arr {
+    color: var(--accent);
+    align-self: center;
+  }
+
+  .bempty {
+    font-size: 18px;
+    color: var(--ink-3);
+  }
+
+  @media (max-width: 900px) {
+    .bhero-grid,
+    .bfeatured.has-image {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+    }
+  }
+  @media (max-width: 720px) {
+    .bhero {
+      padding-top: 40px;
+    }
+    .broot {
+      padding-top: 40px;
+    }
+    .bfeatured {
+      padding-bottom: 48px;
+    }
+    .blist {
+      padding-top: 48px;
+    }
+    .brow {
+      grid-template-columns: 56px minmax(0, 1fr);
+      gap: 18px;
+    }
+    .brow-day {
+      font-size: 28px;
+    }
+    .brow-arr {
+      display: none;
+    }
+  }
+</style>

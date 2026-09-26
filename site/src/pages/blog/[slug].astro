@@ -1,0 +1,306 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import { render } from "astro:content";
+import { getPublishedPosts, formatPublished, excerptOf, initialsOf } from "../../lib/blog";
+
+// Blog post — design source: brand/prototype/page-blog.jsx (BlogPostPage). One route
+// per NON-DRAFT post. The prototype's block types map onto Markdown: paragraph →
+// prose, heading → ##/###, scripture → the optional `scripture` front-matter "Read"
+// block, and any Markdown quote (the old blog quotes scripture/authors this way) →
+// the same boxed quote treatment. The prototype's pull-quote is not a separate type:
+// the real posts use quotes for citations, not display pull-quotes.
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return posts.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+---
+
+<Layout title={`${d.title} · TwelveTwelve · North Wake Church`} description={excerptOf(entry)}>
+  <Breadcrumb
+    trail={[
+      { label: "Home", href: "/" },
+      { label: "Blog", href: "/blog" },
+      { label: d.title },
+    ]}
+  />
+
+  <article class="bp">
+    <header class="bp-head">
+      {d.series && <div class="mono bp-series">{d.series}</div>}
+      <h1 class="bp-title">{d.title}</h1>
+      <div class="bp-meta">
+        <div>
+          <div class="mono bp-meta-k">By</div>
+          <div class="bp-meta-v">{d.author}</div>
+        </div>
+        <div class="bp-meta-rule" aria-hidden="true"></div>
+        <div>
+          <div class="mono bp-meta-k">Published</div>
+          <div class="bp-meta-v">{formatPublished(d.date)}</div>
+        </div>
+      </div>
+    </header>
+
+    {
+      d.image && (
+        <img class="bp-img" src={d.image} alt={d.imageAlt ?? d.title} loading="eager" />
+      )
+    }
+
+    <div class="bp-body">
+      {
+        d.scripture && (
+          <aside class="bp-read">
+            <div class="mono bp-read-k">Read</div>
+            <div class="bp-read-ref">{d.scripture.ref}</div>
+            {d.scripture.text && <p class="bp-read-text">{d.scripture.text}</p>}
+          </aside>
+        )
+      }
+
+      <div class="bp-prose">
+        <Content />
+      </div>
+
+      <footer class="bp-author">
+        <div class="bp-avatar" aria-hidden="true">{initialsOf(d.author)}</div>
+        <div>
+          <div class="mono bp-author-k">About the author</div>
+          <div class="bp-author-name">{d.author}</div>
+          <div class="bp-author-sub">
+            Writes for TwelveTwelve{d.series ? ` · ${d.series}` : ""}
+          </div>
+        </div>
+      </footer>
+
+      <div class="bp-back">
+        <a class="btn btn-ghost" href="/blog">← All blog posts</a>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .bp {
+    padding: 56px 0 96px;
+  }
+  .bp-head,
+  .bp-img {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .bp-body {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* Header */
+  .bp-series {
+    display: inline-block;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    color: var(--accent);
+    margin-bottom: 28px;
+  }
+  .bp-title {
+    font-size: clamp(40px, 5.6vw, 84px);
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    max-width: 20ch;
+    margin-bottom: 24px;
+  }
+  .bp-meta {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--line);
+  }
+  .bp-meta-k {
+    color: var(--ink-3);
+    margin-bottom: 4px;
+  }
+  .bp-meta-v {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .bp-meta-rule {
+    width: 1px;
+    height: 36px;
+    background: var(--line);
+  }
+
+  .bp-img {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    margin-top: 40px;
+  }
+
+  .bp-body {
+    padding-top: 48px;
+  }
+
+  /* "Read" scripture block + Markdown quotes share one boxed treatment */
+  .bp-read,
+  .bp-prose :global(blockquote) {
+    background: var(--bg-2);
+    border-left: 3px solid var(--accent);
+    padding: 28px 32px;
+    margin: 0 0 32px;
+  }
+  .bp-read-k {
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .bp-read-ref {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .bp-read-text,
+  .bp-prose :global(blockquote p) {
+    font-family: var(--display);
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ink-2);
+    font-style: italic;
+    margin: 0;
+  }
+  .bp-prose :global(blockquote p + p) {
+    margin-top: 14px;
+  }
+
+  /* Prose (rendered Markdown is unscoped) */
+  .bp-prose :global(p) {
+    font-family: var(--display);
+    font-size: 20px; /* content; 18 on mobile */
+    line-height: 1.65;
+    color: var(--ink);
+    margin: 0 0 24px;
+    text-wrap: pretty;
+  }
+  .bp-prose :global(h2),
+  .bp-prose :global(h3) {
+    font-size: clamp(26px, 3vw, 34px);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 40px 0 16px;
+    max-width: 30ch;
+  }
+  .bp-prose :global(ol),
+  .bp-prose :global(ul) {
+    margin: 0 0 24px;
+    padding-left: 24px;
+  }
+  .bp-prose :global(li) {
+    font-family: var(--display);
+    font-size: 18px;
+    line-height: 1.6;
+    margin: 0 0 8px;
+  }
+  .bp-prose :global(a) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  /* YouTube embed (remark-youtube) — same treatment as resources/[slug].astro */
+  .bp-prose :global(.yt-embed) {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    margin: 28px 0;
+    border: 1px solid var(--line);
+  }
+  .bp-prose :global(.yt-embed iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* Author footer */
+  .bp-author {
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line-strong);
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 24px;
+    align-items: center;
+  }
+  .bp-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--bg-2);
+    border: 1px solid var(--line-strong);
+    display: grid;
+    place-items: center;
+    font-family: var(--display);
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--ink-3);
+  }
+  .bp-author-k {
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .bp-author-name {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .bp-author-sub {
+    font-size: 16px;
+    color: var(--ink-3);
+  }
+
+  .bp-back {
+    padding-top: 64px;
+    text-align: center;
+  }
+
+  @media (max-width: 720px) {
+    .bp {
+      padding-top: 40px;
+    }
+    .bp-head,
+    .bp-img,
+    .bp-body {
+      padding-left: 22px;
+      padding-right: 22px;
+    }
+    .bp-img {
+      padding: 0;
+    }
+    .bp-prose :global(p) {
+      font-size: 18px;
+    }
+    /* meta wraps to two lines here — the vertical rule would dangle */
+    .bp-meta-rule {
+      display: none;
+    }
+    .bp-read,
+    .bp-prose :global(blockquote) {
+      padding: 22px 20px;
+    }
+  }
+</style>

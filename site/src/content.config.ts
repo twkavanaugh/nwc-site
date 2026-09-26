@@ -138,4 +138,37 @@ const resources = defineCollection({
     }),
 });
 
-export const collections = { events, categories, posts, resources };
+// -----------------------------------------------------------------------------
+// blog — "TwelveTwelve: The Leader Blog" (decided 2026-09-26: a SEPARATE blog, not
+// resource text pages). Posts are dated and authored; they roll to /blog newest-first.
+// Resource `posts` stay evergreen reference pages placed by category.
+// Design source: brand/prototype/page-blog.jsx. Staff (Karen, Devin) will write these
+// in Pages CMS (Gate 2), so optional fields degrade gracefully:
+// - no `excerpt` → the card blurb is the body's first paragraph (src/lib/blog.ts)
+// - no `image`   → the featured slot renders text-only (no fake placeholder)
+// - no `scripture` → no "Read" block
+// -----------------------------------------------------------------------------
+const blog = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
+  schema: z.object({
+    title: z.string(), // the post's own headline, e.g. "Love Does No Harm"
+    date: z.coerce.date(), // publish date; drives the newest-first order + date stamp
+    author: z.string(), // free text for v1 (a pick-list later if spellings drift)
+    // Series label, e.g. "Meditation for Preparation". Shown as the eyebrow; the
+    // /blog filter bar is generated from the distinct series and only appears once
+    // there are 2+ (every current post is the same series).
+    series: z.string().optional(),
+    excerpt: z.string().optional(),
+    // The opening "Read:" passage the old blog leads with. Both parts optional so a
+    // post can lead with a reference alone.
+    scripture: z
+      .object({ ref: z.string(), text: z.string().optional() })
+      .optional(),
+    image: z.string().optional(), // path into public/, convention public/blog/<name>.jpg
+    imageAlt: z.string().optional(),
+    featured: z.boolean().default(false), // pin to the /blog featured slot; else newest
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { events, categories, posts, resources, blog };
