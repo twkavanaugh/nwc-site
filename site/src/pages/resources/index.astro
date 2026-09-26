@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
+import { resourceTarget, getFeaturedResource } from "../../lib/resources";
 // Static background for the featured card (not per-item). PLACEHOLDER until the
 // photographer's images arrive — Unsplash, Marlon Reyes (licence confirmed by Todd).
 import featuredPhoto from "../../assets/resources/featured-landscape.jpg";
@@ -53,16 +54,10 @@ type Card = {
   glyph: string;
   kicker: string;
   action: string;
-  featured: boolean;
-  featuredDescription?: string;
 };
 
-// CONVENTION: a pdf/download target whose path begins with "/resources/PLACEHOLDER-"
-// is a document the church hasn't provided yet — its row renders INERT (glyph + label
-// kept, action replaced with muted "Available soon", no link). Swap the placeholder
-// path for the real file and the row goes live automatically. Also enforced in
-// resources/[slug].astro for post attachments.
-const PLACEHOLDER_PREFIX = "/resources/PLACEHOLDER-";
+// Link targets + the inert "/resources/PLACEHOLDER-" convention live in
+// src/lib/resources.ts (shared with the Nav's featured rail).
 
 const resourceCards: Card[] = resourceEntries.map((e) => {
   const type = e.data.type as keyof typeof TYPE_META;
@@ -72,17 +67,9 @@ const resourceCards: Card[] = resourceEntries.map((e) => {
     description: e.data.description,
     cats,
     type,
-    // pdf → `file` (/public path) OR `link` (hosted PDF, e.g. Google Drive — opens in
-    // a new tab, action shows ↗); external → `link` (absolute URL); post → `link`
-    // (a post slug) resolved to the /resources route. The schema guarantees exactly
-    // one of file/link is set.
-    href: type === "post" ? `/resources/${e.data.link}` : (e.data.file ?? e.data.link)!,
-    newTab: type === "external" || (type === "pdf" && !e.data.file),
-    inert: type === "pdf" && !!e.data.file?.startsWith(PLACEHOLDER_PREFIX),
+    ...resourceTarget(e), // href / newTab / inert (a hosted PDF's action shows ↗)
     ...TYPE_META[type],
     ...(type === "pdf" && !e.data.file ? { action: "Download PDF ↗" } : {}),
-    featured: e.data.featured,
-    featuredDescription: e.data.featuredDescription,
   };
 });
 
@@ -95,8 +82,6 @@ const postCards: Card[] = postEntries.map((e) => ({
   newTab: false,
   inert: false,
   ...TYPE_META.post,
-  featured: e.data.featured,
-  featuredDescription: e.data.featuredDescription,
 }));
 
 // Deterministic order: alphabetical by title (no curated sort field yet).
@@ -105,24 +90,13 @@ const catalog: Card[] = [...resourceCards, ...postCards].sort((a, b) =>
 );
 
 const totalCount = catalog.length;
+const countFor = (id: string) => catalog.filter((c) => c.cats.includes(id)).length;
 
 // --- Featured card (hero, right column) — brand/prototype/FEATURED-RESOURCE-PHOTO-SPEC.md ---
-// First featured item by title (catalog is title-sorted). Drafts are already out of the
-// catalog; an inert "Available soon" placeholder has nothing to link to, so it never
-// features. None featured → no card, and the hero stays single-column. The kit's
-// Format/Led by/Category row is deliberately NOT built (no such fields; Todd, 2026-09-26).
-const feat = catalog.find((c) => c.featured && !c.inert);
-// Button wording per type; the arrow nudges on hover (↗ = opens another site/tab).
-const FEAT_CTA = {
-  post: { label: "Read the post", arr: "→" },
-  pdf: { label: "Download PDF", arr: "→" },
-  external: { label: "Visit site", arr: "↗" },
-} as const;
-const featCta = feat && {
-  ...FEAT_CTA[feat.type],
-  ...(feat.type === "pdf" && feat.newTab ? { arr: "↗" } : {}),
-};
-const countFor = (id: string) => catalog.filter((c) => c.cats.includes(id)).length;
+// Which item + its wording come from src/lib/resources.ts (shared with the Nav rail).
+// None featured → no card, and the hero stays single-column. The kit's Format/Led
+// by/Category row is deliberately NOT built (no such fields; Todd, 2026-09-26).
+const feat = await getFeaturedResource();
 
 // --- Generated :target filter engine (injected is:global below) ---
 // Kept global (not scoped) so the #id:target sibling selectors are not rewritten by
@@ -183,7 +157,7 @@ ${list((id) => `#${id}:target ~ .catalog-wrap .count .name-${id}`)} { display: i
         </p>
       </div>
       {
-        feat && featCta && (
+        feat && (
           // ONE link wraps the card; the button is a <span> so links never nest.
           <a
             class="feat"
@@ -202,12 +176,12 @@ ${list((id) => `#${id}:target ~ .catalog-wrap .count .name-${id}`)} { display: i
             />
             <div class="feat-top">
               <span class="feat-kicker">Featured resource</span>
-              <span class="feat-type">{feat.kicker}</span>
+              <span class="feat-type">{TYPE_META[feat.type].kicker}</span>
             </div>
             <h2 class="feat-title" id="feat-title">{feat.title}</h2>
-            <p class="feat-desc">{feat.featuredDescription ?? feat.description}</p>
+            <p class="feat-desc">{feat.blurb}</p>
             <span class="btn btn-on-image-primary feat-cta">
-              {featCta.label} <span class="arr" aria-hidden="true">{featCta.arr}</span>
+              {feat.ctaLabel} <span class="arr" aria-hidden="true">{feat.ctaArr}</span>
             </span>
           </a>
         )
@@ -230,7 +204,7 @@ ${list((id) => `#${id}:target ~ .catalog-wrap .count .name-${id}`)} { display: i
           id="rz-q"
           class="search-input"
           type="search"
-          placeholder="Search titles and descriptions"
+          placeholder="Search resources"
           autocomplete="off"
           spellcheck="false"
         />

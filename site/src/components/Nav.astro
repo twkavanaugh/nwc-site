@@ -7,6 +7,7 @@
 // prior nav. All CSS scoped here; consumes only global tokens + .btn*.
 
 import { BUSINESS } from "../data/business";
+import { getFeaturedResource } from "../lib/resources";
 
 const pathname = Astro.url.pathname;
 
@@ -20,8 +21,20 @@ type MegaColumn = { heading: string; items: MegaItem[] };
 type MegaGroup = {
   label: string;
   columns: MegaColumn[];
-  featured: { kicker: string; title: string; body: string; ctaLabel: string; ctaHref: string };
+  featured: {
+    kicker: string;
+    title: string;
+    body: string;
+    ctaLabel: string;
+    ctaHref: string;
+    ctaArr?: string; // default "→"; "↗" for an item that opens another site
+    newTab?: boolean;
+  };
 };
+
+// Resources rail: the item staff feature in Pages CMS (the same one as the /resources
+// hero card — src/lib/resources.ts). None featured → the default sermons rail below.
+const featuredResource = await getFeaturedResource();
 
 // UNVERIFIED COPY — descriptions + featured rails are placeholders, confirm with church before launch.
 // Items WITHOUT an href are unbuilt routes → rendered dimmed/non-clickable, no arrow.
@@ -159,13 +172,23 @@ const GROUPS: MegaGroup[] = [
         ],
       },
     ],
-    featured: {
-      kicker: "This Sunday",
-      title: "Catch the latest.",
-      body: "Miss a week? Watch the most recent sermon any time.",
-      ctaLabel: "Watch now",
-      ctaHref: "/sermons", // sermons now live; rail copy stays UNVERIFIED placeholder
-    },
+    featured: featuredResource
+      ? {
+          kicker: "Featured resource",
+          title: featuredResource.title,
+          body: featuredResource.blurb,
+          ctaLabel: featuredResource.ctaLabel,
+          ctaHref: featuredResource.href,
+          ctaArr: featuredResource.ctaArr,
+          newTab: featuredResource.newTab,
+        }
+      : {
+          kicker: "This Sunday",
+          title: "Catch the latest.",
+          body: "Miss a week? Watch the most recent sermon any time.",
+          ctaLabel: "Watch now",
+          ctaHref: "/sermons", // sermons now live; rail copy stays UNVERIFIED placeholder
+        },
   },
 ];
 
@@ -233,8 +256,12 @@ const GIVE_HREF = BUSINESS.givingUrl;
                   <div class="mega-featured-kicker">{g.featured.kicker}</div>
                   <div class="mega-featured-title">{g.featured.title}</div>
                   <p class="mega-featured-body">{g.featured.body}</p>
-                  <a class="btn btn-primary mega-featured-cta" href={g.featured.ctaHref}>
-                    {g.featured.ctaLabel} <span class="arr">→</span>
+                  <a
+                    class="btn btn-primary mega-featured-cta"
+                    href={g.featured.ctaHref}
+                    {...(g.featured.newTab ? { target: "_blank", rel: "noopener" } : {})}
+                  >
+                    {g.featured.ctaLabel} <span class="arr">{g.featured.ctaArr ?? "→"}</span>
                   </a>
                 </aside>
               </div>
@@ -559,6 +586,12 @@ const GIVE_HREF = BUSINESS.givingUrl;
        (e.g. Resources); .mega-featured-cta margin-top:auto still bottom-pins
        on taller rails. */
     margin: 10px 0 20px;
+    /* A featured resource's blurb is staff-written — cap it so the rail never grows. */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    overflow: hidden;
   }
   .mega-featured-cta {
     margin-top: auto;
