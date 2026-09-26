@@ -17,6 +17,11 @@ package**, and **shot list v2**.
 > `/community/women`, `/community/lily-moms` SHIPPED; homepage ticker removed; first redirect
 > (`/womensministry`).** See the ★ LILY MOMS, ★ WOMEN'S MINISTRY, ★ MERCY HEALTH, ★ CARE MINISTRY, ★ CHURCH PLANTING and ★ COME VISIT sections. Read that section first; the rest of this doc is as of 09-13 except where marked.
 
+> **🟢 2026-09-26 UPDATE — `/blog` SHIPPED: "TwelveTwelve: The Leader Blog" (2 gates, LIVE).**
+> Separate dated/authored `blog` collection + Pages CMS "Blog" section. See ★ BLOG. Also
+> decided: the ADC page's class roll + "Current until" mechanics (★ BLOG → Decided next), and a
+> **★ DOMAIN CUTOVER PUNCH LIST** now exists. Gate 3 (Todd's live CMS test) is pending.
+
 ---
 
 ## TL;DR — where things stand
@@ -155,7 +160,8 @@ transfer the GitHub repo to a church org; reassign Render (swap account email, r
 | `/events/[slug]` | ✅ COMPLETE — continuous-column detail (5 entries; `family-table` is CMS-created) |
 | `/resources` | ✅ **COMPLETE (NEW)** — merged catalog, zero-JS `:target` category filter |
 | `/resources/[slug]` | ✅ **COMPLETE (NEW)** — post template + attachments (5 post routes) |
-| `/blog` | ⏸ **DELIBERATELY DIMMED** — nav + footer entries are non-links pending the blog-vs-resources decision |
+| `/blog` | ✅ **COMPLETE (2026-09-26)** — TwelveTwelve index: featured (newest or pinned) + date-stamped rows; series filter auto-appears at 2+ series. Nav + footer live |
+| `/blog/[slug]` | ✅ **COMPLETE (2026-09-26)** — post: series tag, By/Published, "Read" scripture box, serif prose, boxed quotes, author footer (3 real seed posts) |
 | All other nav routes | ❌ 404 — not built yet (expected; nav links are real) |
 
 **Route map (canonical, encoded in the nav — nested):** Top: `/`, `/visit`, `/who-is-jesus`,
@@ -163,9 +169,52 @@ transfer the GitHub repo to a church org; reassign Render (swap account email, r
 international/church-planting/local-outreach/training/serve. Help:
 hope-counseling/mercy-clinic/feed/care. Community: grow-groups/adult-discipleship/kids/
 students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+`[slug]`),
-`/sermons`, `/blog` (+`[slug]`, dimmed), `/resources` (+`[slug]`, labeled "Other Resources").
+`/sermons`, `/blog` (+`[slug]`), `/resources` (+`[slug]`, labeled "Other Resources").
 
 ---
+
+## ★ BLOG — "TwelveTwelve: The Leader Blog" — SHIPPED (2026-09-26, Gates 1–2 LIVE; Gate 3 pending)
+Commits: `c0ee04a` (Gate 1: collection + `/blog` + `/blog/[slug]`) → `8083aa1` (Gate 2: CMS,
+series, image pipeline, nav/footer links). Design source: `brand/prototype/page-blog.jsx`.
+- **★ Decision (Todd, 2026-09-26): a SEPARATE blog.** Rule of thumb, printed in CMS help text on
+  both sections: **Blog** = dated writing with an author (the weekly meditation). **Resources:
+  text pages** = lasting reference material placed by category (class outlines, guides).
+- **The real blog exists on the old site:** "TwelveTwelve: The Leader Blog of North Wake
+  Church" (northwake.com/leader-blog/) — a WEEKLY "Meditation for Preparation" (Sunday prep) by
+  Mary Kathryn Lassetter, Michael Hensel, Daniel Creswell, Jett Wrenn. Old titles are
+  "Meditation for Preparation – Sept. 27th"; the real headline is an h2 inside the post →
+  our model: `title` = headline, `series` = Meditation for Preparation.
+- **Seeds = 3 real posts, word for word:** Love Does No Harm (04-14, Lassetter — the prototype's
+  post), You Hate What You Fear. But What About God? (09-16, Hensel), The Heart is Like a Ship
+  (09-23, Lassetter). Source quirk kept verbatim (Todd OK'd): "-Jesus, Matthew 6:43-45" is Luke.
+  Not carried over: old Unsplash photos, bold on Romans 13:12–13, the "for Sunday X" date.
+- **Schema (`blog`):** title, date, author (free text v1), series → `reference("blogSeries")`,
+  excerpt (blank → first body paragraph, `src/lib/blog.ts`), scripture {ref, text} (blank ref →
+  no box), image/imageAlt (`image()` — astro:assets), featured (pin), draft. **Blank CMS values
+  ("") are treated as absent** (`blank` preprocess) so emptied fields never break the build.
+- **`blogSeries` collection = developer-only, like categories:** YAML in
+  `site/src/content/blog-series/` + a line in the `SERIES-START/END` pick-list in `.pages.yml`;
+  `check-content.mjs` fails the build if they disagree (failure path tested). A pick-list, not
+  free text, so a typo can't split a series. **Each series can carry a default `image`** used by
+  any post without its own (Todd approved) — **Meditation for Preparation has none yet: Todd to
+  pick one.**
+- **★ Images go through astro:assets (first use on the site).** Blog photos upload to
+  `site/src/assets/blog/` (media `blogimages`), stored as `../../assets/blog/<file>` relative to
+  the post; the build emits resized WebP (tested: 515KB → 35–255KB). An unused upload there is
+  NEVER published (Astro only emits used images) — audit-media reports it as clutter only.
+  Covered by the 15MB guard. **UNPROVEN until Gate 3:** that hosted Pages CMS writes the
+  relative `../../assets/blog/` value — if not, the build fails (safe) and we adjust `output`.
+- **Zero client JS** — the series filter is generated `:target` CSS (as `/resources`), rendered
+  only at 2+ series; while filtered, the featured slot hides and its duplicate row shows.
+- **Gate 3 (Todd, live CMS):** new post with a photo → confirm it builds + resizes; draft hidden;
+  scripture box; blank optional fields; pin; edit an existing seed post and inspect the diff.
+- **Decided next (Todd, 2026-09-26) — ADC page:** a high-level ADC overview (SEED CONTENT
+  PENDING from the church), then **"Current classes"** = resource text pages tagged a new ADC
+  category (Karen writes a class description post, tags it, it appears). Mechanic: an optional
+  **"Current until" date** on posts — past it, the class moves automatically to a **"Previous
+  classes"** section (classes usually return yearly; Karen just sets a new date). No page or
+  design exists yet. Also queued: a **homepage "latest from the blog"** strip (1–3 newest).
+- **Order agreed:** blog (done) → homepage blog strip → ADC page.
 
 ## ★ HOPE COUNSELING — SHIPPED (2026-09-24, 1 gate)
 Commits: `5427bf1` (package; photo in `site/public`) → this commit (page + `src/data/hope.ts` +
@@ -440,7 +489,7 @@ tag chips (each links to `/resources#<id>`, landing on the index **pre-filtered*
 same `:target` mechanism) → prose → optional Downloads block. One route per NON-DRAFT post;
 the two `pdf` resources entries are index-only and generate no route here.
 
-### Blog dimmed (`4ab7c10`)
+### Blog dimmed (`4ab7c10`) — SUPERSEDED 2026-09-26 (see ★ BLOG)
 `/blog` was a real link in Nav and Footer but the route doesn't exist. Both are now dimmed
 static text with paired comments. **The blog-vs-resources question is OPEN** — do posts live
 under `/resources`, under `/blog`, or both? Decide before building `/blog`.
@@ -587,7 +636,7 @@ Run once a quarter (Jan / Apr / Jul / Oct), in `site/`, after `git pull --rebase
   `-STOCK-PLACEHOLDER` suffix the others use. Rename in a sweep.
 - **Dead CSS sweep** — `.shero-people-pending`, `.sermon-art-tl`/`-title`/`-bl` orphaned; the
   stale `who-is-jesus.astro` `.crumb*` comment; `brand/prototype/.gitkeep`. One cleanup commit.
-- **`/blog` decision** — blog vs resources; nav/footer entries dimmed until decided.
+- ~~**`/blog` decision**~~ **DECIDED + SHIPPED 2026-09-26** — separate blog (see ★ BLOG).
 - ~~CMS has no `posts`/`resources` collections~~ **DONE 2026-09-24** (see ★ STAFF CMS) —
   pending Todd's live Gate 2 test.
 - ~~CMS media has NO size guard~~ **DONE 2026-09-24** — 15MB prebuild guard (check-content.mjs).
@@ -603,7 +652,8 @@ Run once a quarter (Jan / Apr / Jul / Oct), in `site/`, after `git pull --rebase
 - **npm audit** — 2026-09-24: `npm audit fix` (non-breaking, lockfile only; `dist/` byte-identical)
   took 9 → **3**. Remaining 3 (astro critical, sharp high, esbuild low) need **Astro 5 → 7**
   (major, against the pin). None reachable here: no `define:vars`, no server islands, spread
-  props use code-defined attribute names only, no `sharp`/astro:assets use, esbuild issue is
+  props use code-defined attribute names only, ~~no `sharp`/astro:assets use~~ (**astro:assets
+  + sharp ARE used since 2026-09-26 — blog images; re-check the sharp advisory**), esbuild issue is
   Windows dev-server only. → **Plan the Astro 7 upgrade as its own read-and-plan project**
   (branch + full-site QA). Optional: Render build command → `npm run build` (Render already
   runs `npm install`; the log shows it 3×).
@@ -617,7 +667,25 @@ Run once a quarter (Jan / Apr / Jul / Oct), in `site/`, after `git pull --rebase
   separation quieting (many bands/cards rely on the sand-50/100 tonal step).
 - **`/events` eyebrow + h1 redundancy** ("Events" / "Events.") — Todd aware; low priority.
 
+## ★ DOMAIN CUTOVER PUNCH LIST (started 2026-09-26 — work before northwake.com points here)
+The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` already says
+`https://northwake.com`. When the domain moves to Render, every old URL not rebuilt here breaks.
+- **Old TwelveTwelve blog posts** — years of weekly posts at `northwake.com/<slug>/` (e.g.
+  `/meditation-for-preparation-sept-27th/`) plus `/leader-blog/` (paginated). Decide: migrate
+  (all? last N?) and/or redirect old slugs → `/blog/<slug>` or `/blog`. At minimum redirect
+  `/leader-blog/` → `/blog`.
+- **`/familytable`** legacy redirect (already logged under hardening).
+- **Inventory the rest of the old site's URLs** (sitemap) and map each to a new route or a
+  redirect; old printed materials (postcards) carry URLs — `/womensministry` already handled.
+- **`/give`** redirect already exists (HOPE's Donate button links to it).
+
 ## UNVERIFIED CONTENT — confirm with church (the real launch gate)
+- **★ `/blog` (2026-09-26):** the h1 "Words from our pastors and leaders." and the lede
+  ("Weekly meditations to help you prepare for Sunday…") are Claude placeholder copy — **Todd is
+  rewriting**. Blog name (TwelveTwelve) is real. Seed posts are verbatim from the old site.
+- **CMS test entries now in the repo (LIVE since 2026-09-26 push):** `events/this-is-a-test-event.md`
+  (expired 09-24 so it's off the Events list, but its detail page may be reachable) and
+  `events/family-table-1.md` — confirm/delete in Pages CMS (and the test event's photo in Media).
 - **★ `/visit` (2026-09-23):** copy is church-approved, but Claude Design mistranslated some of
   it (see ★ COME VISIT). Still unconfirmed: Welcome Wall / coffee / campus maps; kids check-in
   "opens 30 minutes early"; "every Sunday is livestreamed and archived"; reserved first-time
@@ -681,8 +749,17 @@ Run once a quarter (Jan / Apr / Jul / Oct), in `site/`, after `git pull --rebase
    Family Table** as the link-heavy-page test; verify orphaned media on delete.
 4. ~~Extend `.pages.yml` to posts + resources~~ **Gate 1 done 2026-09-24** — Gate 2 = Todd's live CMS test.
 5. **Hardening pass** — its own pass after content lands.
+6. **Blog Gate 3** — Todd's live Pages CMS test (see ★ BLOG). Todd: rewrite the `/blog` h1 +
+   lede; pick the Meditation for Preparation default image.
+7. **Homepage "latest from the blog" strip** — one gate.
+8. **ADC page** — overview (seed content pending) + "Current classes" / "Previous classes" via an
+   ADC category + "Current until" date on posts. Needs a design decision first.
 
 ## LESSONS (workflow — keep sharp)
+- **Git push auth (2026-09-26):** the Keychain token had expired. Fix = a fine-grained PAT
+  (twkavanaugh/nwc-site, **Contents: Read and write**) pasted at git's "Password" prompt —
+  the prompt wants the TOKEN, never the GitHub password. 401-style "Invalid username or token"
+  = wrong string; 403 "Permission denied" = token lacks Contents write.
 - **A state doc that isn't updated is worse than none** — two months of decisions (the pastor
   meeting, whatever moved over the summer) are now unrecoverable from the repo. Write the
   state doc at the END of a work block, not just when one starts.
