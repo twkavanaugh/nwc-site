@@ -226,9 +226,15 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
   other only shows in the list. Chosen fix: tell staff "turn the old one off first" (the CMS
   help text already says so). Not a build warning (staff can't see the log), and not two cards
   (that would need a design pass).
-- **Staff handoff TODO:** tell Karen & Devin about the feature switch (one at a time; turn the
-  old one off; for a season, write one hub page and feature it) before next week's resource
-  load.
+- **Staff handoff → the STAFF HOW-TO DOC (planned; Todd writing it with Claude's help).**
+  A Pages CMS how-to for Karen & Devin. Collect items for it here. **Featured resource
+  section:** (1) the "Feature at the top of the Resources page" switch exists on resources
+  AND text pages; (2) feature ONE thing at a time, and turn the old one off BEFORE featuring
+  the new one (otherwise the alphabetical first wins); (3) for a season (Advent, Lent), write
+  one hub text page linking everything and feature that; (4) if the description runs past
+  about 3 lines, fill in "Short description for the featured card"; (5) the card and the
+  Resources menu update together a couple of minutes after saving. Brief them before next
+  week's resource load.
 
 ## ★ BLOG — "TwelveTwelve: The Leader Blog" — SHIPPED (2026-09-26, 3 gates, COMPLETE)
 Commits: `c0ee04a` (Gate 1: collection + `/blog` + `/blog/[slug]`) → `8083aa1` (Gate 2: CMS,
@@ -820,7 +826,8 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
 6. ~~Blog Gate 3~~ **DONE 2026-09-26.** Todd: rewrite the `/blog` h1 + lede. (Meditation for
    Preparation default image DONE 2026-09-26, `b10cf91`.)
 7. ~~Resources search + featured card + mega-menu rail~~ **DONE 2026-09-26** (`45dacd7`,
-   `1e54590`, `da6ef91`). Remaining: brief Karen & Devin on the feature switch; categories stay
+   `1e54590`, `da6ef91`). Remaining: the feature switch goes in the planned **staff how-to doc** (Todd +
+   Claude; items collected in ★ RESOURCES SEARCH + FEATURED RESOURCE); categories stay
    provisional until next week's curation.
 7b. **Homepage "latest from the blog" strip** — one gate.
 8. **ADC page** — overview (seed content pending) + "Current classes" / "Previous classes" via an
