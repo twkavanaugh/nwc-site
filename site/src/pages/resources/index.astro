@@ -112,6 +112,7 @@ const filterCss = `
   text-transform: uppercase; color: var(--ink-2);
   padding: 8px 15px; border: 1px solid var(--line-strong);
   border-radius: var(--radius-pill);
+  background: var(--bg); /* stays light on the shaded --bg-2 chips band */
   transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
 }
 .chip:hover { border-color: var(--ink-3); }
@@ -119,7 +120,7 @@ const filterCss = `
 .chip-all { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 
 ${list((id) => `#${id}:target ~ .filter-bar .chip-all`)} {
-  background: transparent; color: var(--ink-2); border-color: var(--line-strong);
+  background: var(--bg); color: var(--ink-2); border-color: var(--line-strong);
 }
 ${list((id) => `#${id}:target ~ .filter-bar .chip-${id}`)} {
   background: var(--ink); color: var(--bg); border-color: var(--ink);
@@ -162,6 +163,19 @@ ${list((id) => `#${id}:target ~ .catalog-wrap .count .name-${id}`)} { display: i
     {categories.map((c) => <a id={c.id} class="tgt"></a>)}
 
     <div class="filter-bar">
+      <!-- Search (ADR 0002). Ships `hidden`; the inline script at the end of this page
+           reveals it, so a no-JS visitor never sees a box that does nothing. -->
+      <div class="search-row" data-rz-search hidden>
+        <label class="search-label" for="rz-q">Search</label>
+        <input
+          id="rz-q"
+          class="search-input"
+          type="search"
+          placeholder="Search titles and descriptions"
+          autocomplete="off"
+          spellcheck="false"
+        />
+      </div>
       <div class="chips">
         <span class="chips-label">Filter</span>
         <a href="#all" class="chip chip-all">All <span class="n">{totalCount}</span></a>
@@ -178,13 +192,15 @@ ${list((id) => `#${id}:target ~ .catalog-wrap .count .name-${id}`)} { display: i
     <div class="catalog-wrap">
       <div class="catalog-head">
         <span class="eyebrow"><span class="dot"></span>Library</span>
-        <span class="count">
+        <span class="count cat-count">
           Showing <span class="all-name">all resources</span>{
             categories.map((c) => (
               <span class={`active-name name-${c.id}`}>{c.label}</span>
             ))
           }
         </span>
+        <!-- Search result count; empty (and so silent) until someone types. -->
+        <span class="count search-status" aria-live="polite"></span>
       </div>
 
       <div class="catalog">
@@ -218,8 +234,79 @@ ${list((id) => `#${id}:target ~ .catalog-wrap .count .name-${id}`)} { display: i
           })
         }
       </div>
+
+      <!-- Search empty state (ADR 0002) — shown by the script only. -->
+      <div class="search-empty" data-rz-empty hidden>
+        <p>Nothing here matches that search.</p>
+        <div class="search-empty-actions">
+          <button type="button" class="btn btn-ghost" data-rz-clear>Clear search</button>
+          <a class="btn btn-ghost" href="#all" data-rz-all hidden>Search all categories</a>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- DOCUMENTED EXCEPTION #3 — docs/adr-0002-resources-search.md. First-party, inline,
+       no library, no network, nothing stored or sent. Filters the rows already in the
+       HTML by their text (title, description, kicker, category tags); the CSS :target
+       category filter keeps working independently, so a visible row matches both.
+       is:inline keeps Astro from bundling it. Stay inside the ADR's limits. -->
+  <script is:inline>
+    (() => {
+      const box = document.querySelector("[data-rz-search]");
+      const input = document.getElementById("rz-q");
+      const root = document.querySelector(".filter-root");
+      const status = root.querySelector(".search-status");
+      const empty = root.querySelector("[data-rz-empty]");
+      const allLink = root.querySelector("[data-rz-all]");
+      // Case- and accent-insensitive.
+      const norm = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+      const rows = [...root.querySelectorAll(".catalog .card")].map((el) => ({
+        el,
+        text: norm(el.textContent),
+      }));
+
+      const run = () => {
+        const q = input.value.trim();
+        // Words of 5+ letters drop a plural-ish ending so singular and plural meet:
+        // "family" and "families" both → "famil"; "parents" → "parent" (finds "Parenting").
+        const words = norm(q)
+          .split(/\s+/)
+          .filter(Boolean)
+          .map((w) => (w.length >= 5 ? w.replace(/(ies|es|s|y)$/, "") : w));
+        // Every typed word must appear in the row.
+        rows.forEach((r) => (r.el.hidden = !words.every((w) => r.text.includes(w))));
+        const searching = words.length > 0;
+        root.classList.toggle("is-searching", searching);
+        // Visible = not hidden by search AND not hidden by the category filter.
+        const shown = rows.filter((r) => r.el.offsetParent !== null).length;
+        status.textContent = !searching
+          ? ""
+          : shown === 0
+            ? "No resources match"
+            : `${shown} ${shown === 1 ? "resource matches" : "resources match"}`;
+        empty.hidden = !searching || shown > 0;
+        const inCategory = location.hash.length > 1 && location.hash !== "#all";
+        allLink.hidden = !inCategory;
+      };
+
+      input.addEventListener("input", run);
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          input.value = "";
+          run();
+        }
+      });
+      root.querySelector("[data-rz-clear]").addEventListener("click", () => {
+        input.value = "";
+        run();
+        input.focus();
+      });
+      window.addEventListener("hashchange", run);
+      box.hidden = false;
+      run(); // a query the browser restored on Back is applied immediately
+    })();
+  </script>
 </Layout>
 
 <!-- Structural CSS (scoped). Colors via semantic tokens only; the package :root is
@@ -248,12 +335,90 @@ ${list((id) => `#${id}:target ~ .catalog-wrap .count .name-${id}`)} { display: i
     border-bottom: 1px solid var(--line);
     margin: 12px -40px 0;
   }
+  /* Search row (ADR 0002) — sits above the chips inside the same full-bleed bar. */
+  .search-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 40px; /* same gutter re-align as .chips */
+    border-bottom: 1px solid var(--line);
+  }
+  .search-row[hidden] {
+    display: none; /* display:flex above would otherwise beat the hidden attribute */
+  }
+  .search-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent); /* clay, so the search box reads as the first thing to use */
+    flex-shrink: 0;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 0;
+    max-width: 520px;
+    font: inherit;
+    font-size: 16px; /* content floor; also stops iOS zooming on focus */
+    color: var(--ink);
+    background: var(--bg);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-pill);
+    padding: 10px 18px;
+  }
+  .search-input::placeholder {
+    color: var(--ink-4);
+  }
+  .search-input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-color: var(--ink-3);
+  }
+
+  /* While searching, the text count replaces the category count. */
+  .search-status:empty,
+  .filter-root.is-searching .cat-count {
+    display: none;
+  }
+  /* .card sets display:grid, which would otherwise beat the hidden attribute. */
+  .card[hidden] {
+    display: none;
+  }
+  /* While searching, the page-bottom space moves from the list to its wrapper so the
+     empty state (which sits after the list) doesn't open an 80px gap above itself. */
+  .filter-root.is-searching .catalog {
+    margin-bottom: 0;
+  }
+  .filter-root.is-searching .catalog-wrap {
+    padding-bottom: 80px;
+  }
+  .search-empty {
+    padding-top: 48px;
+  }
+  .search-empty[hidden] {
+    display: none;
+  }
+  .search-empty p {
+    font-size: 18px;
+    color: var(--ink-2);
+    margin: 0 0 20px;
+  }
+  .search-empty-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .search-empty-actions [hidden] {
+    display: none;
+  }
+
   .chips {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     align-items: center;
     padding: 14px 40px; /* re-align chips to the gutter */
+    background: var(--bg-2); /* shaded band separates the chips from the search row */
   }
   .chips-label {
     font-family: var(--mono);
@@ -386,10 +551,12 @@ ${list((id) => `#${id}:target ~ .catalog-wrap .count .name-${id}`)} { display: i
       margin-left: -22px;
       margin-right: -22px;
     }
-    .chips {
+    .chips,
+    .search-row {
       padding-left: 22px;
       padding-right: 22px;
     }
+    .search-label,
     .chips-label,
     .count,
     .type-kicker,

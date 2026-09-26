@@ -35,7 +35,9 @@ people need to type "marriage" or "advent" and see matches.
 5. **Composes with the category filter.** The CSS `:target` filter hides by category and
    the script hides by text, so a visible row matches both. Neither knows about the other.
 6. **Plain matching.** Case- and accent-insensitive. Every word typed must appear
-   ("family advent" matches items containing both). Results are announced to screen
+   ("family advent" matches items containing both). Words of five or more letters drop
+   a trailing -ies/-es/-s/-y before matching, so singular and plural meet ("family" and
+   "families" both find "Families" and "Family of God"). Results are announced to screen
    readers through a polite live region ("12 resources" / "No resources match").
 7. **No stored or sent queries.** Nothing goes in the URL or storage, and no analytics.
 
