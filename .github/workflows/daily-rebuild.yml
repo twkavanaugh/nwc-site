@@ -1,0 +1,33 @@
+# Daily rebuild — keeps the static site current without a push:
+#   - /events church calendar (read from the church's Google Calendar at build time)
+#   - date-based listings (past events drop off, "today" moves)
+# It asks Render to rebuild by calling the site's Render DEPLOY HOOK, stored as the
+# repo secret RENDER_DEPLOY_HOOK (Render → the site → Settings → Deploy Hook). The hook
+# URL is a credential: it lives only in GitHub secrets, never in this repo or in logs.
+#
+# Note: GitHub pauses scheduled workflows in a repo with no commits for 60 days. Staff
+# CMS saves are commits, so this should stay active; if it ever stops, re-enable it
+# under Actions → Daily rebuild.
+name: Daily rebuild
+
+on:
+  schedule:
+    - cron: "0 9 * * *" # 09:00 UTC = 5:00 AM Eastern (daylight) / 4:00 AM (standard)
+  workflow_dispatch: {} # "Run workflow" button for a manual rebuild
+
+permissions: {}
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render deploy
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$RENDER_DEPLOY_HOOK" ]; then
+            echo "::warning::RENDER_DEPLOY_HOOK secret is not set — skipping. See the comment at the top of this workflow."
+            exit 0
+          fi
+          curl -fsS -X POST "$RENDER_DEPLOY_HOOK" -o /dev/null
+          echo "Render rebuild triggered."
