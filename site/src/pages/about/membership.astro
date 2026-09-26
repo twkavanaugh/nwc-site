@@ -1,0 +1,613 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import WarmBandHero from "../../components/WarmBandHero.astro";
+import { getEntry } from "astro:content";
+import { BUSINESS } from "../../data/business";
+import { MEMBERSHIP } from "../../data/membership";
+import { resourceTarget } from "../../lib/resources";
+
+// Membership page (/about/membership). Built from brand/prototype/MEMBERSHIP-SPEC.md +
+// membership.html, translated onto the site's structure:
+// - Hero = the shared WarmBandHero (kit accents "belonging" mid-sentence → headlineTail).
+// - Breadcrumb = the site's Breadcrumb bar, not the kit's .crumbs.
+// - The kit's [data-theme="dim"] contact band → the site's inverse tokens; dark-band
+//   CTA is .btn-accent and the ghost uses --border-on-inverse (care / mature-adults
+//   precedent). Serif heads + .sr-only stay page-scoped (lily-moms / visit precedent).
+// - The numbered timeline is page-scoped (prove-twice-then-extract; Care's steps are
+//   a different layout).
+// Content: the church office's process notes (Todd, 2026-09-26). Internal notes
+// ("Karen sends…", "Jake manages") deliberately NOT published — "our office" / "we"
+// instead. The kit's "Required" tag on the covenant was dropped (Todd). Hero/process
+// headlines are reused prototype copy (UNVERIFIED, state doc).
+// The kit's New Members Course link (old WordPress URL, dies at domain cutover) →
+// the migrated text page at MEMBERSHIP.coursePage.
+
+// office@northwake.com CONFIRMED by Todd 2026-09-26 → safe to wire mailto:.
+const OFFICE_MAILTO = `mailto:${BUSINESS.email}?subject=${encodeURIComponent("Membership")}`;
+
+// Step 4B's "required documents" = the Membership Packet. Linked only once the church's
+// real PDF replaces the PLACEHOLDER path (resourceTarget → inert until then).
+const packetEntry = await getEntry("resources", MEMBERSHIP.packetResourceId);
+const packet = packetEntry ? resourceTarget(packetEntry) : undefined;
+
+// Facts-strip numbers read as words ("Five steps", "Six classes") like the kit.
+const WORDS = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
+const word = (n: number) => WORDS[n] ?? String(n);
+
+const connect = [
+  {
+    k: "a.",
+    h: "Get connected to a Grow Group",
+    b: "We’ll send you a Grow Groups brochure to help you find one.",
+  },
+  {
+    k: "b.",
+    h: "Begin attending an Adult Discipleship Course",
+    b: "We’ll send you information on current courses.",
+  },
+  {
+    k: "c.",
+    h: "Complete “My Story”",
+    b: "We’ll send you a short online form to share your story with us.",
+  },
+];
+---
+
+<Layout
+  title="Membership · North Wake Church"
+  description="Considering membership at North Wake Church? Here are the five steps, walked together."
+>
+  <!-- 0. Breadcrumb ("About" has no index page → non-clickable chip) -->
+  <Breadcrumb trail={[{ label: "Home", href: "/" }, { label: "About" }, { label: "Membership" }]} />
+
+  <!-- 1. Hero — F · Warm Band -->
+  <WarmBandHero
+    titleId="mb-title"
+    eyebrow="Considering membership"
+    headlineLead="A way of"
+    headlineAccent="belonging"
+    headlineTail=", growing, and sharing life together."
+    lede="If you’re exploring North Wake and wondering what it looks like to make this your church home, we’d love to walk with you."
+    photoPlaceholder="Photo · New members welcomed"
+    primary={{ label: "Contact the church office", href: "#contact" }}
+    ghost={{ label: "New Members Course", href: MEMBERSHIP.coursePage }}
+  />
+
+  <!-- 2. Facts strip -->
+  <section class="mb-facts-sec" aria-label="Membership at a glance">
+    <div class="wrap">
+      <dl class="mb-facts">
+        <div class="mb-fact"><dt class="mono">The process</dt><dd>{word(MEMBERSHIP.steps)} steps</dd></div>
+        <div class="mb-fact">
+          <dt class="mono">Conversation</dt>
+          <dd>A brief {MEMBERSHIP.conversationMinutes} minutes with a staff leader</dd>
+        </div>
+        <div class="mb-fact">
+          <dt class="mono">New Members Course</dt>
+          <dd>{word(MEMBERSHIP.courseClasses)} classes</dd>
+        </div>
+        <div class="mb-fact">
+          <dt class="mono">To complete it</dt>
+          <dd>Attend at least {MEMBERSHIP.courseMinClasses} of {MEMBERSHIP.courseClasses}</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 3. The membership process — sticky intro + numbered timeline -->
+  <section aria-labelledby="mb-process-title">
+    <div class="wrap">
+      <div class="mb-process">
+        <div class="mb-intro">
+          <div class="eyebrow mb-intro-eyebrow"><span class="dot"></span>The membership process</div>
+          <h2 id="mb-process-title" class="mb-serif-h mb-intro-h2">Five steps, <em>walked together.</em></h2>
+          <p class="body mb-intro-p">
+            It begins simply — by letting the church office know you’d like to pursue or
+            consider membership.
+          </p>
+        </div>
+
+        <ol class="mb-steps">
+          <li class="mb-step">
+            <div class="mb-num" aria-hidden="true">1</div>
+            <div class="mb-step-body">
+              <h3 class="display-s mb-step-h"><span class="sr-only">Step 1: </span>Contact the church office</h3>
+              <p class="body">
+                Simply contact the church office to let us know you’d like to pursue or
+                consider membership.
+              </p>
+            </div>
+          </li>
+
+          <li class="mb-step">
+            <div class="mb-num" aria-hidden="true">2</div>
+            <div class="mb-step-body">
+              <h3 class="display-s mb-step-h"><span class="sr-only">Step 2: </span>Get connected</h3>
+              <p class="body">
+                Our office will let you know the dates for the next New Members Course and
+                encourage you to:
+              </p>
+              <ul class="mb-connect">
+                {
+                  connect.map((c) => (
+                    <li>
+                      <div class="mb-connect-k" aria-hidden="true">{c.k}</div>
+                      <div class="mb-connect-h">{c.h}</div>
+                      <p class="body">{c.b}</p>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </li>
+
+          <li class="mb-step">
+            <div class="mb-num" aria-hidden="true">3</div>
+            <div class="mb-step-body">
+              <h3 class="display-s mb-step-h"><span class="sr-only">Step 3: </span>A get-to-know-each-other conversation</h3>
+              <p class="body">
+                We’ll then schedule a brief, {MEMBERSHIP.conversationMinutes}-minute
+                conversation with a staff leader — a chance to get to know each other.
+              </p>
+            </div>
+          </li>
+
+          <li class="mb-step">
+            <div class="mb-num" aria-hidden="true">4</div>
+            <div class="mb-step-body">
+              <h3 class="display-s mb-step-h"><span class="sr-only">Step 4: </span>Attend the New Members Course</h3>
+              <p class="body">Attend the course and complete the following:</p>
+              <ul class="mb-reqs">
+                <li>
+                  <span class="mono mb-req-k" aria-hidden="true">A</span>
+                  <span class="mb-req-t">
+                    Attend at least {MEMBERSHIP.courseMinClasses} of the {MEMBERSHIP.courseClasses} classes
+                  </span>
+                </li>
+                <li>
+                  <span class="mono mb-req-k" aria-hidden="true">B</span>
+                  <span class="mb-req-t">
+                    Turn in all required documents
+                    {
+                      packet && (packet.inert ? (
+                        <span class="mb-req-sub">
+                          Membership Packet <span class="mono mb-soon">Available soon</span>
+                        </span>
+                      ) : (
+                        <a
+                          class="mb-req-sub mb-req-link"
+                          href={packet.href}
+                          {...(packet.newTab ? { target: "_blank", rel: "noopener" } : {})}
+                        >
+                          Membership Packet (PDF) <span aria-hidden="true">{packet.newTab ? "↗" : "↓"}</span>
+                          {packet.newTab && <span class="sr-only"> (opens in a new tab)</span>}
+                        </a>
+                      ))
+                    }
+                  </span>
+                </li>
+                <li>
+                  <span class="mono mb-req-k" aria-hidden="true">C</span>
+                  <span class="mb-req-t">Sign the membership covenant</span>
+                </li>
+              </ul>
+              <div class="mb-note" role="note">
+                <span class="mono">Missed a class?</span>
+                <p class="body">
+                  If fewer than {MEMBERSHIP.courseMinClasses} classes are attended, you’ll
+                  attend the missing classes at the next course to be considered for
+                  membership.
+                </p>
+              </div>
+              <a class="mb-link" href={MEMBERSHIP.coursePage}>
+                New Members Course details <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </li>
+
+          <li class="mb-step">
+            <div class="mb-num" aria-hidden="true">5</div>
+            <div class="mb-step-body">
+              <h3 class="display-s mb-step-h"><span class="sr-only">Step 5: </span>Presented and affirmed</h3>
+              <p class="body">New members are presented to and affirmed by the congregation.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Contact — DARK band, inverse tokens -->
+  <section id="contact" class="mb-contact-sec" aria-labelledby="mb-contact-title">
+    <div class="wrap">
+      <div class="mb-contact">
+        <div>
+          <div class="eyebrow mb-contact-eyebrow"><span class="dot"></span>Step one</div>
+          <h2 id="mb-contact-title" class="mb-serif-h mb-contact-h2">We’d love to <em>walk with you.</em></h2>
+          <p class="lede mb-contact-lede">
+            Simply contact the church office to let us know you’d like to pursue or consider
+            membership.
+          </p>
+        </div>
+        <div class="mb-office">
+          <div class="mono mb-office-label">Church office</div>
+          <address>
+            {BUSINESS.streetAddress}<br />{BUSINESS.city}, {BUSINESS.state}
+          </address>
+          <a class="mb-office-email" href={OFFICE_MAILTO}>{BUSINESS.email}</a>
+          <div class="mb-actions">
+            <a class="btn btn-accent" href={OFFICE_MAILTO}>
+              Email the church office <span class="arr" aria-hidden="true">→</span>
+            </a>
+            <a class="btn mb-ghost-inv" href={MEMBERSHIP.coursePage}>New Members Course</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Page-scoped (no global .sr-only exists; visit.astro precedent). */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  /* Serif headline voice (kit .serif-h), page-scoped like lily-moms' .lily-serif-h. */
+  .mb-serif-h {
+    font-family: var(--serif);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.04;
+  }
+  .mb-serif-h em {
+    color: var(--accent);
+  }
+
+  /* 2 · Facts strip — 4-col hairline grid (gap:1px over --line). */
+  .mb-facts-sec {
+    padding: 80px 0 0;
+  }
+  .mb-facts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    margin: 0;
+    background: var(--line);
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .mb-fact {
+    background: var(--bg);
+    padding: 28px 24px;
+  }
+  .mb-fact dt {
+    color: var(--ink-3);
+    margin-bottom: 10px;
+  }
+  .mb-fact dd {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    line-height: 1.3;
+  }
+
+  /* 3 · Process — sticky intro (static ≤980) + timeline. */
+  .mb-process {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 72px;
+    align-items: start;
+  }
+  .mb-intro {
+    position: sticky;
+    top: 120px;
+  }
+  .mb-intro-eyebrow {
+    margin-bottom: 18px;
+  }
+  .mb-intro-h2 {
+    font-size: clamp(40px, 4.6vw, 68px);
+    margin: 0 0 20px;
+    max-width: 10ch;
+  }
+  .mb-intro-p {
+    font-size: 17px;
+    color: var(--ink-2);
+    max-width: 34ch;
+    margin: 0;
+  }
+  .mb-steps {
+    list-style: none;
+    margin: 0;
+    padding: 40px 0 0;
+    border-top: 2px solid var(--ink);
+  }
+  .mb-step {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 40px;
+    position: relative;
+    padding-bottom: 56px;
+  }
+  .mb-step:last-child {
+    padding-bottom: 0;
+  }
+  /* Timeline connector: runs from under this circle to the next; the next circle's
+     --bg fill masks its end. COUPLED to .mb-num: left = (56 - 1) / 2 ≈ 27px,
+     top = 56 + 8px gap. Phone values below: left 19 = (40 - 1) / 2, top 48 = 40 + 8. */
+  .mb-step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 27px;
+    top: 64px;
+    bottom: 0;
+    width: 1px;
+    background: var(--line-strong);
+  }
+  .mb-num {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid var(--ink);
+    background: var(--bg);
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    position: relative;
+  }
+  .mb-step-body {
+    padding-top: 8px; /* h3 lines up with the circle's centre */
+    min-width: 0;
+  }
+  .mb-step-h {
+    margin: 0 0 14px;
+  }
+  .mb-step-body > p {
+    font-size: 18px;
+    color: var(--ink-2);
+    max-width: 56ch;
+    margin: 0;
+  }
+  .mb-step-body > p + * {
+    margin-top: 22px;
+  }
+
+  /* Step 2 — hairline connect cards */
+  .mb-connect {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .mb-connect li {
+    background: var(--bg);
+    padding: 22px 20px 24px;
+  }
+  .mb-connect-k {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 20px;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .mb-connect-h {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+  .mb-connect p {
+    color: var(--ink-3);
+    margin: 0;
+  }
+
+  /* Step 4 — requirement rows, note, course link */
+  .mb-reqs {
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--line-strong);
+  }
+  .mb-reqs li {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 14px;
+    align-items: baseline;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .mb-req-k {
+    color: var(--accent);
+  }
+  .mb-req-t {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .mb-req-sub {
+    display: block;
+    margin-top: 6px;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--ink-3);
+  }
+  .mb-req-link {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .mb-req-link:hover {
+    color: var(--ink);
+  }
+  .mb-soon {
+    display: block; /* own line — an inline margin left a stray indent when it wrapped */
+    color: var(--ink-4);
+    margin-top: 2px;
+  }
+  .mb-note {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 16px;
+    align-items: baseline;
+    padding: 16px 20px;
+    border: 1px solid var(--line-strong);
+    background: var(--bg-2);
+  }
+  .mb-note .mono,
+  .mb-note p {
+    color: var(--ink);
+    margin: 0;
+  }
+  .mb-link {
+    display: inline-flex;
+    gap: 8px;
+    margin-top: 20px;
+    color: var(--accent);
+    font-size: 16px;
+    font-weight: 500;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+  }
+  .mb-link:hover {
+    color: var(--ink);
+  }
+
+  /* 4 · Contact — DARK band on the site's inverse tokens (accent TEXT on dark must be
+     --accent-on-inverse; clay-600 fails at 2.69:1). */
+  .mb-contact-sec {
+    background: var(--bg-inverse);
+    color: var(--ink-on-inverse);
+    scroll-margin-top: 80px; /* hero "Contact the church office" lands below the sticky nav */
+  }
+  .mb-contact {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: end;
+  }
+  .mb-contact-eyebrow {
+    color: var(--ink-on-inverse-2);
+    margin-bottom: 24px;
+  }
+  .mb-contact-eyebrow .dot {
+    background: var(--accent-on-inverse);
+  }
+  .mb-contact-h2 {
+    font-size: clamp(44px, 5.6vw, 88px);
+    line-height: 1.02;
+    max-width: 12ch;
+    margin: 0;
+  }
+  .mb-contact-h2 em {
+    color: var(--accent-on-inverse);
+  }
+  .mb-contact-lede {
+    color: var(--ink-on-inverse-2);
+    margin: 24px 0 0;
+    max-width: 46ch;
+  }
+  .mb-office {
+    border-top: 1px solid var(--line-on-inverse-strong);
+    padding-top: 24px;
+  }
+  .mb-office-label {
+    color: var(--ink-on-inverse-2);
+    margin-bottom: 8px;
+  }
+  .mb-office address {
+    font-style: normal;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.35;
+    margin-bottom: 10px;
+  }
+  .mb-office-email {
+    display: inline-block;
+    font-size: 18px;
+    color: var(--accent-on-inverse);
+    border-bottom: 1px solid currentColor;
+    margin-bottom: 28px;
+  }
+  .mb-office-email:hover {
+    color: var(--ink-on-inverse);
+  }
+  .mb-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  /* Ghost button on dark — --border-on-inverse (mature-adults / women precedent). */
+  .mb-ghost-inv {
+    background: transparent;
+    color: var(--ink-on-inverse);
+    border-color: var(--border-on-inverse);
+  }
+  .mb-ghost-inv:hover {
+    border-color: var(--ink-on-inverse);
+  }
+
+  @media (max-width: 980px) {
+    .mb-process,
+    .mb-contact {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .mb-intro {
+      position: static;
+    }
+  }
+  @media (max-width: 880px) {
+    .mb-facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .mb-connect {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 720px) {
+    .mb-facts-sec {
+      padding-top: 64px;
+    }
+  }
+  @media (max-width: 560px) {
+    .mb-facts {
+      grid-template-columns: 1fr;
+    }
+    .mb-step {
+      grid-template-columns: 44px minmax(0, 1fr);
+      gap: 16px;
+    }
+    .mb-num {
+      width: 40px;
+      height: 40px;
+      font-size: 16px;
+    }
+    .mb-step:not(:last-child)::after {
+      left: 19px;
+      top: 48px;
+    }
+    .mb-note {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+    .mb-actions .btn {
+      flex: 1 1 100%;
+      justify-content: center;
+    }
+  }
+</style>
