@@ -2,7 +2,10 @@
 // Site footer chrome. Translated from brand/prototype/shell.jsx (Footer) +
 // brand/prototype/styles.css (.footer*). Static, zero-JS. NAP/contact values
 // come from the single source of truth in src/data/business.ts — never hardcoded.
+import { Image } from "astro:assets";
 import { BUSINESS } from "../data/business";
+// Same logo mark as the Nav (Todd, 2026-09-26).
+import brandMark from "../assets/brand/nw-mark.webp";
 
 // Honest-placeholder rule: founding year is unverified, so the prototype's
 // "Est. 19##" is dropped in favor of the location only.
@@ -13,12 +16,19 @@ const year = new Date().getFullYear();
   <div class="wrap">
     <div class="footer-grid">
       <div>
-        {/* TODO: replace CSS .brand-mark + text wordmark with a real logo asset
-            once it exists. Known duplication: .brand-mark CSS also lives in
-            Nav.astro — extract a shared Brand component in a later step. */}
+        {/* Logo mark + caps wordmark, matching the Nav (the footer always has room
+            for "CHURCH"). Known duplication with Nav.astro's brand block — extract
+            a shared Brand component if a third consumer appears. */}
         <a class="brand" href="/" aria-label="North Wake Church — home">
-          <span class="brand-mark" aria-hidden="true"></span>
-          <span class="brand-name">North <span class="accent">Wake</span></span>
+          <Image
+            src={brandMark}
+            alt=""
+            class="brand-mark"
+            width={30}
+            height={30}
+            densities={[1, 2, 3]}
+          />
+          <span class="brand-name"><span class="nw">North <span class="accent">Wake</span></span> <span class="nw">Church</span></span>
         </a>
         <p class="body blurb">
           A family of faith in Wake Forest, North Carolina — knowing, growing,
@@ -124,43 +134,27 @@ const year = new Date().getFullYear();
     gap: 12px;
     margin-bottom: 22px;
   }
-  .brand-mark {
+  .brand :global(.brand-mark) {
+    display: block;
     width: 30px;
     height: 30px;
-    border: 1.5px solid var(--ink);
-    border-radius: 50%;
-    position: relative;
     flex: none;
-  }
-  .brand-mark::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 1.5px;
-    height: 60%;
-    background: var(--ink);
-    transform: translate(-50%, -50%);
-  }
-  .brand-mark::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 60%;
-    height: 1.5px;
-    background: var(--ink);
-    transform: translate(-50%, -50%);
   }
   .brand-name {
     font-family: var(--display);
-    font-size: 24px;
+    font-size: 20px; /* was 24px mixed case; caps + "CHURCH" must fit the 1.4fr column */
     font-weight: 600;
-    letter-spacing: -0.015em;
+    letter-spacing: 0.02em; /* opened up for all caps, as in the Nav */
+    text-transform: uppercase; /* NORTH WAKE CHURCH — Todd, 2026-09-26 */
+    line-height: 1.15; /* if it ever wraps, the two lines stack as a tidy lockup */
     color: var(--ink);
   }
   .brand-name .accent {
     color: var(--accent);
+  }
+  /* Each half stays whole: a wrap is always NORTH WAKE / CHURCH, never 3 lines. */
+  .brand-name .nw {
+    white-space: nowrap;
   }
 
   .blurb {
@@ -232,9 +226,24 @@ const year = new Date().getFullYear();
     color: var(--ink-3);
   }
 
+  /* ≤1180 (the Nav's hamburger switch): the brand block takes its own full row and
+     the four link columns sit beneath, so the wordmark isn't squeezed into 1.4fr. */
+  @media (max-width: 1180px) {
+    .footer-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .footer-grid > div:first-child {
+      grid-column: 1 / -1;
+    }
+  }
   @media (max-width: 880px) {
     .footer-grid {
       grid-template-columns: 1fr 1fr;
+    }
+    /* Brand + blurb + actions span both columns so the wordmark isn't crushed
+       into half the width (2026-09-26). */
+    .footer-grid > div:first-child {
+      grid-column: 1 / -1;
     }
   }
 </style>

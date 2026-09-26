@@ -6,7 +6,11 @@
 // Astro.url.pathname. Brand mark, direct links, and CTAs preserved from the
 // prior nav. All CSS scoped here; consumes only global tokens + .btn*.
 
+import { Image } from "astro:assets";
 import { BUSINESS } from "../data/business";
+// The church's logo mark (Todd, 2026-09-26). Transparent background (the cross gaps
+// too), so it sits on any band. Footer still uses the CSS placeholder mark.
+import brandMark from "../assets/brand/nw-mark.webp";
 import { getFeaturedResource } from "../lib/resources";
 
 const pathname = Astro.url.pathname;
@@ -200,11 +204,19 @@ const GIVE_HREF = BUSINESS.givingUrl;
 
 <nav class="nav">
   <div class="nav-inner">
-    {/* TODO: replace CSS .brand-mark + text wordmark with a real logo asset
-        (assets/nw-mark.png) once it exists — see prototype shell.jsx. */}
+    {/* Logo mark = the real asset; the text wordmark stays until a full logo lockup
+        exists. alt="" — the link's aria-label names it. */}
     <a class="brand" href="/" aria-label="North Wake Church — home">
-      <span class="brand-mark" aria-hidden="true"></span>
-      <span class="brand-name">North <span class="accent">Wake</span></span>
+      <Image
+        src={brandMark}
+        alt=""
+        class="brand-mark"
+        width={26}
+        height={26}
+        densities={[1, 2, 3]}
+        loading="eager"
+      />
+      <span class="brand-name">North <span class="accent">Wake</span><span class="brand-church"> Church</span></span>
     </a>
 
     <div class="nav-links">
@@ -282,10 +294,10 @@ const GIVE_HREF = BUSINESS.givingUrl;
       </a>
     </div>
 
-    {/* MOBILE NAV — CSS-only hamburger (<980px). Renders from the SAME GROUPS
+    {/* MOBILE NAV — CSS-only hamburger (≤1180px). Renders from the SAME GROUPS
         source as the desktop mega, plus the same direct links + givingUrl, so
         content can never drift from desktop. Zero JS: native <details>/<summary>
-        disclosure. Hidden ≥980px (see the media query below). */}
+        disclosure. Hidden above 1180px (see the media query below). */}
     <details class="mnav">
       <summary class="mnav-toggle" aria-label="Menu">
         <span class="mnav-icon" aria-hidden="true"></span>
@@ -351,44 +363,42 @@ const GIVE_HREF = BUSINESS.givingUrl;
     gap: 10px;
     flex-shrink: 0; /* never let the wordmark compress at narrow widths */
   }
-  .brand-mark {
+  .brand :global(.brand-mark) {
+    display: block;
     width: 26px;
     height: 26px;
-    border: 1.5px solid var(--ink);
-    border-radius: 50%;
-    position: relative;
     flex: none;
-  }
-  .brand-mark::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 1.5px;
-    height: 60%;
-    background: var(--ink);
-    transform: translate(-50%, -50%);
-  }
-  .brand-mark::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 60%;
-    height: 1.5px;
-    background: var(--ink);
-    transform: translate(-50%, -50%);
   }
   .brand-name {
     font-family: var(--display);
     font-size: 17px;
     font-weight: 600;
-    letter-spacing: -0.012em;
+    letter-spacing: 0.02em; /* opened up for all caps (was -0.012em mixed case) */
+    text-transform: uppercase; /* NORTH WAKE CHURCH — Todd, 2026-09-26 */
     color: var(--ink);
-    white-space: nowrap; /* "North Wake" stays on one line at any width */
+    white-space: nowrap; /* the wordmark stays on one line at any width */
   }
   .brand-name .accent {
     color: var(--accent);
+  }
+  /* "CHURCH" only where the nav has room (Todd, 2026-09-26). The full caps wordmark
+     needs ~1244px for a one-line desktop nav, and on phones it crushed "Plan a Visit".
+     The link's aria-label still says "North Wake Church" at every width. */
+  .brand-church {
+    display: none;
+  }
+  @media (min-width: 1260px) {
+    .brand-church {
+      display: inline;
+    }
+  }
+  /* Smallest phones: caps at 17px pushed "Plan a Visit" to 3 lines at 320px; 15px
+     restores the prior fit. */
+  @media (max-width: 360px) {
+    .brand-name {
+      font-size: 15px;
+      letter-spacing: 0;
+    }
   }
 
   /* Links row */
@@ -609,7 +619,7 @@ const GIVE_HREF = BUSINESS.givingUrl;
   }
 
   /* =========================================================================
-   * MOBILE NAV (<980px) — CSS-only hamburger via native <details>/<summary>.
+   * MOBILE NAV (≤1180px) — CSS-only hamburger via native <details>/<summary>.
    * Zero JS. Hidden by default (desktop); revealed in the media query below.
    * .mnav stays position:static so .mnav-panel anchors to .nav (the sticky
    * positioned ancestor) and spans full-bleed — same trick as .mega.
@@ -672,7 +682,7 @@ const GIVE_HREF = BUSINESS.givingUrl;
 
   /* Panel — full-bleed overlay dropping below the bar; scrolls internally so a
      fully expanded accordion never pushes page content or exceeds the viewport.
-     Bar height at <980px is ~72px (44px summary + 2×14px padding, set below). */
+     Bar height at ≤1180px is ~72px (44px summary + 2×14px padding, set below). */
   .mnav-panel {
     position: absolute;
     top: 100%;
@@ -683,7 +693,7 @@ const GIVE_HREF = BUSINESS.givingUrl;
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line-strong);
     box-shadow: var(--shadow-dropdown);
-    /* COUPLED to the <980px .nav-inner padding: 14px top+bottom + the 44px
+    /* COUPLED to the ≤1180px .nav-inner padding: 14px top+bottom + the 44px
        .mnav-toggle summary = 72px bar height. This 72px MUST equal that sum so
        the panel bottom lands exactly at the viewport edge. Change one → change both. */
     max-height: calc(100vh - 72px);
@@ -778,11 +788,15 @@ const GIVE_HREF = BUSINESS.givingUrl;
   }
 
   /* -------------------------------------------------------------------------
-   * RESPONSIVE SWITCH — <980px swaps the mega links row for the hamburger.
+   * RESPONSIVE SWITCH — ≤1180px swaps the mega links row for the hamburger.
+   * Was 980px; raised 2026-09-26: the desktop bar needs ~1168px to sit on ONE line
+   * (caps "NORTH WAKE" + links + CTAs). Below that it wrapped "Come Visit" / "Who is
+   * Jesus" / "Plan a Visit" (pre-existing) and scrolled sideways under ~1017px.
+   * COUPLED to .brand-church's 1260px (the full wordmark needs ~1244px).
    * Give moves into the panel; Plan a Visit stays in the bar, compacted.
    * Bar order (markup order, links row hidden): brand · Plan a Visit · burger.
    * ----------------------------------------------------------------------- */
-  @media (max-width: 980px) {
+  @media (max-width: 1180px) {
     .nav-links {
       display: none;
     }
