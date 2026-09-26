@@ -1,0 +1,660 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import WarmBandHero from "../../components/WarmBandHero.astro";
+import { BUSINESS } from "../../data/business";
+import { getGrowGroupDays } from "../../lib/grow-groups";
+
+// Grow Groups page (/community/grow-groups). Built from brand/prototype/GROW-GROUPS-SPEC.md
+// + grow-groups.html, translated onto the site's structure:
+// - Hero = the shared WarmBandHero; Breadcrumb = the site's bar ("Community" has no
+//   index page → non-clickable chip).
+// - The kit's [data-theme="dim"] contact band → the site's inverse tokens; dark-band CTA
+//   is .btn-accent (care / membership precedent). The kit's inline style= attributes →
+//   page classes. Serif heads + .sr-only are page-scoped (lily-moms / visit precedent).
+// - The directory renders from the `growGroups` collection (staff-edited in Pages CMS);
+//   day jumps, counts and the facts strip are computed from it. NO leader phone numbers
+//   anywhere — every enquiry goes through the church office (Todd, 2026-09-26).
+// Copy: the church's Grow Groups text (Todd, 2026-09-26), word for word; "love - developing"
+// set as an em dash. Headings / card titles / labels are the design's (UNVERIFIED, state
+// doc). The 4th rhythm's label is "Regularly" (the copy's word), not the kit's "Always".
+
+const days = await getGrowGroupDays();
+const total = days.reduce((n, d) => n + d.groups.length, 0);
+// "Sunday, Wednesday & Thursday"
+const dayNames = days.map((d) => d.day);
+const daysLabel =
+  dayNames.length > 1 ? `${dayNames.slice(0, -1).join(", ")} & ${dayNames.at(-1)}` : (dayNames[0] ?? "");
+const beyondWakeForest = days.some((d) => d.groups.some((g) => g.place !== "Wake Forest"));
+
+// Office contact — both CONFIRMED by Todd (email 2026-09-26 for /about/membership; the
+// phone 2026-09-26: "the only published number"). tel: href built from BUSINESS.phone.
+const OFFICE_MAILTO = `mailto:${BUSINESS.email}`;
+const OFFICE_MAILTO_GG = `mailto:${BUSINESS.email}?subject=${encodeURIComponent("Grow Groups")}`;
+const OFFICE_TEL = `tel:+1${BUSINESS.phone.replace(/\D/g, "")}`;
+
+const rhythms = [
+  {
+    freq: "Weekly",
+    title: "Open God’s Word",
+    body: "Reflect on and apply the passage from that week’s sermon together.",
+  },
+  {
+    freq: "Weekly",
+    title: "Pray honestly",
+    body: "Pray together, bear burdens, and celebrate victories side by side.",
+  },
+  {
+    freq: "Through the year",
+    title: "Serve and care",
+    body: "Shared service opportunities, one another discipleship, and practical care for one another.",
+  },
+  {
+    freq: "Regularly",
+    title: "Share the hope",
+    body: "Groups regularly pray for boldness and opportunity to share the hope of the gospel with others.",
+  },
+];
+---
+
+<Layout
+  title="Grow Groups · North Wake Church"
+  description="Grow Groups at North Wake exist to help ordinary people grow into wholehearted followers of Jesus through meaningful Christian community."
+>
+  <!-- 0. Breadcrumb -->
+  <Breadcrumb trail={[{ label: "Home", href: "/" }, { label: "Community" }, { label: "Grow Groups" }]} />
+
+  <!-- 1. Hero — F · Warm Band -->
+  <WarmBandHero
+    titleId="gg-title"
+    eyebrow="Community · Grow Groups"
+    headlineLead="Ordinary people, growing into"
+    headlineAccent="wholehearted followers of Jesus."
+    lede="Grow Groups at North Wake exist to help ordinary people grow into wholehearted followers of Jesus through meaningful Christian community."
+    photoPlaceholder="Photo · Grow Group · living-room table"
+    primary={{ label: "Find a group", href: "#directory" }}
+  />
+
+  <!-- 2. Facts strip (Days + Groups computed from the directory) -->
+  <section class="gg-facts-sec" aria-label="Grow Groups at a glance">
+    <div class="wrap">
+      <dl class="gg-facts">
+        <div class="gg-fact"><dt class="mono">When</dt><dd>Weekly</dd></div>
+        <div class="gg-fact"><dt class="mono">Where</dt><dd>In homes</dd></div>
+        <div class="gg-fact"><dt class="mono">Days</dt><dd>{daysLabel}</dd></div>
+        <div class="gg-fact">
+          <dt class="mono">Groups</dt>
+          <dd>{total} groups {beyondWakeForest ? "across Wake Forest & nearby" : "in Wake Forest"}</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 3. The heartbeat -->
+  <section aria-labelledby="gg-heart-title">
+    <div class="wrap">
+      <div class="gg-heart">
+        <div>
+          <div class="eyebrow gg-eyebrow"><span class="dot"></span>The heartbeat</div>
+          <h2 id="gg-heart-title" class="gg-serif-h gg-heart-h2">
+            Shaped not just in what we know, <em>but in what we love.</em>
+          </h2>
+        </div>
+        <div class="gg-heart-body">
+          <p>
+            At the heart of this ministry is a longing to see God form people who love Him
+            deeply, care for one another genuinely, and live with a growing concern for their
+            neighbors.
+          </p>
+          <p>
+            We believe spiritual growth is not meant to happen in isolation, but through shared
+            life by opening God’s Word together, praying honestly, bearing burdens, celebrating
+            victories, and encouraging one another toward Christlikeness.
+          </p>
+          <p>
+            Our hope is that, over time, people are shaped not just in what they know, but in
+            what they love — developing real affection for God, resilient faith in everyday
+            life, and a readiness to live on mission wherever God has placed them.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Regular rhythms -->
+  <section class="gg-rhythms-sec" aria-labelledby="gg-rhythms-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow gg-eyebrow"><span class="dot"></span>Regular rhythms</div>
+          <h2 id="gg-rhythms-title" class="display-m gg-rhythms-h2">Life together, week by week.</h2>
+        </div>
+        <p class="body right">
+          Grow Groups typically meet weekly in homes across different days of the week.
+        </p>
+      </div>
+      <ol class="gg-rhythms">
+        {
+          rhythms.map((r, i) => (
+            <li class="gg-rhythm">
+              <div class="gg-rhythm-top">
+                <span class="gg-rhythm-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                <span class="mono gg-rhythm-freq">{r.freq}</span>
+              </div>
+              <h3 class="title gg-rhythm-h">{r.title}</h3>
+              <p class="body">{r.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="gg-note" role="note">
+        <span class="mono">What participation looks like</span>
+        <p class="body">
+          Showing up consistently, being known and cared for, and learning to follow Jesus
+          together in the ordinary rhythms of everyday life.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Directory — rendered from the growGroups collection -->
+  <section id="directory" class="gg-dir-sec" aria-labelledby="gg-dir-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow gg-eyebrow"><span class="dot"></span>Find a group</div>
+          <h2 id="gg-dir-title" class="display-m">Grow Group directory.</h2>
+        </div>
+        <p class="body right">
+          Every group welcomes visitors. <a class="gg-inline-link" href="#contact">Reach out to
+          the church office</a> and we’ll connect you with a group’s leaders.
+        </p>
+      </div>
+
+      <nav class="gg-days" aria-label="Jump to a day">
+        <span class="mono gg-days-label">Jump to</span>
+        {
+          days.map((d) => (
+            <a href={`#${d.id}`}>
+              {d.day} <span>{d.groups.length}</span>
+            </a>
+          ))
+        }
+      </nav>
+
+      {
+        days.map((d) => (
+          <div class="gg-day" id={d.id}>
+            <div class="gg-day-head">
+              <h3 class="gg-day-h">{d.day}</h3>
+              <span class="mono gg-day-count">
+                {d.groups.length} {d.groups.length === 1 ? "group" : "groups"}
+              </span>
+            </div>
+            <table class="gg-table">
+              <thead>
+                <tr>
+                  <th scope="col">Group</th>
+                  <th scope="col">Time</th>
+                  <th scope="col">Location</th>
+                </tr>
+              </thead>
+              <tbody>
+                {d.groups.map((g) => (
+                  <tr>
+                    <th scope="row">{g.name}</th>
+                    <td class="gg-t">{g.timeLabel}</td>
+                    <td class="gg-l">{g.place}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- 6. Get in touch — DARK band, inverse tokens -->
+  <section id="contact" class="gg-contact-sec" aria-labelledby="gg-contact-title">
+    <div class="wrap">
+      <div class="gg-contact">
+        <div>
+          <div class="eyebrow gg-contact-eyebrow"><span class="dot"></span>Get connected</div>
+          <h2 id="gg-contact-title" class="gg-serif-h gg-contact-h2">
+            Want to know more or <em>get in touch?</em>
+          </h2>
+          <p class="lede gg-contact-lede">
+            Call or email the church office. Tell us which group caught your eye — or your day
+            and part of town — and we’ll connect you with the leaders.
+          </p>
+        </div>
+        <div>
+          <dl class="gg-contact-dl">
+            <div>
+              <dt class="mono">Email</dt>
+              <dd><a href={OFFICE_MAILTO}>{BUSINESS.email}</a></dd>
+            </div>
+            <div>
+              <dt class="mono">Call</dt>
+              <dd><a href={OFFICE_TEL}>{BUSINESS.phone}</a></dd>
+            </div>
+          </dl>
+          <div class="gg-actions">
+            <a class="btn btn-accent" href={OFFICE_MAILTO_GG}>
+              Email the office <span class="arr" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Serif headline voice (kit .serif-h), page-scoped like lily-moms' .lily-serif-h. */
+  .gg-serif-h {
+    font-family: var(--serif);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.04;
+    margin: 0;
+  }
+  .gg-serif-h em {
+    color: var(--accent);
+  }
+  .gg-eyebrow {
+    margin-bottom: 18px;
+  }
+
+  /* 2 · Facts strip — 4-col hairline grid (gap:1px over --line). */
+  .gg-facts-sec {
+    padding: 80px 0 0;
+  }
+  .gg-facts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    margin: 0;
+    background: var(--line);
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .gg-fact {
+    background: var(--bg);
+    padding: 28px 24px;
+  }
+  .gg-fact dt {
+    color: var(--ink-3);
+    margin-bottom: 10px;
+  }
+  .gg-fact dd {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    line-height: 1.3;
+  }
+
+  /* 3 · Heartbeat */
+  .gg-heart {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    gap: 72px;
+    align-items: start;
+  }
+  .gg-heart-h2 {
+    font-size: clamp(38px, 4.4vw, 64px);
+    line-height: 1.06;
+    max-width: 13ch;
+  }
+  .gg-heart-body {
+    border-top: 2px solid var(--ink);
+    padding-top: 28px;
+  }
+  .gg-heart-body p {
+    max-width: 60ch;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin: 0;
+  }
+  .gg-heart-body p + p {
+    margin-top: 20px;
+  }
+  .gg-heart-body p:first-child {
+    font-size: 19px;
+    color: var(--ink);
+  }
+
+  /* 4 · Rhythms */
+  .gg-rhythms-sec {
+    background: var(--bg-2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .gg-rhythms-h2 {
+    max-width: 14ch;
+  }
+  .gg-rhythms {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .gg-rhythm {
+    background: var(--bg);
+    padding: 30px 26px 34px;
+  }
+  .gg-rhythm-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .gg-rhythm-num {
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--accent);
+  }
+  .gg-rhythm-freq {
+    color: var(--ink-3);
+    text-align: right;
+  }
+  .gg-rhythm-h {
+    margin: 0 0 10px;
+  }
+  .gg-rhythm p {
+    font-size: 17px;
+    color: var(--ink-2);
+    margin: 0;
+  }
+  .gg-note {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 20px;
+    align-items: baseline;
+    padding: 22px 26px;
+    border: 1px solid var(--line-strong);
+    background: var(--bg);
+  }
+  .gg-note .mono,
+  .gg-note p {
+    color: var(--ink);
+    margin: 0;
+  }
+  .gg-note p {
+    font-size: 17px;
+  }
+
+  /* 5 · Directory */
+  .gg-dir-sec {
+    scroll-margin-top: 80px; /* "Find a group" lands below the sticky nav */
+  }
+  .gg-inline-link {
+    color: var(--accent);
+    border-bottom: 1px solid currentColor;
+  }
+  .gg-inline-link:hover {
+    color: var(--ink);
+  }
+  .gg-days {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 48px;
+  }
+  .gg-days-label {
+    color: var(--ink-3);
+    margin-right: 8px;
+  }
+  .gg-days a {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    padding: 9px 16px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-pill);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .gg-days a:hover {
+    border-color: var(--ink);
+  }
+  .gg-days a span {
+    color: var(--ink-3);
+  }
+  .gg-day {
+    margin-bottom: 64px;
+    scroll-margin-top: 90px; /* day jumps land below the sticky nav */
+  }
+  .gg-day:last-child {
+    margin-bottom: 0;
+  }
+  .gg-day-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .gg-day-h {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(32px, 3.4vw, 48px);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin: 0;
+  }
+  .gg-day-count {
+    color: var(--ink-3);
+  }
+  .gg-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 2px solid var(--ink);
+  }
+  .gg-table thead th {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 400;
+    text-align: left;
+    padding: 14px 16px 14px 0;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .gg-table thead th:last-child {
+    text-align: right;
+    padding-right: 0;
+  }
+  .gg-table tbody th,
+  .gg-table tbody td {
+    padding: 20px 16px 20px 0;
+    border-bottom: 1px solid var(--line);
+    vertical-align: baseline;
+  }
+  .gg-table tbody th {
+    text-align: left;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+    width: 58%;
+    padding-right: 24px;
+  }
+  .gg-t {
+    font-size: 17px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .gg-l {
+    font-size: 17px;
+    color: var(--ink-2);
+    text-align: right;
+    padding-right: 0;
+    white-space: nowrap;
+  }
+  .gg-table tbody tr:hover th,
+  .gg-table tbody tr:hover td {
+    background: var(--bg-2);
+  }
+
+  /* 6 · Get in touch — DARK band on the site's inverse tokens (accent TEXT on dark must
+     be --accent-on-inverse; clay-600 fails at 2.69:1). */
+  .gg-contact-sec {
+    background: var(--bg-inverse);
+    color: var(--ink-on-inverse);
+    scroll-margin-top: 80px;
+  }
+  .gg-contact {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: end;
+  }
+  .gg-contact-eyebrow {
+    color: var(--ink-on-inverse-2);
+    margin-bottom: 24px;
+  }
+  .gg-contact-eyebrow .dot {
+    background: var(--accent-on-inverse);
+  }
+  .gg-contact-h2 {
+    font-size: clamp(40px, 5vw, 76px);
+    max-width: 13ch;
+  }
+  .gg-contact-h2 em {
+    color: var(--accent-on-inverse);
+  }
+  .gg-contact-lede {
+    color: var(--ink-on-inverse-2);
+    margin: 24px 0 0;
+    max-width: 46ch;
+  }
+  .gg-contact-dl {
+    margin: 0;
+    border-top: 1px solid var(--line-on-inverse-strong);
+  }
+  .gg-contact-dl > div {
+    display: grid;
+    grid-template-columns: 90px minmax(0, 1fr);
+    gap: 16px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line-on-inverse);
+    align-items: baseline;
+  }
+  .gg-contact-dl dt {
+    color: var(--ink-on-inverse-2);
+  }
+  .gg-contact-dl dd {
+    margin: 0;
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+  .gg-contact-dl dd a {
+    border-bottom: 1px solid currentColor;
+  }
+  .gg-contact-dl dd a:hover {
+    color: var(--accent-on-inverse);
+  }
+  .gg-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+  }
+
+  @media (max-width: 1080px) {
+    .gg-facts,
+    .gg-rhythms {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 980px) {
+    .gg-contact {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+  @media (max-width: 880px) {
+    .gg-heart {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+  }
+  @media (max-width: 720px) {
+    .gg-facts-sec {
+      padding-top: 64px;
+    }
+  }
+  /* ≤680 — each table row stacks: name on its own line, then "6:30 PM · Wake Forest".
+     thead is hidden VISUALLY (not display:none) so screen readers keep the headers. */
+  @media (max-width: 680px) {
+    .gg-table thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+    }
+    .gg-table,
+    .gg-table tbody {
+      display: block;
+    }
+    .gg-table tbody tr {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 14px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .gg-table tbody th {
+      flex: 1 1 100%;
+      width: auto;
+      padding: 0 0 4px;
+      border: 0;
+    }
+    .gg-table tbody td {
+      padding: 0;
+      border: 0;
+      text-align: left;
+    }
+    .gg-table tbody td + td::before {
+      content: "·";
+      color: var(--ink-4);
+      margin-right: 14px;
+    }
+    .gg-note,
+    .gg-contact-dl > div {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
+  @media (max-width: 560px) {
+    .gg-facts,
+    .gg-rhythms {
+      grid-template-columns: 1fr;
+    }
+    .gg-actions .btn {
+      flex: 1 1 100%;
+      justify-content: center;
+    }
+  }
+</style>

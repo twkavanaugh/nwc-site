@@ -450,3 +450,184 @@ content:
           format: markdown
           media: false
         description: "Write the post here. Use the Quote button for quoted scripture or other authors. To show a YouTube video, put the YouTube link on its own line with nothing else on that line."
+
+  # ---------------------------------------------------------------------------
+  # GROW GROUPS — the directory on /community/grow-groups, edited by church staff
+  # (Karen, Devin). One entry per group; the page sorts them by day and time and
+  # counts them automatically (the homepage's "N active groups" too).
+  # PRIVACY: there is deliberately NO phone/contact field. Leaders' personal numbers
+  # are never published — every enquiry goes through the church office.
+  # ---------------------------------------------------------------------------
+  - name: growGroups
+    label: Grow Groups
+    type: collection
+    path: site/src/content/grow-groups
+    filename: '{primary}.md'        # group name slugified
+    view:
+      primary: name
+      fields: [name, day, time, place]
+      sort: [day, name]
+      default:
+        sort: name
+        order: asc
+    fields:
+      - name: name
+        label: Group name
+        type: string
+        required: true
+        description: "The leaders' names as they should appear, e.g. 'Eddy & Erica Wu' (no \"GG\" at the end). Do NOT add phone numbers or emails — people contact the church office."
+
+      - name: day
+        label: Day
+        type: select
+        required: true
+        description: "The day the group meets."
+        options:
+          values:
+            - Sunday
+            - Monday
+            - Tuesday
+            - Wednesday
+            - Thursday
+            - Friday
+            - Saturday
+
+      - name: time
+        label: Start time
+        type: select
+        required: true
+        description: "When the group starts."
+        options:
+          values:
+            - name: '06:00'
+              label: '6:00 AM'
+            - name: '06:15'
+              label: '6:15 AM'
+            - name: '06:30'
+              label: '6:30 AM'
+            - name: '06:45'
+              label: '6:45 AM'
+            - name: '07:00'
+              label: '7:00 AM'
+            - name: '07:15'
+              label: '7:15 AM'
+            - name: '07:30'
+              label: '7:30 AM'
+            - name: '07:45'
+              label: '7:45 AM'
+            - name: '08:00'
+              label: '8:00 AM'
+            - name: '08:15'
+              label: '8:15 AM'
+            - name: '08:30'
+              label: '8:30 AM'
+            - name: '08:45'
+              label: '8:45 AM'
+            - name: '09:00'
+              label: '9:00 AM'
+            - name: '09:15'
+              label: '9:15 AM'
+            - name: '09:30'
+              label: '9:30 AM'
+            - name: '09:45'
+              label: '9:45 AM'
+            - name: '10:00'
+              label: '10:00 AM'
+            - name: '10:15'
+              label: '10:15 AM'
+            - name: '10:30'
+              label: '10:30 AM'
+            - name: '10:45'
+              label: '10:45 AM'
+            - name: '11:00'
+              label: '11:00 AM'
+            - name: '11:15'
+              label: '11:15 AM'
+            - name: '11:30'
+              label: '11:30 AM'
+            - name: '11:45'
+              label: '11:45 AM'
+            - name: '12:00'
+              label: '12:00 PM'
+            - name: '12:15'
+              label: '12:15 PM'
+            - name: '12:30'
+              label: '12:30 PM'
+            - name: '12:45'
+              label: '12:45 PM'
+            - name: '13:00'
+              label: '1:00 PM'
+            - name: '13:15'
+              label: '1:15 PM'
+            - name: '13:30'
+              label: '1:30 PM'
+            - name: '13:45'
+              label: '1:45 PM'
+            - name: '14:00'
+              label: '2:00 PM'
+            - name: '14:15'
+              label: '2:15 PM'
+            - name: '14:30'
+              label: '2:30 PM'
+            - name: '14:45'
+              label: '2:45 PM'
+            - name: '15:00'
+              label: '3:00 PM'
+            - name: '15:15'
+              label: '3:15 PM'
+            - name: '15:30'
+              label: '3:30 PM'
+            - name: '15:45'
+              label: '3:45 PM'
+            - name: '16:00'
+              label: '4:00 PM'
+            - name: '16:15'
+              label: '4:15 PM'
+            - name: '16:30'
+              label: '4:30 PM'
+            - name: '16:45'
+              label: '4:45 PM'
+            - name: '17:00'
+              label: '5:00 PM'
+            - name: '17:15'
+              label: '5:15 PM'
+            - name: '17:30'
+              label: '5:30 PM'
+            - name: '17:45'
+              label: '5:45 PM'
+            - name: '18:00'
+              label: '6:00 PM'
+            - name: '18:15'
+              label: '6:15 PM'
+            - name: '18:30'
+              label: '6:30 PM'
+            - name: '18:45'
+              label: '6:45 PM'
+            - name: '19:00'
+              label: '7:00 PM'
+            - name: '19:15'
+              label: '7:15 PM'
+            - name: '19:30'
+              label: '7:30 PM'
+            - name: '19:45'
+              label: '7:45 PM'
+            - name: '20:00'
+              label: '8:00 PM'
+            - name: '20:15'
+              label: '8:15 PM'
+            - name: '20:30'
+              label: '8:30 PM'
+            - name: '20:45'
+              label: '8:45 PM'
+            - name: '21:00'
+              label: '9:00 PM'
+            - name: '21:15'
+              label: '9:15 PM'
+            - name: '21:30'
+              label: '9:30 PM'
+
+      - name: place
+        label: Town
+        type: string
+        required: true
+        description: "The town only, spelled out, e.g. 'Wake Forest', 'Rolesville', 'Youngsville'. Never a street address."

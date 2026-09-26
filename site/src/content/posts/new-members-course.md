@@ -45,3 +45,7 @@ https://www.youtube.com/watch?v=7fxaxThfL2o
 Rob Craig
 
 https://www.youtube.com/watch?v=Mnph3OToAl4
+
+## Resources
+
+- [Grow Groups](/community/grow-groups)

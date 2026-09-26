@@ -22,8 +22,8 @@ export const BUSINESS: Business = {
   city: 'Wake Forest',
   state: 'NC',
   postalCode: '27587',
-  phone: '(919) 556-1546',
-  email: 'office@northwake.com',
+  phone: '(919) 556-1546', // CONFIRMED by Todd 2026-09-26 — the church's only published number
+  email: 'office@northwake.com', // CONFIRMED by Todd 2026-09-26
   url: 'https://northwake.com', // CONFIRM later — placeholder canonical
   serviceTimes: ['9:00 AM', '10:45 AM'], // CONFIRMED with church 2026-06-28 (was 9 & 11 on homepage — 11 was an error)
   givingUrl: 'https://onrealm.org/NorthWake/-/form/give/now',

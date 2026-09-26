@@ -2,7 +2,10 @@
 import Layout from "../layouts/Layout.astro";
 import { BUSINESS } from "../data/business";
 import { getCollection } from "astro:content";
+import { getGrowGroupCount } from "../lib/grow-groups";
 import { isUpcoming, byStartDateAsc, formatMonth, formatDay } from "../lib/date";
+// Live count from the Grow Groups directory (staff-edited in Pages CMS) — was a hardcoded "12".
+const growGroupCount = await getGrowGroupCount();
 
 // Homepage "Upcoming" — top 3 upcoming events from the collection, same date
 // filter/sort as /events. Replaces the old hardcoded, unsorted, yearless list.
@@ -205,7 +208,7 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
       <div class="hairline-grid community-grid">
         {
           [
-            { name: "Grow Groups", meta: "12 active groups · weekly", body: "Mid-sized groups meeting in homes across Wake Forest. Share a meal, open Scripture, pray honestly, repeat.", href: "/community/grow-groups" },
+            { name: "Grow Groups", meta: `${growGroupCount} active groups · weekly`, body: "Mid-sized groups meeting in homes across Wake Forest. Share a meal, open Scripture, pray honestly, repeat.", href: "/community/grow-groups" },
             { name: "Adult Discipleship", meta: "8-week classes · Sundays 9 AM", body: "Theology and life classes for every season — from foundations of the faith to parenting, marriage, and money.", href: "/community/adult-discipleship" },
             { name: "Students", meta: "6th–12th · Wednesdays 6:30 PM", body: "A ministry for students and families to follow Jesus together — rooted in Colossians 1: presenting everyone mature in Christ.", href: "/community/students" },
             { name: "Kids", meta: "Birth–5th · Sunday mornings", body: "A safe, joyful place where kids hear that Jesus loves them and learn to love him back. Check-in 30 min before service.", href: "/community/kids" },

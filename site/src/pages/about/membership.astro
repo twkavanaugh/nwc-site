@@ -35,11 +35,12 @@ const packet = packetEntry ? resourceTarget(packetEntry) : undefined;
 const WORDS = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
 const word = (n: number) => WORDS[n] ?? String(n);
 
-const connect = [
+const connect: { k: string; h: string; b: string; link?: { label: string; href: string } }[] = [
   {
     k: "a.",
     h: "Get connected to a Grow Group",
     b: "We’ll send you a Grow Groups brochure to help you find one.",
+    link: { label: "See the Grow Groups", href: "/community/grow-groups" },
   },
   {
     k: "b.",
@@ -135,6 +136,11 @@ const connect = [
                       <div class="mb-connect-k" aria-hidden="true">{c.k}</div>
                       <div class="mb-connect-h">{c.h}</div>
                       <p class="body">{c.b}</p>
+                      {c.link && (
+                        <a class="mb-connect-link" href={c.link.href}>
+                          {c.link.label} <span aria-hidden="true">→</span>
+                        </a>
+                      )}
                     </li>
                   ))
                 }
@@ -415,6 +421,17 @@ const connect = [
   .mb-connect p {
     color: var(--ink-3);
     margin: 0;
+  }
+  .mb-connect-link {
+    display: inline-flex;
+    gap: 6px;
+    margin-top: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .mb-connect-link:hover {
+    color: var(--ink);
   }
 
   /* Step 4 — requirement rows, note, course link */

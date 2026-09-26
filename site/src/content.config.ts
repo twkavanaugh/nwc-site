@@ -210,4 +210,22 @@ const blog = defineCollection({
     }),
 });
 
-export const collections = { events, categories, posts, resources, blogSeries, blog };
+// -----------------------------------------------------------------------------
+// growGroups — the /community/grow-groups directory (brand/prototype/GROW-GROUPS-SPEC.md).
+// One file per group so staff (Karen, Devin) add/delete a group in Pages CMS. Day and
+// time are pick-lists in the CMS, so a typo can't fail the build (which staff wouldn't
+// see). DELIBERATELY NO PHONE/CONTACT FIELD: leaders' personal numbers must never be
+// published or enter git history — every enquiry goes through the church office.
+// -----------------------------------------------------------------------------
+const growGroups = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/grow-groups" }),
+  schema: z.object({
+    name: z.string(), // e.g. "Eddy & Erica Wu" — no "GG" suffix
+    day: z.enum(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]),
+    // 24-hour "HH:MM" (sorts correctly); rendered as "6:30 PM". Set by the CMS pick-list.
+    time: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Time must look like 18:30."),
+    place: z.string(), // town only, e.g. "Wake Forest" — never an address
+  }),
+});
+
+export const collections = { events, categories, posts, resources, blogSeries, blog, growGroups };
