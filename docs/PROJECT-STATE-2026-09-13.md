@@ -201,7 +201,6 @@ series, image pipeline, nav/footer links). Design source: `brand/prototype/page-
   series name lettered IN, so the alt carries the title. **Pre-cropped to 16:9** (sky trimmed):
   the post page cover-crops to 16:9 and clipped the "p" descender at the source's 3:2. A future
   lettered image needs the same pre-crop, since the template can't know where the text sits.
-  The earlier clean photo `series-meditation-for-preparation.jpg` sits untracked and unused.
 - **★ Images go through astro:assets (first use on the site).** Blog photos upload to
   `site/src/assets/blog/` (media `blogimages`), stored as `../../assets/blog/<file>` relative to
   the post; the build emits resized WebP (tested: 515KB → 35–255KB). An unused upload there is
