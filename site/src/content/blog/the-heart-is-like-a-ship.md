@@ -3,8 +3,10 @@ title: The Heart is Like a Ship
 date: 2026-09-23
 author: Mary Kathryn Lassetter
 series: meditation-for-preparation
+image: ../../assets/blog/jeremy-bishop-a0wvbw-hjbs-unsplash.jpg
+featured: false
+draft: false
 ---
-
 > For no good tree bears bad fruit, nor again does a bad tree bear good fruit, for each tree is known by its own fruit. For figs are not gathered from thorn bushes, nor are grapes picked from a bramble bush. The good person out of the good treasure of his heart produces good, and the evil person out of his evil treasure produces evil, for out of the abundance of the heart his mouth speaks. -Jesus, Matthew 6:43-45
 
 In the early church St. Augustine taught, “You have made us for yourself, O Lord, and our hearts are restless until they rest in You.”
