@@ -184,6 +184,22 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
 
 ---
 
+## ★ BRAND — logo mark + wordmark (2026-09-26, `8ab9a24`)
+- The real logo mark replaces the CSS placeholder in the **Nav (26px)** and **Footer (30px)**
+  via astro:assets (1x/2x/3x, ≤2kB each). Wordmark is **all caps, "NORTH WAKE CHURCH"**, with
+  CHURCH in ink like NORTH and WAKE in clay (Todd).
+- **Nav:** "CHURCH" only at **≥1260px** (the one-line bar with it needs ~1244px), else
+  "NORTH WAKE" (Todd picked this over a 2-line lockup or a nav rework). The link's
+  aria-label says "North Wake Church" everywhere. ≤360px wordmark 15px.
+- **Nav hamburger switch 980 → 1180px** (coupled comment in Nav.astro). The desktop bar needs
+  ~1168px for one line. Below that it was ALREADY wrapping "Come Visit" / "Who is Jesus" / "Plan
+  a Visit" (pre-existing) and scrolled sideways at 981–993px (the caps wordmark widened that to
+  ~1017). Small laptops and iPad-landscape (981–1180) now get the hamburger. At 320px, "Plan a
+  Visit" still wraps to 2 lines (pre-existing).
+- **Footer:** wordmark 20px (was 24px mixed case). The halves never break, so a wrap is at most
+  the 2-line lockup NORTH WAKE / CHURCH (seen at ~1181–1350px). The brand block gets its own
+  full row at ≤1180px and spans both columns at ≤880px (it was half-width on phones).
+
 ## ★ MEMBERSHIP — SHIPPED (2026-09-26, 2 gates)
 Design: `brand/prototype/MEMBERSHIP-SPEC.md` + `membership.html` (`1b0a601`). Content = the
 church office's process notes (Todd, 2026-09-26).
@@ -694,7 +710,7 @@ containers `.wrap` (1320) / `.wrap-narrow` (920) / `.wrap-reading` (720); serif 
 - `Layout.astro` — shell; props `title`/`description` only. **No social/OG meta, no
   canonicals, no analytics yet** (hardening step).
 - **`Nav.astro`** — sticky full-width MEGA-MENU (desktop, zero-JS `:hover`/`:focus-within`) +
-  a **CSS-only `<details>`/`<summary>` hamburger below 980px**. Both render from one `GROUPS`
+  a **CSS-only `<details>`/`<summary>` hamburger at ≤1180px** (was 980px until 2026-09-26, see ★ BRAND). Both render from one `GROUPS`
   array. Panel `max-height: calc(100vh - 72px)`; **COUPLED value:** 72px = 14px×2 `.nav-inner`
   padding + 44px `.mnav-toggle` — commented in both places; change one → change the other.
   Featured-rail + item descriptions are UNVERIFIED copy.
@@ -746,7 +762,10 @@ Run once a quarter (Jan / Apr / Jul / Oct), in `site/`, after `git pull --rebase
 - **Inert buttons / unwired placeholders** — `/visit` "Tell us you're coming" (form TBD), various
   ministry emails (several inert unverified, incl. personal Gmails), photo-release form,
   mega-menu rail copy, the two PDF resources + the marriage guide attachment.
-- **Brand mark** — CSS placeholder; swap for real logo; de-dupe Nav/Footer.
+- ~~**Brand mark** — CSS placeholder~~ **DONE 2026-09-26 (`8ab9a24`)** — the real mark
+  (`src/assets/brand/nw-mark.webp`, transparent, 1254px raster) in Nav + Footer. Still: swap
+  in an SVG / full lockup if the church has one; Nav/Footer brand markup is duplicated
+  (extract a Brand component if a third consumer appears).
 - **npm audit** — 2026-09-24: `npm audit fix` (non-breaking, lockfile only; `dist/` byte-identical)
   took 9 → **3**. Remaining 3 (astro critical, sharp high, esbuild low) need **Astro 5 → 7**
   (major, against the pin). None reachable here: no `define:vars`, no server islands, spread
@@ -760,6 +779,10 @@ Run once a quarter (Jan / Apr / Jul / Oct), in `site/`, after `git pull --rebase
   custom 404, canonicals + unique titles/descriptions, og/twitter, Lighthouse, image opt.
 
 ## OPEN ITEMS / UNDER CONSIDERATION
+- **Logo red vs the clay accent (2026-09-26):** the mark is a true red (~#b71b20); the
+  site's `--accent` is clay-600, so "WAKE" beside the mark is a different red. Not a token
+  violation (the red is inside an image). A brand question for the church: move the accent
+  toward the logo red, or leave it?
 - **White-canvas trial** — near-white `--bg`/`--bg-2` under consideration. Needs its own
   branch + read-and-plan gate. Risks: watercolor-hero scrim interaction; site-wide `--bg-2`
   separation quieting (many bands/cards rely on the sand-50/100 tonal step).
