@@ -24,8 +24,8 @@ package**, and **shot list v2**.
 >
 > **🟢 2026-09-26 (later) — `/resources` SEARCH SHIPPED (`45dacd7`, ADR 0002).** The site's third
 > script exception, first-party and inline. **Featured resource photo card SHIPPED (`1e54590`)**
-> (Pastor Carson Cobb's ask). Next: Gate 3, the featured item in the Resources mega-menu rail.
-> See ★ RESOURCES SEARCH + FEATURED RESOURCE.
+> (Pastor Carson Cobb's ask), and it also shows in the Resources mega-menu rail (`da6ef91`).
+> All three gates are done. See ★ RESOURCES SEARCH + FEATURED RESOURCE.
 
 ---
 
@@ -215,10 +215,20 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
   "−48/−28px filter-bar fix" is prototype-gutter-specific and doesn't apply here.
 - **Seed:** *Delighting in the Company of God* is featured, with a featuredDescription taken from
   its own description. Staff will change it.
-- **Gate 3 (next):** the Resources mega-menu feature rail shows the featured item when one is
-  set; otherwise it falls back to today's hard-coded "This Sunday → /sermons".
-- **Small, not done:** the search placeholder "Search titles and descriptions" is cut off at
-  375px ("Search resources" would fit). Todd hasn't decided.
+- **Gate 3 — SHIPPED `da6ef91`:** the Resources mega-menu rail shows the featured item
+  (kicker "Featured resource", title, blurb clamped to 4 lines, typed button; external items
+  open in a new tab ↗). None featured → the default "This Sunday → /sermons" rail. Desktop
+  only: the mobile nav has never had rails. **Selection, link targets and the PLACEHOLDER
+  convention now live in `src/lib/resources.ts`**, shared by the page and the Nav, so the
+  card and the rail can't disagree. The search placeholder is now "Search resources" (fits
+  at 375px).
+- **Two items featured at once (Todd asked):** the alphabetical first wins silently, and the
+  other only shows in the list. Chosen fix: tell staff "turn the old one off first" (the CMS
+  help text already says so). Not a build warning (staff can't see the log), and not two cards
+  (that would need a design pass).
+- **Staff handoff TODO:** tell Karen & Devin about the feature switch (one at a time; turn the
+  old one off; for a season, write one hub page and feature it) before next week's resource
+  load.
 
 ## ★ BLOG — "TwelveTwelve: The Leader Blog" — SHIPPED (2026-09-26, 3 gates, COMPLETE)
 Commits: `c0ee04a` (Gate 1: collection + `/blog` + `/blog/[slug]`) → `8083aa1` (Gate 2: CMS,
@@ -809,8 +819,9 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
 5. **Hardening pass** — its own pass after content lands.
 6. ~~Blog Gate 3~~ **DONE 2026-09-26.** Todd: rewrite the `/blog` h1 + lede. (Meditation for
    Preparation default image DONE 2026-09-26, `b10cf91`.)
-7. **Resources featured → mega-menu rail (Gate 3)**. Search `45dacd7` and the featured card
-   `1e54590` are DONE. See ★ RESOURCES SEARCH + FEATURED RESOURCE.
+7. ~~Resources search + featured card + mega-menu rail~~ **DONE 2026-09-26** (`45dacd7`,
+   `1e54590`, `da6ef91`). Remaining: brief Karen & Devin on the feature switch; categories stay
+   provisional until next week's curation.
 7b. **Homepage "latest from the blog" strip** — one gate.
 8. **ADC page** — overview (seed content pending) + "Current classes" / "Previous classes" via an
    ADC category + "Current until" date on posts. Needs a design decision first.
