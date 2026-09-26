@@ -26,6 +26,10 @@ package**, and **shot list v2**.
 > script exception, first-party and inline. **Featured resource photo card SHIPPED (`1e54590`)**
 > (Pastor Carson Cobb's ask), and it also shows in the Resources mega-menu rail (`da6ef91`).
 > All three gates are done. See ★ RESOURCES SEARCH + FEATURED RESOURCE.
+>
+> **🟢 2026-09-26 (evening) — `/about/membership` SHIPPED (`43c4fe6`), plus the New Members
+> Course text page migrated from the old site (`cacd991`).** This fixes the nav/footer
+> Membership dead link. See ★ MEMBERSHIP.
 
 ---
 
@@ -148,6 +152,7 @@ transfer the GitHub repo to a church org; reassign Render (swap account email, r
 | `/` (homepage) | ✅ COMPLETE — watercolor hero; Events section queries the collection; placeholder photos in mission triad, sermon-card art, welcome band, people photo |
 | `/community/students` | ✅ COMPLETE |
 | `/about/mission` | ✅ COMPLETE — Devotional redesign |
+| `/about/membership` | ✅ **COMPLETE (2026-09-26)** — Warm Band hero, facts strip, sticky intro + 5-step timeline, dark contact band (mailto office@). Nav/footer link was a 404 before |
 | `/who-is-jesus` | ✅ COMPLETE |
 | `/community/kids` | ✅ COMPLETE — serif-on-image photo hero (stock) |
 | `/help/feed` | ✅ COMPLETE |
@@ -178,6 +183,28 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
 `/sermons`, `/blog` (+`[slug]`), `/resources` (+`[slug]`, labeled "Other Resources").
 
 ---
+
+## ★ MEMBERSHIP — SHIPPED (2026-09-26, 2 gates)
+Design: `brand/prototype/MEMBERSHIP-SPEC.md` + `membership.html` (`1b0a601`). Content = the
+church office's process notes (Todd, 2026-09-26).
+- **Gate 1 `cacd991` — New Members Course text page** (`/resources/new-members-course`,
+  `posts`, tagged new-here). Migrated VERBATIM from `northwake.com/new-member-course/` so the
+  membership page doesn't link to a URL that dies at cutover: weeks 1–5 (title, speaker,
+  YouTube via the sanctioned transform) and the 3 class handouts, downloaded with Todd's OK
+  into `public/resources/` (30–82KB). Staff-editable in Pages CMS (e.g. to post course dates).
+- **Gate 2 `43c4fe6` — `/about/membership`.** The shared `WarmBandHero` gained an optional
+  `headlineTail` prop for a mid-sentence accent; the 4 other consumers are unchanged
+  (verified). Site Breadcrumb. Dark contact band on inverse tokens (`.btn-accent` +
+  `--border-on-inverse` ghost). Timeline/serif/sr-only are page-scoped
+  (prove-twice-then-extract: Care's steps differ). The connector is coupled to the circle
+  size (commented). Facts live in **`src/data/membership.ts`** (30 min, 6 classes, 4-of-6, course
+  page, packet id). Step 4B shows "Membership Packet · Available soon" and becomes a link
+  automatically when the real PDF replaces the PLACEHOLDER path. **`office@northwake.com`
+  CONFIRMED by Todd → mailto wired** (subject "Membership"); the phone isn't confirmed, so
+  it's not shown. Todd's calls: hold to the notes' **6 classes**; the kit's "Required" tag
+  **dropped**; the "required documents" = the Membership Packet. Internal notes ("Karen
+  sends…", "Jake manages") deliberately not published. QA at 1440/1024/768/375: connector
+  centred ±0.5px, sticky intro releases ≤980, no overflow, no readable text <16px.
 
 ## ★ RESOURCES SEARCH + FEATURED RESOURCE (started 2026-09-26)
 
@@ -751,6 +778,17 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
 - **`/give`** redirect already exists (HOPE's Donate button links to it).
 
 ## UNVERIFIED CONTENT — confirm with church (the real launch gate)
+- **★ `/about/membership` (2026-09-26):** the course is **6 classes** per the office notes, but
+  the old course page has only **5 recorded weeks**. Is there a 6th session? The hero h1/lede,
+  "Five steps, walked together" and "We'd love to walk with you" are REUSED prototype copy.
+  The process intro, the step-2 card bodies, the step titles and "Step one" are the design's
+  LABEL wording (needs church sign-off). Are there "required documents" beyond the Membership
+  Packet? Hero photo = placeholder (shot list: new members welcomed).
+- **★ New Members Course page (2026-09-26):** the one-line intro ("one step on the path to
+  membership…") is Claude's wording. The old page listed a **week 5 handout** ("Loving the
+  Neighbors through Personal Evangelism") but never linked a file, so it's omitted. The old page's
+  Leadership / Beliefs / Grow Groups links are omitted (no such pages yet). Add them when
+  those pages exist. Course dates aren't on the page.
 - **★ `/resources` featured-card photo (2026-09-26):** a PLACEHOLDER Unsplash landscape (Marlon
   Reyes; the Unsplash licence was confirmed by Todd) at `site/src/assets/resources/featured-landscape.jpg`.
   Swap it for a photographer's image when those arrive (one file, same name).
