@@ -4,9 +4,10 @@
 //
 // 1. UPLOAD SIZE — Pages CMS has no upload size limit, so staff could commit a huge
 //    scanned PDF or photo. Any file over MAX_MB in the CMS upload folders fails.
-// 2. CATEGORY SYNC — categories are developer-only: each one is a YAML file in
-//    src/content/categories/ AND an entry in EVERY pick-list in ../.pages.yml (each
-//    between CATEGORIES-START/END markers). If they disagree, staff see a stale list.
+// 2. CATEGORY + SERIES SYNC — categories and blog series are developer-only: each
+//    one is a YAML file (src/content/categories/, src/content/blog-series/) AND an
+//    entry in EVERY matching pick-list in ../.pages.yml (between CATEGORIES-START/END
+//    or SERIES-START/END markers). If they disagree, staff see a stale list.
 // 3. GIVING-URL SYNC — the /give redirect must match BUSINESS.givingUrl.
 //
 // No dependencies (plain Node) so it runs anywhere the build runs.
@@ -15,7 +16,7 @@ import { readdirSync, statSync, readFileSync, existsSync } from "node:fs";
 import { join, basename } from "node:path";
 
 const MAX_MB = 15; // Todd, 2026-09-24
-const UPLOAD_DIRS = ["public/resources", "public/events"]; // must match .pages.yml media inputs
+const UPLOAD_DIRS = ["public/resources", "public/events", "src/assets/blog"]; // must match .pages.yml media inputs
 const errors = [];
 
 // --- 1. Upload size ---
@@ -35,31 +36,40 @@ for (const dir of UPLOAD_DIRS) {
   }
 }
 
-// --- 2. Category sync ---
+// --- 2. Category + series sync ---
+const idsIn = (dir) =>
+  readdirSync(dir)
+    .filter((f) => f.endsWith(".yaml"))
+    .map((f) => basename(f, ".yaml"))
+    .sort();
 const catDir = "src/content/categories";
-const catIds = readdirSync(catDir)
-  .filter((f) => f.endsWith(".yaml"))
-  .map((f) => basename(f, ".yaml"))
-  .sort();
+const catIds = idsIn(catDir);
+const seriesDir = "src/content/blog-series";
+const seriesIds = idsIn(seriesDir);
 
 const cmsPath = "../.pages.yml";
 if (!existsSync(cmsPath)) {
-  console.warn(`[check-content] ${cmsPath} not found — skipping the category sync check.`);
+  console.warn(`[check-content] ${cmsPath} not found — skipping the pick-list sync checks.`);
 } else {
   const cms = readFileSync(cmsPath, "utf8");
-  // One CATEGORIES block per staff collection that tags categories (resources, posts).
-  const blocks = [...cms.matchAll(/# CATEGORIES-START([\s\S]*?)# CATEGORIES-END/g)];
-  if (blocks.length === 0) {
-    errors.push(`${cmsPath}: CATEGORIES-START / CATEGORIES-END markers are missing.`);
-  }
-  blocks.forEach((block, i) => {
-    const where = `pick-list #${i + 1} in .pages.yml`;
-    const cmsIds = [...block[1].matchAll(/-\s*name:\s*([a-z0-9-]+)/g)].map((m) => m[1]).sort();
-    const missing = catIds.filter((id) => !cmsIds.includes(id));
-    const extra = cmsIds.filter((id) => !catIds.includes(id));
-    if (missing.length) errors.push(`Categories missing from ${where}: ${missing.join(", ")}`);
-    if (extra.length) errors.push(`${where} lists categories with no file in ${catDir}/: ${extra.join(", ")}`);
-  });
+  // marker = CATEGORIES (one block per staff collection that tags categories:
+  // resources, posts) or SERIES (the blog).
+  const syncCheck = (marker, dir, ids) => {
+    const blocks = [...cms.matchAll(new RegExp(`# ${marker}-START([\\s\\S]*?)# ${marker}-END`, "g"))];
+    if (blocks.length === 0) {
+      errors.push(`${cmsPath}: ${marker}-START / ${marker}-END markers are missing.`);
+    }
+    blocks.forEach((block, i) => {
+      const where = `${marker.toLowerCase()} pick-list #${i + 1} in .pages.yml`;
+      const cmsIds = [...block[1].matchAll(/-\s*name:\s*([a-z0-9-]+)/g)].map((m) => m[1]).sort();
+      const missing = ids.filter((id) => !cmsIds.includes(id));
+      const extra = cmsIds.filter((id) => !ids.includes(id));
+      if (missing.length) errors.push(`Missing from ${where}: ${missing.join(", ")}`);
+      if (extra.length) errors.push(`${where} lists entries with no file in ${dir}/: ${extra.join(", ")}`);
+    });
+  };
+  syncCheck("CATEGORIES", catDir, catIds);
+  syncCheck("SERIES", seriesDir, seriesIds);
 }
 
 // --- 3. Giving-URL sync — the /give redirect in astro.config.mjs must point at
@@ -77,4 +87,6 @@ if (errors.length) {
   console.error("");
   process.exit(1);
 }
-console.log(`[check-content] OK — uploads ≤ ${MAX_MB}MB, ${catIds.length} categories in sync with Pages CMS.`);
+console.log(
+  `[check-content] OK — uploads ≤ ${MAX_MB}MB, ${catIds.length} categories + ${seriesIds.length} blog series in sync with Pages CMS.`,
+);

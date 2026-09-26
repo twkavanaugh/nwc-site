@@ -10,9 +10,13 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 // Keep in sync with the media inputs in ../.pages.yml (and check-content.mjs).
+// `ref` = the string a content file uses to point at the upload. Blog photos live in
+// src/assets/ and are referenced by relative path; an unused one is NOT published
+// (Astro only emits images something uses) — it's just repo clutter.
 const UPLOAD_DIRS = [
-  { dir: "public/resources", url: "/resources" },
-  { dir: "public/events", url: "/events" },
+  { dir: "public/resources", ref: "/resources", public: true },
+  { dir: "public/events", ref: "/events", public: true },
+  { dir: "src/assets/blog", ref: "assets/blog", public: false },
 ];
 // Anything under src/ can reference an upload (content files, pages, components).
 const SOURCE_ROOT = "src";
@@ -30,7 +34,7 @@ const source = walk(SOURCE_ROOT)
   .join("\n");
 
 const orphans = [];
-for (const { dir, url } of UPLOAD_DIRS) {
+for (const { dir, ref, public: isPublic } of UPLOAD_DIRS) {
   let files = [];
   try {
     files = readdirSync(dir).filter((f) => !f.startsWith("."));
@@ -38,10 +42,12 @@ for (const { dir, url } of UPLOAD_DIRS) {
     continue;
   }
   for (const f of files) {
-    const publicUrl = `${url}/${f}`;
-    if (!source.includes(publicUrl)) {
+    const refPath = `${ref}/${f}`;
+    if (!source.includes(refPath)) {
       const mb = (statSync(join(dir, f)).size / (1024 * 1024)).toFixed(1);
-      orphans.push(`${join(dir, f)}  (${mb}MB)  → still public at ${publicUrl}`);
+      orphans.push(
+        `${join(dir, f)}  (${mb}MB)  → ` + (isPublic ? `still public at ${refPath}` : "not published, repo clutter only"),
+      );
     }
   }
 }

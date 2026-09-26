@@ -138,37 +138,64 @@ const resources = defineCollection({
     }),
 });
 
+// Pages CMS saves an emptied optional field as "" (or an all-blank object). Treat
+// those as absent so a blank field never fails the build or renders an empty block.
+const blank = (v: unknown) => (typeof v === "string" && v.trim() === "" ? undefined : v);
+
+// -----------------------------------------------------------------------------
+// blogSeries — developer-only taxonomy for the blog, same governance as
+// `categories`: a new series = a YAML file here + a line in the SERIES-START/END
+// pick-list in .pages.yml (check-content.mjs fails the build if they disagree).
+// A pick-list, not free text, so a typo can't split a series in two.
+// `image` = the series default photo, used by any post in the series without its own.
+// -----------------------------------------------------------------------------
+const blogSeries = defineCollection({
+  loader: glob({ pattern: "**/*.yaml", base: "./src/content/blog-series" }),
+  schema: ({ image }) =>
+    z.object({
+      label: z.string(),
+      image: z.preprocess(blank, image().optional()),
+      imageAlt: z.string().optional(),
+    }),
+});
+
 // -----------------------------------------------------------------------------
 // blog — "TwelveTwelve: The Leader Blog" (decided 2026-09-26: a SEPARATE blog, not
 // resource text pages). Posts are dated and authored; they roll to /blog newest-first.
 // Resource `posts` stay evergreen reference pages placed by category.
-// Design source: brand/prototype/page-blog.jsx. Staff (Karen, Devin) will write these
-// in Pages CMS (Gate 2), so optional fields degrade gracefully:
-// - no `excerpt` → the card blurb is the body's first paragraph (src/lib/blog.ts)
-// - no `image`   → the featured slot renders text-only (no fake placeholder)
+// Design source: brand/prototype/page-blog.jsx. Staff (Karen, Devin) write these in
+// Pages CMS, so optional fields degrade gracefully:
+// - no `excerpt`   → the card blurb is the body's first paragraph (src/lib/blog.ts)
+// - no `image`     → the series default image, else text-only (no fake placeholder)
 // - no `scripture` → no "Read" block
+// Images live in src/assets/blog/ (NOT public/) and go through astro:assets, so the
+// build resizes + compresses whatever staff upload. Paths are relative to the post
+// file: ../../assets/blog/<name>.jpg. Bonus: an orphaned upload there is never
+// published (Astro only emits images something uses).
 // -----------------------------------------------------------------------------
 const blog = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
-  schema: z.object({
-    title: z.string(), // the post's own headline, e.g. "Love Does No Harm"
-    date: z.coerce.date(), // publish date; drives the newest-first order + date stamp
-    author: z.string(), // free text for v1 (a pick-list later if spellings drift)
-    // Series label, e.g. "Meditation for Preparation". Shown as the eyebrow; the
-    // /blog filter bar is generated from the distinct series and only appears once
-    // there are 2+ (every current post is the same series).
-    series: z.string().optional(),
-    excerpt: z.string().optional(),
-    // The opening "Read:" passage the old blog leads with. Both parts optional so a
-    // post can lead with a reference alone.
-    scripture: z
-      .object({ ref: z.string(), text: z.string().optional() })
-      .optional(),
-    image: z.string().optional(), // path into public/, convention public/blog/<name>.jpg
-    imageAlt: z.string().optional(),
-    featured: z.boolean().default(false), // pin to the /blog featured slot; else newest
-    draft: z.boolean().default(false),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(), // the post's own headline, e.g. "Love Does No Harm"
+      date: z.coerce.date(), // publish date; drives the newest-first order + date stamp
+      author: z.string(), // free text for v1 (a pick-list later if spellings drift)
+      // Shown as the eyebrow; the /blog filter bar is generated from the distinct
+      // series and only appears once there are 2+.
+      series: z.preprocess(blank, reference("blogSeries").optional()),
+      excerpt: z.preprocess(blank, z.string().optional()),
+      // The opening "Read:" passage the old blog leads with. Blank ref = no block.
+      scripture: z
+        .object({
+          ref: z.preprocess(blank, z.string().optional()),
+          text: z.preprocess(blank, z.string().optional()),
+        })
+        .optional(),
+      image: z.preprocess(blank, image().optional()),
+      imageAlt: z.preprocess(blank, z.string().optional()),
+      featured: z.boolean().default(false), // pin to the /blog featured slot; else newest
+      draft: z.boolean().default(false),
+    }),
 });
 
-export const collections = { events, categories, posts, resources, blog };
+export const collections = { events, categories, posts, resources, blogSeries, blog };

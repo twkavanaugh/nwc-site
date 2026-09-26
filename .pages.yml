@@ -23,6 +23,17 @@ media:
     output: /resources             # → /resources/<file>.pdf
     extensions: [pdf]
     rename: safe                   # lowercase, no spaces — safe for URLs
+  # Blog photos go in src/assets/ (NOT public/) so the Astro build resizes and
+  # compresses them. The stored value is RELATIVE to the post file
+  # (site/src/content/blog/x.md → ../../assets/blog/<file>), which is what Astro's
+  # image() schema resolves. A series default image lives in site/src/content/
+  # blog-series/ — also two levels below src/, so the same relative path works.
+  - name: blogimages
+    label: Blog photos
+    input: site/src/assets/blog
+    output: ../../assets/blog
+    extensions: [jpg, jpeg, png, webp]
+    rename: safe
 
 content:
   - name: events
@@ -245,7 +256,7 @@ content:
         label: Title
         type: string
         required: true
-        description: "The page title. It also becomes the page's web address when first saved (renaming later keeps the old address)."
+        description: "The page title. It also becomes the page's web address when first saved (renaming later keeps the old address). This section is for lasting reference pages (class outlines, guides). For dated writing with an author, like the weekly meditation, use Blog instead."
 
       - name: description
         label: Short description
@@ -316,3 +327,106 @@ content:
           media: false
         description: "Use Heading 2 for sections. To show a YouTube video, put the YouTube link on its own line with nothing else on that line."
 
+  # ---------------------------------------------------------------------------
+  # BLOG — "TwelveTwelve: The Leader Blog", edited by church staff (Karen, Devin).
+  # Each post becomes /blog/<title-slug> and rolls onto /blog newest-first. This is
+  # for DATED writing with an author (the weekly meditations). Evergreen reference
+  # pages (class outlines, guides) belong in "Resources: text pages" instead.
+  # Body is MARKDOWN (YouTube-line embed works here too). Images inside the text are
+  # disabled; each post has one optional photo (resized automatically by the build).
+  # ---------------------------------------------------------------------------
+  - name: blog
+    label: Blog
+    type: collection
+    path: site/src/content/blog
+    filename: '{primary}.md'        # title slugified → becomes the post's web address
+    view:
+      primary: title
+      fields: [title, date, author, draft]
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+        description: "The post's headline, e.g. 'Love Does No Harm'. It also becomes the post's web address when first saved (renaming later keeps the old address). No need to add the series name or Sunday date here."
+
+      - name: date
+        label: Publish date
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+        description: "Posts are listed newest first by this date."
+
+      - name: author
+        label: Author
+        type: string
+        required: true
+        description: "Full name as it should appear, e.g. 'Mary Kathryn Lassetter'. Spell it the same way every time."
+
+      # Series are DEVELOPER-ONLY (like categories): each is a file in
+      # site/src/content/blog-series/ AND a line below — the build fails if they
+      # disagree (site/scripts/check-content.mjs). Keep the markers.
+      - name: series
+        label: Series
+        type: select
+        description: "Which series this post belongs to. Leave blank for a one-off post. Ask the web team to add a new series."
+        options:
+          values:
+            # SERIES-START
+            - name: meditation-for-preparation
+              label: Meditation for Preparation
+            # SERIES-END
+
+      - name: scripture
+        label: Scripture reading (optional)
+        type: object
+        description: "The 'Read' passage shown in a box at the top of the post. Leave the reference blank to skip it."
+        fields:
+          - name: ref
+            label: Reference
+            type: string
+            description: "E.g. 'Romans 13:8–14'."
+          - name: text
+            label: Passage
+            type: text
+            description: "Paste the passage text. Optional — the reference alone is fine."
+
+      - name: image
+        label: Photo (optional)
+        type: image
+        options:
+          media: blogimages
+        description: "A wide photo works best. Keep it under about 3MB (bigger uploads fail with a \"413\" error); the site shrinks it automatically. If you leave this blank, the series' default photo is used (or no photo). Only use photos the church has the right to use (your own, or free sites like Unsplash)."
+
+      - name: imageAlt
+        label: Photo description (alt text)
+        type: string
+        description: "Describe the photo for screen readers, e.g. 'Sunlight over a quiet field'. If blank, the title is used."
+
+      - name: excerpt
+        label: Short summary (optional)
+        type: text
+        description: "One or two sentences shown in the blog list. If blank, the first paragraph of the post is used."
+
+      - name: featured
+        label: Pin to the top of the blog
+        type: boolean
+        description: "Usually leave off — the newest post is shown at the top automatically. Turn on to keep this post at the top instead (turn it off again later)."
+
+      - name: draft
+        label: Draft (hide from the site)
+        type: boolean
+        description: "Turn on while you're still writing. Drafts don't appear on the site at all. Turn off to publish."
+
+      - name: body
+        label: Post text
+        type: rich-text
+        options:
+          format: markdown
+          media: false
+        description: "Write the post here. Use the Quote button for quoted scripture or other authors. To show a YouTube video, put the YouTube link on its own line with nothing else on that line."

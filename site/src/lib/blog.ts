@@ -42,15 +42,27 @@ export function excerptOf(entry: BlogEntry, maxWords = 40): string {
   return words.length <= maxWords ? text : `${words.slice(0, maxWords).join(" ")}…`;
 }
 
-/** URL-safe id for a series label (filter anchors / classes). */
-export function seriesId(label: string): string {
-  return (
-    "s-" +
-    label
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, "")
-  );
+export type SeriesInfo = CollectionEntry<"blogSeries">["data"] & { id: string };
+
+/** Series id → its label + default image, for resolving `series` references. */
+export async function getSeriesMap(): Promise<Record<string, SeriesInfo>> {
+  const all = await getCollection("blogSeries");
+  return Object.fromEntries(all.map((s) => [s.id, { id: s.id, ...s.data }]));
+}
+
+/** The post's photo, else its series default, else none (text-only layouts). */
+export function photoFor(entry: BlogEntry, series: Record<string, SeriesInfo>) {
+  if (entry.data.image) {
+    return { src: entry.data.image, alt: entry.data.imageAlt ?? entry.data.title };
+  }
+  const s = entry.data.series ? series[entry.data.series.id] : undefined;
+  if (s?.image) return { src: s.image, alt: s.imageAlt ?? s.label };
+  return undefined;
+}
+
+/** Filter anchor / class for a series id (prefixed so it can't collide with #all). */
+export function seriesAnchor(id: string): string {
+  return `s-${id}`;
 }
 
 /** "MK" — up to two initials for the author mark. */

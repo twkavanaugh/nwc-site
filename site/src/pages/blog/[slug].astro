@@ -2,7 +2,15 @@
 import Layout from "../../layouts/Layout.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import { render } from "astro:content";
-import { getPublishedPosts, formatPublished, excerptOf, initialsOf } from "../../lib/blog";
+import { Image } from "astro:assets";
+import {
+  getPublishedPosts,
+  getSeriesMap,
+  photoFor,
+  formatPublished,
+  excerptOf,
+  initialsOf,
+} from "../../lib/blog";
 
 // Blog post — design source: brand/prototype/page-blog.jsx (BlogPostPage). One route
 // per NON-DRAFT post. The prototype's block types map onto Markdown: paragraph →
@@ -18,6 +26,9 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
+const seriesMap = await getSeriesMap();
+const series = d.series ? seriesMap[d.series.id]?.label : undefined;
+const photo = photoFor(entry, seriesMap);
 ---
 
 <Layout title={`${d.title} · TwelveTwelve · North Wake Church`} description={excerptOf(entry)}>
@@ -31,7 +42,7 @@ const d = entry.data;
 
   <article class="bp">
     <header class="bp-head">
-      {d.series && <div class="mono bp-series">{d.series}</div>}
+      {series && <div class="mono bp-series">{series}</div>}
       <h1 class="bp-title">{d.title}</h1>
       <div class="bp-meta">
         <div>
@@ -47,14 +58,22 @@ const d = entry.data;
     </header>
 
     {
-      d.image && (
-        <img class="bp-img" src={d.image} alt={d.imageAlt ?? d.title} loading="eager" />
+      photo && (
+        <div class="bp-img">
+          <Image
+            src={photo.src}
+            alt={photo.alt}
+            widths={[480, 880, 1320]}
+            sizes="(max-width: 880px) 100vw, 800px"
+            loading="eager"
+          />
+        </div>
       )
     }
 
     <div class="bp-body">
       {
-        d.scripture && (
+        d.scripture?.ref && (
           <aside class="bp-read">
             <div class="mono bp-read-k">Read</div>
             <div class="bp-read-ref">{d.scripture.ref}</div>
@@ -73,7 +92,7 @@ const d = entry.data;
           <div class="mono bp-author-k">About the author</div>
           <div class="bp-author-name">{d.author}</div>
           <div class="bp-author-sub">
-            Writes for TwelveTwelve{d.series ? ` · ${d.series}` : ""}
+            Writes for TwelveTwelve{series ? ` · ${series}` : ""}
           </div>
         </div>
       </footer>
@@ -142,12 +161,14 @@ const d = entry.data;
   }
 
   .bp-img {
+    margin-top: 40px;
+  }
+  .bp-img :global(img) {
     display: block;
     width: 100%;
-    box-sizing: border-box;
+    height: auto;
     aspect-ratio: 16 / 9;
     object-fit: cover;
-    margin-top: 40px;
   }
 
   .bp-body {
@@ -287,9 +308,6 @@ const d = entry.data;
     .bp-body {
       padding-left: 22px;
       padding-right: 22px;
-    }
-    .bp-img {
-      padding: 0;
     }
     .bp-prose :global(p) {
       font-size: 18px;

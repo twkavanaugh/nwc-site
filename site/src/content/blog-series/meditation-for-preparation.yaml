@@ -1,0 +1,4 @@
+# The old site's weekly Sunday-prep series (TwelveTwelve). `image` = the series
+# default: shown for any post in this series that has no photo of its own.
+# Path is relative to THIS file, e.g. ../../assets/blog/series-meditation.jpg
+label: Meditation for Preparation

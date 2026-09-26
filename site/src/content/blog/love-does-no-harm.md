@@ -2,7 +2,7 @@
 title: Love Does No Harm
 date: 2026-04-14
 author: Mary Kathryn Lassetter
-series: Meditation for Preparation
+series: meditation-for-preparation
 scripture:
   ref: Romans 13:8–14
   text: >-

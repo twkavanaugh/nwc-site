@@ -2,7 +2,7 @@
 title: "You Hate What You Fear. But What About God?"
 date: 2026-09-16
 author: Michael Hensel
-series: Meditation for Preparation
+series: meditation-for-preparation
 scripture:
   ref: Proverbs 9:10–12
   text: >-

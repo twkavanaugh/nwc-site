@@ -2,7 +2,15 @@
 import Layout from "../../layouts/Layout.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import { formatMonth, formatDay } from "../../lib/date";
-import { getPublishedPosts, formatPublished, excerptOf, seriesId } from "../../lib/blog";
+import { Image } from "astro:assets";
+import {
+  getPublishedPosts,
+  getSeriesMap,
+  photoFor,
+  formatPublished,
+  excerptOf,
+  seriesAnchor,
+} from "../../lib/blog";
 
 // Blog index — "TwelveTwelve: The Leader Blog". Design source:
 // brand/prototype/page-blog.jsx (BlogPage). Newest post (or a `featured` one) gets
@@ -18,10 +26,16 @@ const posts = await getPublishedPosts();
 const featured = posts.find((p) => p.data.featured) ?? posts[0];
 const rest = posts.filter((p) => p !== featured);
 
-const seriesList = [...new Set(posts.map((p) => p.data.series).filter(Boolean))] as string[];
+const seriesMap = await getSeriesMap();
+const seriesOf = (p: (typeof posts)[number]) => (p.data.series ? seriesMap[p.data.series.id] : undefined);
+// Series actually in use, in first-seen (newest-post) order.
+const seriesList = [...new Set(posts.map((p) => p.data.series?.id).filter(Boolean))].map(
+  (id) => seriesMap[id as string],
+);
 const showFilter = seriesList.length >= 2;
-const seriesIds = seriesList.map(seriesId);
-const countFor = (label: string) => posts.filter((p) => p.data.series === label).length;
+const seriesIds = seriesList.map((s) => seriesAnchor(s.id));
+const countFor = (id: string) => posts.filter((p) => p.data.series?.id === id).length;
+const featuredPhoto = featured ? photoFor(featured, seriesMap) : undefined;
 
 const NAV_CLEARANCE = 96; // sticky Nav (~72px) + breathing room — matches /resources
 const list = (fn: (id: string) => string) => seriesIds.map(fn).join(",\n");
@@ -51,7 +65,7 @@ ${list((id) => `#${id}:target ~ .blist .brow:not(.${id})`)} { display: none; }
 `
   : "";
 
-const tagsFor = (p: (typeof posts)[number]) => (p.data.series ? [p.data.series] : []);
+const tagsFor = (p: (typeof posts)[number]) => (seriesOf(p) ? [seriesOf(p)!.label] : []);
 ---
 
 <Layout
@@ -85,9 +99,9 @@ const tagsFor = (p: (typeof posts)[number]) => (p.data.series ? [p.data.series] 
           <a href="#all" class="bchip bchip-all">
             All <span class="n">{posts.length}</span>
           </a>
-          {seriesList.map((label) => (
-            <a href={`#${seriesId(label)}`} class={`bchip bchip-${seriesId(label)}`}>
-              {label} <span class="n">{countFor(label)}</span>
+          {seriesList.map((s) => (
+            <a href={`#${seriesAnchor(s.id)}`} class={`bchip bchip-${seriesAnchor(s.id)}`}>
+              {s.label} <span class="n">{countFor(s.id)}</span>
             </a>
           ))}
         </div>
@@ -96,18 +110,20 @@ const tagsFor = (p: (typeof posts)[number]) => (p.data.series ? [p.data.series] 
 
     {
       featured && (
-        <a class={`bfeatured${featured.data.image ? " has-image" : ""}`} href={`/blog/${featured.id}`}>
-          {featured.data.image && (
-            <img
+        <a class={`bfeatured${featuredPhoto ? " has-image" : ""}`} href={`/blog/${featured.id}`}>
+          {featuredPhoto && (
+            <Image
               class="bfeatured-img"
-              src={featured.data.image}
-              alt={featured.data.imageAlt ?? featured.data.title}
+              src={featuredPhoto.src}
+              alt={featuredPhoto.alt}
+              widths={[480, 800, 1200]}
+              sizes="(max-width: 900px) 100vw, 680px"
               loading="eager"
             />
           )}
           <div class="bfeatured-copy">
             <div class="mono bfeatured-kicker">
-              Latest{featured.data.series ? ` · ${featured.data.series}` : ""}
+              Latest{seriesOf(featured) ? ` · ${seriesOf(featured)!.label}` : ""}
             </div>
             <h2 class="bfeatured-title">{featured.data.title}</h2>
             <p class="bfeatured-excerpt">{excerptOf(featured)}</p>
@@ -130,7 +146,7 @@ const tagsFor = (p: (typeof posts)[number]) => (p.data.series ? [p.data.series] 
           </div>
           {[featured, ...rest].filter(Boolean).map((p) => (
             <a
-              class={`brow row-link${p === featured ? " is-featured-dup" : ""} ${p.data.series ? seriesId(p.data.series) : ""}`}
+              class={`brow row-link${p === featured ? " is-featured-dup" : ""} ${p.data.series ? seriesAnchor(p.data.series.id) : ""}`}
               href={`/blog/${p.id}`}
             >
               <div class="brow-date" aria-hidden="true">
