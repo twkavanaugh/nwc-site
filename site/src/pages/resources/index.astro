@@ -2,6 +2,10 @@
 import Layout from "../../layouts/Layout.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+// Static background for the featured card (not per-item). PLACEHOLDER until the
+// photographer's images arrive — Unsplash, Marlon Reyes (licence confirmed by Todd).
+import featuredPhoto from "../../assets/resources/featured-landscape.jpg";
 
 // Resources index — list view. Design source: brand/prototype/RESOURCES-LIST.html
 // (Gate 2 plan + rulings). The catalog MERGES two collections — every `resources`
@@ -49,6 +53,8 @@ type Card = {
   glyph: string;
   kicker: string;
   action: string;
+  featured: boolean;
+  featuredDescription?: string;
 };
 
 // CONVENTION: a pdf/download target whose path begins with "/resources/PLACEHOLDER-"
@@ -75,6 +81,8 @@ const resourceCards: Card[] = resourceEntries.map((e) => {
     inert: type === "pdf" && !!e.data.file?.startsWith(PLACEHOLDER_PREFIX),
     ...TYPE_META[type],
     ...(type === "pdf" && !e.data.file ? { action: "Download PDF ↗" } : {}),
+    featured: e.data.featured,
+    featuredDescription: e.data.featuredDescription,
   };
 });
 
@@ -87,6 +95,8 @@ const postCards: Card[] = postEntries.map((e) => ({
   newTab: false,
   inert: false,
   ...TYPE_META.post,
+  featured: e.data.featured,
+  featuredDescription: e.data.featuredDescription,
 }));
 
 // Deterministic order: alphabetical by title (no curated sort field yet).
@@ -95,6 +105,23 @@ const catalog: Card[] = [...resourceCards, ...postCards].sort((a, b) =>
 );
 
 const totalCount = catalog.length;
+
+// --- Featured card (hero, right column) — brand/prototype/FEATURED-RESOURCE-PHOTO-SPEC.md ---
+// First featured item by title (catalog is title-sorted). Drafts are already out of the
+// catalog; an inert "Available soon" placeholder has nothing to link to, so it never
+// features. None featured → no card, and the hero stays single-column. The kit's
+// Format/Led by/Category row is deliberately NOT built (no such fields; Todd, 2026-09-26).
+const feat = catalog.find((c) => c.featured && !c.inert);
+// Button wording per type; the arrow nudges on hover (↗ = opens another site/tab).
+const FEAT_CTA = {
+  post: { label: "Read the post", arr: "→" },
+  pdf: { label: "Download PDF", arr: "→" },
+  external: { label: "Visit site", arr: "↗" },
+} as const;
+const featCta = feat && {
+  ...FEAT_CTA[feat.type],
+  ...(feat.type === "pdf" && feat.newTab ? { arr: "↗" } : {}),
+};
 const countFor = (id: string) => catalog.filter((c) => c.cats.includes(id)).length;
 
 // --- Generated :target filter engine (injected is:global below) ---
@@ -146,13 +173,45 @@ ${list((id) => `#${id}:target ~ .catalog-wrap .count .name-${id}`)} { display: i
 
   <!-- Hero — UNVERIFIED placeholder copy carried from the design package. -->
   <section class="rz-hero">
-    <div class="wrap">
-      <div class="eyebrow rz-eyebrow"><span class="dot"></span>Resources</div>
-      <h1 class="display-l rz-title">A shelf for the whole church family.</h1>
-      <p class="lede rz-lede">
-        Forms, reading plans, guides, and pages written by our staff — gathered in one
-        place. Scan the list, download what you need, follow a link, or read it right here.
-      </p>
+    <div class={`wrap${feat ? " rz-hero-grid" : ""}`}>
+      <div>
+        <div class="eyebrow rz-eyebrow"><span class="dot"></span>Resources</div>
+        <h1 class="display-l rz-title">A shelf for the whole church family.</h1>
+        <p class="lede rz-lede">
+          Forms, reading plans, guides, and pages written by our staff — gathered in one
+          place. Scan the list, download what you need, follow a link, or read it right here.
+        </p>
+      </div>
+      {
+        feat && featCta && (
+          // ONE link wraps the card; the button is a <span> so links never nest.
+          <a
+            class="feat"
+            href={feat.href}
+            aria-labelledby="feat-title"
+            {...(feat.newTab ? { target: "_blank", rel: "noopener" } : {})}
+          >
+            <Image
+              src={featuredPhoto}
+              alt=""
+              class="feat-photo"
+              loading="eager"
+              width={1200}
+              widths={[480, 800, 1200]}
+              sizes="(max-width: 960px) 100vw, 520px"
+            />
+            <div class="feat-top">
+              <span class="feat-kicker">Featured resource</span>
+              <span class="feat-type">{feat.kicker}</span>
+            </div>
+            <h2 class="feat-title" id="feat-title">{feat.title}</h2>
+            <p class="feat-desc">{feat.featuredDescription ?? feat.description}</p>
+            <span class="btn btn-on-image-primary feat-cta">
+              {featCta.label} <span class="arr" aria-hidden="true">{featCta.arr}</span>
+            </span>
+          </a>
+        )
+      }
     </div>
   </section>
 
@@ -323,6 +382,154 @@ ${list((id) => `#${id}:target ~ .catalog-wrap .count .name-${id}`)} { display: i
     max-width: 54ch;
     margin-top: 24px;
     color: var(--ink-2);
+  }
+
+  /* ---- Featured card (brand/prototype/FEATURED-RESOURCE-PHOTO-SPEC.md) ----
+     Translated onto the site's tokens: the kit's [data-theme="dim"] is NOT used (dropped
+     site-wide); on-photo text uses the on-image / inverse semantics instead. */
+  .rz-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: end; /* card bottom-aligns with the lede */
+  }
+  .feat {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 520px;
+    padding: 34px 32px 32px;
+    background: var(--bg-inverse); /* shows only if the photo fails */
+    color: var(--on-image-fg);
+  }
+  .feat :global(.feat-photo) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 62%;
+    z-index: 0;
+  }
+  /* DOCUMENTED page-local literal exception: real-image scrim (rgba of ink-900
+     #1a1814). 86–94% charcoal from ~60% down where the title/desc/button sit — cream
+     text stays well above AA wherever the ridgeline falls. DEVIATION from the kit: the
+     kit's 35% top stop left the 11px kicker/type labels at ~1.5:1 over bright cloud, so
+     a 0.75 band covers the label row (0–12%) before easing to the kit's sky-showing
+     middle. */
+  .feat::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      180deg,
+      rgba(26, 24, 20, 0.75) 0%,
+      rgba(26, 24, 20, 0.7) 12%,
+      rgba(26, 24, 20, 0.4) 24%,
+      rgba(26, 24, 20, 0.55) 38%,
+      rgba(26, 24, 20, 0.86) 62%,
+      rgba(26, 24, 20, 0.94) 100%
+    );
+    transition: opacity 200ms ease;
+  }
+  /* Content above the scrim (named, not :not(), which doesn't survive Astro scoping). */
+  .feat-top,
+  .feat-title,
+  .feat-desc,
+  .feat-cta {
+    position: relative;
+    z-index: 2;
+  }
+  .feat:hover::before {
+    opacity: 0.92; /* photo brightens slightly */
+  }
+  .feat:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  .feat-top {
+    display: flex;
+    flex-wrap: wrap; /* at the phone mono bump (14px) the type label drops to line 2 */
+    justify-content: space-between;
+    gap: 8px 16px;
+    white-space: nowrap; /* never break a label mid-phrase */
+    margin-bottom: auto; /* pins title/desc/button to the bottom */
+    padding-bottom: 40px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .feat-kicker {
+    color: var(--on-image-accent);
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .feat-kicker::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--on-image-accent);
+  }
+  .feat-type {
+    color: var(--ink-on-inverse-2);
+  }
+  .feat-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(30px, 2.8vw, 40px);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    margin: 0 0 14px;
+  }
+  .feat-desc {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-on-inverse-2);
+    margin: 0 0 22px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+  }
+  .feat-cta {
+    align-self: flex-start; /* stays a pill, never stretched */
+    white-space: nowrap;
+  }
+  /* The whole card is the link, so card hover drives the button state. */
+  .feat:hover .feat-cta {
+    background: var(--on-image-accent);
+  }
+  .feat:hover .feat-cta .arr {
+    transform: translateX(3px);
+  }
+  @media (max-width: 960px) {
+    .rz-hero-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .feat {
+      min-height: 460px;
+    }
+  }
+  @media (max-width: 560px) {
+    .feat {
+      min-height: 420px;
+      padding: 26px 20px 24px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .feat::before,
+    .feat-cta,
+    .feat-cta .arr {
+      transition: none;
+    }
   }
 
   .filter-root {
@@ -556,6 +763,7 @@ ${list((id) => `#${id}:target ~ .catalog-wrap .count .name-${id}`)} { display: i
       padding-left: 22px;
       padding-right: 22px;
     }
+    .feat-top,
     .search-label,
     .chips-label,
     .count,

@@ -1,6 +1,20 @@
 import { defineCollection, z, reference } from "astro:content";
 import { glob } from "astro/loaders";
 
+// Pages CMS saves an emptied optional field as "" (or an all-blank object). Treat
+// those as absent so a blank field never fails the build or renders an empty block.
+const blank = (v: unknown) => (typeof v === "string" && v.trim() === "" ? undefined : v);
+
+// Featured card on the /resources hero (brand/prototype/FEATURED-RESOURCE-PHOTO-SPEC.md).
+// Shared by resources + posts. One switch per item; the card renders the first featured
+// item by title (drafts and "Available soon" placeholders never feature). No
+// show-until date — staff turn it off by hand (Todd, 2026-09-26).
+const featuredFields = {
+  featured: z.boolean().default(false),
+  // Optional short version for the card, which clamps the description to 3 lines.
+  featuredDescription: z.preprocess(blank, z.string().optional()),
+};
+
 // -----------------------------------------------------------------------------
 // events — the site's first content collection (Astro 5 Content Layer API).
 // Flat Markdown files in src/content/events/, one per event. Facts live in
@@ -97,6 +111,7 @@ const posts = defineCollection({
       .max(5)
       .optional(),
     draft: z.boolean().default(false), // hidden from listings while true
+    ...featuredFields,
   }),
 });
 
@@ -123,6 +138,7 @@ const resources = defineCollection({
       // Deliberately z.string() (NOT .url()): a post slug isn't a URL — same
       // rationale as events.registrationUrl.
       link: z.string().optional(),
+      ...featuredFields,
     })
     .superRefine((d, ctx) => {
       const hasFile = !!d.file?.trim();
@@ -137,10 +153,6 @@ const resources = defineCollection({
         ctx.addIssue({ code: "custom", path: ["file"], message: "An external link should not also have a PDF — remove the file." });
     }),
 });
-
-// Pages CMS saves an emptied optional field as "" (or an all-blank object). Treat
-// those as absent so a blank field never fails the build or renders an empty block.
-const blank = (v: unknown) => (typeof v === "string" && v.trim() === "" ? undefined : v);
 
 // -----------------------------------------------------------------------------
 // blogSeries — developer-only taxonomy for the blog, same governance as

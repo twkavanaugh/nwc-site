@@ -6,6 +6,8 @@ description: A six-week training experience led by Larry Trotter on sustaining,
 categories:
   - discipleship
 draft: false
+featured: true
+featuredDescription: A six-week training led by Larry Trotter on practices for enjoying the company of God.
 ---
 A six-week training experience in the practices that help us enjoy the company of
 God — grouped into three movements, each paired with a discussion week:

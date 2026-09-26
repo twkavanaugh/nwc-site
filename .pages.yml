@@ -231,6 +231,16 @@ content:
         type: string
         description: "The full web address, starting with https://. For an External link: the web page. For a PDF download: the Google Drive link to the PDF (sharing set to \"Anyone with the link can view\"). Leave empty if you uploaded a PDF above."
 
+      - name: featured
+        label: Feature at the top of the Resources page
+        type: boolean
+        description: "Shows this in the large photo card at the top of the Resources page. Feature ONE thing at a time: when you feature something new, turn this off on the old one (if two are on, the one first alphabetically is shown). It also stays in the list below."
+
+      - name: featuredDescription
+        label: Short description for the featured card (optional)
+        type: text
+        description: "The featured card only has room for about 3 lines. If your description is longer, write a shorter version here, one sentence is ideal. Leave blank to use the regular description."
+
   # ---------------------------------------------------------------------------
   # POSTS — text-only resource pages, edited by church staff (Karen, Devin).
   # Each becomes /resources/<title-slug> and appears in the /resources catalog as
@@ -295,6 +305,16 @@ content:
         label: Draft (hide from the site)
         type: boolean
         description: "Turn on while you're still writing. Draft pages don't appear on the site at all. Turn off to publish."
+
+      - name: featured
+        label: Feature at the top of the Resources page
+        type: boolean
+        description: "Shows this in the large photo card at the top of the Resources page. Feature ONE thing at a time: when you feature something new, turn this off on the old one (if two are on, the one first alphabetically is shown). It also stays in the list below."
+
+      - name: featuredDescription
+        label: Short description for the featured card (optional)
+        type: text
+        description: "The featured card only has room for about 3 lines. If your description is longer, write a shorter version here, one sentence is ideal. Leave blank to use the regular description."
 
       - name: attachments
         label: Downloads (optional, up to 5)
