@@ -27,10 +27,11 @@ never a code bug. Ctrl+C, `npm run dev`, hard-refresh. The production build is u
 
 ## Non-negotiables
 1. **Near-zero client JS.** Interactivity is CSS-only (mega-menu, hamburger, `:target`
-   filtering, `<details>` accordions). There are exactly **two** sanctioned third-party
-   exceptions, both documented in code: the BranchCast resizer on `/sermons` (the only
-   `<script>` in `dist/`) and the remark YouTube→nocookie embed transform. **No third
-   exception without a written decision.**
+   filtering, `<details>` accordions). There are exactly **three** sanctioned exceptions,
+   each documented in code: the BranchCast resizer on `/sermons`, the remark
+   YouTube→nocookie embed transform, and the first-party inline search on `/resources`
+   (`docs/adr-0002-resources-search.md`, bounded by that ADR's limits). **No fourth
+   exception without a written decision (a new ADR).**
 2. **Semantic tokens only.** No raw hex, no `var(--raw-*)`, no inline `rgba()`/`#fff`, no
    inline styles in components. Dark bands use the inverse tokens; **accent TEXT on dark must
    use `--accent-on-inverse`** (the clay-600 default fails WCAG at 2.69:1). Documented literal
