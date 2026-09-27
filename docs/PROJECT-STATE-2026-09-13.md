@@ -216,7 +216,10 @@ of /events. NOT on the homepage (Todd).
 - **Daily rebuild:** `.github/workflows/daily-rebuild.yml` runs at 09:00 UTC (5 AM EDT) plus a
   manual "Run workflow" button. It POSTs the Render deploy hook from the repo secret
   **`RENDER_DEPLOY_HOOK`** (Todd added it; the value is never in the repo) and skips with a warning
-  if the secret is missing. This also covers date-rollover freshness for the CMS events. GitHub
+  if the secret is missing. This also covers date-rollover freshness for the CMS events.
+  **VERIFIED END TO END 2026-09-26 (9:48 PM EDT):** a manual "Run workflow" produced a Render
+  deploy with source "Deploy Hook". /events built in 1.77s with the feed read (no fallback
+  warning). 38 pages built. GitHub
   pauses schedules after 60 days with no commits (CMS saves count). If it stops, re-enable it
   under Actions.
 - **Church-side data notes:** descriptions link to OLD-site URLs (`northwake.com/nwkids`,
