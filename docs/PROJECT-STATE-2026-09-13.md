@@ -34,6 +34,9 @@ package**, and **shot list v2**.
 > **🟢 2026-09-26 (late) — `/community/grow-groups` SHIPPED (`8f2e907`)** with a staff-editable
 > directory in Pages CMS. This fixes 8 dead links. See ★ GROW GROUPS. Also: the logo mark +
 > caps wordmark (★ BRAND).
+>
+> **🟢 2026-09-26 (night) — `/events` WEEKLY CHURCH CALENDAR from Google (`79485dd`) + DAILY
+> REBUILD (`1671475`).** See ★ CHURCH CALENDAR.
 
 ---
 
@@ -172,7 +175,7 @@ transfer the GitHub repo to a church org; reassign Render (swap account email, r
 | `/mission/training` | ✅ **COMPLETE (2026-09-24)** — Warm Band hero, approach + 3-pathway anchor strip, Personal / Elder / Missionary sections (light → warm → dark) with sticky sidebars. Nav wired |
 | `/mission/church-planting` | ✅ **COMPLETE (2026-09-23)** — first `/mission/*` route; Warm Band hero (display-m, no CTAs, .ph photo), two realities + inverse bridge band, church lists, serif statement, engage grid. Nav Mission→Church Planting now a real link |
 | `/visit` | ✅ **COMPLETE (2026-09-23)** — Warm Band hero, facts strip, flow of a Sunday, FAQ, find us. Every "Plan a Visit" CTA now resolves (was a 404) |
-| `/events` | ✅ COMPLETE — date-filtered, sorted index |
+| `/events` | ✅ COMPLETE — weekly church calendar (Google feed, rebuilt daily) at top, then the date-filtered CMS events |
 | `/events/[slug]` | ✅ COMPLETE — continuous-column detail (5 entries; `family-table` is CMS-created) |
 | `/resources` | ✅ **COMPLETE** — merged catalog, zero-JS `:target` category filter + inline search (2026-09-26, ADR 0002) |
 | `/resources/[slug]` | ✅ **COMPLETE (NEW)** — post template + attachments (5 post routes) |
@@ -188,6 +191,38 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
 `/sermons`, `/blog` (+`[slug]`), `/resources` (+`[slug]`, labeled "Other Resources").
 
 ---
+
+## ★ CHURCH CALENDAR — SHIPPED (2026-09-26, `79485dd` + `1671475`)
+The church keeps maintaining its shared Google Calendar ("Church" — "Church-wide events and
+activities"; Todd confirmed it's the one on the old homepage). The site shows it at the TOP
+of /events. NOT on the homepage (Todd).
+- **Data:** `src/lib/church-calendar.ts` fetches the PUBLIC iCal feed at BUILD time
+  (`src/data/calendar.ts` holds the calendar ID, which was already public). It uses `node-ical`
+  (a build-only dependency; nothing ships to the browser) to expand recurring events, including
+  EXDATEs and overrides, and bucket them into Sunday-start weeks in America/New_York, 13 weeks
+  from the current one. **Filter:** hides "Busy" and CLASS:PRIVATE/CONFIDENTIAL items (events
+  marked private in Google) and CANCELLED items. Everything else shows as written in Google.
+  **The rule for the church: mark it private in Google to keep it off the website.**
+  Descriptions become plain text (Google's `<ol><li>` turns into • lines). **A feed failure never
+  fails the build**: the page shows a "calendar unavailable, view it on Google" link.
+- **UI:** `src/components/ChurchCalendar.astro`. A 7-column week row with minimal entries
+  (start time + title). Clicking an entry opens a **native HTML popover** card (date, When, Where,
+  description; light-dismiss/Esc built in). Previous/Next week uses **CSS :target** (all weeks are
+  pre-rendered; the first/current week shows by default). **Zero client JS**, so no ADR needed.
+  Hover-to-open was ruled out (it needs CSS anchor positioning, not yet universal; phones have no
+  hover). At ≤900 the week becomes a day list. Today is highlighted. There's an "Open in Google
+  Calendar ↗" link. Todd first saw the unstyled gate-1 data check and rejected it as the design.
+  The redesign (horizontal week + click cards) got "this is perfect".
+- **Daily rebuild:** `.github/workflows/daily-rebuild.yml` runs at 09:00 UTC (5 AM EDT) plus a
+  manual "Run workflow" button. It POSTs the Render deploy hook from the repo secret
+  **`RENDER_DEPLOY_HOOK`** (Todd added it; the value is never in the repo) and skips with a warning
+  if the secret is missing. This also covers date-rollover freshness for the CMS events. GitHub
+  pauses schedules after 60 days with no commits (CMS saves count). If it stops, re-enable it
+  under Actions.
+- **Church-side data notes:** descriptions link to OLD-site URLs (`northwake.com/nwkids`,
+  `/adc`; see the cutover punch list). Room numbers and a coordinator's name show publicly,
+  exactly as they already do on the public Google calendar. Locations are inconsistent ("Bldg 1"
+  vs "Bldg. 1").
 
 ## ★ GROW GROUPS — SHIPPED (2026-09-26, `8f2e907`)
 Design: `brand/prototype/GROW-GROUPS-SPEC.md` + `grow-groups.html` (`3c2c36b`). Copy = the
@@ -790,7 +825,7 @@ Run once a quarter (Jan / Apr / Jul / Oct), in `site/`, after `git pull --rebase
   pending Todd's live Gate 2 test.
 - ~~CMS media has NO size guard~~ **DONE 2026-09-24** — 15MB prebuild guard (check-content.mjs).
 - ~~Orphaned CMS media on event deletion UNTESTED~~ **CONFIRMED 2026-09-24** — files are left behind; see ★ STAFF CMS + ★ QUARTERLY MAINTENANCE.
-- **Nightly Render deploy-hook cron** — still pending (date-rollover freshness).
+- ~~**Nightly Render deploy-hook cron**~~ **DONE 2026-09-26 (`1671475`)** — see ★ CHURCH CALENDAR.
 - **`/familytable` legacy redirect** — decision logged; implement in hardening.
 - **Watercolor 1.2MB PNG** (`wake-forest-bcg.png`) — compress/WebP.
 - **tel:/mailto:** on footer + verified contacts (after verification).
@@ -832,11 +867,16 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
   `/leader-blog/` → `/blog`.
 - **`/familytable`** legacy redirect (already logged under hardening).
 - **`/new-member-course/`** → `/resources/new-members-course` (content migrated 2026-09-26).
+- **Google Calendar event descriptions** (church-edited, shown on /events) point at old-site
+  URLs: `northwake.com/nwkids`, `northwake.com/adc`. Ask the office to update them in Google
+  (→ `/community/kids`; ADC has no page yet) or redirect those paths.
 - **Inventory the rest of the old site's URLs** (sitemap) and map each to a new route or a
   redirect; old printed materials (postcards) carry URLs — `/womensministry` already handled.
 - **`/give`** redirect already exists (HOPE's Donate button links to it).
 
 ## UNVERIFIED CONTENT — confirm with church (the real launch gate)
+- **★ /events calendar (2026-09-26):** the section heading "What's happening this week." is
+  Claude's wording.
 - **★ `/community/grow-groups` (2026-09-26):** LABEL copy needing church sign-off: the hero h1
   "Ordinary people, growing into wholehearted followers of Jesus.", "Shaped not just in what
   we know, but in what we love.", "Life together, week by week.", the 4 rhythm titles and
@@ -941,6 +981,9 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
   the dev server kept serving the OLD scoped CSS, and a hard refresh didn't fix it. Check
   `getComputedStyle` or `npm run build` output; if they disagree, restart the dev server. Not
   a code bug. A new file under `src/assets/` also needs a restart ("ImageNotFound").
+- **Workflow files need a token permission (2026-09-26):** pushing `.github/workflows/*` was
+  REJECTED until the fine-grained PAT got **Workflows: Read and write**
+  (github.com/settings/personal-access-tokens → the token → Edit). The token value is unchanged.
 - **Git push auth (2026-09-26):** the Keychain token had expired. Fix = a fine-grained PAT
   (twkavanaugh/nwc-site, **Contents: Read and write**) pasted at git's "Password" prompt —
   the prompt wants the TOKEN, never the GitHub password. 401-style "Invalid username or token"
