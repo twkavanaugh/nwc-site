@@ -879,7 +879,11 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
 
 ## UNVERIFIED CONTENT — confirm with church (the real launch gate)
 - **★ /events calendar (2026-09-26):** the section heading "What's happening this week." is
-  Claude's wording.
+  Claude's wording. So are the list heading "Plan ahead / Highlighted events." and its subtitle
+  ("Special gatherings, classes, and events, each with its own page for the details. Listed
+  soonest first."), added `0d913b4` at Todd's request. "one-day" was dropped site-wide on
+  /events (events can span days). The hero lede now overlaps the subtitle; Todd is keeping it
+  for now.
 - **★ `/community/grow-groups` (2026-09-26):** LABEL copy needing church sign-off: the hero h1
   "Ordinary people, growing into wholehearted followers of Jesus.", "Shaped not just in what
   we know, but in what we love.", "Life together, week by week.", the 4 rhythm titles and
