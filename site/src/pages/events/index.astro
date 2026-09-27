@@ -15,7 +15,7 @@ const upcoming = (await getCollection("events"))
 
 <Layout
   title="Events · North Wake Church"
-  description="Classes, gatherings, and one-day events at North Wake Church, listed soonest first."
+  description="Classes, gatherings, and events at North Wake Church, listed soonest first."
 >
   <!-- Breadcrumb (full-bleed chip bar — first in body) -->
   <Breadcrumb trail={[{ label: "Home", href: "/" }, { label: "Events" }]} />
@@ -27,7 +27,7 @@ const upcoming = (await getCollection("events"))
       {/* UNVERIFIED copy — generic placeholder headline/lede; confirm with church. */}
       <h1 class="display-l ev-hero-title">Events.</h1>
       <p class="lede ev-hero-lede">
-        Classes, gatherings, and one-day events at North Wake — listed soonest
+        Classes, gatherings, and events at North Wake — listed soonest
         first. Check back as new events are added.
       </p>
     </div>
@@ -36,9 +36,18 @@ const upcoming = (await getCollection("events"))
   <!-- Church calendar (Google feed, built daily) — week view, zero JS. -->
   <ChurchCalendar />
 
-  <!-- Event list -->
-  <section class="ev-list-section">
+  <!-- Highlighted events (the CMS events) — heading mirrors the calendar's head. -->
+  <section class="ev-list-section" aria-labelledby="ev-list-title">
     <div class="wrap">
+      {/* UNVERIFIED copy — heading/subtitle added 2026-09-26 (Todd asked for a title). */}
+      <div class="ev-list-head">
+        <div class="eyebrow ev-list-eyebrow"><span class="dot"></span>Plan ahead</div>
+        <h2 id="ev-list-title" class="display-s ev-list-title">Highlighted events.</h2>
+        <p class="ev-list-sub">
+          Special gatherings, classes, and events, each with its own page for the
+          details. Listed soonest first.
+        </p>
+      </div>
       {
         upcoming.length === 0 ? (
           <div class="ev-empty">
@@ -86,6 +95,22 @@ const upcoming = (await getCollection("events"))
   /* List — adapts the homepage .event-row vocabulary (page-local classes). */
   .ev-list-section {
     padding-top: 0;
+  }
+  .ev-list-head {
+    margin-bottom: 28px;
+  }
+  .ev-list-eyebrow {
+    margin-bottom: 14px;
+  }
+  .ev-list-title {
+    margin: 0;
+  }
+  .ev-list-sub {
+    margin: 12px 0 0;
+    max-width: 56ch;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink-2);
   }
   .ev-date {
     width: 64px;
