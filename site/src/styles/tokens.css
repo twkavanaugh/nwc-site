@@ -21,6 +21,7 @@
    * ------------------------------------------------------------------------- */
 
   /* Warm neutrals (light) */
+  --raw-sand-25: #fcfaf7;
   --raw-sand-50: #f6f3ed;
   --raw-sand-100: #ece7dc;
   --raw-sand-200: #e3ddce;
@@ -58,6 +59,7 @@
    * ------------------------------------------------------------------------- */
 
   /* Surfaces */
+  --bg-raised: var(--raw-sand-25);
   --bg: var(--raw-sand-50);
   --bg-2: var(--raw-sand-100);
   --bg-3: var(--raw-sand-200);

@@ -238,7 +238,7 @@ const cal = await getChurchCalendar();
     border: 1px solid var(--line);
   }
   .cal-day {
-    background: var(--bg);
+    background: var(--bg-raised);
     padding: 14px 10px 16px;
     min-height: 170px;
   }
@@ -416,6 +416,7 @@ const cal = await getChurchCalendar();
       gap: 14px;
       min-height: 0;
       padding: 14px 0;
+      background: none; /* list view sits on the page, not raised cells */
       border-bottom: 1px solid var(--line);
     }
     .cal-day-head {

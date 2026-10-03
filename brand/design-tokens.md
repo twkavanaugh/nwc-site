@@ -21,7 +21,7 @@ system holds a hex value.
 
 Warm neutrals (light)
 
-Raw tokenValueNotes--raw-sand-50#f6f3edwarm white — lightest--raw-sand-100#ece7dcslightly deeper warm--raw-sand-200#e3ddcecard / divider warm
+Raw tokenValueNotes--raw-sand-25#fcfaf7near-white warm — raised surface (calendar day cells)--raw-sand-50#f6f3edwarm white — lightest--raw-sand-100#ece7dcslightly deeper warm--raw-sand-200#e3ddcecard / divider warm
 
 Ink scale (light)
 
@@ -54,7 +54,7 @@ Every token a component uses. Each points at a raw value via var().
 
 Surfaces
 
-Semantic token→ RawRole--bg--raw-sand-50page background--bg-2--raw-sand-100deeper section band--bg-3--raw-sand-200card / placeholder fill
+Semantic token→ RawRole--bg-raised--raw-sand-25near-white surface raised off --bg (calendar day cells)--bg--raw-sand-50page background--bg-2--raw-sand-100deeper section band--bg-3--raw-sand-200card / placeholder fill
 
 Foreground / text
 
