@@ -32,12 +32,12 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
   description="North Wake Church is a family of faith in Wake Forest, NC — gathering each Sunday to worship Jesus and scattering through the week to love our neighbors near and far."
 >
   <!-- ===================== HERO — "Scene + People" (devotional) ===================== -->
-  <!-- A) Watercolor devotional hero — the place -->
+  <!-- A) Photo hero — worship photo under a dark scrim, on-image type -->
   <section class="shero">
     <div class="shero-stage">
       <div class="shero-bg" aria-label="A worship team leading a Sunday gathering at North Wake Church"></div>
-      <!-- Cream legibility scrim over the watercolor (page-local literal exception:
-           real-image scrim, not a theme color — cf. --shadow-dropdown precedent). -->
+      <!-- Dark legibility scrim over the photo (page-local literal exception:
+           real-image scrim, not a theme color — cf. /resources featured card). -->
       <div class="shero-scrim"></div>
 
       <div class="wrap-narrow shero-content">
@@ -52,8 +52,8 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
           and scattering through the week to love one another and our neighbors near and far.
         </p>
         <div class="shero-actions fade-up" style="animation-delay: 200ms;">
-          <a class="btn btn-primary" href="/visit">Plan a visit <span class="arr">→</span></a>
-          <a class="btn btn-ghost" href="/sermons">Watch Sunday's sermon</a>
+          <a class="btn btn-on-image-primary" href="/visit">Plan a visit <span class="arr">→</span></a>
+          <a class="btn btn-on-image-ghost" href="/sermons">Watch Sunday's sermon</a>
         </div>
       </div>
     </div>
@@ -78,7 +78,7 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
         <div class="shero-people-photo" aria-label="Painted mural panels on a brick wall in downtown Wake Forest"></div>
         <!-- Caption scrim (page-local literal exception: photo-darkening gradient). -->
         <div class="shero-people-caption">
-          <div class="serif shero-people-caption-text">One family, gathered around the gospel.</div>
+          <div class="serif shero-people-caption-text">Planted in Wake Forest, rooted in the Gospel, living in faith, hope, and love.</div>
         </div>
       </div>
     </div>
@@ -372,7 +372,9 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
 
 <style>
   /* ============ HERO — "Scene + People" (devotional) ============ */
-  /* A) Watercolor devotional hero */
+  /* A) Photo hero. The prototype spec's [data-theme="dim"] is NOT used (dropped
+     site-wide, design-tokens.md §7); on-photo type uses the on-image / inverse
+     semantics instead, same translation as the /resources featured card. */
   .shero {
     padding: 0;
   }
@@ -388,23 +390,23 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
     inset: 0;
     background-image: url("/home-hero-worship.jpg");
     background-size: cover;
-    background-position: center 60%;
-    /* DOCUMENTED page-local literal: watercolor-paper fallback behind the image,
-       only visible if it fails to load. Nearest raw token is --raw-sand-50
-       (#f6f3ed) but it's tonally distinct (cooler) and serves a different role
-       (page bg); the doc's #f3ecdf matches the watercolor's paper tone. */
-    background-color: #f3ecdf;
+    /* Keeps the band and the center aisle in frame when cover crops the sides. */
+    background-position: center 40%;
+    background-color: var(--bg-inverse); /* shows only if the photo fails */
   }
-  /* DOCUMENTED page-local literal exception: cream legibility scrim over the
-     watercolor (real-image scrim, not a theme color — cf. --shadow-dropdown). */
+  /* DOCUMENTED page-local literal exception: real-image scrim (rgba of ink-900
+     #1a1814), not a theme color. Stops set by a worst-pixel WCAG AA check at
+     1440/1024/768/375 (spec start 0.60 middle let the string/ceiling lights
+     behind "go", the lede and the eyebrow dip below AA). If a new crop reads
+     too bright, deepen the stops; never lighten the text. */
   .shero-scrim {
     position: absolute;
     inset: 0;
     background: linear-gradient(
       180deg,
-      rgba(246, 243, 237, 0.72) 0%,
-      rgba(246, 243, 237, 0.28) 40%,
-      rgba(246, 243, 237, 0.92) 100%
+      rgba(26, 24, 20, 0.74) 0%,
+      rgba(26, 24, 20, 0.7) 45%,
+      rgba(26, 24, 20, 0.8) 100%
     );
   }
   .shero-content {
@@ -415,11 +417,12 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
     align-items: center;
     text-align: center;
     width: 100%;
-    padding-top: 72px;
+    padding-top: 96px; /* clears the sticky nav so the eyebrow never tucks under it */
     padding-bottom: 72px;
   }
   .shero-eyebrow {
-    margin-bottom: 40px;
+    margin-bottom: 36px;
+    color: var(--ink-on-inverse-2);
     display: flex;
     justify-content: center;
   }
@@ -429,29 +432,36 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
   .shero-eyebrow-place {
     white-space: nowrap;
   }
+  .shero-eyebrow .dot {
+    background: var(--on-image-accent);
+  }
   .shero-title {
     font-weight: 400;
     font-size: clamp(46px, 7.5vw, 120px);
     line-height: 1.02;
     letter-spacing: -0.02em;
-    color: var(--ink);
+    color: var(--ink-on-inverse);
     margin: 0;
     max-width: 16ch;
     text-wrap: balance;
+  }
+  /* Accent words: clay-600 fails on the dark scrim; on-image clay passes. */
+  .shero-title .em-accent {
+    color: var(--on-image-accent);
   }
   .shero-lede {
     font-weight: 400;
     font-size: clamp(19px, 2vw, 25px);
     line-height: 1.6;
-    color: var(--ink-2);
-    margin: 32px auto 0;
+    color: var(--ink-on-inverse-2);
+    margin: 30px auto 0;
     max-width: 40ch;
   }
   .shero-actions {
     display: flex;
     gap: 12px;
     justify-content: center;
-    margin-top: 40px;
+    margin-top: 38px;
     flex-wrap: wrap;
   }
 
@@ -542,6 +552,9 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
        to the first word instead of orphaning onto its own line, and ease the
        size/tracking down slightly (eyebrows are micro-type, exempt from the 16px
        floor) so the label fits and any wrap is the clean post-"·" break. */
+    .shero-content {
+      padding-top: 72px;
+    }
     .shero-eyebrow {
       display: block;
       text-align: center;
