@@ -76,9 +76,11 @@ const pillars = [
             <button type="button" class="btn btn-ghost">Parent info</button>
           </div>
         </div>
-        <div class="ph" style="aspect-ratio: 4 / 5;">
-          <span class="ph-label">Students · gathering</span>
-        </div>
+        <img
+          class="hero-photo"
+          src="/students-hero.jpg"
+          alt="A student ministry leader teaching a room of students in front of a whiteboard"
+        />
       </div>
     </div>
   </section>
@@ -258,6 +260,15 @@ const pillars = [
     gap: 12px;
     margin-top: 32px;
     flex-wrap: wrap;
+  }
+  /* Landscape photo in the 4:5 slot — crop toward the speaker (right of center). */
+  .hero-photo {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 70% 50%;
+    border-radius: var(--radius-ph);
+    display: block;
   }
 
   /* Heartbeat / Vision */
