@@ -1,0 +1,562 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import { BELIEFS, DOC_GROUPS, DOMESTIC_ABUSE_DOC, APOC_URL } from "../data/beliefs";
+
+// What We Believe (/what-we-believe). Built from brand/prototype/WHAT-WE-BELIEVE-SPEC.md
+// + what-we-believe.html, translated onto the site's structure:
+// - ROUTE is top-level on purpose (Todd, 2026-10-10): it's the old WordPress URL
+//   (northwake.com/what-we-believe/), so existing links keep working with no redirect.
+//   The nav labels it "Our Beliefs"; the breadcrumb still files it under About.
+//   Don't "fix" it to /about/* — that would need a redirect for the old URL.
+// - Breadcrumb = the site's Breadcrumb bar, not the kit's .crumbs.
+// - The kit's [data-theme="dim"] (hero text + sticky index) → the site's inverse /
+//   on-image tokens (dim was dropped site-wide, design-tokens.md §7). Accent text on
+//   dark uses --accent-on-inverse / --on-image-accent (clay-600 fails on dark).
+// - Statement text lives in src/data/beliefs.ts, VERBATIM.
+// - The kit's five suggested shared components are NOT extracted (prove-twice-then-
+//   extract); everything here is page-scoped. CSS smooth-scroll skipped (needs a
+//   global html rule — state doc decision).
+// Zero JS.
+---
+
+<Layout
+  title="What We Believe · North Wake Church"
+  description="What we believe shapes our life together as a church. Our statement of faith, along with resources explaining our perspectives and practices at North Wake."
+>
+  <!-- 0 · Breadcrumb ("About" has no index page → non-clickable chip) -->
+  <Breadcrumb trail={[{ label: "Home", href: "/" }, { label: "About" }, { label: "What We Believe" }]} />
+
+  <!-- 1 · Hero — worship photo under a dark scrim, on-image type -->
+  <section class="wwb-hero" aria-labelledby="wwb-title">
+    <div class="wwb-hero-bg" role="img" aria-label="A worship team leading a Sunday gathering at North Wake Church"></div>
+    <div class="wwb-hero-scrim" aria-hidden="true"></div>
+    <div class="wrap wwb-hero-inner">
+      <div class="wwb-hero-grid">
+        <div>
+          <div class="eyebrow wwb-hero-eyebrow"><span class="dot"></span>About · Statement of faith</div>
+          <h1 id="wwb-title" class="serif wwb-hero-title">What We <em>Believe</em></h1>
+        </div>
+        <p class="lede wwb-hero-lede">
+          What we believe shapes our life together as a church. Below you’ll find our statement of faith, along with resources explaining our perspectives and practices at North Wake.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · Statement of faith — dark sticky index + articles -->
+  <section class="wwb-faith-sec" aria-labelledby="wwb-faith-title">
+    <div class="wrap">
+      <div class="wwb-faith">
+        <aside class="wwb-index">
+          <h2 id="wwb-faith-title" class="wwb-index-h">Our Statement of Faith</h2>
+          <nav aria-label="Statement of faith sections">
+            <ol class="wwb-index-list">
+              {
+                BELIEFS.map((b, i) => (
+                  <li>
+                    <a href={`#${b.id}`}>
+                      <span class="mono wwb-index-num">{String(i + 1).padStart(2, "0")}</span>
+                      <span class="wwb-index-label">{b.title}</span>
+                    </a>
+                  </li>
+                ))
+              }
+            </ol>
+          </nav>
+        </aside>
+
+        <div class="wwb-articles">
+          {
+            BELIEFS.map((b, i) => (
+              <article class="wwb-art" id={b.id}>
+                <div class="serif wwb-art-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</div>
+                <div>
+                  <h3 class="serif wwb-art-h">{b.title}</h3>
+                  {b.paragraphs.map((p, j) =>
+                    b.refInline && j === b.paragraphs.length - 1 ? (
+                      <p class="wwb-art-p">
+                        {p} <span class="serif wwb-ref">{b.refs}</span>
+                      </p>
+                    ) : (
+                      <p class="wwb-art-p">{p}</p>
+                    ),
+                  )}
+                  {!b.refInline && (
+                    <p class="wwb-art-p wwb-ref-block">
+                      <span class="serif wwb-ref">{b.refs}</span>
+                    </p>
+                  )}
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · Perspectives & church documents -->
+  <section class="wwb-docs-sec" aria-labelledby="wwb-docs-title">
+    <div class="wrap">
+      <h2 id="wwb-docs-title" class="display-m wwb-docs-h">Perspectives &amp; Church Documents</h2>
+      <div class="hairline-grid wwb-docs">
+        {
+          DOC_GROUPS.map((g) => (
+            <div class="wwb-docs-card">
+              <h3 class="mono wwb-docs-label">{g.label}</h3>
+              <ul class="wwb-doc-list">
+                {g.docs.map((d) => (
+                  <li>
+                    {d.href ? (
+                      <a class="wwb-doc" href={d.href} target="_blank" rel="noopener">
+                        <span class="wwb-doc-title">{d.title}</span>
+                        <span class="mono wwb-doc-kind">{d.kind}</span>
+                        <span class="wwb-doc-arr" aria-hidden="true">↗</span>
+                        <span class="sr-only">{d.kind === "PDF" ? " (PDF, opens in a new tab)" : " (opens in a new tab)"}</span>
+                      </a>
+                    ) : (
+                      <div class="wwb-doc is-inert">
+                        <span class="wwb-doc-title">{d.title}</span>
+                        <span class="mono wwb-doc-kind">Available soon</span>
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · Safety & reporting concerns -->
+  <section class="wwb-safety-sec" aria-labelledby="wwb-safety-title">
+    <div class="wrap">
+      <div class="wwb-safety">
+        <h2 id="wwb-safety-title" class="display-m wwb-safety-h">Safety &amp; Reporting Concerns</h2>
+        <div class="wwb-safety-body">
+          <a class="wwb-doc wwb-doc-lg" href={DOMESTIC_ABUSE_DOC.href} target="_blank" rel="noopener">
+            <span class="wwb-doc-title">{DOMESTIC_ABUSE_DOC.title}</span>
+            <span class="mono wwb-doc-kind">{DOMESTIC_ABUSE_DOC.kind}</span>
+            <span class="wwb-doc-arr" aria-hidden="true">↗</span>
+            <span class="sr-only"> (PDF, opens in a new tab)</span>
+          </a>
+          <div class="wwb-apoc">
+            <div class="mono wwb-apoc-label">APOC · Abuse Point of Contact</div>
+            <p class="wwb-apoc-p">
+              The APOC (Abuse Point of Contact) team exists to respond appropriately to any reports of harassment and abuse perpetrated by any leadership at North Wake Church.
+            </p>
+            <a class="btn btn-primary wwb-apoc-btn" href={APOC_URL} target="_blank" rel="noopener">
+              Learn more about APOC <span class="arr" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · Footnote — cooperation, affiliation, membership -->
+  <section class="wwb-foot-sec" aria-label="Cooperation, affiliation and membership">
+    <div class="wrap">
+      <div class="wwb-foot">
+        <div>
+          <h2 class="mono wwb-foot-label">Cooperation and Affiliation</h2>
+          <p class="body wwb-foot-p">
+            North Wake Church is a cooperating member of the <a class="wwb-link" href="https://www.sbc.net/" target="_blank" rel="noopener">Southern Baptist Convention<span class="sr-only"> (opens in a new tab)</span></a> and North Wake Church accepts “<a class="wwb-link" href="https://bfm.sbc.net/" target="_blank" rel="noopener">The Baptist Faith and Message, 2000<span class="sr-only"> (opens in a new tab)</span></a>,” an affirmation of basic Christian beliefs, as a general statement of our faith.
+          </p>
+        </div>
+        <div>
+          <h2 class="mono wwb-foot-label">Membership</h2>
+          <a class="body wwb-link" href="/about/membership">Learn more about membership at North Wake →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Page-scoped (no global .sr-only exists; visit / membership precedent). */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* 1 · Hero. `section.` prefix: must beat the global section:first-of-type padding. */
+  section.wwb-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    background: var(--bg-inverse); /* shows only if the photo fails */
+  }
+  .wwb-hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url("/beliefs-worship.jpg");
+    background-size: cover;
+    /* Keeps the band and the cross in frame when cover crops the sides. */
+    background-position: center 62%;
+  }
+  /* DOCUMENTED page-local literal exception: real-image scrim (rgba of ink-900
+     #1a1814), not a theme color. Darkest on the left behind the headline. Stops set
+     by a worst-pixel WCAG AA check at 1440/1024/768/375 (see commit). If a new crop
+     reads too bright, deepen the stops; never lighten the text. */
+  .wwb-hero-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(26, 24, 20, 0.9) 0%,
+      rgba(26, 24, 20, 0.78) 45%,
+      rgba(26, 24, 20, 0.62) 100%
+    );
+  }
+  .wwb-hero-inner {
+    position: relative;
+  }
+  .wwb-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 64px;
+    align-items: end;
+    padding: 120px 0 96px;
+  }
+  .wwb-hero-eyebrow {
+    margin-bottom: 28px;
+    color: var(--ink-on-inverse-2);
+  }
+  .wwb-hero-eyebrow .dot {
+    background: var(--on-image-accent);
+  }
+  .wwb-hero-title {
+    font-weight: 400;
+    font-size: clamp(52px, 7.6vw, 120px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    color: var(--ink-on-inverse);
+  }
+  /* Accent word: clay-600 fails on the dark scrim; on-image clay passes. */
+  .wwb-hero-title em {
+    color: var(--on-image-accent);
+  }
+  .wwb-hero-lede {
+    color: var(--ink-on-inverse-2);
+    max-width: 44ch;
+    margin: 0;
+  }
+
+  /* 2 · Statement of faith */
+  .wwb-faith {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr);
+    gap: 72px;
+    align-items: start;
+  }
+  /* Dark index panel — kit's dim panel on inverse tokens. */
+  .wwb-index {
+    position: sticky;
+    top: 110px; /* clears the sticky nav (~72px) with air */
+    background: var(--bg-inverse);
+    color: var(--ink-on-inverse);
+    padding: 32px 28px 24px;
+  }
+  .wwb-index-h {
+    font-family: var(--display);
+    font-size: clamp(30px, 3vw, 42px);
+    font-weight: 600;
+    line-height: 1.02;
+    margin: 0 0 24px;
+  }
+  .wwb-index-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line-on-inverse-strong);
+  }
+  .wwb-index-list a {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 8px;
+    align-items: baseline;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line-on-inverse);
+    color: inherit;
+    text-decoration: none;
+  }
+  .wwb-index-num {
+    color: var(--accent-on-inverse);
+  }
+  .wwb-index-label {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .wwb-index-list a:hover .wwb-index-label {
+    color: var(--accent-on-inverse);
+  }
+  .wwb-index-list a:focus-visible {
+    outline: 2px solid var(--accent-on-inverse);
+    outline-offset: 3px;
+  }
+
+  .wwb-articles {
+    border-top: 2px solid var(--ink);
+  }
+  .wwb-art {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 24px;
+    padding: 44px 0 48px;
+    border-bottom: 1px solid var(--line);
+    scroll-margin-top: 96px; /* anchor jumps land below the sticky nav */
+  }
+  .wwb-art-num {
+    font-style: italic;
+    font-size: 30px;
+    line-height: 1;
+    color: var(--accent);
+  }
+  .wwb-art-h {
+    font-weight: 400;
+    font-size: clamp(30px, 3vw, 42px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin: 0 0 20px;
+  }
+  .wwb-art-p {
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--ink);
+    max-width: 64ch;
+    text-wrap: pretty;
+    margin: 0;
+  }
+  .wwb-art-p + .wwb-art-p {
+    margin-top: 18px;
+  }
+  .wwb-ref {
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-3);
+  }
+
+  /* 3 · Perspectives & documents (hairline grid = global .hairline-grid) */
+  .wwb-docs-sec {
+    background: var(--bg-2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .wwb-docs-h {
+    font-weight: 600;
+    margin: 0 0 48px;
+    max-width: 16ch;
+  }
+  .wwb-docs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .wwb-docs-card {
+    background: var(--bg);
+    padding: 32px 32px 28px;
+  }
+  .wwb-docs-label {
+    color: var(--accent);
+    font-weight: 500;
+    margin: 0 0 8px;
+  }
+  .wwb-doc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line-strong);
+  }
+  .wwb-doc {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 16px;
+    align-items: baseline;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .wwb-doc-title {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+  .wwb-doc-kind {
+    white-space: nowrap;
+    color: var(--ink-3);
+  }
+  .wwb-doc-arr {
+    color: var(--accent);
+    font-size: 18px;
+    transition: transform 200ms ease;
+  }
+  a.wwb-doc:hover .wwb-doc-title {
+    color: var(--accent);
+  }
+  a.wwb-doc:hover .wwb-doc-arr {
+    transform: translate(2px, -2px);
+  }
+  /* Inert row: no URL yet. Same rhythm, no arrow, title muted to read as unavailable. */
+  .wwb-doc.is-inert {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .wwb-doc.is-inert .wwb-doc-title {
+    color: var(--ink-2);
+  }
+
+  /* 4 · Safety & reporting */
+  .wwb-safety {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+    gap: 72px;
+    align-items: start;
+  }
+  .wwb-safety-h {
+    font-weight: 600;
+    max-width: 11ch;
+  }
+  .wwb-safety-body {
+    border-top: 2px solid var(--ink);
+  }
+  .wwb-doc-lg {
+    padding: 24px 0;
+  }
+  .wwb-doc-lg .wwb-doc-title {
+    font-size: 20px;
+  }
+  .wwb-apoc {
+    margin-top: 28px;
+    padding: 28px 30px;
+    border: 1px solid var(--line-strong);
+    background: var(--bg-2);
+  }
+  .wwb-apoc-label {
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .wwb-apoc-p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink);
+    margin: 0 0 22px;
+    max-width: 58ch;
+  }
+  .wwb-apoc-btn {
+    text-decoration: none;
+  }
+
+  /* 5 · Footnote — sits close under Safety, visually quiet. */
+  section.wwb-foot-sec {
+    padding: 0 0 72px;
+  }
+  .wwb-foot {
+    border-top: 1px solid var(--line-strong);
+    padding-top: 28px;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+  }
+  .wwb-foot-label {
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--ink-3);
+    margin: 0 0 10px;
+  }
+  .wwb-foot-p {
+    color: var(--ink-2);
+    max-width: 72ch;
+    margin: 0;
+  }
+  .wwb-link {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+  }
+  .wwb-link:hover {
+    color: var(--ink);
+  }
+
+  /* ============ RESPONSIVE (kit breakpoints 980 / 880 / 720 / 560) ============ */
+  @media (max-width: 980px) {
+    .wwb-faith,
+    .wwb-safety {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    /* Index stops being sticky → a 2-column dark contents list above the articles. */
+    .wwb-index {
+      position: static;
+    }
+    .wwb-index-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 24px;
+    }
+  }
+  @media (max-width: 880px) {
+    .wwb-hero-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 72px 0 64px;
+    }
+    .wwb-docs {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 720px) {
+    section.wwb-foot-sec {
+      padding-bottom: 64px; /* matches the site's 64px mobile section rhythm */
+    }
+  }
+  @media (max-width: 560px) {
+    .wwb-index {
+      padding: 26px 20px 18px;
+    }
+    .wwb-index-list {
+      grid-template-columns: 1fr;
+    }
+    /* Numeral column drops; the numeral sits above the h3. */
+    .wwb-art {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      padding: 36px 0 40px;
+    }
+    .wwb-art-p {
+      font-size: 18px;
+    }
+    .wwb-docs-card {
+      padding: 24px 20px 20px;
+    }
+    .wwb-apoc {
+      padding: 22px 20px;
+    }
+    .wwb-apoc-btn {
+      width: 100%;
+      justify-content: center;
+      white-space: normal;
+      text-align: center;
+    }
+    .wwb-foot {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wwb-doc-arr {
+      transition: none;
+    }
+  }
+</style>

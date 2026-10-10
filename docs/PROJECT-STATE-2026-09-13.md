@@ -37,6 +37,10 @@ package**, and **shot list v2**.
 >
 > **🟢 2026-09-26 (night) — `/events` WEEKLY CHURCH CALENDAR from Google (`79485dd`) + DAILY
 > REBUILD (`1671475`).** See ★ CHURCH CALENDAR.
+>
+> **🟢 2026-10-10 — `/what-we-believe` SHIPPED (2 gates).** Statement of faith, documents,
+> safety/APOC, SBC footnote. Top-level route on purpose (old WordPress URL). See ★ WHAT WE
+> BELIEVE — two follow-on gates queued (PDF re-hosting, baptism post).
 
 ---
 
@@ -160,6 +164,7 @@ transfer the GitHub repo to a church org; reassign Render (swap account email, r
 | `/community/students` | ✅ COMPLETE |
 | `/about/mission` | ✅ COMPLETE — Devotional redesign |
 | `/community/grow-groups` | ✅ **COMPLETE (2026-09-26)** — Warm Band hero, facts (computed), heartbeat, 4 rhythms, day-grouped directory from the CMS, dark contact band (mailto + tel). 8 inbound links were 404s |
+| `/what-we-believe` | ✅ **COMPLETE (2026-10-10)** — dark photo hero, dark sticky index + 7 verbatim articles, documents grid, safety/APOC, SBC footnote. Nav "Our Beliefs" points here (was a 404 at `/about/beliefs`) |
 | `/about/membership` | ✅ **COMPLETE (2026-09-26)** — Warm Band hero, facts strip, sticky intro + 5-step timeline, dark contact band (mailto office@). Nav/footer link was a 404 before |
 | `/who-is-jesus` | ✅ COMPLETE |
 | `/community/kids` | ✅ COMPLETE — serif-on-image photo hero (stock) |
@@ -191,6 +196,34 @@ students/women/men/lily-moms/young-adults/mature-adults. Resources: `/events` (+
 `/sermons`, `/blog` (+`[slug]`), `/resources` (+`[slug]`, labeled "Other Resources").
 
 ---
+
+## ★ WHAT WE BELIEVE — SHIPPED (2026-10-10, 2 gates)
+Design: `brand/prototype/WHAT-WE-BELIEVE-SPEC.md` + `what-we-believe.html` + `assets/beliefs-worship.jpg`
+(`8d70745`). Page: `site/src/pages/what-we-believe.astro`; content: `site/src/data/beliefs.ts`.
+- **Route decision (Todd):** `/what-we-believe`, NOT `/about/beliefs`. It's the old WordPress
+  URL, so old links keep working with no redirect. Nav label stays "Our Beliefs"; breadcrumb
+  still files it under About. Don't "fix" it into `/about/*`.
+- **Statement text is VERBATIM** in `beliefs.ts` (developer-owned, not CMS). Verified by a
+  word-by-word diff of the rendered page against the prototype. Trinity reference is inline
+  (`refInline`), as the source punctuates it. Anchor ids are stable deep links.
+- **Translation:** kit `[data-theme="dim"]` → inverse tokens (index panel) + on-image tokens
+  (hero). The hero scrim is the spec's own 0.90/0.78/0.62 (90°): it PASSED the worst-pixel AA
+  check at 1440/1024/768/375 (tightest: lede at 1440, 4.85:1). The projector lyrics are faintly
+  readable behind "Believe" on phones — accepted; deepen the scrim's middle if it distracts.
+- **Not done (deliberately):** the kit's 5 suggested shared components (prove-twice rule);
+  global smooth scroll.
+- **Inert row:** "Listen: The Ordinance of Baptism" — supplied URL
+  (`northwake.com/sermons/category/baptism/`) was already a 404 (checked 2026-10-10).
+- **Queued — Gate 3: re-host the PDFs as `resources` entries** (Karen/Devin can replace a
+  revised policy). All are small (60–360KB, under the 3MB CMS cap): Roles of Men and Women,
+  Marriage/Divorce/Remarriage (Aug 2023), Church Discipline (Rackspace), Constitution &
+  Bylaws (01-2-24), Domestic Abuse statement (Mailchimp). Then point `beliefs.ts` at them.
+- **Queued — Gate 4: baptism.** The old site has TWO pages: `/baptism/` (current: next service
+  + info sheet + teaching) and `/north-wake-church-baptism-information/` (older copy of the
+  same teaching). Plan (Todd agreed): teaching → a `posts` text page (verbatim, info sheet as
+  attachment); "Our next baptism service" (Sun Nov 1, 2026, after the 2nd service) → an
+  EVENT, not the post. Point "Our Perspective on Baptism" at the post; both old URLs →
+  redirects (punch list). Until then it links to the live `northwake.com/baptism/`.
 
 ## ★ CHURCH CALENDAR — SHIPPED (2026-09-26, `79485dd` + `1671475`)
 The church keeps maintaining its shared Google Calendar ("Church" — "Church-wide events and
@@ -876,8 +909,19 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
 - **Inventory the rest of the old site's URLs** (sitemap) and map each to a new route or a
   redirect; old printed materials (postcards) carry URLs — `/womensministry` already handled.
 - **`/give`** redirect already exists (HOPE's Donate button links to it).
+- **`/what-we-believe`** — legacy links (all break at cutover; see ★ WHAT WE BELIEVE gates 3–4):
+  `/baptism/` + `/north-wake-church-baptism-information/` → the baptism post (redirects);
+  `/apoc-2/` (APOC button) — NO page here yet, needs a home before cutover;
+  `wp-content/uploads/…` PDFs (×3) → re-hosted resources. Rackspace + Mailchimp PDFs survive
+  cutover but are legacy hosting — re-host too.
 
 ## UNVERIFIED CONTENT — confirm with church (the real launch gate)
+- **★ `/what-we-believe` (2026-10-10):** source text left VERBATIM, flag to the church:
+  (1) The Holy Spirit references list **"Rom. 8:9" twice**; (2) they cite **1 Cor. 15:3-8**
+  (resurrection — likely carried over from Jesus Christ). Also: a working URL for the baptism
+  sermons; an APOC page/contact for after cutover; **worship-team consent** for the hero photo
+  (identifiable faces); LABEL copy needing sign-off — the eyebrow "About · Statement of faith",
+  "APOC · Abuse Point of Contact", the Page/Sermons/PDF tags.
 - **★ /events calendar (2026-09-26):** the section heading "What's happening this week." is
   Claude's wording. So are the list heading "Plan ahead / Highlighted events." and its subtitle
   ("Special gatherings, classes, and events, each with its own page for the details. Listed
@@ -980,6 +1024,8 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
    Claude; items collected in ★ RESOURCES SEARCH + FEATURED RESOURCE); categories stay
    provisional until next week's curation.
 7b. **Homepage "latest from the blog" strip** — one gate.
+7c. **What We Believe gate 3 (PDFs → resources) + gate 4 (baptism post + Nov 1 event)** —
+    see ★ WHAT WE BELIEVE. Gate 4 is time-sensitive: the Nov 1 service.
 8. **ADC page** — overview (seed content pending) + "Current classes" / "Previous classes" via an
    ADC category + "Current until" date on posts. Needs a design decision first.
 
