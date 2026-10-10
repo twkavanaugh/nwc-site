@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What We Believe · North Wake Church</title>
+<meta name="description" content="What we believe shapes our life together as a church. Our statement of faith, along with resources explaining our perspectives and practices at North Wake.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+/* ============ SITE TOKENS (existing — no new colors) ============ */
+:root{--bg:#f6f3ed;--bg-2:#ece7dc;--bg-3:#e3ddce;--ink:#1a1814;--ink-2:#3a352c;--ink-3:#6e665a;--ink-4:#a89f8e;--line:rgba(26,24,20,0.12);--line-strong:rgba(26,24,20,0.22);--accent:#8a4d2e;--accent-ink:#ffffff;--sans:"Inter Tight",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;--display:"Inter Tight",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;--serif:"Newsreader",Georgia,"Times New Roman",serif}
+[data-theme="dim"]{--bg:#1a1814;--bg-2:#221f1a;--bg-3:#2a2620;--ink:#f4efe5;--ink-2:#d8d2c4;--ink-3:#9c9484;--ink-4:#6e665a;--line:rgba(244,239,229,0.12);--line-strong:rgba(244,239,229,0.22);--accent:#d49271;color:var(--ink)}
+
+/* ============ BASE + SHARED PRIMITIVES ============ */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-feature-settings:"ss01","cv11";letter-spacing:-0.005em;line-height:1.5}
+h1,h2,h3,p,ol,ul{margin:0}
+ol,ul{list-style:none;padding:0}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.wrap{max-width:1320px;margin:0 auto;padding:0 40px}
+section{padding:96px 0}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-3)}
+.eyebrow .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:10px;transform:translateY(-2px)}
+.display-m{font-family:var(--display);font-size:clamp(36px,4.8vw,72px);font-weight:600;letter-spacing:-0.025em;line-height:1.02}
+.lede{font-size:clamp(18px,1.6vw,22px);line-height:1.5;color:var(--ink-2);font-weight:400;letter-spacing:-0.005em;max-width:56ch}
+.body{font-size:16px;line-height:1.6;color:var(--ink-2)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-3)}
+.btn{display:inline-flex;white-space:nowrap;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;font-size:14px;font-weight:500;letter-spacing:-0.005em;border:1px solid transparent;transition:background 160ms ease,color 160ms ease,border-color 160ms ease,transform 160ms ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--ink);color:var(--bg)}
+.btn-primary:hover{background:var(--accent)}
+.btn .arr{transition:transform 200ms ease}
+.btn:hover .arr{transform:translate(2px,-2px)}
+.link{color:var(--accent);border-bottom:1px solid currentColor}
+.link:hover{color:var(--ink)}
+
+/* ============ WHAT WE BELIEVE ============ */
+.crumbs{padding:32px 0 0}
+.crumbs ol{display:flex;flex-wrap:wrap;gap:10px}
+.crumbs li{display:flex;gap:10px}
+.crumbs li + li::before{content:"/";color:var(--ink-4)}
+.crumbs a:hover{color:var(--ink)}
+.crumbs [aria-current]{color:var(--accent)}
+
+/* 1 · Hero — worship photo + scrim */
+.wwb-hero{position:relative;overflow:hidden;padding:0;margin-top:32px;background:url('assets/beliefs-worship.jpg') center 62%/cover no-repeat,#1a1814}
+/* PHOTO SCRIM — the one literal exception: rgba of --ink #1a1814; darkest behind the headline (left) */
+.wwb-hero-scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(26,24,20,0.90) 0%,rgba(26,24,20,0.78) 45%,rgba(26,24,20,0.62) 100%)}
+.wwb-hero-inner{position:relative}
+.wwb-hero-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:64px;align-items:end;padding:120px 0 96px}
+.wwb-hero .eyebrow{margin-bottom:28px}
+.wwb-hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(52px,7.6vw,120px);line-height:0.98;letter-spacing:-0.025em}
+.wwb-hero h1 em{color:var(--accent)}
+.wwb-hero .lede{max-width:44ch}
+
+/* 2 · Statement of faith */
+.wwb-faith{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.2fr);gap:72px;align-items:start}
+.wwb-index{position:sticky;top:110px;background:var(--bg);padding:32px 28px 24px}
+.wwb-index h2{font-size:clamp(30px,3vw,42px);margin-bottom:24px}
+.wwb-index ol{border-top:1px solid var(--line-strong)}
+.wwb-index a{display:grid;grid-template-columns:36px minmax(0,1fr);gap:8px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line)}
+.wwb-index a .mono{color:var(--accent)}
+.wwb-index a span:last-child{font-size:16px;font-weight:500}
+.wwb-index a:hover span:last-child{color:var(--accent)}
+.wwb-articles{border-top:2px solid var(--ink)}
+.wwb-art{display:grid;grid-template-columns:72px minmax(0,1fr);gap:24px;padding:44px 0 48px;border-bottom:1px solid var(--line);scroll-margin-top:96px}
+.wwb-art-num{font-family:var(--serif);font-style:italic;font-size:30px;line-height:1;color:var(--accent)}
+.wwb-art h3{font-family:var(--serif);font-weight:400;font-size:clamp(30px,3vw,42px);line-height:1.08;letter-spacing:-0.02em;margin-bottom:20px}
+.wwb-art p{font-size:19px;line-height:1.65;color:var(--ink);max-width:64ch;text-wrap:pretty}
+.wwb-art p + p{margin-top:18px}
+.wwb-ref{font-family:var(--serif);font-style:italic;font-size:17px;line-height:1.6;color:var(--ink-3)}
+.wwb-art p.wwb-ref-block{margin-top:18px}
+
+/* 3 · Perspectives & documents */
+.wwb-docs-sec{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.wwb-docs-sec > .wrap > h2{margin-bottom:48px;max-width:16ch}
+.wwb-docs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.wwb-docs > div{background:var(--bg);padding:32px 32px 28px}
+.wwb-docs h3{color:var(--accent);font-weight:500;margin-bottom:8px}
+.wwb-docs ul{border-top:1px solid var(--line-strong)}
+.wwb-doc{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:16px;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--line)}
+.wwb-doc > span:first-child{font-size:18px;font-weight:500;line-height:1.4;letter-spacing:-0.01em}
+.wwb-doc .mono{white-space:nowrap}
+.wwb-doc .wwb-arr{color:var(--accent);font-size:18px;transition:transform 200ms ease}
+.wwb-doc:hover > span:first-child{color:var(--accent)}
+.wwb-doc:hover .wwb-arr{transform:translate(2px,-2px)}
+
+/* 4 · Safety & reporting */
+.wwb-safety{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:72px;align-items:start}
+.wwb-safety h2{max-width:11ch}
+.wwb-safety-body{border-top:2px solid var(--ink)}
+.wwb-safety-body .wwb-doc{padding:24px 0}
+.wwb-safety-body .wwb-doc > span:first-child{font-size:20px}
+.wwb-apoc{margin-top:28px;padding:28px 30px;border:1px solid var(--line-strong);background:var(--bg-2)}
+.wwb-apoc .mono{color:var(--ink);margin-bottom:12px}
+.wwb-apoc p{font-size:18px;line-height:1.6;color:var(--ink);margin-bottom:22px;max-width:58ch}
+
+/* 5 · Footnote — cooperation & membership */
+.wwb-foot-sec{padding:0 0 72px}
+.wwb-foot{border-top:1px solid var(--line-strong);padding-top:28px;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:48px;align-items:start}
+.wwb-foot h2{font-weight:400;margin-bottom:10px}
+.wwb-foot p{max-width:72ch}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:980px){
+  .wwb-faith,.wwb-safety{grid-template-columns:1fr;gap:40px}
+  .wwb-index{position:static}
+  .wwb-index ol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px}
+}
+@media (max-width:880px){
+  .wwb-hero-grid{grid-template-columns:1fr;gap:28px;padding:72px 0 64px}
+  .wwb-docs{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  .wrap{padding:0 22px}
+  section{padding:72px 0}
+}
+@media (max-width:560px){
+  .wwb-index{padding:26px 20px 18px}
+  .wwb-index ol{grid-template-columns:1fr}
+  .wwb-art{grid-template-columns:1fr;gap:10px;padding:36px 0 40px}
+  .wwb-art p{font-size:18px}
+  .wwb-docs > div{padding:24px 20px 20px}
+  .wwb-apoc{padding:22px 20px}
+  .wwb-apoc .btn{width:100%;justify-content:center}
+  .wwb-foot{grid-template-columns:1fr;gap:24px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<!-- SITE CHROME (nav + footer) already exists in the live Astro site and is not part of this package. -->
+<main id="what-we-believe">
+
+<nav class="crumbs" aria-label="Breadcrumb">
+  <div class="wrap">
+    <ol class="mono">
+      <li><a href="/">Home</a></li>
+      <li><span>About</span></li>
+      <li><span aria-current="page">What We Believe</span></li>
+    </ol>
+  </div>
+</nav>
+
+<!-- 1 · HERO -->
+<section class="wwb-hero" aria-labelledby="wwb-title">
+  <div class="wwb-hero-scrim" aria-hidden="true"></div>
+  <div class="wrap wwb-hero-inner" data-theme="dim">
+    <div class="wwb-hero-grid">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>About · Statement of faith</div>
+        <h1 id="wwb-title">What We <em>Believe</em></h1>
+      </div>
+      <p class="lede">What we believe shapes our life together as a church. Below you’ll find our statement of faith, along with resources explaining our perspectives and practices at North Wake.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · STATEMENT OF FAITH -->
+<section aria-labelledby="wwb-faith-title">
+  <div class="wrap">
+    <div class="wwb-faith">
+      <aside class="wwb-index" data-theme="dim">
+        <h2 id="wwb-faith-title" class="display-m">Our Statement of Faith</h2>
+        <nav aria-label="Statement of faith sections">
+          <ol>
+            <li><a href="#the-bible"><span class="mono">01</span><span>The Bible</span></a></li>
+            <li><a href="#the-trinity"><span class="mono">02</span><span>The Trinity</span></a></li>
+            <li><a href="#creation"><span class="mono">03</span><span>Creation</span></a></li>
+            <li><a href="#jesus-christ"><span class="mono">04</span><span>Jesus Christ</span></a></li>
+            <li><a href="#the-holy-spirit"><span class="mono">05</span><span>The Holy Spirit</span></a></li>
+            <li><a href="#sin"><span class="mono">06</span><span>Sin</span></a></li>
+            <li><a href="#the-church"><span class="mono">07</span><span>The Church</span></a></li>
+          </ol>
+        </nav>
+      </aside>
+
+      <div class="wwb-articles">
+        <article class="wwb-art" id="the-bible">
+          <div class="wwb-art-num" aria-hidden="true">01</div>
+          <div>
+            <h3>The Bible</h3>
+            <p>We believe that the Bible was written by divinely inspired men and is God’s revelation of himself and his will to man. The Bible in its entirety is the Word of God, and as such is wholly true in everything it affirms. The Scriptures are the unique, full and final authority on all matters of faith and practice.</p>
+            <p class="wwb-ref-block"><span class="wwb-ref">(2 Tim. 3:16; 2 Pet. 1:20, 21; Ps. 18:30; 119:96)</span></p>
+          </div>
+        </article>
+        <article class="wwb-art" id="the-trinity">
+          <div class="wwb-art-num" aria-hidden="true">02</div>
+          <div>
+            <h3>The Trinity</h3>
+            <p>We believe that the Godhead exists eternally in three persons – Father, Son and Holy Spirit – and that these three are one God, and are worthy of precisely the same confidence, obedience, and worship <span class="wwb-ref">(Matt. 28:18-19, Mk. 12:29, Jn. 1:14, Acts 5:3-4).</span></p>
+          </div>
+        </article>
+        <article class="wwb-art" id="creation">
+          <div class="wwb-art-num" aria-hidden="true">03</div>
+          <div>
+            <h3>Creation</h3>
+            <p>We believe that God created all things and that by his sovereign power he continues to sustain his creation.</p>
+            <p class="wwb-ref-block"><span class="wwb-ref">(Gen. 1:1; Col. 1:17)</span></p>
+          </div>
+        </article>
+        <article class="wwb-art" id="jesus-christ">
+          <div class="wwb-art-num" aria-hidden="true">04</div>
+          <div>
+            <h3>Jesus Christ</h3>
+            <p>We believe that Jesus Christ in the flesh was fully God and fully man, that he was born of a virgin and that he lived a sinless life, in which he taught and worked mighty works and wonders and signs as recorded in the four gospels, that he was crucified, died as a penalty for our sins and was later raised from the dead bodily on the third day.</p>
+            <p>Later, he ascended to the Father’s right hand where he is head of the church and intercedes for believers, and from whence He is coming again personally, bodily, and visibly to this earth to consummate His kingdom.</p>
+            <p class="wwb-ref-block"><span class="wwb-ref">(Heb. 1:2; 4:15; 1 Cor. 15:3-8; Rom. 8:34; Matt. 16:27)</span></p>
+          </div>
+        </article>
+        <article class="wwb-art" id="the-holy-spirit">
+          <div class="wwb-art-num" aria-hidden="true">05</div>
+          <div>
+            <h3>The Holy Spirit</h3>
+            <p>We believe that the Holy Spirit is a person, is God and possesses all the divine attributes. He convicts the world of sin. He indwells all believers, and baptizes and seals all believers at the moment of salvation. He uniquely endows each believer with gifts for the building up of the body. He guides believers in understanding and applying the Scriptures and empowers us to lead a life of Christ-like character.</p>
+            <p class="wwb-ref-block"><span class="wwb-ref">(Jn. 16:7-15; Rom. 8:9; 1 Cor. 15:3-8; Rom. 8:9; 1 Cor. 12:13; Eph. 4:30; Jn. 16:13, Gal. 5:22-23)</span></p>
+          </div>
+        </article>
+        <article class="wwb-art" id="sin">
+          <div class="wwb-art-num" aria-hidden="true">06</div>
+          <div>
+            <h3>Sin</h3>
+            <p>We believe that all men have defied God and have chosen to go their own independent way and, thereby, stand condemned by God. We believe that God, by his sovereign choice and his love for mankind, sent Jesus into the world to bring people back into fellowship with God, and that this salvation, with its forgiveness of sin, is a gift, wholly a work of God’s grace, not the result of human works, and that this salvation must be personally appropriated by repentance and faith.</p>
+            <p>We believe that a true believer is eternally secure, that he cannot lose his salvation, but that sin may interrupt the joy of his fellowship with God and bring the loving discipline of his heavenly Father.</p>
+            <p class="wwb-ref-block"><span class="wwb-ref">(Rom. 3:23; 5:8; Eph. 2:8; Mk. 1:15; 1 Jn. 5:12-13; Jn. 10:28; Heb. 12:5-6)</span></p>
+          </div>
+        </article>
+        <article class="wwb-art" id="the-church">
+          <div class="wwb-art-num" aria-hidden="true">07</div>
+          <div>
+            <h3>The Church</h3>
+            <p>We believe there is one church universal, which is comprised of all who place their faith in the Lord Jesus Christ alone. The Scriptures command believers to gather together to devote themselves to worship, prayer, teaching of the Word, observance of baptism and the Lord’s Supper, fellowship, service to the body, and outreach to the world. Wherever God’s people meet regularly in obedience to these commands, there is the local expression of the church.</p>
+            <p>Under the watch care of elders and deacons, its members are to work together in love and unity, intent on the one ultimate purpose of glorifying God.</p>
+            <p class="wwb-ref-block"><span class="wwb-ref">(Rom. 3:22; Acts 2:42-47; Matt. 28:19; Lk. 22:19; Heb. 10:24-25; Gal. 6:10; Acts 1:8; 1 Tim. 3:1; 1 Peter 5:1-3; 1 Jn. 4:7; Eph. 3:21)</span></p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · PERSPECTIVES & CHURCH DOCUMENTS -->
+<section class="wwb-docs-sec" aria-labelledby="wwb-docs-title">
+  <div class="wrap">
+    <h2 id="wwb-docs-title" class="display-m">Perspectives &amp; Church Documents</h2>
+    <div class="wwb-docs">
+      <div>
+        <h3 class="mono">Faith &amp; Practice</h3>
+        <ul>
+          <li><a class="wwb-doc" href="https://northwake.com/baptism/" target="_blank" rel="noopener"><span>Our Perspective on Baptism</span><span class="mono">Page</span><span class="wwb-arr" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+          <li><a class="wwb-doc" href="http://www.northwake.com/sermons/category/baptism/" target="_blank" rel="noopener"><span>Listen: The Ordinance of Baptism</span><span class="mono">Sermons</span><span class="wwb-arr" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a></li>
+          <li><a class="wwb-doc" href="https://northwake.com/wp-content/uploads/2025/09/Mens-Womens-Roles-in-Ministry_NWC-Paper.pdf" target="_blank" rel="noopener"><span>The Roles of Men and Women at North Wake</span><span class="mono">PDF</span><span class="wwb-arr" aria-hidden="true">↗</span><span class="sr-only"> (PDF, opens in a new tab)</span></a></li>
+          <li><a class="wwb-doc" href="https://northwake.com/wp-content/uploads/2023/10/NW-Marriage-Divorce-and-Remarriage-Statement-Aug-2023.pdf" target="_blank" rel="noopener"><span>Our Perspective on Marriage, Divorce, and Remarriage</span><span class="mono">PDF</span><span class="wwb-arr" aria-hidden="true">↗</span><span class="sr-only"> (PDF, opens in a new tab)</span></a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="mono">Church Life &amp; Governance</h3>
+        <ul>
+          <li><a class="wwb-doc" href="http://07a34c3432a906af7092-3b1148b80a7150d2b27189f35d5ff9dc.r28.cf2.rackcdn.com/uploaded/d/0e1195057_discipline-policy.pdf" target="_blank" rel="noopener"><span>Our Policy on Redemptive Church Discipline</span><span class="mono">PDF</span><span class="wwb-arr" aria-hidden="true">↗</span><span class="sr-only"> (PDF, opens in a new tab)</span></a></li>
+          <li><a class="wwb-doc" href="https://northwake.com/wp-content/uploads/2024/01/NW-Constitution-and-Bylaws-01-2-24.pdf" target="_blank" rel="noopener"><span>The Constitution and Bylaws of North Wake Church</span><span class="mono">PDF</span><span class="wwb-arr" aria-hidden="true">↗</span><span class="sr-only"> (PDF, opens in a new tab)</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · SAFETY & REPORTING -->
+<section aria-labelledby="wwb-safety-title">
+  <div class="wrap">
+    <div class="wwb-safety">
+      <h2 id="wwb-safety-title" class="display-m">Safety &amp; Reporting Concerns</h2>
+      <div class="wwb-safety-body">
+        <a class="wwb-doc" href="https://mcusercontent.com/7d495f89f8a10ee02758a05be/files/6db7c240-0a93-4136-80e4-2550cc2c6af6/North_Wake_Statement_on_Domestic_Abuse_FINAL.pdf" target="_blank" rel="noopener"><span>Read our Statement on Domestic Abuse</span><span class="mono">PDF</span><span class="wwb-arr" aria-hidden="true">↗</span><span class="sr-only"> (PDF, opens in a new tab)</span></a>
+        <div class="wwb-apoc">
+          <div class="mono">APOC · Abuse Point of Contact</div>
+          <p>The APOC (Abuse Point of Contact) team exists to respond appropriately to any reports of harassment and abuse perpetrated by any leadership at North Wake Church.</p>
+          <a class="btn btn-primary" href="https://northwake.com/apoc-2/" target="_blank" rel="noopener">Learn more about APOC <span class="arr" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · FOOTNOTE -->
+<section class="wwb-foot-sec" aria-label="Cooperation, affiliation and membership">
+  <div class="wrap">
+    <div class="wwb-foot">
+      <div>
+        <h2 class="mono">Cooperation and Affiliation</h2>
+        <p class="body">North Wake Church is a cooperating member of the <a class="link" href="https://www.sbc.net/" target="_blank" rel="noopener">Southern Baptist Convention</a> and North Wake Church accepts “<a class="link" href="https://bfm.sbc.net/" target="_blank" rel="noopener">The Baptist Faith and Message, 2000</a>,” an affirmation of basic Christian beliefs, as a general statement of our faith.</p>
+      </div>
+      <div>
+        <h2 class="mono">Membership</h2>
+        <a class="link body" href="/membership">Learn more about membership at North Wake →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+</body>
+</html>
