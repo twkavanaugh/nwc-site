@@ -38,6 +38,17 @@ const resources = [
         place. You are welcome here, because you and your questions matter.
       </p>
     </div>
+    {/* Narrow screens only (≤1100): the whole painting as a band below the text,
+        faded in at its top edge. Wide screens show it as the hero background. */}
+    <img
+      class="wij-hero-art"
+      src="/who-is-jesus-hero-polenov.jpg"
+      alt=""
+      width="1920"
+      height="966"
+      decoding="async"
+    />
+    <p class="wij-hero-credit">On the Lake of Tiberias · Vasily Polenov, 1888</p>
   </section>
 
   <!-- Big questions, as flowing prose list -->
@@ -175,9 +186,72 @@ const resources = [
 </Layout>
 
 <style>
-  /* Hero */
+  /* Hero — Polenov, "On the Lake of Tiberias" (1888, public domain; Todd 2026-10-10).
+     Wide screens: the painting is the hero background under a cream wash
+     (color-mix over --bg — token-derived, no literal) that is strong behind the
+     centered reading column and clears by ~84% so the figure (~83% across) stays
+     unwashed. Dark serif type as before. Worst-pixel contrast checked (see commit). */
   .wij-hero {
-    padding: 88px 0 0;
+    padding: 88px 0 96px;
+    background:
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--bg) 88%, transparent) 0%,
+        color-mix(in srgb, var(--bg) 86%, transparent) 66%,
+        color-mix(in srgb, var(--bg) 0%, transparent) 84%
+      ),
+      url("/who-is-jesus-hero-polenov.jpg") 70% 60% / cover no-repeat,
+      var(--bg);
+  }
+  .wij-hero-art {
+    display: none;
+  }
+  /* Artwork credit — bottom-left of the hero, on the cream wash (caption micro-type,
+     exempt from the 16px floor; never the sole carrier of meaning). Left inset =
+     the .wrap gutter (40px; 22px ≤720). */
+  .wij-hero {
+    position: relative;
+  }
+  .wij-hero-credit {
+    position: absolute;
+    left: 40px;
+    bottom: 24px;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--ink-2);
+  }
+  /* Over the painting, the light (300) lede's thin strokes read poorly → 400. */
+  @media (min-width: 1101px) {
+    .wij-hero-lede {
+      font-weight: 400;
+    }
+  }
+  /* ≤1100 the reading column covers the figure, so the painting moves BELOW the
+     text as a full-bleed band, faded in at its top edge (mask is alpha-only). */
+  @media (max-width: 1100px) {
+    .wij-hero {
+      padding-bottom: 0;
+      background: var(--bg);
+    }
+    .wij-hero-art {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin-top: 48px;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, var(--ink) 28%);
+      mask-image: linear-gradient(to bottom, transparent 0%, var(--ink) 28%);
+    }
+    /* Band layout: the credit sits just under the painting's bottom-left, on the page. */
+    .wij-hero-credit {
+      position: static;
+      padding: 12px 40px 0;
+    }
+  }
+  @media (max-width: 720px) {
+    .wij-hero-credit {
+      padding: 10px 22px 0;
+    }
   }
   .wij-eyebrow {
     margin-bottom: 36px;

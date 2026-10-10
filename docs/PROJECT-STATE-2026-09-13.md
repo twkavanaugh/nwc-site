@@ -304,6 +304,16 @@ text on inverse/on-image tokens; buttons → `.btn-on-image-*`. Worst-pixel cont
 (1440) / 7.6:1 (375) — headroom to lighten the scrim if more photo is wanted. Photo credit /
 rights: confirm (UNVERIFIED, same as other supplied photos).
 
+## ★ /who-is-jesus HERO — Polenov painting (2026-10-10)
+Full-width version of the same painting → `public/who-is-jesus-hero-polenov.jpg` (1920×966).
+- **>1100px:** hero background under a cream wash (color-mix over `--bg`, 90°: 88% → 86% at 66%
+  → 0 at 84%); the reading column ends ~72–79% across, the figure stands ~83% — keep it unwashed.
+  Lede 300 → 400 weight over the image. Credit bottom-left (absolute, 40px inset).
+  Contrast: h1 9.8–12.3, lede 6.0–7.7, eyebrow 5.0, credit 8.7; the clay "Jesus" 4.46 at 1280
+  (large text, AA 3:1).
+- **≤1100px:** plain hero; the whole painting is a masked full-bleed band below the text, with
+  the credit as a caption under it.
+
 ## ★ HOMEPAGE "WHO IS JESUS?" CARD — painting (2026-10-10, Todd's mockup)
 Polenov, *On the Lake of Tiberias* (1888, public domain) → `public/who-is-jesus-polenov.webp`.
 Live credit line under the button. Eyebrow "For the seeker" → **"Curious about faith?"** (Todd).
