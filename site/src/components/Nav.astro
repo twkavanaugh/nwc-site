@@ -704,6 +704,15 @@ const GIVE_HREF = BUSINESS.givingUrl;
     gap: 2px;
   }
 
+  /* Closed menu: take the panel out of layout entirely. Chrome keeps a closed
+     <details>' content laid out (content-visibility:hidden, which contains it), so
+     the "full-bleed" panel collapsed to the 44px toggle box and its rows spilled
+     right — ~28px of sideways page scroll at 768px (fixed 2026-10-10). Native
+     <details> already hides it; this only stops the phantom layout. */
+  .mnav:not([open]) .mnav-panel {
+    display: none;
+  }
+
   /* Give — full-width row at the top of the panel. */
   .mnav-give {
     width: 100%;

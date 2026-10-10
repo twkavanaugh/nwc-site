@@ -328,8 +328,10 @@ const imageAlt = d.imageAlt ?? d.title; // real alt preferred; title is the fall
     padding-top: 96px;
   }
 
-  /* Mobile (variant C): single column, DOM order header → facts → prose. */
-  @media (max-width: 720px) {
+  /* Single column (variant C), DOM order header → facts → prose. Stacks at ≤880,
+     not 720: between ~720 and 880 the fixed 420px rail left the main column under
+     200px and the page overflowed sideways (fixed 2026-10-10). */
+  @media (max-width: 880px) {
     .ev-grid {
       grid-template-columns: 1fr;
     }
@@ -342,7 +344,7 @@ const imageAlt = d.imageAlt ?? d.title; // real alt preferred; title is the fall
     .ev-rail {
       margin-top: 32px;
     }
-    /* Neutralize the desktop bleed margins on mobile (would overflow the narrow viewport). */
+    /* Neutralize the desktop bleed margins when stacked (would overflow the viewport). */
     .ev-rail-shaded {
       margin: 32px 0 0;
       padding: 16px;
@@ -350,6 +352,10 @@ const imageAlt = d.imageAlt ?? d.title; // real alt preferred; title is the fall
     .ev-main {
       margin-top: 36px;
     }
+  }
+
+  /* Phones: tighter facts box type. */
+  @media (max-width: 720px) {
     .ev-facts-cal {
       padding: 22px 22px 18px;
     }

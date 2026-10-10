@@ -313,7 +313,12 @@ Live credit line under the button. Eyebrow "For the seeker" → **"Curious about
 - **≤1200px** (card is 276–393px in the 2-col grid, full width on phones): type on `--bg-2`;
   the WHOLE painting sits below as an `<img class="jesus-art">` bleeding to the card edges,
   faded in by a mask. Negative margins pair with the card's side padding (commented).
-- Spotted, not fixed: mobile-nav carets overflow at 768px (pre-existing) — spun off as a task.
+- **Sideways-scroll fix (same day):** the 768px overflow was NOT the mobile nav — it was the
+  homepage sermon card (`1fr 1.6fr` grid couldn't shrink → `minmax(0, …)` + wrapping foot)
+  and event detail pages (fixed 420px rail; now single-column at ≤880, was 720). Also: the
+  closed mobile nav panel is `display:none` (Chrome laid it out inside the collapsed
+  `<details>`). Verified: 39 pages × 11 widths (1440→375), zero horizontal overflow.
+  **Lesson:** a bare `fr` track has an auto (min-content) minimum — use `minmax(0, …fr)`.
 
 ## ★ CHURCH CALENDAR — SHIPPED (2026-09-26, `79485dd` + `1671475`)
 The church keeps maintaining its shared Google Calendar ("Church" — "Church-wide events and

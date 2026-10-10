@@ -812,7 +812,9 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
   }
   .sermon-card {
     display: grid;
-    grid-template-columns: 1fr 1.6fr;
+    /* minmax(0, …): a bare `fr` column won't shrink below its content, and at
+       ~720–900px the body column overflowed the page by ~29px (fixed 2026-10-10). */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
     border: 1px solid var(--line-strong);
     color: inherit;
     transition: background 200ms ease, border-color 200ms ease;
@@ -883,6 +885,7 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
     padding-top: 24px;
     border-top: 1px solid var(--line);
     display: flex;
+    flex-wrap: wrap; /* the listen line + button stack when the column is narrow */
     gap: 16px;
     align-items: center;
     justify-content: space-between;
