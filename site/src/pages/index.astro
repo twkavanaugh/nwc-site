@@ -354,7 +354,7 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
         </div>
 
         <aside class="jesus-aside">
-          <div class="eyebrow head-eyebrow jesus-eyebrow"><span class="dot"></span>For the seeker</div>
+          <div class="eyebrow head-eyebrow jesus-eyebrow"><span class="dot"></span>Curious about faith?</div>
           <h3 class="display-m jesus-title">Who is Jesus?</h3>
           <p class="body jesus-body">
             Maybe you're not a Christian. Maybe you used to be. Maybe you've never
@@ -362,8 +362,20 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
             no jargon, no pressure.
           </p>
           <div class="jesus-actions">
-            <a class="btn jesus-btn" href="/who-is-jesus">Read it <span class="arr">→</span></a>
+            <a class="btn btn-accent jesus-btn" href="/who-is-jesus">Read it <span class="arr">→</span></a>
+            <p class="jesus-credit">On the Lake of Tiberias · Vasily Polenov, 1888</p>
           </div>
+          {/* Narrow cards only (≤1200): the whole painting, faded in at its top edge.
+              Wide cards show it as the card background instead. Decorative. */}
+          <img
+            class="jesus-art"
+            src="/who-is-jesus-polenov.webp"
+            alt=""
+            width="1134"
+            height="1009"
+            loading="lazy"
+            decoding="async"
+          />
         </aside>
       </div>
     </div>
@@ -981,38 +993,84 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
     color: var(--ink-3);
   }
 
-  /* Accent band: white-on-accent. Solid white → --accent-ink; partial-opacity
-     whites are expressed as color-mix over --accent-ink (token-derived, no raw
-     white rgba). */
+  /* Painting card (Todd, 2026-10-10): Polenov, "On the Lake of Tiberias" (1888,
+     public domain). A cream wash fades in from the left behind the type so the
+     figure and lake stay clear on the right. The wash is token-derived
+     (color-mix over --bg), so dark ink type sits on a light ground. */
   .jesus-aside {
-    background: var(--accent);
-    color: var(--accent-ink);
-    padding: 56px 48px;
+    position: relative;
+    overflow: hidden;
+    color: var(--ink);
+    padding: 56px 48px 40px;
     border-radius: var(--radius-card);
     display: flex;
     flex-direction: column;
+    background:
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--bg) 95%, transparent) 0%,
+        color-mix(in srgb, var(--bg) 92%, transparent) 52%,
+        color-mix(in srgb, var(--bg) 55%, transparent) 66%,
+        color-mix(in srgb, var(--bg) 0%, transparent) 84%
+      ),
+      url("/who-is-jesus-polenov.webp") 80% center / cover no-repeat,
+      var(--bg-2);
   }
   .jesus-eyebrow {
-    color: color-mix(in srgb, var(--accent-ink) 70%, transparent);
-  }
-  .jesus-eyebrow .dot {
-    background: var(--accent-ink);
+    color: var(--ink-2);
   }
   .jesus-title {
-    color: var(--accent-ink);
+    color: var(--ink);
     max-width: 10ch;
     margin-bottom: 24px;
   }
   .jesus-body {
     margin: 0 0 28px;
-    color: color-mix(in srgb, var(--accent-ink) 86%, transparent);
+    max-width: 30ch;
+    color: var(--ink-2);
   }
   .jesus-actions {
     margin-top: auto;
   }
-  .jesus-btn {
-    background: var(--accent-ink);
-    color: var(--accent);
+  /* Artwork credit — caption micro-type (exempt from the 16px floor; the button
+     above carries the meaning). */
+  .jesus-credit {
+    margin: 18px 0 0;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--ink-2);
+  }
+  .jesus-art {
+    display: none;
+  }
+  /* ≤1200 the card is too narrow for type beside the figure (276–393px in the
+     two-column grid, full width on phones). Type sits on the warm card ground; the
+     whole painting sits BELOW it, bleeding to the card edges, faded in at its top
+     edge by a mask (alpha only). The negative side margins pair with the card's
+     side padding: change one, change the other. */
+  @media (max-width: 1200px) {
+    .jesus-aside {
+      background: var(--bg-2);
+      padding-bottom: 0;
+    }
+    .jesus-art {
+      display: block;
+      width: calc(100% + 96px); /* = 2 × the 48px side padding */
+      max-width: none;
+      height: auto;
+      margin: 28px -48px 0;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, var(--ink) 30%);
+      mask-image: linear-gradient(to bottom, transparent 0%, var(--ink) 30%);
+    }
+  }
+  @media (max-width: 720px) {
+    .jesus-aside {
+      padding: 40px 24px 0;
+    }
+    .jesus-art {
+      width: calc(100% + 48px); /* = 2 × the 24px side padding */
+      margin: 24px -24px 0;
+    }
   }
 
   /* Mobile collapses — enhancement beyond the prototype (it had no mobile

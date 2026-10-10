@@ -304,6 +304,17 @@ text on inverse/on-image tokens; buttons → `.btn-on-image-*`. Worst-pixel cont
 (1440) / 7.6:1 (375) — headroom to lighten the scrim if more photo is wanted. Photo credit /
 rights: confirm (UNVERIFIED, same as other supplied photos).
 
+## ★ HOMEPAGE "WHO IS JESUS?" CARD — painting (2026-10-10, Todd's mockup)
+Polenov, *On the Lake of Tiberias* (1888, public domain) → `public/who-is-jesus-polenov.webp`.
+Live credit line under the button. Eyebrow "For the seeker" → **"Curious about faith?"** (Todd).
+- **>1200px:** painting is the card background; cream wash (color-mix over `--bg`, no literal)
+  fades in from the left behind dark type; button `.btn-accent`. Worst-pixel contrast: body
+  7.3:1, credit 8.1:1. Body max-width 30ch keeps the text inside the strong-wash zone.
+- **≤1200px** (card is 276–393px in the 2-col grid, full width on phones): type on `--bg-2`;
+  the WHOLE painting sits below as an `<img class="jesus-art">` bleeding to the card edges,
+  faded in by a mask. Negative margins pair with the card's side padding (commented).
+- Spotted, not fixed: mobile-nav carets overflow at 768px (pre-existing) — spun off as a task.
+
 ## ★ CHURCH CALENDAR — SHIPPED (2026-09-26, `79485dd` + `1671475`)
 The church keeps maintaining its shared Google Calendar ("Church" — "Church-wide events and
 activities"; Todd confirmed it's the one on the old homepage). The site shows it at the TOP
