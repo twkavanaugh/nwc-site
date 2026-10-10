@@ -297,6 +297,13 @@ reading list for the class; split apart it loses its context and swamps `/resour
 - **Next in sequence:** the other ADC course posts the same way, then the **ADC landing page**
   (current classes w/ dates/rooms/teachers + "Current until" → Previous; see ★ BLOG → Decided next).
 
+## ★ DARK PHOTO FOOTER — SHIPPED (2026-10-10)
+`Footer.astro` (every page): Walnut Ave / Wake Forest Historic District photo
+(`public/footer-walnut.jpg`, supplied by Todd) under a dark ink scrim (0.86/0.84/0.90, 180°);
+text on inverse/on-image tokens; buttons → `.btn-on-image-*`. Worst-pixel contrast 7.4:1
+(1440) / 7.6:1 (375) — headroom to lighten the scrim if more photo is wanted. Photo credit /
+rights: confirm (UNVERIFIED, same as other supplied photos).
+
 ## ★ CHURCH CALENDAR — SHIPPED (2026-09-26, `79485dd` + `1671475`)
 The church keeps maintaining its shared Google Calendar ("Church" — "Church-wide events and
 activities"; Todd confirmed it's the one on the old homepage). The site shows it at the TOP

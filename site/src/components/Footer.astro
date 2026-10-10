@@ -37,8 +37,8 @@ const year = new Date().getFullYear();
         <div class="footer-actions">
           {/* TODO: Subscribe has no newsletter form/route yet — inert button
               for now; wire to a real signup in a later step. */}
-          <button type="button" class="btn btn-ghost">Subscribe</button>
-          <a class="btn btn-primary" href="/visit">Plan a Visit</a>
+          <button type="button" class="btn btn-on-image-ghost">Subscribe</button>
+          <a class="btn btn-on-image-primary" href="/visit">Plan a Visit</a>
         </div>
       </div>
 
@@ -114,11 +114,19 @@ const year = new Date().getFullYear();
 </footer>
 
 <style>
+  /* Dark photo footer (Todd, 2026-10-10): Walnut Ave, Wake Forest historic district,
+     under a dark scrim; all type on the inverse / on-image tokens.
+     DOCUMENTED literal exception: real-image scrim (rgba of ink-900 #1a1814), not a
+     theme color. Worst-pixel contrast check: 7.4:1 at 1440, 7.6:1 at 375 (AA needs 4.5),
+     so there's headroom to lighten the scrim. Deepen, never lighten the text. */
   .footer {
     margin-top: 120px;
     padding: 80px 0 32px;
-    border-top: 1px solid var(--line);
-    background: var(--bg);
+    color: var(--ink-on-inverse);
+    background:
+      linear-gradient(180deg, rgba(26, 24, 20, 0.86) 0%, rgba(26, 24, 20, 0.84) 50%, rgba(26, 24, 20, 0.9) 100%),
+      url("/footer-walnut.jpg") center 55% / cover no-repeat,
+      var(--bg-inverse);
   }
   .footer-grid {
     display: grid;
@@ -147,10 +155,10 @@ const year = new Date().getFullYear();
     letter-spacing: 0.02em; /* opened up for all caps, as in the Nav */
     text-transform: uppercase; /* NORTH WAKE CHURCH — Todd, 2026-09-26 */
     line-height: 1.15; /* if it ever wraps, the two lines stack as a tidy lockup */
-    color: var(--ink);
+    color: var(--ink-on-inverse);
   }
   .brand-name .accent {
-    color: var(--accent);
+    color: var(--accent-on-inverse);
   }
   /* Each half stays whole: a wrap is always NORTH WAKE / CHURCH, never 3 lines. */
   .brand-name .nw {
@@ -159,7 +167,7 @@ const year = new Date().getFullYear();
 
   .blurb {
     max-width: 32ch;
-    color: var(--ink-3);
+    color: var(--ink-on-inverse-2);
     margin: 0;
   }
   .footer-actions {
@@ -177,7 +185,7 @@ const year = new Date().getFullYear();
     font-weight: 600;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--ink-3);
+    color: var(--ink-on-inverse-2);
     margin: 0 0 18px;
   }
   .footer ul {
@@ -190,7 +198,7 @@ const year = new Date().getFullYear();
   }
   .footer li {
     font-size: 14px;
-    color: var(--ink-2);
+    color: var(--ink-on-inverse);
     letter-spacing: -0.005em;
   }
   .footer li a {
@@ -198,10 +206,10 @@ const year = new Date().getFullYear();
     transition: color 140ms ease;
   }
   .footer li a:hover {
-    color: var(--accent);
+    color: var(--accent-on-inverse);
   }
   .footer li.static {
-    color: var(--ink-3);
+    color: var(--ink-on-inverse-2);
   }
 
   .contact {
@@ -213,17 +221,20 @@ const year = new Date().getFullYear();
   .contact .label {
     margin-bottom: 4px;
   }
+  .contact .label {
+    color: var(--ink-on-inverse-2);
+  }
   .contact .value {
-    color: var(--ink-2);
+    color: var(--ink-on-inverse);
   }
 
   .footer-bottom {
     display: flex;
     justify-content: space-between;
     padding-top: 32px;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--line-on-inverse);
     font-size: 12px;
-    color: var(--ink-3);
+    color: var(--ink-on-inverse-2);
   }
 
   /* ≤1180 (the Nav's hamburger switch): the brand block takes its own full row and
