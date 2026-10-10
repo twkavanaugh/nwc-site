@@ -1092,7 +1092,7 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
   2026-09-23 against the church's source copy (Todd); prayer meeting = interview (confirmed).
 - **★ `/mission/church-planting`:** Todd to diff against source copy — the six church names +
   cities, "early ’90s", "Providence Church (Raleigh NC)" (Claude Design mistranslated `/visit`).
-  Partner-church website URLs + any CTA destination (giving/contact) not yet provided.
+  Partner-church websites PROVIDED by Todd 2026-10-10 → names now link out, each with a 22px logo icon taken from the church's own site (`public/church-planting/`). Any CTA destination (giving/contact) not yet provided.
 - ~~CMS "New Event Test"~~ **DELETED 2026-09-24** by Todd in Pages CMS; its orphaned photo removed
   (first real catch by `npm run audit-media`).
 > As of 07-05 + what the code shows. See ★ CONTEXT GAP — some of this may have moved in July.
