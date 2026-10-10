@@ -172,6 +172,38 @@ const attachments = d.attachments ?? [];
     text-decoration: underline;
     text-underline-offset: 2px;
   }
+  /* Long policy-style posts (2026-10-10, the sexual misconduct policy): numbered
+     subsections, quoted Scripture, sub-lists and diagrams. Additive — no earlier post
+     body used these. */
+  .rzp-prose :global(h2),
+  .rzp-prose :global(h3) {
+    scroll-margin-top: 96px; /* deep links (e.g. APOC → #21-sexual-misconduct) clear the sticky nav */
+  }
+  .rzp-prose :global(h3) {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    line-height: 1.3;
+    color: var(--ink);
+    margin: 32px 0 12px;
+  }
+  .rzp-prose :global(li > ul),
+  .rzp-prose :global(li > ol) {
+    margin: 8px 0 0;
+  }
+  .rzp-prose :global(blockquote) {
+    margin: 0 0 20px;
+    padding-left: 22px;
+    border-left: 2px solid var(--line-strong);
+  }
+  .rzp-prose :global(img) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 0 24px;
+    border: 1px solid var(--line);
+  }
 
   /* YouTube embed (injected by remark-youtube) — responsive 16:9, hairline border,
      no shadow. Page-local for now; promote to global.css if embeds land elsewhere. */

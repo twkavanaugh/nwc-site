@@ -41,6 +41,9 @@ package**, and **shot list v2**.
 > **🟢 2026-10-10 — `/what-we-believe` SHIPPED (2 gates).** Statement of faith, documents,
 > safety/APOC, SBC footnote. Top-level route on purpose (old WordPress URL). See ★ WHAT WE
 > BELIEVE — two follow-on gates queued (PDF re-hosting, baptism post).
+> **Same day — APOC page + Sexual Misconduct Policy migrated** as Resources text pages
+> (`/resources/apoc`, `/resources/sexual-misconduct-policy`). ★ **STAFF REVIEW — MONDAY
+> 2026-10-12** lists what Todd is taking to the staff meeting.
 
 ---
 
@@ -165,6 +168,7 @@ transfer the GitHub repo to a church org; reassign Render (swap account email, r
 | `/about/mission` | ✅ COMPLETE — Devotional redesign |
 | `/community/grow-groups` | ✅ **COMPLETE (2026-09-26)** — Warm Band hero, facts (computed), heartbeat, 4 rhythms, day-grouped directory from the CMS, dark contact band (mailto + tel). 8 inbound links were 404s |
 | `/what-we-believe` | ✅ **COMPLETE (2026-10-10)** — dark photo hero, dark sticky index + 7 verbatim articles, documents grid, safety/APOC, SBC footnote. Nav "Our Beliefs" points here (was a 404 at `/about/beliefs`) |
+| `/resources/apoc`, `/resources/sexual-misconduct-policy` | ✅ **NEW (2026-10-10)** — verbatim migrations (text posts). Beliefs page's APOC button → `/resources/apoc`. Staff review Monday |
 | `/about/membership` | ✅ **COMPLETE (2026-09-26)** — Warm Band hero, facts strip, sticky intro + 5-step timeline, dark contact band (mailto office@). Nav/footer link was a 404 before |
 | `/who-is-jesus` | ✅ COMPLETE |
 | `/community/kids` | ✅ COMPLETE — serif-on-image photo hero (stock) |
@@ -224,6 +228,33 @@ Design: `brand/prototype/WHAT-WE-BELIEVE-SPEC.md` + `what-we-believe.html` + `as
   attachment); "Our next baptism service" (Sun Nov 1, 2026, after the 2nd service) → an
   EVENT, not the post. Point "Our Perspective on Baptism" at the post; both old URLs →
   redirects (punch list). Until then it links to the live `northwake.com/baptism/`.
+
+## ★ STAFF REVIEW — MONDAY 2026-10-12 (Todd's staff meeting)
+Pages LIVE but whose content needs a staff look. Todd: "the names look right to me" — built as is.
+- **`/resources/apoc` — review the WHOLE page.** Verbatim from `northwake.com/apoc-2/` (2021).
+  (1) **Team roster** (8 names) — still current? This is where people report abuse; an
+  outdated name is a real harm. (2) "These women and men have already begun to train and pray
+  together over the last several months" reads as 2021 — refresh? (3) `APOC@northwake.com`
+  CONFIRMED real by Todd 2026-10-10 → mailto wired.
+- **`/resources/sexual-misconduct-policy`** — verbatim from the old page ("Approved May 17,
+  2021"). Is May 2021 still the current adopted version? Source quirks kept as-is: section
+  numbering skips **2.2**; 3.6 says changes are posted within 7 days (any unposted
+  amendments?). The 3 flowcharts were re-hosted from the old site.
+- **New category "Beliefs & Policies"** (Todd, 2026-10-10; `beliefs-policies`, order 6 —
+  Forms moved to 7). Both pages are in it; the re-hosted beliefs-page PDFs (Gate 3) and likely
+  the baptism post join it. Name OK with staff? Also: the descriptions (card blurbs) are
+  Claude's wording.
+- **What We Believe** flags (see UNVERIFIED): Rom. 8:9 duplicate, 1 Cor. 15:3-8, photo consent.
+- **Baptism:** confirm the Nov 1 service details for the event (Gate 4).
+
+**Mechanics (developer notes):** both are `posts` (`src/content/posts/apoc.md`,
+`sexual-misconduct-policy.md`), staff-editable in Pages CMS. The post template gained h3,
+blockquote, nested-list and image styles (additive). Bible-reference links were unwrapped from
+Google Docs redirect URLs to their real targets (wording unchanged). Text verified by a word
+diff against the old pages. **CMS risk:** the policy's 3 diagram images are in the Markdown
+body, but the CMS body field has `media: false` — after the first staff save, check the
+diagrams survive (`/resources/misconduct-policy-*.png`). The APOC "defined here" link
+deep-links to `#21-sexual-misconduct` — renaming heading 2.1 breaks it.
 
 ## ★ CHURCH CALENDAR — SHIPPED (2026-09-26, `79485dd` + `1671475`)
 The church keeps maintaining its shared Google Calendar ("Church" — "Church-wide events and
@@ -911,7 +942,8 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
 - **`/give`** redirect already exists (HOPE's Donate button links to it).
 - **`/what-we-believe`** — legacy links (all break at cutover; see ★ WHAT WE BELIEVE gates 3–4):
   `/baptism/` + `/north-wake-church-baptism-information/` → the baptism post (redirects);
-  `/apoc-2/` (APOC button) — NO page here yet, needs a home before cutover;
+  `/apoc-2/` + `/apoc` → `/resources/apoc`; `/north-wake-church-sexual-misconduct-policy/`
+  → `/resources/sexual-misconduct-policy` (both migrated 2026-10-10 — redirects still needed);
   `wp-content/uploads/…` PDFs (×3) → re-hosted resources. Rackspace + Mailchimp PDFs survive
   cutover but are legacy hosting — re-host too.
 

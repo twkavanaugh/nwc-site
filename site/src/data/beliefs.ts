@@ -136,5 +136,5 @@ export const DOMESTIC_ABUSE_DOC: BeliefDoc = {
   href: "https://mcusercontent.com/7d495f89f8a10ee02758a05be/files/6db7c240-0a93-4136-80e4-2550cc2c6af6/North_Wake_Statement_on_Domestic_Abuse_FINAL.pdf",
 };
 
-// Old WordPress page; dies at cutover (punch list).
-export const APOC_URL = "https://northwake.com/apoc-2/";
+// Migrated from northwake.com/apoc-2/ (2026-10-10) — internal page now.
+export const APOC_URL = "/resources/apoc";
