@@ -1110,4 +1110,39 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
       gap: 48px;
     }
   }
+
+  /* Know / Grow / Go below desktop (2026-10-10). The 4:5 portrait photos were
+     sized for thirds of the page; full-width they ran 845px tall (3.3 screens at
+     720) and the 2-col tablet grid left "Go" alone on a row. These rules come
+     AFTER the shared 880/720 grid collapses above, so they win for .mission-grid. */
+  /* 561–880: each card becomes a row — square photo left (2fr), text right (3fr). */
+  @media (max-width: 880px) and (min-width: 561px) {
+    .mission-grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .mission-item {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      grid-template-rows: auto auto 1fr;
+      column-gap: 28px;
+      row-gap: 12px;
+      align-items: start;
+    }
+    .mission-photo {
+      grid-row: 1 / -1;
+      aspect-ratio: 1 / 1;
+    }
+    .mission-num-row,
+    .mission-headline,
+    .mission-body {
+      grid-column: 2;
+    }
+  }
+  /* ≤560 (phones): stay stacked, but crop the photo wide (3:2) instead of tall. */
+  @media (max-width: 560px) {
+    .mission-photo {
+      aspect-ratio: 3 / 2;
+    }
+  }
 </style>

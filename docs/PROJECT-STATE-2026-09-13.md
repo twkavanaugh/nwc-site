@@ -319,6 +319,10 @@ Live credit line under the button. Eyebrow "For the seeker" → **"Curious about
   closed mobile nav panel is `display:none` (Chrome laid it out inside the collapsed
   `<details>`). Verified: 39 pages × 11 widths (1440→375), zero horizontal overflow.
   **Lesson:** a bare `fr` track has an auto (min-content) minimum — use `minmax(0, …fr)`.
+- **Know / Grow / Go cards below desktop (same day):** the 4:5 portrait photos ran full-width
+  on tablets/phones (up to 845px tall, 3.3 screens at 720; "Go" orphaned in the 2-col grid).
+  Now: 561–880 = one row per card (square photo 2fr | text 3fr); ≤560 = stacked with a 3:2
+  photo; ≥881 unchanged. Section height: 0.75–1.0 screens on tablets, 1.5 on a 375 phone.
 
 ## ★ CHURCH CALENDAR — SHIPPED (2026-09-26, `79485dd` + `1671475`)
 The church keeps maintaining its shared Google Calendar ("Church" — "Church-wide events and
