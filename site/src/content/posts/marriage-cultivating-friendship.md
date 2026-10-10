@@ -20,7 +20,4 @@ in a marriage, one fruit at a time, across six chapters:
 
 Use it for a class, a retreat, or a couples study at home.
 
-<!-- Gate 3b embed test case — placeholder video; real testimony URLs arrive in migration. -->
-https://www.youtube.com/watch?v=dQw4w9WgXcQ
-
 Full content coming soon.

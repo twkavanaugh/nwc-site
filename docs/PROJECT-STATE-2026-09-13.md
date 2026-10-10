@@ -246,6 +246,24 @@ Pages LIVE but whose content needs a staff look. Todd: "the names look right to 
   Claude's wording.
 - **What We Believe** flags (see UNVERIFIED): Rom. 8:9 duplicate, 1 Cor. 15:3-8, photo consent.
 - **Baptism:** confirm the Nov 1 service details for the event (Gate 4).
+- **ADC course pages (2026-10-10 review of the old pages):**
+  - **Parenting (`/adc/parenting/`) — WHOLE PAGE needs staff review BEFORE it's built**
+    (Todd). It names ~20 people: 6 "Led by" couples (Savage, McDaniel, Garrett, Joyner,
+    Derstine, Thigpen) + 4 "Special Guests" couples (Grubb, Lindsey, Creswell, McCabe), incl.
+    spouses who may not have taught. Chip McDaniel's notes are titled "Interpreting Proverbs
+    for Parenting and **Corporal Punishment**" (Google Doc) — Todd agrees that needs a staff
+    look on its own. Also: Kelly Cissell's Ages & Stages handout(s), Mark Lindsey's "Fighting
+    Pornography in Your Home" workbook PDF, 2 Amazon books, a link to a **6th ADC course,
+    "Tech-Wise Christian" (`/techwise`)** — does it belong in the ADC set?
+  - **Marriage (`/adc/marriagecfaf`) — needs APPROVAL before building** (Todd). 12 YouTube
+    videos (per chapter: a Scripture teaching video + a couples' testimonies video, plus a
+    welcome from Sam & Mindy Williams). Do the testimony couples know the videos move to the
+    new site? Chapter 6 has only 6.2 — is a **6.1 teaching video** missing? The 104-page
+    Participant & Leader Guide is **5.2MB** (over the ~3MB CMS cap) — commit to the site, or
+    host in the church Drive so staff can replace it?
+  - **Fall in Love (`/adc/fallinlove`)** — OK to publish `noahj@northwake.com`? Its 6 "TOOL"
+    worksheets are published Google Docs (survive cutover) — plan: link as-is.
+  - **The live stubs stay as they are** (titles only, no names) until approved.
 
 **Mechanics (developer notes):** both are `posts` (`src/content/posts/apoc.md`,
 `sexual-misconduct-policy.md`), staff-editable in Pages CMS. The post template gained h3,
