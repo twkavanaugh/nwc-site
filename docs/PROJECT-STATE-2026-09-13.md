@@ -256,6 +256,29 @@ body, but the CMS body field has `media: false` — after the first staff save, 
 diagrams survive (`/resources/misconduct-policy-*.png`). The APOC "defined here" link
 deep-links to `#21-sexual-misconduct` — renaming heading 2.1 breaks it.
 
+## ★ ADC COURSE PAGES — the pattern (Delighting in the Company of God, 2026-10-10)
+Source: `northwake.com/adc/dcg/`. **Shape decision (Todd agreed): ONE text post per course,
+NOT a catalog entry per resource.** Larry's ~35-item list is his annotated, first-person
+reading list for the class; split apart it loses its context and swamps `/resources`.
+- `posts/delighting-in-the-company-of-god.md` (still `featured: true`). Verbatim. Structure:
+  intro → `## Sessions` (h3 per session; the 3 teaching videos embed via the sanctioned YouTube
+  transform — link alone on its own line) → `## Resources` (Larry's note, then h3 groups in
+  the SOURCE order: Sustaining, Ceaseless, Deepening, Other) → closing ADC line. The two
+  headings "Sessions"/"Resources" are added labels; session titles split at the colon.
+- **Paul's references list uses `*` bullets** so it doesn't merge with the `-` list right after
+  it (adjacent same-marker lists merge in Markdown). Check it survives a CMS save.
+- **13 PDFs re-hosted** in `public/resources/` (slugged names). Todd: church HAS PERMISSION for
+  the published excerpts (Whitney ch. 3–4, Hudson's Beloved Charter, My Heart Christ's Home,
+  Stott). `LarryT@NorthWake.com` VERIFIED → mailto. Amazon links trimmed to `/dp/<id>`; Sing
+  Devotional referral id removed. **Both sermon links → `/sermons`** for now (old per-sermon
+  pages die at cutover; revisit if BranchCast exposes per-sermon URLs).
+- **4 also promoted to catalog entries** (Discipleship, `type: pdf`): Half Day of Prayer
+  Guide, Short Prayers from Scripture, The Examen, Transforming. Descriptions = Larry's notes
+  (The Examen's "handed out at the retreat" clause dropped — course-specific).
+- The closing line still links `northwake.com/adc/` (works today) → needs the `/adc` redirect.
+- **Next in sequence:** the other ADC course posts the same way, then the **ADC landing page**
+  (current classes w/ dates/rooms/teachers + "Current until" → Previous; see ★ BLOG → Decided next).
+
 ## ★ CHURCH CALENDAR — SHIPPED (2026-09-26, `79485dd` + `1671475`)
 The church keeps maintaining its shared Google Calendar ("Church" — "Church-wide events and
 activities"; Todd confirmed it's the one on the old homepage). The site shows it at the TOP
@@ -556,9 +579,7 @@ Commits: `010a103` (package) → this commit (page + nav).
   uploads — run QUARTERLY (see ★ QUARTERLY MAINTENANCE).
 - **★ Keep "needs verification" notes in THIS doc, not inside content files.** A CMS save
   rewrites front matter (YAML `#` comments won't survive) and may drop HTML `<!-- -->`
-  comments. The Delighting post's hidden LarryT@ note is restored, and is ALSO recorded here:
-  the old page's "LarryT@" contact email + all its external resource links await
-  verification before migrating.
+  comments. (The Delighting LarryT@ note is resolved — email verified by Todd 2026-10-10.)
 - **Gate 2 (after push — Pages CMS reads config from GitHub):** Todd adds a PDF resource, an
   external link, replaces the membership-packet placeholder, deletes a test entry; creates a
   draft text page (confirm hidden), publishes it with a bare YouTube line + a PDF download;
@@ -940,6 +961,8 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
 - **Inventory the rest of the old site's URLs** (sitemap) and map each to a new route or a
   redirect; old printed materials (postcards) carry URLs — `/womensministry` already handled.
 - **`/give`** redirect already exists (HOPE's Donate button links to it).
+- **ADC:** `/adc/dcg/` → `/resources/delighting-in-the-company-of-god`; `/adc` → the ADC landing
+  page once built (the Delighting post's closing line links `northwake.com/adc/`).
 - **`/what-we-believe`** — legacy links (all break at cutover; see ★ WHAT WE BELIEVE gates 3–4):
   `/baptism/` + `/north-wake-church-baptism-information/` → the baptism post (redirects);
   `/apoc-2/` + `/apoc` → `/resources/apoc`; `/north-wake-church-sexual-misconduct-policy/`
@@ -1022,8 +1045,8 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
 - **Category taxonomy** — all six labels PROVISIONAL; each YAML carries an UNVERIFIED comment.
 - **The five ADC posts** — real migrated outlines; bodies still to migrate (the visible "TODO"
   heading was replaced with "Full content coming soon." on all five, 2026-09-24 — Karen/Devin
-  can finish them in the CMS). Still to migrate/verify: Delighting — the old page's LarryT@
-  email + external resource links; Fall in Love — noahj@ email (sign-off); Marriage — full
+  can finish them in the CMS). **Delighting — DONE 2026-10-10** (see ★ ADC COURSE PAGES).
+  Still to migrate/verify: Fall in Love — noahj@ email (sign-off); Marriage — full
   chapter body, the North Wake couples' video testimonies, inline links; Parenting — leader/
   guest names need sign-off; When I Demand — the full edited transcript.
 - **Two PDF resources** (membership packet, photo & media release) — documents don't exist yet.
