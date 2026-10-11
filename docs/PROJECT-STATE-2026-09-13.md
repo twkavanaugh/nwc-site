@@ -246,6 +246,8 @@ Pages LIVE but whose content needs a staff look. Todd: "the names look right to 
   Claude's wording.
 - **What We Believe** flags (see UNVERIFIED): Rom. 8:9 duplicate, 1 Cor. 15:3-8, photo consent.
 - **Baptism:** confirm the Nov 1 service details for the event (Gate 4).
+- **Blog:** OK to republish "What I’ve Learned From My Muslim Neighbors" (Rachel Conley, Far
+  Flung Family)? Security/identification check with missions first (see ★ BLOG).
 - **ADC course pages (2026-10-10 review of the old pages):**
   - **Parenting (`/adc/parenting/`) — WHOLE PAGE needs staff review BEFORE it's built**
     (Todd). It names ~20 people: 6 "Led by" couples (Savage, McDaniel, Garrett, Joyner,
@@ -543,6 +545,20 @@ series, image pipeline, nav/footer links). Design source: `brand/prototype/page-
   classes"** section (classes usually return yearly; Karen just sets a new date). No page or
   design exists yet. Also queued: a **homepage "latest from the blog"** strip (1–3 newest).
 - **Order agreed:** blog (done) → homepage blog strip → ADC page.
+- **7 more posts migrated (2026-10-11)** — every Meditation for Preparation from Aug 12 → Oct 7
+  not already moved (blog now 10 posts). Word-diffed against the old pages: identical. Rules
+  used (same as the seeds): `title` = the post's own h2 headline; **ALL-CAPS headlines set in
+  title case** (Oct 7 "Conflict: Wisdom’s Great Testing Ground", Sep 30 "The Power of Our
+  Words"); **two posts have no headline** (Sep 2, Aug 19) → titled "Meditation for
+  Preparation: Sept. 6" / "…: Aug. 23" (old title, colon not dash — nothing invented); a
+  leading "**Read**: ref + passage" → the `scripture` box; line breaks kept (poem, verse lines);
+  old Unsplash photos not carried (series default image). Source quirks kept verbatim
+  ("refelect"; uneven bold on "The Wise Response").
+- **HELD — "What I’ve Learned From My Muslim Neighbors" (Sep 27, author "North Wake",
+  "Written By: Rachel Conley (North Wake Far Flung Family)").** Not a meditation. Describes a
+  mosque attack "down the street from us" — a named member abroad + local detail. Same
+  security rule as `/mission/international` (never identify workers in sensitive places):
+  **staff/missions must OK republishing it** before it moves. Monday list.
 
 ## ★ HOPE COUNSELING — SHIPPED (2026-09-24, 1 gate)
 Commits: `5427bf1` (package; photo in `site/public`) → this commit (page + `src/data/hope.ts` +
