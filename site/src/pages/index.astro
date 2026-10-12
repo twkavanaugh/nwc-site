@@ -128,9 +128,8 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
       <div class="mission-grid">
         {
           [
-            // Know is still a STOCK PLACEHOLDER (Unsplash) — replace per
-            // docs/PHOTOGRAPHER-SHOT-LIST.md. Grow and Go are real photos.
-            { verb: "Know", headline: "the love of God in Jesus Christ.", body: "We orient every Sunday and every week around the gospel — that God meets us in Jesus, and that meeting changes everything.", img: "/mission-know.jpg", alt: "People gathered in worship" },
+            // All three are real church photos.
+            { verb: "Know", headline: "the love of God in Jesus Christ.", body: "We orient every Sunday and every week around the gospel — that God meets us in Jesus, and that meeting changes everything.", img: "/mission-know.jpg", alt: "The worship band leading the congregation in song, with the lyrics on the screen above" },
             { verb: "Grow", headline: "in love for one another.", body: "We don't grow in isolation. In Grow Groups, classes, and shared meals, we open Scripture, pray honestly, and bear each other's burdens.", img: "/mission-grow.jpg", alt: "A father carrying his young son on his shoulders at a Grow Groups gathering", focus: "right" },
             { verb: "Go", headline: "in love to reach our neighbors near and far.", body: "From Wake Forest to the nations, we send and serve — through local outreach, mercy ministry, and global missions.", img: "/mission-go.jpg", alt: "The Wake Forest town clock downtown at dusk", focus: "right" },
           ].map((it, i) => (
@@ -164,13 +163,12 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
             <a class="btn btn-primary" href="/visit">I'm new — start here <span class="arr">→</span></a>
           </div>
           <div class="visit-ph">
-            <!-- STOCK PLACEHOLDER (Unsplash, alex-gallegos) — replace with a real
-                 Welcome Wall / walk-up photo per docs/PHOTOGRAPHER-SHOT-LIST.md;
-                 alt is provisional. Deliberately SHORT (21:9) band. -->
+            <!-- Real church photo (B&W, walk-up conversation outside the building).
+                 Deliberately SHORT (21:9) band. -->
             <img
               class="visit-photo"
-              src="/welcome-STOCK-PLACEHOLDER.jpg"
-              alt="Two people embracing in greeting at church"
+              src="/home-welcome.jpg"
+              alt="Three men laughing together on the sidewalk outside the church, holding coffee, books and handouts"
               loading="lazy"
             />
           </div>
@@ -720,13 +718,14 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
   .visit-ph {
     margin-top: 56px;
   }
-  /* Short wide welcome band (~21:9). object-position biased slightly up so the
-     embracing pair reads within the short crop; no distortion (cover, not stretch). */
+  /* Short wide welcome band (~21:9). object-position biased to the top so all
+     three heads stay inside the short crop of the 3:2 source; no distortion
+     (cover, not stretch). */
   .visit-photo {
     width: 100%;
     aspect-ratio: 21 / 9;
     object-fit: cover;
-    object-position: center 35%;
+    object-position: center 5%;
     border-radius: var(--radius-card);
     display: block;
   }
