@@ -76,16 +76,20 @@ const tagsFor = (p: (typeof posts)[number]) => (seriesOf(p) ? [seriesOf(p)!.labe
 
   <!-- Header — blog name is real (old site: "TwelveTwelve: The Leader Blog of North
        Wake Church"); the h1 + lede are UNVERIFIED placeholder copy (state doc). -->
+  <!-- Header painting: John Singer Sargent, "From Jerusalem" (1905–06), The Met,
+       public domain — Todd OK'd the scan + wants the credit shown (2026-10-11). -->
   <section class="bhero">
-    <div class="wrap">
+    <div class="wrap bhero-inner">
       <div class="eyebrow"><span class="dot"></span>TwelveTwelve · The Leader Blog</div>
-      <div class="bhero-grid">
-        <h1 class="display-l bhero-title">Words from our pastors and leaders.</h1>
-        <p class="lede bhero-lede">
-          Weekly meditations to help you prepare for Sunday, written for the people of
-          North Wake and anyone else who’d find them useful.
-        </p>
-      </div>
+      <h1 class="display-l bhero-title">Words from our pastors and leaders.</h1>
+      <p class="lede bhero-lede">
+        Weekly meditations to help you prepare for Sunday, written for the people of
+        North Wake and anyone else who’d find them useful.
+      </p>
+      <p class="bhero-credit">
+        From Jerusalem · John Singer Sargent, 1905–06<br />
+        The Metropolitan Museum of Art · Public domain.
+      </p>
     </div>
   </section>
 
@@ -181,22 +185,56 @@ const tagsFor = (p: (typeof posts)[number]) => (seriesOf(p) ? [seriesOf(p)!.labe
 {showFilter && <style is:global set:html={filterCss} />}
 
 <style>
+  /* Header — one column (label → headline → intro) over Sargent's "From Jerusalem".
+     The painting sits on ::before, scaled up ~6% (inset −6%) so the scan's paper
+     edge never shows; ::after is the cream wash (color-mix over --bg — token-derived,
+     no literal): nearly solid behind the text on the left, fading right so the
+     lavender sky and golden hills show. Contrast checked (see commit). */
   .bhero {
-    padding: 64px 0 0;
+    position: relative;
+    overflow: hidden;
+    padding: 96px 0 40px;
+    border-bottom: 1px solid var(--line);
   }
-  .bhero-grid {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: 64px;
-    align-items: end;
-    margin-top: 28px;
+  .bhero::before,
+  .bhero::after {
+    content: "";
+    position: absolute;
+  }
+  .bhero::before {
+    inset: -6%;
+    background: url("/blog-sargent-from-jerusalem.jpg") center 60% / cover no-repeat;
+  }
+  .bhero::after {
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--bg) 94%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 88%, transparent) 38%,
+      color-mix(in srgb, var(--bg) 45%, transparent) 62%,
+      color-mix(in srgb, var(--bg) 0%, transparent) 88%
+    );
+  }
+  .bhero-inner {
+    position: relative;
+    z-index: 1;
   }
   .bhero-title {
     max-width: 18ch;
+    margin-top: 28px;
   }
   .bhero-lede {
     color: var(--ink-2);
-    margin: 0 0 8px;
+    max-width: 46ch;
+    margin: 28px 0 0;
+  }
+  /* Artwork credit — bottom-left of the header (caption micro-type, exempt from the
+     16px floor; never the sole carrier of meaning). */
+  .bhero-credit {
+    margin: 72px 0 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-2);
   }
 
   .broot {
@@ -229,9 +267,13 @@ const tagsFor = (p: (typeof posts)[number]) => (seriesOf(p) ? [seriesOf(p)!.labe
   .bfeatured.has-image {
     grid-template-columns: 1.1fr 1fr;
   }
+  /* 16:9 — the same crop as the post page, and the shape the lettered series image
+     ("Meditation for Preparation") is pre-cropped to. The old 5:4 cut the lettering
+     off on the sides (2026-10-11). */
   .bfeatured-img {
     width: 100%;
-    aspect-ratio: 5 / 4;
+    height: auto; /* else the <Image> height attribute (e.g. 864) wins and aspect-ratio never applies */
+    aspect-ratio: 16 / 9;
     object-fit: cover;
     border: 1px solid var(--line-strong);
     display: block;
@@ -244,7 +286,9 @@ const tagsFor = (p: (typeof posts)[number]) => (seriesOf(p) ? [seriesOf(p)!.labe
     margin-bottom: 18px;
   }
   .bfeatured-title {
-    font-size: clamp(36px, 4.8vw, 72px);
+    /* Was clamp(36px, 4.8vw, 72px): too big beside the 16:9 image (3 lines at 1440).
+       Now ~2 lines at desktop (Todd, 2026-10-11). */
+    font-size: clamp(30px, 3.4vw, 52px);
     line-height: 1.02;
     font-weight: 500;
     letter-spacing: -0.025em;
@@ -339,8 +383,19 @@ const tagsFor = (p: (typeof posts)[number]) => (seriesOf(p) ? [seriesOf(p)!.labe
     color: var(--ink-3);
   }
 
+  /* Phones: the text spans the full width → a top-to-bottom wash instead, solid
+     behind the text and lighter toward the bottom so the hills show below it. */
+  @media (max-width: 560px) {
+    .bhero::after {
+      background: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--bg) 92%, transparent) 0%,
+        color-mix(in srgb, var(--bg) 86%, transparent) 70%,
+        color-mix(in srgb, var(--bg) 55%, transparent) 100%
+      );
+    }
+  }
   @media (max-width: 900px) {
-    .bhero-grid,
     .bfeatured.has-image {
       grid-template-columns: minmax(0, 1fr);
       gap: 28px;
@@ -348,7 +403,7 @@ const tagsFor = (p: (typeof posts)[number]) => (seriesOf(p) ? [seriesOf(p)!.labe
   }
   @media (max-width: 720px) {
     .bhero {
-      padding-top: 40px;
+      padding-top: 56px;
     }
     .broot {
       padding-top: 40px;
