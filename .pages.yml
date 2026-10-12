@@ -137,9 +137,9 @@ content:
         description: "Which ministry this belongs to. Not shown on the site yet — reserved for future filtering."
 
       - name: featured
-        label: Featured (not yet active)
+        label: Feature on homepage
         type: boolean
-        description: "Reserved for future homepage pinning. No effect yet."
+        description: "Check to put this event first in the homepage Events list (up to 3 show). Leftover spots fill with the next upcoming events automatically. It drops off on its own once the event is over."
 
       - name: body
         label: Details

@@ -72,7 +72,7 @@ const events = defineCollection({
 
     // --- Association / future-proofing (Q7 — included now, unused by v1 queries) ---
     ministryId: z.string().optional(), // links an event to a ministry (future filtering / eyebrow generation)
-    featured: z.boolean().default(false), // future homepage pinning; v1 homepage is pure date-sort top-3
+    featured: z.boolean().default(false), // homepage pinning: featured events fill the top-3 first (index.astro)
   }),
 });
 

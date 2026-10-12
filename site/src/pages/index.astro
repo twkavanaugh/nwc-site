@@ -9,10 +9,16 @@ const growGroupCount = await getGrowGroupCount();
 
 // Homepage "Upcoming" — top 3 upcoming events from the collection, same date
 // filter/sort as /events. Replaces the old hardcoded, unsorted, yearless list.
-const upcomingHome = (await getCollection("events"))
+// Featured-first: events with `featured: true` (CMS "Feature on homepage") take
+// the first slots, date-sorted; remaining slots fill with the soonest others, so
+// the section never goes empty just because nothing is checked.
+const upcoming = (await getCollection("events"))
   .filter(isUpcoming)
-  .sort(byStartDateAsc)
-  .slice(0, 3);
+  .sort(byStartDateAsc);
+const upcomingHome = [
+  ...upcoming.filter((e) => e.data.featured),
+  ...upcoming.filter((e) => !e.data.featured),
+].slice(0, 3);
 
 // Homepage — Pass 1 of 3: Overlay hero, Service Times band.
 // (Marquee/ticker strip REMOVED 2026-09-23 — the church did not like it.)
