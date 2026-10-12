@@ -43,7 +43,7 @@ content:
     filename: '{primary}.md'        # title slugified → womens-day.md (matches existing kebab routes)
     view:
       primary: title
-      fields: [title, startDate, ministryId]
+      fields: [title, startDate, endDate, ministryId]
       sort: [startDate, title]
       default:
         sort: startDate
