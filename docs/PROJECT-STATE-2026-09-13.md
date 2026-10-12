@@ -362,6 +362,11 @@ Live credit line under the button. Eyebrow "For the seeker" → **"Curious about
   (clamp(40px, 5.76vw, 94px); phones clamp(36px, …)) on Students, Women, Lily Moms, Mature
   Adults, and Grow Groups via a new opt-in `WarmBandHero` prop `headlineStep` (other Warm Band
   pages unchanged). Kids' own serif title → clamp(38px, 5.4vw, 79px). One knob to step again.
+- **/community/students (2026-10-12):** hero switched to the shared `WarmBandHero` (same as
+  Grow Groups; same copy/photo, `headlineStep`, "Parent info" still inert); old page hero CSS
+  removed. Image strip: 3 real photos (camp group wide 4:3; map-wall gathering + small-group
+  talk as tall crops sharing the row height; stacked 4:3 ≤880); inline `style=` removed.
+  Minor-consent check → UNVERIFIED.
 - **/help/mercy-clinic:** clinic-dates note gets bottom padding (72/56px). **Who we are** —
   white ripple texture behind the section (`public/mercy-ripple.jpg`), normal spacing, opaque
   panels; the intro paragraph moved INTO the first panel above a hairline (Todd); eyebrow
@@ -1077,6 +1082,9 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
   cutover but are legacy hosting — re-host too.
 
 ## UNVERIFIED CONTENT — confirm with church (the real launch gate)
+- **★ `/community/students` image strip (2026-10-12):** three real student-ministry photos
+  supplied by Todd (camp group on steps, students seated by the map wall, a small group
+  talking) — **minors are identifiable: confirm photo/media consent** (same as the Kids page).
 - **★ `/what-we-believe` (2026-10-10):** source text left VERBATIM, flag to the church:
   (1) The Holy Spirit references list **"Rom. 8:9" twice**; (2) they cite **1 Cor. 15:3-8**
   (resurrection — likely carried over from Jesus Christ). Also: a working URL for the baptism

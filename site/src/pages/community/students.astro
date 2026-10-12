@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
+import WarmBandHero from "../../components/WarmBandHero.astro";
 
 // Students ministry page (/community/students). Translated from
 // brand/prototype/page-students.jsx — all seven sections, light theme.
@@ -56,34 +57,19 @@ const pillars = [
     action={{ label: "All ministries", href: "/community/grow-groups" }}
   />
 
-  <!-- Hero -->
-  <section class="hero-sec">
-    <div class="wrap">
-      <div class="hero-grid">
-        <div>
-          <div class="eyebrow eyebrow--hero"><span class="dot"></span>Students · 6th – 12th grade</div>
-          <h1 class="display-l display-l--step hero-h1">
-            Helping students grow into <span class="accent">mature followers of Christ.</span>
-          </h1>
-          <p class="lede hero-lede">
-            Our student ministry exists to see students and their families know the
-            love of God in Jesus Christ, grow in love for one another, and go in
-            love to reach neighbors near and far.
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="/visit">Visit a Sunday <span class="arr">→</span></a>
-            {/* TODO: "Parent info" has no route yet — honestly inert until one exists. */}
-            <button type="button" class="btn btn-ghost">Parent info</button>
-          </div>
-        </div>
-        <img
-          class="hero-photo"
-          src="/students-hero.jpg"
-          alt="A student ministry leader teaching a room of students in front of a whiteboard"
-        />
-      </div>
-    </div>
-  </section>
+  <!-- Hero — the shared Warm Band hero, same as Grow Groups (Todd, 2026-10-12).
+       Same copy + photo as before; "Parent info" stays honestly inert (no route yet). -->
+  <WarmBandHero
+    titleId="st-title"
+    headlineStep
+    eyebrow="Students · 6th – 12th grade"
+    headlineLead="Helping students grow into"
+    headlineAccent="mature followers of Christ."
+    lede="Our student ministry exists to see students and their families know the love of God in Jesus Christ, grow in love for one another, and go in love to reach neighbors near and far."
+    photo={{ src: "/students-hero.jpg", alt: "A student ministry leader teaching a room of students in front of a whiteboard" }}
+    primary={{ label: "Visit a Sunday", href: "/visit" }}
+    ghost={{ label: "Parent info" }}
+  />
 
   <!-- Heartbeat / Vision -->
   <section>
@@ -149,10 +135,12 @@ const pillars = [
   <!-- Image strip -->
   <section class="strip-sec">
     <div class="wrap">
+      <!-- Real student-ministry photos (supplied by Todd, 2026-10-11). Minors are
+           identifiable → photo/media consent is on the state doc's UNVERIFIED list. -->
       <div class="strip-grid">
-        <div class="ph" style="aspect-ratio: 4 / 3;"><span class="ph-label">Worship · candid</span></div>
-        <div class="ph" style="aspect-ratio: 4 / 3;"><span class="ph-label">Real Talk group</span></div>
-        <div class="ph" style="aspect-ratio: 4 / 3;"><span class="ph-label">Camp</span></div>
+        <img class="strip-img strip-img--wide" src="/students-camp.jpg" alt="A large group of students and leaders in matching camp shirts, posing and making faces on the steps outside a building" width="1920" height="1439" loading="lazy" decoding="async" />
+        <img class="strip-img strip-img--gathering" src="/students-gathering.jpg" alt="Students sitting together and smiling during a student gathering, a world map painted on the wall behind them" width="1000" height="1500" loading="lazy" decoding="async" />
+        <img class="strip-img strip-img--talk" src="/students-small-group.jpg" alt="A small group of students talking together in a classroom" width="1920" height="1439" loading="lazy" decoding="async" />
       </div>
     </div>
   </section>
@@ -223,9 +211,6 @@ const pillars = [
     margin-right: 10px;
     transform: translateY(-2px);
   }
-  .eyebrow--hero {
-    margin-bottom: 28px;
-  }
   .eyebrow--pillars {
     margin-bottom: 36px;
   }
@@ -234,43 +219,6 @@ const pillars = [
     display: flex;
     justify-content: center;
   }
-  .accent {
-    color: var(--accent);
-  }
-
-  /* Hero */
-  .hero-sec {
-    padding-top: 56px;
-    padding-bottom: 0;
-  }
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 64px;
-    align-items: end;
-  }
-  .hero-h1 {
-    max-width: 16ch;
-  }
-  .hero-lede {
-    margin-top: 28px;
-  }
-  .hero-actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 32px;
-    flex-wrap: wrap;
-  }
-  /* Landscape photo in the 4:5 slot — crop toward the speaker (right of center). */
-  .hero-photo {
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    object-position: 70% 50%;
-    border-radius: var(--radius-ph);
-    display: block;
-  }
-
   /* Heartbeat / Vision */
   .vision-title {
     max-width: 14ch;
@@ -342,6 +290,25 @@ const pillars = [
     grid-template-columns: 2fr 1fr 1fr;
     gap: 16px;
   }
+  /* The wide 4:3 photo sets the row height; the two narrow photos fill that same
+     height as tall crops (≈2:3), so the row lines up. */
+  .strip-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--radius-ph);
+  }
+  .strip-img--wide {
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+  .strip-img--gathering {
+    object-position: 55% 50%;
+  }
+  .strip-img--talk {
+    object-position: 55% 50%; /* the conversation: Boys Club tee, cap, the girl talking */
+  }
 
   /* Regular rhythms */
   /* hairline mechanism now from global .hairline-grid; only columns stay local */
@@ -405,12 +372,22 @@ const pillars = [
     }
   }
   @media (max-width: 720px) {
-    .hero-grid,
     .vision-grid,
     .pillars-grid,
     .rhythms-grid,
     .strip-grid {
       grid-template-columns: 1fr;
+    }
+    /* Stacked: every photo is a 4:3 band. */
+    .strip-img {
+      height: auto;
+      aspect-ratio: 4 / 3;
+    }
+    .strip-img--gathering {
+      object-position: 50% 40%;
+    }
+    .strip-img--talk {
+      object-position: 50% 50%;
     }
   }
 </style>
