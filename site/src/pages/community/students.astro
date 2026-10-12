@@ -171,6 +171,18 @@ const pillars = [
             </article>
           ))
         }
+        {/* Photo fills the grid's 6th cell (5 rhythms in 3 columns), next to Fall
+            Retreat. Minors identifiable → covered by the student-photo consent item
+            on the state doc's UNVERIFIED list. */}
+        <img
+          class="rhythm-photo"
+          src="/students-fall-retreat.jpg"
+          alt="Students sitting on wooden benches under the trees beside a lake during the fall retreat, listening to a leader"
+          width="1920"
+          height="1439"
+          loading="lazy"
+          decoding="async"
+        />
       </div>
     </div>
   </section>
@@ -326,6 +338,14 @@ const pillars = [
   .rhythm-tag {
     color: var(--accent);
   }
+  /* Fills its cell edge to edge (square corners, like the hairline cards). */
+  .rhythm-photo {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    object-fit: cover;
+    display: block;
+  }
   .rhythm-title {
     font-weight: 500;
     font-size: 24px;
@@ -388,6 +408,11 @@ const pillars = [
     }
     .strip-img--talk {
       object-position: 50% 50%;
+    }
+    .rhythm-photo {
+      height: auto;
+      min-height: 0;
+      aspect-ratio: 4 / 3;
     }
   }
 </style>
