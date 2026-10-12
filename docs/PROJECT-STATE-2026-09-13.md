@@ -348,6 +348,16 @@ Live credit line under the button. Eyebrow "For the seeker" → **"Curious about
   the featured image rendered 620×864 and clipped the lettered series art. Now `height: auto` +
   16:9 (matches the post page). Featured title `clamp(30px, 3.4vw, 52px)` (was up to 72px).
   **Lesson:** any `<Image>` with a CSS aspect-ratio needs `height: auto`.
+- **/blog pagination + archive search (Todd, 2026-10-11):** `blog/index.astro` →
+  `blog/[...page].astro` (one file builds `/blog` + `/blog/page/N`; two-segment URLs can't
+  collide with `[slug]`). `BLOG_PAGE_SIZE = 12` in `src/lib/blog.ts` (rows after the featured
+  post). Page 1 = Sargent header + featured + 12; later pages = quiet "Older posts" header.
+  Pager: ← Newer · Page X of N · Older →, plus "Browse and search all posts →" to the new
+  **`/blog/archive`** (every post, compact rows, + the ADR 0002 inline search — **ADR 0002
+  amended**: `/resources` + `/blog/archive` only; CLAUDE.md #1 updated). Archive script 1.3KB.
+  Series :target filter now renders on page 1 only (it can only filter its own page) —
+  revisit when a 2nd series exists. Tested with page size 3: 3 pages, no dupes/gaps, page 4
+  → 404. **Pagefind** stays the revisit path if the old TwelveTwelve archive is migrated.
 - **/help/mercy-clinic:** clinic-dates note gets bottom padding (72/56px). **Who we are** —
   white ripple texture behind the section (`public/mercy-ripple.jpg`), normal spacing, opaque
   panels; the intro paragraph moved INTO the first panel above a hairline (Todd); eyebrow

@@ -75,3 +75,7 @@ export function initialsOf(name: string): string {
     .slice(0, 2)
     .toUpperCase();
 }
+
+// Blog index pagination (2026-10-11): rows per page AFTER the featured post on page 1.
+// /blog, /blog/page/2, … are static pages (zero JS). Full list + search: /blog/archive.
+export const BLOG_PAGE_SIZE = 12;

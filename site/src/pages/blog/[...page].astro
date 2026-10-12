@@ -10,7 +10,22 @@ import {
   formatPublished,
   excerptOf,
   seriesAnchor,
+  BLOG_PAGE_SIZE,
 } from "../../lib/blog";
+
+// Pagination (2026-10-11): this one file builds /blog (page 1: header + featured +
+// first BLOG_PAGE_SIZE rows) and /blog/page/2, /blog/page/3, … (rows only). Two-segment
+// URLs can't collide with /blog/[slug]. Static, zero JS. The full list with search
+// lives at /blog/archive (ADR 0002, amended).
+export async function getStaticPaths() {
+  const all = await getPublishedPosts();
+  const feat = all.find((p) => p.data.featured) ?? all[0];
+  const others = all.filter((p) => p !== feat);
+  const pages = Math.max(1, Math.ceil(others.length / BLOG_PAGE_SIZE));
+  return Array.from({ length: pages }, (_, i) => ({
+    params: { page: i === 0 ? undefined : `page/${i + 1}` },
+  }));
+}
 
 // Blog index — "TwelveTwelve: The Leader Blog". Design source:
 // brand/prototype/page-blog.jsx (BlogPage). Newest post (or a `featured` one) gets
@@ -23,8 +38,16 @@ import {
 // (.is-featured-dup, hidden by default) shows in the list instead, so nothing matching
 // the filter disappears.
 const posts = await getPublishedPosts();
-const featured = posts.find((p) => p.data.featured) ?? posts[0];
-const rest = posts.filter((p) => p !== featured);
+const featuredPost = posts.find((p) => p.data.featured) ?? posts[0];
+const allRest = posts.filter((p) => p !== featuredPost);
+
+const pageNum = Astro.params.page ? Number(Astro.params.page.split("/")[1]) : 1;
+const pageCount = Math.max(1, Math.ceil(allRest.length / BLOG_PAGE_SIZE));
+const isFirst = pageNum === 1;
+const rest = allRest.slice((pageNum - 1) * BLOG_PAGE_SIZE, pageNum * BLOG_PAGE_SIZE);
+// The featured slot + its filter duplicate exist on page 1 only.
+const featured = isFirst ? featuredPost : undefined;
+const pageHref = (n: number) => (n === 1 ? "/blog" : `/blog/page/${n}`);
 
 const seriesMap = await getSeriesMap();
 const seriesOf = (p: (typeof posts)[number]) => (p.data.series ? seriesMap[p.data.series.id] : undefined);
@@ -32,7 +55,8 @@ const seriesOf = (p: (typeof posts)[number]) => (p.data.series ? seriesMap[p.dat
 const seriesList = [...new Set(posts.map((p) => p.data.series?.id).filter(Boolean))].map(
   (id) => seriesMap[id as string],
 );
-const showFilter = seriesList.length >= 2;
+// Page 1 only: a :target filter can only filter the rows on its own page.
+const showFilter = isFirst && seriesList.length >= 2;
 const seriesIds = seriesList.map((s) => seriesAnchor(s.id));
 const countFor = (id: string) => posts.filter((p) => p.data.series?.id === id).length;
 const featuredPhoto = featured ? photoFor(featured, seriesMap) : undefined;
@@ -69,15 +93,20 @@ const tagsFor = (p: (typeof posts)[number]) => (seriesOf(p) ? [seriesOf(p)!.labe
 ---
 
 <Layout
-  title="TwelveTwelve: The Leader Blog · North Wake Church"
+  title={isFirst ? "TwelveTwelve: The Leader Blog · North Wake Church" : `TwelveTwelve · Page ${pageNum} · North Wake Church`}
   description="TwelveTwelve, the leader blog of North Wake Church: weekly meditations from our pastors and leaders to help you prepare for Sunday."
 >
-  <Breadcrumb trail={[{ label: "Home", href: "/" }, { label: "Blog" }]} />
+  <Breadcrumb
+    trail={isFirst
+      ? [{ label: "Home", href: "/" }, { label: "Blog" }]
+      : [{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: `Page ${pageNum}` }]}
+  />
 
   <!-- Header — blog name is real (old site: "TwelveTwelve: The Leader Blog of North
        Wake Church"); the h1 + lede are UNVERIFIED placeholder copy (state doc). -->
   <!-- Header painting: John Singer Sargent, "From Jerusalem" (1905–06), The Met,
        public domain — Todd OK'd the scan + wants the credit shown (2026-10-11). -->
+  {isFirst ? (
   <section class="bhero">
     <div class="wrap bhero-inner">
       <div class="eyebrow"><span class="dot"></span>TwelveTwelve · The Leader Blog</div>
@@ -92,6 +121,14 @@ const tagsFor = (p: (typeof posts)[number]) => (seriesOf(p) ? [seriesOf(p)!.labe
       </p>
     </div>
   </section>
+  ) : (
+  <section class="bhero-older">
+    <div class="wrap">
+      <div class="eyebrow"><span class="dot"></span>TwelveTwelve · The Leader Blog</div>
+      <h1 class="display-m bhero-older-title">Older posts</h1>
+    </div>
+  </section>
+  )}
 
   <div class="wrap broot">
     {showFilter && <a id="all" class="tgt"></a>}
@@ -146,7 +183,7 @@ const tagsFor = (p: (typeof posts)[number]) => (seriesOf(p) ? [seriesOf(p)!.labe
       (rest.length > 0 || showFilter) && (
         <div class="blist">
           <div class="eyebrow blist-head">
-            <span class="dot"></span>More posts
+            <span class="dot"></span>{isFirst ? "More posts" : `Page ${pageNum} of ${pageCount}`}
           </div>
           {[featured, ...rest].filter(Boolean).map((p) => (
             <a
@@ -179,6 +216,25 @@ const tagsFor = (p: (typeof posts)[number]) => (seriesOf(p) ? [seriesOf(p)!.labe
     }
 
     {posts.length === 0 && <p class="bempty">New posts are on the way. Check back soon.</p>}
+
+    {
+      posts.length > 0 && (
+        <nav class="bpager" aria-label="Blog pages">
+          {pageNum > 1 ? (
+            <a class="btn btn-ghost" href={pageHref(pageNum - 1)} rel="prev">
+              <span class="arr">←</span> Newer posts
+            </a>
+          ) : <span />}
+          {pageCount > 1 && <span class="mono bpager-count">Page {pageNum} of {pageCount}</span>}
+          {pageNum < pageCount ? (
+            <a class="btn btn-ghost" href={pageHref(pageNum + 1)} rel="next">
+              Older posts <span class="arr">→</span>
+            </a>
+          ) : <span />}
+          <a class="bpager-all" href="/blog/archive">Browse and search all posts →</a>
+        </nav>
+      )
+    }
   </div>
 </Layout>
 
@@ -376,6 +432,45 @@ const tagsFor = (p: (typeof posts)[number]) => (seriesOf(p) ? [seriesOf(p)!.labe
   .brow-arr {
     color: var(--accent);
     align-self: center;
+  }
+
+  /* Later pages: a quiet header instead of the painting. */
+  .bhero-older {
+    padding: 72px 0 0;
+  }
+  .bhero-older-title {
+    margin-top: 24px;
+  }
+
+  /* Pager — Newer · Page X of N · Older, then the archive/search link. */
+  .bpager {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+    margin-top: 56px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+  .bpager a[rel="prev"] {
+    justify-self: start; /* a grid item would otherwise stretch the button */
+  }
+  .bpager a[rel="next"] {
+    justify-self: end;
+  }
+  .bpager-count {
+    color: var(--ink-3);
+  }
+  .bpager-all {
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin-top: 8px;
+    font-size: 16px;
+    color: var(--accent);
+    border-bottom: 1px solid currentColor;
+  }
+  .bpager-all:hover {
+    color: var(--ink);
   }
 
   .bempty {

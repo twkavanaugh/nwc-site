@@ -1,0 +1,219 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import { getPublishedPosts, getSeriesMap, formatPublished } from "../../lib/blog";
+
+// Blog archive (/blog/archive) — every published post in one compact list, newest
+// first, with the same first-party inline search as /resources (ADR 0002, amended
+// 2026-10-11 to cover this page). /blog is paginated for browsing; this page is where
+// you find an older post. Without JS it's simply the full list.
+const posts = await getPublishedPosts();
+const seriesMap = await getSeriesMap();
+---
+
+<Layout
+  title="All posts · TwelveTwelve · North Wake Church"
+  description="Every post from TwelveTwelve, the leader blog of North Wake Church, newest first. Search by title, author or series."
+>
+  <Breadcrumb trail={[{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: "All posts" }]} />
+
+  <section class="ba-hero">
+    <div class="wrap">
+      <div class="eyebrow"><span class="dot"></span>TwelveTwelve · The Leader Blog</div>
+      <h1 class="display-m ba-title">All posts</h1>
+    </div>
+  </section>
+
+  <div class="wrap ba-root">
+    <!-- Search (ADR 0002). Ships `hidden`; the script reveals it. -->
+    <div class="ba-search" data-ba-search hidden>
+      <label class="ba-search-label" for="ba-q">Search</label>
+      <input id="ba-q" class="ba-search-input" type="search" placeholder="Search posts" autocomplete="off" spellcheck="false" />
+      <span class="mono ba-status" aria-live="polite"></span>
+    </div>
+
+    <ul class="ba-list">
+      {
+        posts.map((p) => (
+          <li class="ba-row">
+            <a href={`/blog/${p.id}`}>
+              <span class="mono ba-date">{formatPublished(p.data.date)}</span>
+              <span class="ba-row-title">{p.data.title}</span>
+              <span class="ba-meta">
+                {p.data.author}
+                {p.data.series && seriesMap[p.data.series.id] ? ` · ${seriesMap[p.data.series.id].label}` : ""}
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="ba-empty" data-ba-empty hidden>
+      <p>No posts match that search.</p>
+      <button type="button" class="btn btn-ghost" data-ba-clear>Clear search</button>
+    </div>
+
+    <a class="ba-back" href="/blog">← Back to the blog</a>
+  </div>
+
+  <!-- DOCUMENTED EXCEPTION #3 (second page) — docs/adr-0002-resources-search.md.
+       Same rules as /resources: first-party, inline, no library, no network, nothing
+       stored or sent; hides rows already in the HTML whose text doesn't contain every
+       typed word (case/accent-insensitive; 5+ letter words drop -ies/-es/-s/-y). -->
+  <script is:inline>
+    (() => {
+      const box = document.querySelector("[data-ba-search]");
+      const input = document.getElementById("ba-q");
+      const status = box.querySelector(".ba-status");
+      const empty = document.querySelector("[data-ba-empty]");
+      const norm = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+      const rows = [...document.querySelectorAll(".ba-row")].map((el) => ({ el, text: norm(el.textContent) }));
+      const run = () => {
+        const words = norm(input.value.trim()).split(/\s+/).filter(Boolean)
+          .map((w) => (w.length >= 5 ? w.replace(/(ies|es|s|y)$/, "") : w));
+        rows.forEach((r) => (r.el.hidden = !words.every((w) => r.text.includes(w))));
+        const shown = rows.filter((r) => !r.el.hidden).length;
+        status.textContent = !words.length ? "" : shown === 0 ? "No posts match"
+          : `${shown} ${shown === 1 ? "post matches" : "posts match"}`;
+        empty.hidden = !words.length || shown > 0;
+      };
+      input.addEventListener("input", run);
+      input.addEventListener("keydown", (e) => { if (e.key === "Escape") { input.value = ""; run(); } });
+      empty.querySelector("[data-ba-clear]").addEventListener("click", () => { input.value = ""; run(); input.focus(); });
+      box.hidden = false;
+      run();
+    })();
+  </script>
+</Layout>
+
+<style>
+  .ba-hero {
+    padding: 72px 0 0;
+  }
+  .ba-title {
+    margin-top: 24px;
+  }
+  .ba-root {
+    padding-top: 40px;
+    padding-bottom: 96px;
+  }
+  .ba-search {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 8px;
+  }
+  .ba-search[hidden] {
+    display: none; /* display:flex would otherwise beat the hidden attribute */
+  }
+  .ba-search-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .ba-search-input {
+    flex: 1;
+    min-width: 0;
+    max-width: 520px;
+    font: inherit;
+    font-size: 16px; /* content floor; also stops iOS zooming on focus */
+    color: var(--ink);
+    background: var(--bg);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-pill);
+    padding: 10px 18px;
+  }
+  .ba-search-input::placeholder {
+    color: var(--ink-4);
+  }
+  .ba-search-input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .ba-status {
+    color: var(--ink-3);
+  }
+
+  .ba-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .ba-row {
+    border-bottom: 1px solid var(--line);
+  }
+  .ba-row[hidden] {
+    display: none;
+  }
+  .ba-row a {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: baseline;
+    padding: 18px 0;
+    color: inherit;
+  }
+  .ba-date {
+    color: var(--ink-3);
+  }
+  .ba-row-title {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .ba-row a:hover .ba-row-title {
+    color: var(--accent);
+  }
+  .ba-meta {
+    font-size: 16px;
+    color: var(--ink-3);
+    text-align: right;
+  }
+
+  .ba-empty {
+    padding-top: 40px;
+  }
+  .ba-empty[hidden] {
+    display: none;
+  }
+  .ba-empty p {
+    font-size: 18px;
+    color: var(--ink-2);
+    margin: 0 0 20px;
+  }
+  .ba-back {
+    display: inline-block;
+    margin-top: 48px;
+    font-size: 16px;
+    color: var(--accent);
+    border-bottom: 1px solid currentColor;
+  }
+  .ba-back:hover {
+    color: var(--ink);
+  }
+
+  @media (max-width: 720px) {
+    .ba-hero {
+      padding-top: 56px;
+    }
+    .ba-search-label,
+    .ba-status {
+      font-size: 14px;
+    }
+    .ba-row a {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    .ba-meta {
+      text-align: left;
+    }
+  }
+</style>

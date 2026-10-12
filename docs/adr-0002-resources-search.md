@@ -22,8 +22,9 @@ people need to type "marriage" or "advent" and see matches.
 
 ## Limits (these are the decision, not details)
 
-1. **`/resources` only.** The script is scoped to the resources index. No other page gets
-   it, and it is not a site-wide search.
+1. **`/resources` and `/blog/archive` only** (the second page added by the amendment
+   below). The script is scoped to those two lists. No other page gets it, and it is not
+   a site-wide search.
 2. **Inline, no library, no network.** A few dozen lines in the page. It makes no requests,
    loads no index file and depends on no third-party code. Budget: under 2KB unminified.
 3. **Progressive enhancement.** The search box ships `hidden`, and the script reveals it.
@@ -58,3 +59,12 @@ people need to type "marriage" or "advent" and see matches.
 - `CLAUDE.md` non-negotiable #1 is updated from "exactly two" to three exceptions, pointing
   here. The rule otherwise stands: **no fourth exception without another ADR.**
 - The script carries a comment at its site pointing to this ADR, as the other two do.
+
+## Amendment 1 (Todd, 2026-10-11): `/blog/archive`
+
+`/blog` is now paginated (static `/blog/page/N`, zero JS), so an on-page filter there
+would only search one page. Instead, a new `/blog/archive` lists **every** post in one
+compact list, and the same script, under every limit above, filters it. It is a separate
+copy of a few lines with its own selectors (`data-ba-*`), not a shared bundle. Pagefind
+remains the revisit path if the old TwelveTwelve archive is migrated (hundreds of posts)
+or staff want search inside post text.

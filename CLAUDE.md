@@ -29,7 +29,7 @@ never a code bug. Ctrl+C, `npm run dev`, hard-refresh. The production build is u
 1. **Near-zero client JS.** Interactivity is CSS-only (mega-menu, hamburger, `:target`
    filtering, `<details>` accordions). There are exactly **three** sanctioned exceptions,
    each documented in code: the BranchCast resizer on `/sermons`, the remark
-   YouTube→nocookie embed transform, and the first-party inline search on `/resources`
+   YouTube→nocookie embed transform, and the first-party inline search on `/resources` + `/blog/archive`
    (`docs/adr-0002-resources-search.md`, bounded by that ADR's limits). **No fourth
    exception without a written decision (a new ADR).**
 2. **Semantic tokens only.** No raw hex, no `var(--raw-*)`, no inline `rgba()`/`#fff`, no
