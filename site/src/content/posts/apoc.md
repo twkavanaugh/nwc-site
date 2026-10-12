@@ -5,6 +5,7 @@ description: How to reach North Wake's Abuse Point of Contact (APOC) team about
 categories:
   - beliefs-policies
 draft: false
+featured: false
 ---
 The sin of sexual misconduct or abuse ([defined here](/resources/sexual-misconduct-policy#21-sexual-misconduct)) has plagued far too many Church leaders in recent years. Because of this disturbing and devastating reality of our broken and sinful world, the elders of North Wake along with a team of concerned members have proactively created the Abuse Point of Contact (APOC) team. The APOC team was not created in response to any incident or accusation at North Wake but in a proactive effort to establish a plan should there be a need, although we pray that our church will never have need of this team.
 
