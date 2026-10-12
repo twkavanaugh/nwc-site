@@ -3,6 +3,9 @@ import Layout from "../layouts/Layout.astro";
 import { BUSINESS } from "../data/business";
 import { getCollection } from "astro:content";
 import { getGrowGroupCount } from "../lib/grow-groups";
+// Homepage series card — staff-edited in Pages CMS ("Current Sermon Series", a
+// single form). check-content.mjs fails the build if title/artwork are missing.
+import currentSeries from "../data/current-series.json";
 import { isUpcoming, byStartDateAsc, formatMonth, formatDay, formatThrough, isMultiDay } from "../lib/date";
 // Live count from the Grow Groups directory (staff-edited in Pages CMS) — was a hardcoded "12".
 const growGroupCount = await getGrowGroupCount();
@@ -254,24 +257,20 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
 
       <a class="sermon-card" href="/sermons">
         <div class="sermon-art">
-          <!-- STOCK PLACEHOLDER (Unsplash, jon-tyson — same image as the /sermons
-               hero) — replace with real series artwork / photography per
-               docs/PHOTOGRAPHER-SHOT-LIST.md; alt is provisional. -->
           <img
             class="sermon-art-img"
-            src="/sermons-hero-STOCK-PLACEHOLDER.jpg"
-            alt="A blue flag with a white dove and the word Peace"
+            src={currentSeries.image}
+            alt={currentSeries.imageAlt}
             loading="lazy"
           />
         </div>
         <div class="sermon-body">
-          <div class="mono sermon-kicker">Current series · Spring 2026</div>
-          <h3 class="display-m sermon-title">Be Different — a journey through Romans.</h3>
-          <p class="body sermon-lede">
-            Paul's letter to the Romans, taught week by week — the gospel that
-            re-orders everything: how we relate to God, to one another, and to a
-            watching world.
-          </p>
+          <div class="mono sermon-kicker">
+            Current series{currentSeries.season?.trim() && ` · ${currentSeries.season.trim()}`}
+          </div>
+          <h3 class="display-m sermon-title">{currentSeries.title}</h3>
+          {currentSeries.subtitle?.trim() && <p class="sermon-sub">{currentSeries.subtitle}</p>}
+          {currentSeries.description?.trim() && <p class="body sermon-lede">{currentSeries.description}</p>}
           <div class="sermon-foot">
             <span class="mono sermon-listen">Listen to the latest message →</span>
             {/* Card-level link already targets /sermons; this is a styled span,
@@ -822,7 +821,8 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
     display: grid;
     /* minmax(0, …): a bare `fr` column won't shrink below its content, and at
        ~720–900px the body column overflowed the page by ~29px (fixed 2026-10-10). */
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+    /* Art column wider than the old square tile so the 16:9 slide reads at size. */
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
     border: 1px solid var(--line-strong);
     color: inherit;
     transition: background 200ms ease, border-color 200ms ease;
@@ -831,8 +831,10 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
   .sermon-card:hover {
     background: var(--bg-2);
   }
+  /* Series artwork is a 16:9 title slide with lettering on it, so it is shown WHOLE
+     (never cropped): the column stretches to the card's height and the 16:9 image
+     sits centred in it on --bg-2. */
   .sermon-art {
-    aspect-ratio: 1 / 1;
     background: var(--bg-2);
     position: relative;
     display: flex;
@@ -840,11 +842,10 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
     justify-content: center;
     border-right: 1px solid var(--line-strong);
   }
-  /* Fills the square series-artwork tile; center-cropped from the 3:2 source. */
   .sermon-art-img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    aspect-ratio: 16 / 9;
+    object-fit: cover; /* only trims an upload that isn't exactly 16:9 */
     display: block;
   }
   .sermon-art-tl {
@@ -880,6 +881,12 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
   .sermon-title {
     max-width: 16ch;
     margin: 0;
+  }
+  .sermon-sub {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink-2);
   }
   .sermon-lede {
     margin: 0;

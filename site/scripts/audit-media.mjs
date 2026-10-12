@@ -16,6 +16,7 @@ import { join } from "node:path";
 const UPLOAD_DIRS = [
   { dir: "public/resources", ref: "/resources", public: true },
   { dir: "public/events", ref: "/events", public: true },
+  { dir: "public/series", ref: "/series", public: true },
   { dir: "src/assets/blog", ref: "assets/blog", public: false },
 ];
 // Anything under src/ can reference an upload (content files, pages, components).

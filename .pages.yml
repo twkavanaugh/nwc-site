@@ -34,8 +34,61 @@ media:
     output: ../../assets/blog
     extensions: [jpg, jpeg, png, webp]
     rename: safe
+  - name: series
+    label: Series artwork
+    input: site/public/series
+    output: /series                # → /series/<file> (public URL)
+    extensions: [jpg, jpeg, png, webp]
+    rename: safe
 
 content:
+  # ---------------------------------------------------------------------------
+  # CURRENT SERIES — a single form (type: file), not a list. Drives the homepage
+  # "Our Current Study Series" card, which always links to /sermons. Staff update
+  # it when a new sermon series starts. Read by site/src/pages/index.astro;
+  # site/scripts/check-content.mjs fails the build if title/image are missing.
+  # ---------------------------------------------------------------------------
+  - name: currentSeries
+    label: Current Sermon Series
+    type: file
+    path: site/src/data/current-series.json
+    format: json
+    fields:
+      - name: title
+        label: Series title
+        type: string
+        required: true
+        description: "The series name, e.g. 'The Gospel of Luke'."
+
+      - name: subtitle
+        label: Subtitle (optional)
+        type: string
+        description: "A sub-series or theme, e.g. 'Welcome: The Heart of Christ'. Leave blank if there isn't one."
+
+      - name: season
+        label: Season (optional)
+        type: string
+        description: "Shown next to 'Current series', e.g. 'Fall 2026'. Leave blank to show just 'Current series'."
+
+      - name: description
+        label: Short description (optional)
+        type: text
+        description: "Two or three sentences about the series. Leave blank to show no description."
+
+      - name: image
+        label: Series artwork
+        type: image
+        required: true
+        options:
+          media: series
+        description: "The series title slide — the same wide (16:9) graphic used on the screens on Sunday, e.g. 1920×1080. Keep it under about 3MB (bigger uploads fail with a \"413\" error). When you replace it, delete the old artwork in Media → Series artwork."
+
+      - name: imageAlt
+        label: Artwork description (alt text)
+        type: string
+        required: true
+        description: "Describe the graphic for screen readers, including any words on it, e.g. 'The Gospel of Luke series title over a blue engraving of Jesus teaching.'"
+
   - name: events
     label: Events
     type: collection

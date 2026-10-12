@@ -1,6 +1,6 @@
 // Pre-build guard (runs automatically as `prebuild` before `npm run build`, locally
 // and on Render). A failure here FAILS THE BUILD, so Render never deploys it — the
-// live site keeps the last good version. Three checks:
+// live site keeps the last good version. Four checks:
 //
 // 1. UPLOAD SIZE — Pages CMS has no upload size limit, so staff could commit a huge
 //    scanned PDF or photo. Any file over MAX_MB in the CMS upload folders fails.
@@ -9,6 +9,7 @@
 //    entry in EVERY matching pick-list in ../.pages.yml (between CATEGORIES-START/END
 //    or SERIES-START/END markers). If they disagree, staff see a stale list.
 // 3. GIVING-URL SYNC — the /give redirect must match BUSINESS.givingUrl.
+// 4. CURRENT SERIES — the homepage series card needs a title and existing artwork.
 //
 // No dependencies (plain Node) so it runs anywhere the build runs.
 
@@ -16,7 +17,7 @@ import { readdirSync, statSync, readFileSync, existsSync } from "node:fs";
 import { join, basename } from "node:path";
 
 const MAX_MB = 15; // Todd, 2026-09-24
-const UPLOAD_DIRS = ["public/resources", "public/events", "src/assets/blog"]; // must match .pages.yml media inputs
+const UPLOAD_DIRS = ["public/resources", "public/events", "public/series", "src/assets/blog"]; // must match .pages.yml media inputs
 const errors = [];
 
 // --- 1. Upload size ---
@@ -79,6 +80,15 @@ if (!existsSync(cmsPath)) {
   const cfg = readFileSync("astro.config.mjs", "utf8").match(/'\/give':\s*'([^']+)'/);
   if (biz && cfg && biz[1] !== cfg[1])
     errors.push(`astro.config.mjs /give redirect (${cfg[1]}) doesn't match BUSINESS.givingUrl (${biz[1]}).`);
+}
+
+// --- 4. Current sermon series (homepage card) ---
+{
+  const cs = JSON.parse(readFileSync("src/data/current-series.json", "utf8"));
+  if (!cs.title?.trim()) errors.push("Current Sermon Series has no title — add one in Pages CMS.");
+  if (!cs.image?.trim()) errors.push("Current Sermon Series has no artwork — upload one in Pages CMS.");
+  else if (!existsSync(join("public", cs.image)))
+    errors.push(`Current Sermon Series artwork ${cs.image} doesn't exist — re-select it in Pages CMS.`);
 }
 
 if (errors.length) {

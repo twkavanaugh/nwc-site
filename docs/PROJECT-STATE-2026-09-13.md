@@ -57,6 +57,16 @@ package**, and **shot list v2**.
 > **photo-media-release** placeholder entries were DELETED: neither exists on the old site.
 > The kids-page dead "Photo release form →" line was removed. `/resources` now hides
 > zero-count filter chips (Forms, Missions); they return when a category gets an item.
+> **Later 2026-10-12 — Current Sermon Series is now staff-editable.** It's a Pages CMS *single form*
+> (`type: file`, "Current Sermon Series") → `site/src/data/current-series.json` → the homepage
+> "Our Current Study Series" card, which still always links to `/sermons`. Its artwork goes in the new `public/series/`
+> media folder. The card now shows the 16:9 title slide whole: no square crop, and the art
+> column is wider. `check-content.mjs` check 4 fails the build if the title or artwork is missing. The invented
+> "Be Different — Romans · Spring 2026" placeholder is GONE. It was seeded with the real Luke title slide,
+> found on the old site (`LukeGeneral_ProPresenter_Title.jpg`, uploaded 2024-02). Also: all three `/visit` "flow"
+> steps now have real photos (Welcome = photo 35, Worship = photo 14).
+> ⚠ Luke is a 2024 series; the church is currently in Proverbs. It's kept as a demo until staff upload
+> the Proverbs slide (see UNVERIFIED).
 
 ---
 
@@ -1176,6 +1186,10 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
   Still to migrate/verify: Fall in Love — noahj@ email (sign-off); Marriage — full
   chapter body, the North Wake couples' video testimonies, inline links; Parenting — leader/
   guest names need sign-off; When I Demand — the full edited transcript.
+- **★ Current sermon series is OUT OF DATE (on purpose, for demonstration).** The church is in
+  **Proverbs**. Todd chose to launch the form showing the old Luke slide (the 2024 old-site asset) as a demo.
+  There's no Proverbs artwork on the old site. Swap it in Pages CMS once staff provide the Proverbs title slide,
+  season and description. Then delete `series/gospel-of-luke.jpg` in Media → Series artwork.
 - **Membership Packet + Photo & Media Release** — placeholder entries deleted 2026-10-12;
   nothing matching exists on the old site. Ask the church: does a packet or a release form
   exist offline? Is the old `northwake.com/wp-content/uploads/2020/09/membership-covenant.pdf`
