@@ -95,10 +95,19 @@ const cards = [
             <a class="btn btn-ghost" href={`tel:${MERCY.phoneTel}`}>Call {MERCY.phone}</a>
           </div>
         </div>
-        <!-- PHOTO PLACEHOLDER. PRIVACY (HIPAA + dignity): never show an identifiable
-             patient — volunteers, hands, equipment or the space only
-             (MERCY-HEALTH-SPEC.md §9). -->
-        <div class="ph mh-hero-ph"><span class="ph-label">Photo · Mercy Health · clinic evening</span></div>
+        <!-- Real clinic photo: clinic staff and the ministry's leader at the check-in
+             table (Todd, 2026-10-12: no patients shown). PRIVACY (HIPAA + dignity):
+             never swap in a photo with an identifiable patient — volunteers, hands,
+             equipment or the space only (MERCY-HEALTH-SPEC.md §9). -->
+        <img
+          class="mh-hero-img"
+          src="/mercy-hero-clinic.jpg"
+          alt="Mercy Health Clinic volunteers at the check-in table, one in a white coat reviewing paperwork beside a colleague"
+          width="1920"
+          height="1280"
+          loading="eager"
+          decoding="async"
+        />
       </div>
     </div>
   </section>
@@ -309,8 +318,15 @@ const cards = [
     margin-top: 32px;
     flex-wrap: wrap;
   }
-  .mh-hero-ph {
+  /* 4:5 crop of the 3:2 source, biased left to keep both volunteers in frame. */
+  .mh-hero-img {
+    width: 100%;
+    height: auto;
     aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 20% 50%;
+    border-radius: var(--radius-ph);
+    display: block;
   }
 
   /* 3 · Facts */
@@ -642,6 +658,11 @@ const cards = [
     .mh-hero-grid {
       grid-template-columns: 1fr;
       gap: 40px;
+    }
+    /* Stacked: a wide 4:3 crop (spec §9) — a full-width 4:5 ran over a screen tall. */
+    .mh-hero-img {
+      aspect-ratio: 4 / 3;
+      object-position: 30% 50%;
     }
     .mh-facts-sec {
       padding-top: 64px;
