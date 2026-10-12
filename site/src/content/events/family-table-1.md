@@ -1,7 +1,7 @@
 ---
 title: Family Table
 startDate: 2026-09-24
-endDate: 2026-10-30
+endDate: 2026-09-30
 expirationDate: 2026-10-30
 time: Begins every Wed. @ 6PM
 timeNote: Lasts about 1.5 hours
