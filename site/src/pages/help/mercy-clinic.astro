@@ -123,19 +123,21 @@ const cards = [
   </section>
 
   <!-- 4. Who we are -->
-  <section aria-labelledby="mh-who-title">
+  <section class="mh-who-sec" aria-labelledby="mh-who-title">
     <div class="wrap">
       <div class="section-head mh-who-head">
         <div>
           <div class="eyebrow mh-eyebrow"><span class="dot"></span>Who we are</div>
           <h2 id="mh-who-title" class="display-m mh-who-h2">A Gospel-centered free health care clinic.</h2>
         </div>
-        <p class="body right">
-          North Wake Church provides leadership and space for the clinic. It is a 501(c)(3) nonprofit, primarily staffed by volunteers, and 100% funded by donations.
-        </p>
       </div>
       <div class="mh-scope">
         <div class="mh-panel">
+          {/* Intro lives in the first (opaque) panel so it reads clearly over the
+              photo; a hairline separates it from the offer list (Todd, 2026-10-10). */}
+          <p class="body mh-who-intro">
+            North Wake Church provides leadership and space for the clinic. It is a 501(c)(3) nonprofit, primarily staffed by volunteers, and 100% funded by donations.
+          </p>
           <div class="mono mh-panel-label">What we offer</div>
           <ul class="mh-offer">{offer.map((o) => <li>{o}</li>)}</ul>
         </div>
@@ -189,6 +191,9 @@ const cards = [
 
   <!-- 7. Get involved -->
   <section class="mh-involve-sec" aria-labelledby="mh-involve-title">
+    {/* Narrow screens only (≤1080): the photo as a band above the content.
+        Wide screens show it as the section background. Decorative. */}
+    <img class="mh-involve-art" src="/mercy-eucalyptus.jpg" alt="" width="1920" height="1280" loading="lazy" decoding="async" />
     <div class="wrap">
       <div class="mh-involve-wrap">
         <div class="eyebrow mh-eyebrow"><span class="dot"></span>Go and do likewise</div>
@@ -310,7 +315,9 @@ const cards = [
 
   /* 3 · Facts */
   .mh-facts-sec {
-    padding: 80px 0 0;
+    /* Bottom padding (2026-10-10): the Who-we-are photo now starts right below, so
+       the clinic-dates note needs its own breathing room. */
+    padding: 80px 0 72px;
   }
   .mh-facts {
     display: grid;
@@ -343,11 +350,27 @@ const cards = [
   }
 
   /* 4 · Who we are — 3-panel hairline grid; the "limit" panel reads as separate. */
-  .mh-who-head .right {
-    max-width: 40ch;
-  }
   .mh-who-h2 {
     max-width: 16ch;
+  }
+  /* Who we are — soft white ripple texture (supplied by Todd, 2026-10-10) behind the
+     section: cover-sized, normal section spacing; the panels stay opaque
+     (--bg / --bg-2). No subject to frame, so it works at every width. Heading and
+     eyebrow contrast checked against the texture's darkest shadows. */
+  .mh-who-sec {
+    background: url("/mercy-ripple.jpg") center / cover no-repeat, var(--bg);
+  }
+  /* The photo's wall is a touch greyer than --bg: the --ink-3 eyebrow measured
+     4.49:1 at 1180px → one step darker here only. */
+  .mh-who-sec .mh-eyebrow {
+    color: var(--ink-2);
+  }
+  /* Intro paragraph at the top of the first panel, hairline below it. */
+  .mh-who-intro {
+    margin: 0 0 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-2);
   }
   .mh-scope {
     display: grid;
@@ -452,12 +475,60 @@ const cards = [
   }
 
   /* 7 · Get involved (hairline above acts as the divider → no top padding) */
+  /* Get involved — eucalyptus photo (supplied by Todd, 2026-10-10). The photo was
+     shot with its copy space on the right: the plant sits left, so on wide screens
+     the content moves into the right ~54% and never sits over the leaves. The
+     section has its own padding now (it used to run on from Core values under a
+     hairline). Text sits on the photo's plain pale wall — contrast checked. */
   .mh-involve-sec {
-    padding-top: 0;
+    padding: 120px 0;
+    /* Cream wash over the empty right-hand wall only (token-derived, color-mix over
+       --bg): the photo's grey wall dropped the clay links to ~3.8:1; the wash lifts
+       them past AA and leaves the plant (left) untouched. */
+    background:
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--bg) 0%, transparent) 36%,
+        color-mix(in srgb, var(--bg) 62%, transparent) 46%,
+        color-mix(in srgb, var(--bg) 62%, transparent) 100%
+      ),
+      url("/mercy-eucalyptus.jpg") 20% 60% / cover no-repeat,
+      var(--bg-2);
   }
   .mh-involve-wrap {
-    border-top: 1px solid var(--line-strong);
-    padding-top: 56px;
+    margin-left: 46%; /* clears the plant (≈15–34% across) with room to breathe */
+  }
+  .mh-involve-art {
+    display: none;
+  }
+  /* ≤1080: the content is too wide to clear the plant → photo becomes a band above. */
+  @media (max-width: 1080px) {
+    .mh-involve-sec {
+      padding: 0 0 96px;
+      background: var(--bg);
+    }
+    .mh-involve-art {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 2 / 1; /* shows ~75% of the photo's height: the whole plant + vase (≈24–90%) */
+      object-fit: cover;
+      object-position: 20% 70%;
+      margin-bottom: 56px;
+    }
+    .mh-involve-wrap {
+      margin-left: 0;
+    }
+  }
+  @media (max-width: 720px) {
+    .mh-involve-sec {
+      padding-bottom: 64px;
+    }
+    .mh-involve-art {
+      aspect-ratio: 4 / 3;
+      object-position: 22% 62%;
+      margin-bottom: 40px;
+    }
   }
   .mh-involve-h2 {
     margin-bottom: 40px;
@@ -574,6 +645,7 @@ const cards = [
     }
     .mh-facts-sec {
       padding-top: 64px;
+      padding-bottom: 56px;
     }
     .mh-panel {
       padding: 28px 22px;

@@ -336,6 +336,27 @@ Live credit line under the button. Eyebrow "For the seeker" → **"Curious about
   Now: 561–880 = one row per card (square photo 2fr | text 3fr); ≤560 = stacked with a 3:2
   photo; ≥881 unchanged. Section height: 0.75–1.0 screens on tablets, 1.5 on a 375 phone.
 
+## ★ BLOG HEADER + MERCY PHOTOS (2026-10-11)
+- **/blog header:** one column (label → h1 → lede) over John Singer Sargent, *From Jerusalem*
+  (1905–06, The Met, public domain; Todd OK'd the scan + wants attribution) →
+  `public/blog-sargent-from-jerusalem.jpg`. Painting on `.bhero::before` (inset −6% hides the
+  scan's paper edge), cream wash on `::after` (color-mix over --bg; 90° on desktop/tablet,
+  180° ≤560). Credit bottom-left: "From Jerusalem · John Singer Sargent, 1905–06 / The
+  Metropolitan Museum of Art · Public domain." Contrast: h1 7.7–14.6, lede 7.1–9.6, credit
+  6.1–9.8, eyebrow 4.6–4.8.
+- **/blog featured image fix:** the `<Image>` height attribute (864) overrode `aspect-ratio`, so
+  the featured image rendered 620×864 and clipped the lettered series art. Now `height: auto` +
+  16:9 (matches the post page). Featured title `clamp(30px, 3.4vw, 52px)` (was up to 72px).
+  **Lesson:** any `<Image>` with a CSS aspect-ratio needs `height: auto`.
+- **/help/mercy-clinic:** clinic-dates note gets bottom padding (72/56px). **Who we are** —
+  white ripple texture behind the section (`public/mercy-ripple.jpg`), normal spacing, opaque
+  panels; the intro paragraph moved INTO the first panel above a hairline (Todd); eyebrow
+  → --ink-2 there. **Get involved** — eucalyptus-in-a-vase photo (`public/mercy-eucalyptus.jpg`),
+  plant left / content right ≥1081px, light cream wash over the right wall (links 5.0+:1);
+  ≤1080 the photo is a band above the content. (Tried + rejected: a eucalyptus branch and a
+  gypsophila vase behind Who we are — the boxes hid the subject.) Photo credits/rights for the
+  supplied Mercy photos: confirm (UNVERIFIED, like other supplied photos).
+
 ## ★ CHURCH CALENDAR — SHIPPED (2026-09-26, `79485dd` + `1671475`)
 The church keeps maintaining its shared Google Calendar ("Church" — "Church-wide events and
 activities"; Todd confirmed it's the one on the old homepage). The site shows it at the TOP
