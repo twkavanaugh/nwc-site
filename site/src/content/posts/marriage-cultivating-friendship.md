@@ -4,7 +4,7 @@ description: "A six-chapter curriculum on how God's Spirit works in our marriage
 categories: [discipleship, families]
 attachments:
   - label: "Participant & Leader Guide (PDF)"
-    file: "/resources/PLACEHOLDER-marriage-guide.pdf"
+    file: "/resources/marriage-guide.pdf"
 ---
 
 God designed marriage to be a loving, warm relationship — a friendship that grows

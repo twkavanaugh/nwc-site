@@ -45,6 +45,19 @@ package**, and **shot list v2**.
 > (`/resources/apoc`, `/resources/sexual-misconduct-policy`). ★ **STAFF REVIEW — MONDAY
 > 2026-10-12** lists what Todd is taking to the staff meeting.
 
+> **🟢 2026-10-12 — homepage featured events (`2232f82`), real photos (`6c2a2ab`), resource
+> placeholder cleanup.** Events: the CMS checkbox is now **"Feature on homepage"**. Checked
+> upcoming events take the homepage Events slots first (date-sorted), and the soonest
+> others fill the rest, up to 3. Photos: real church photos replaced the stock welcome image
+> (homepage "What to expect" band and `/visit` hero) and the stock Know card. The `/visit` Arrive
+> step shows a real photo; Welcome and Worship are still `.ph`. `welcome-STOCK-PLACEHOLDER.jpg`
+> deleted. Resources: the **marriage guide** was found on the old site
+> (`/adc/marriagecfaf/` → `Participant-Leader-Guide-MarriageCFAF-2023-…pdf`, 5.2MB, committed
+> directly as `/resources/marriage-guide.pdf`, which is over the CMS cap). The **membership-packet** and
+> **photo-media-release** placeholder entries were DELETED: neither exists on the old site.
+> The kids-page dead "Photo release form →" line was removed. `/resources` now hides
+> zero-count filter chips (Forms, Missions); they return when a category gets an item.
+
 ---
 
 ## TL;DR — where things stand
@@ -466,8 +479,9 @@ church office's process notes (Todd, 2026-09-26).
   `--border-on-inverse` ghost). Timeline/serif/sr-only are page-scoped
   (prove-twice-then-extract: Care's steps differ). The connector is coupled to the circle
   size (commented). Facts live in **`src/data/membership.ts`** (30 min, 6 classes, 4-of-6, course
-  page, packet id). Step 4B shows "Membership Packet · Available soon" and becomes a link
-  automatically when the real PDF replaces the PLACEHOLDER path. **`office@northwake.com`
+  page, packet id). Step 4B: the placeholder entry was DELETED 2026-10-12, so the step shows
+  plain text. If staff create a resource titled exactly "Membership Packet" (id `membership-packet`), it
+  links automatically. **`office@northwake.com`
   CONFIRMED by Todd → mailto wired** (subject "Membership"); the phone isn't confirmed, so
   it's not shown. Todd's calls: hold to the notes' **6 classes**; the kit's "Required" tag
   **dropped**; the "required documents" = the Membership Packet. Internal notes ("Karen
@@ -895,12 +909,11 @@ Five Adult Discipleship posts, each currently an outline + an explicit
 - `parenting-six-lessons` (families, discipleship) — **leader/guest names on the old page
   need church sign-off before migrating** (noted in an HTML comment in the file)
 - `marriage-cultivating-friendship` (discipleship, families) — carries the one **attachment**:
-  `PLACEHOLDER-marriage-guide.pdf`, currently inert
+  `/resources/marriage-guide.pdf`, LIVE 2026-10-12 (the real guide from the old site)
 - `when-i-demand-what-i-want` — James 4 / HOPE Counseling teaching article (care, discipleship)
 
-Two `resources` pdf entries, both inert placeholders pending church documents:
-`membership-packet` (new-here, forms) and `photo-media-release` (forms, families) — the
-latter is the **new home for the real photo-release form currently flagged on the kids page**.
+~~Two `resources` pdf placeholders (`membership-packet`, `photo-media-release`)~~ **DELETED
+2026-10-12.** Neither document was found on the old site. See UNVERIFIED.
 
 ---
 
@@ -1163,10 +1176,15 @@ The old WordPress site lives at `northwake.com`; `astro.config.mjs` `site` alrea
   Still to migrate/verify: Fall in Love — noahj@ email (sign-off); Marriage — full
   chapter body, the North Wake couples' video testimonies, inline links; Parenting — leader/
   guest names need sign-off; When I Demand — the full edited transcript.
-- **Two PDF resources** (membership packet, photo & media release) — documents don't exist yet.
+- **Membership Packet + Photo & Media Release** — placeholder entries deleted 2026-10-12;
+  nothing matching exists on the old site. Ask the church: does a packet or a release form
+  exist offline? Is the old `northwake.com/wp-content/uploads/2020/09/membership-covenant.pdf`
+  (2020) still current? If yes, it could be the packet, or part of it.
 - **Events:** tell the church the recurring-calendar feature is NOT returning in v1 (date-range
   model). All five seed events UNVERIFIED.
-- **All placeholder photos** — stock, pending real photography per the shot list.
+- **All placeholder photos** — stock, pending real photography per the shot list. Real as of
+  2026-10-12: homepage welcome band + Know, `/visit` hero + Arrive. Still stock: kids hero,
+  sermons hero; `/visit` Welcome/Worship steps are `.ph`.
 - **Sermons:** hero headline is Todd's copy, not church-confirmed. Podcast links verified.
 - **NAP / service times** (9:00 & 10:45 confirmed) / `url` northwake.com unconfirmed / mapsUrl.
 - **Copy across mission/jesus/kids/students/feed/mature** + nav mega-menu rail/descriptions +

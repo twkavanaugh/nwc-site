@@ -212,8 +212,10 @@ ${list((id) => `#${id}:target ~ .catalog-wrap .count .name-${id}`)} { display: i
       <div class="chips">
         <span class="chips-label">Filter</span>
         <a href="#all" class="chip chip-all">All <span class="n">{totalCount}</span></a>
+        {/* Empty categories get no chip (e.g. "Forms" until a real form is added);
+            the tgt anchor + generated CSS stay, so the chip returns on its own. */}
         {
-          categories.map((c) => (
+          categories.filter((c) => countFor(c.id) > 0).map((c) => (
             <a href={`#${c.id}`} class={`chip chip-${c.id}`}>
               {c.label} <span class="n">{countFor(c.id)}</span>
             </a>
