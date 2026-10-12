@@ -44,14 +44,21 @@ const steps = [
     b: `Pull into our main lot off S Main St. Plenty of free parking, with reserved spots up front for first-time guests.`,
     img: "/visit-arrive.jpg",
     alt: "A family walking up to the church's brick front wall, past the cross, the North Wake Church lettering and a Welcome banner",
+    focus: "arrive",
   },
   {
     k: "Welcome",
     b: "Stop by the Welcome Wall in the lobby. Grab a coffee, get a campus map, and meet someone who can answer questions or walk you to Kids check-in.",
+    img: "/visit-welcome.jpg",
+    alt: "People chatting and laughing at a welcome table outside the church, beside a banner reading \"Welcome, we're glad you're here!\"",
+    focus: "welcome",
   },
   {
     k: "Worship",
     b: "Each service includes songs (modern and traditional), Scripture reading, prayer, and a sermon.",
+    img: "/visit-worship.jpg",
+    alt: "A pastor preaching from the pulpit on a Sunday morning, with Luke 9:43-45 on the screen above",
+    focus: "worship",
   },
 ];
 
@@ -129,7 +136,7 @@ const faqCols = [
           steps.map((s, i) => (
             <li class="cv-step">
               {s.img ? (
-                <img class="cv-step-photo" src={s.img} alt={s.alt} loading="lazy" />
+                <img class:list={["cv-step-photo", s.focus && `cv-step-photo--${s.focus}`]} src={s.img} alt={s.alt} loading="lazy" />
               ) : (
                 <div class="ph cv-step-ph"><span class="ph-label">Photo · {s.k}</span></div>
               )}
@@ -270,15 +277,23 @@ const faqCols = [
   .cv-step-ph {
     aspect-ratio: 4 / 5;
   }
-  /* Real step photo — same 4:5 slot as the .ph it replaces. Landscape source,
-     so object-position keeps the walking group (left of center) in frame. */
+  /* Real step photo — same 4:5 slot as the .ph it replaces. Landscape sources, so
+     each step's modifier sets object-position to keep its subject in the crop. */
   .cv-step-photo {
     width: 100%;
     aspect-ratio: 4 / 5;
     object-fit: cover;
-    object-position: 42% 50%;
     border-radius: var(--radius-ph);
     display: block;
+  }
+  .cv-step-photo--arrive {
+    object-position: 42% 50%; /* walking group, left of center */
+  }
+  .cv-step-photo--welcome {
+    object-position: 22% 50%; /* the group around the table */
+  }
+  .cv-step-photo--worship {
+    object-position: 53% 50%; /* the pastor at the pulpit */
   }
   .cv-step-head {
     display: flex;
