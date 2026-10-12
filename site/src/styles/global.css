@@ -207,6 +207,14 @@ h4 {
   letter-spacing: -0.03em;
 }
 
+/* One step down from .display-l (90%) — the Community page heroes (Todd,
+   2026-10-11: "a little too large"). The ONE knob for those headlines: change the
+   numbers here (and the phone line in section j) to step them again. Two classes
+   (0,2,0) so it beats .display-l, including the mobile rule below. */
+.display-l.display-l--step {
+  font-size: clamp(40px, 5.76vw, 94px);
+}
+
 .display-m {
   font-family: var(--display);
   font-size: clamp(36px, 4.8vw, 72px);
@@ -556,6 +564,9 @@ h4 {
   }
   .display-l {
     font-size: clamp(40px, 6.4vw, 104px); /* floor 44 -> 40; ceiling 104 kept */
+  }
+  .display-l.display-l--step {
+    font-size: clamp(36px, 5.76vw, 94px); /* 90% of the phone .display-l */
   }
   .display-xl {
     font-size: clamp(48px, 9vw, 156px); /* floor 56 -> 48; ceiling 156 kept */

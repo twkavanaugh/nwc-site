@@ -358,6 +358,10 @@ Live credit line under the button. Eyebrow "For the seeker" → **"Curious about
   Series :target filter now renders on page 1 only (it can only filter its own page) —
   revisit when a 2nd series exists. Tested with page size 3: 3 pages, no dupes/gaps, page 4
   → 404. **Pagefind** stays the revisit path if the old TwelveTwelve archive is migrated.
+- **Community hero headlines −10% (Todd, 2026-10-11):** new global `.display-l.display-l--step`
+  (clamp(40px, 5.76vw, 94px); phones clamp(36px, …)) on Students, Women, Lily Moms, Mature
+  Adults, and Grow Groups via a new opt-in `WarmBandHero` prop `headlineStep` (other Warm Band
+  pages unchanged). Kids' own serif title → clamp(38px, 5.4vw, 79px). One knob to step again.
 - **/help/mercy-clinic:** clinic-dates note gets bottom padding (72/56px). **Who we are** —
   white ripple texture behind the section (`public/mercy-ripple.jpg`), normal spacing, opaque
   panels; the intro paragraph moved INTO the first panel above a hairline (Todd); eyebrow

@@ -21,6 +21,7 @@ interface Props {
   photo?: { src: string; alt: string };
   photoPlaceholder?: string; // no photo yet → labeled .ph block (e.g. help/feed hero)
   headlineSize?: "l" | "m"; // "m" for sentence-length headlines (~80 chars)
+  headlineStep?: boolean; // opt-in: one step down from "l" (Community pages, 2026-10-11)
   primary?: Cta;
   ghost?: Cta;
   titleId?: string; // lets the page label the section via aria-labelledby
@@ -35,11 +36,15 @@ const {
   photo,
   photoPlaceholder = "Photo",
   headlineSize = "l",
+  headlineStep = false,
   primary,
   ghost,
   titleId = "warm-band-title",
 } = Astro.props;
-const h1Class = headlineSize === "m" ? "display-m warm-band-h1 warm-band-h1--m" : "display-l warm-band-h1";
+const h1Class =
+  headlineSize === "m"
+    ? "display-m warm-band-h1 warm-band-h1--m"
+    : `display-l${headlineStep ? " display-l--step" : ""} warm-band-h1`;
 ---
 
 <section class="warm-band" aria-labelledby={titleId}>
