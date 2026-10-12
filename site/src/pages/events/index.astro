@@ -2,7 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import { getCollection } from "astro:content";
-import { isUpcoming, byStartDateAsc, formatMonth, formatDay } from "../../lib/date";
+import { isUpcoming, byStartDateAsc, formatMonth, formatDay, formatThrough, isMultiDay } from "../../lib/date";
 import ChurchCalendar from "../../components/ChurchCalendar.astro";
 
 // Events index — date-aware upcoming list. Filters out past events (the
@@ -65,6 +65,7 @@ const upcoming = (await getCollection("events"))
                   <div>
                     <div class="title ev-name">{e.data.title}</div>
                     {e.data.subtitle && <div class="ev-sub">{e.data.subtitle}</div>}
+                    {isMultiDay(e.data) && <div class="ev-sub">{formatThrough(e.data.endDate!)}</div>}
                     {e.data.time && <div class="mono ev-meta">{e.data.time}</div>}
                   </div>
                 </div>

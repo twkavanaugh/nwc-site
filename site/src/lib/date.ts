@@ -67,6 +67,28 @@ export function formatDay(date: Date): string {
   return String(date.getUTCDate()).padStart(2, "0");
 }
 
+/** True when the event has an end date on a LATER calendar day than its start
+ *  (an endDate equal to startDate is a single-day event — CMS editors often fill both). */
+export function isMultiDay(data: { startDate: Date; endDate?: Date }): boolean {
+  return data.endDate != null && ymdUTC(data.endDate) > ymdUTC(data.startDate);
+}
+
+/** "September 24 – 30, 2026" / "September 24 – October 30, 2026" — the detail page's
+ *  date for a multi-day event (Intl collapses the shared month/year). */
+export function formatLongRange(start: Date, end: Date): string {
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: "UTC",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).formatRange(start, end);
+}
+
+/** "Through Sep 30" — the list rows' cue that an event runs past its date chip. */
+export function formatThrough(end: Date): string {
+  return `Through ${MONTHS[end.getUTCMonth()]} ${end.getUTCDate()}`;
+}
+
 /** "Saturday, October 24, 2026" — long form for the detail facts box. */
 export function formatLong(date: Date): string {
   return new Intl.DateTimeFormat("en-US", {

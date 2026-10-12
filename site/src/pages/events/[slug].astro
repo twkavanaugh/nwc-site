@@ -3,7 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import { getCollection, render } from "astro:content";
 import { BUSINESS } from "../../data/business";
-import { formatMonth, formatDay, formatLong } from "../../lib/date";
+import { formatMonth, formatDay, formatLong, formatLongRange, isMultiDay } from "../../lib/date";
 
 // Unified event detail — "continuous column" design (brand/prototype/
 // EVENT-DETAIL-CONTINUOUS-SPEC.md). One template for every event; absent fields
@@ -23,7 +23,14 @@ const d = entry.data;
 const prettyMinistry = d.ministryId
   ? d.ministryId.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
   : null;
-const eyebrow = prettyMinistry ? `${prettyMinistry} · ${formatLong(d.startDate)}` : formatLong(d.startDate);
+// Multi-day events (endDate on a later day) show the range; otherwise the long single date.
+const multiDay = isMultiDay(d);
+const dateText = multiDay ? formatLongRange(d.startDate, d.endDate!) : formatLong(d.startDate);
+// Big calendar chip: a multi-day event shows its end too ("SEP 24 – 30"); the end's
+// month label appears only when it differs from the start's.
+const endMonthLabel =
+  multiDay && formatMonth(d.endDate!) !== formatMonth(d.startDate) ? formatMonth(d.endDate!) : null;
+const eyebrow = prettyMinistry ? `${prettyMinistry} · ${dateText}` : dateText;
 
 // Location defaults to the church (BUSINESS) when the entry doesn't override it.
 const placeName = d.location ?? BUSINESS.name;
@@ -62,15 +69,39 @@ const imageAlt = d.imageAlt ?? d.title; // real alt preferred; title is the fall
         <!-- Facts box (col 2, spans both rows). Shaded --bg-2 rail only when an image is present. -->
         <div class:list={["ev-rail", { "ev-rail-shaded": hasImage }]}>
           <aside class="ev-facts">
-            <div class="ev-facts-cal">
+            <div class="ev-facts-cal" aria-hidden="true">
               <span class="ev-facts-month">{formatMonth(d.startDate)}</span>
               <span class="ev-facts-day">{formatDay(d.startDate)}</span>
+              {
+                multiDay && (
+                  <>
+                    <span class="ev-facts-to">–</span>
+                    {endMonthLabel && <span class="ev-facts-month">{endMonthLabel}</span>}
+                    <span class="ev-facts-day">{formatDay(d.endDate!)}</span>
+                  </>
+                )
+              }
             </div>
             <dl class="ev-facts-rows">
-              <div class="ev-facts-row">
-                <dt class="ev-facts-k">Date</dt>
-                <dd class="ev-facts-v">{formatLong(d.startDate)}</dd>
-              </div>
+              {
+                multiDay ? (
+                  <>
+                    <div class="ev-facts-row">
+                      <dt class="ev-facts-k">Starts</dt>
+                      <dd class="ev-facts-v">{formatLong(d.startDate)}</dd>
+                    </div>
+                    <div class="ev-facts-row">
+                      <dt class="ev-facts-k">Ends</dt>
+                      <dd class="ev-facts-v">{formatLong(d.endDate!)}</dd>
+                    </div>
+                  </>
+                ) : (
+                  <div class="ev-facts-row">
+                    <dt class="ev-facts-k">Date</dt>
+                    <dd class="ev-facts-v">{dateText}</dd>
+                  </div>
+                )
+              }
               {
                 d.time && (
                   <div class="ev-facts-row">
@@ -208,6 +239,7 @@ const imageAlt = d.imageAlt ?? d.title; // real alt preferred; title is the fall
   }
   .ev-facts-cal {
     display: flex;
+    flex-wrap: wrap; /* a cross-month range ("SEP 24 – OCT 30") wraps in a narrow box */
     align-items: baseline;
     gap: 16px;
     padding: 28px 28px 22px;
@@ -227,6 +259,14 @@ const imageAlt = d.imageAlt ?? d.title; // real alt preferred; title is the fall
     line-height: 1;
     letter-spacing: -0.04em;
     color: var(--ink);
+  }
+  /* Range dash between start and end days — display face, quieter than the digits. */
+  .ev-facts-to {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1;
+    color: var(--ink-3);
   }
   .ev-facts-rows {
     margin: 0;

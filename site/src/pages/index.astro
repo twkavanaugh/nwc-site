@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import { BUSINESS } from "../data/business";
 import { getCollection } from "astro:content";
 import { getGrowGroupCount } from "../lib/grow-groups";
-import { isUpcoming, byStartDateAsc, formatMonth, formatDay } from "../lib/date";
+import { isUpcoming, byStartDateAsc, formatMonth, formatDay, formatThrough, isMultiDay } from "../lib/date";
 // Live count from the Grow Groups directory (staff-edited in Pages CMS) — was a hardcoded "12".
 const growGroupCount = await getGrowGroupCount();
 
@@ -341,6 +341,9 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
                       </div>
                       <div>
                         <div class="title event-name">{e.data.title}</div>
+                        {isMultiDay(e.data) && (
+                          <div class="event-through">{formatThrough(e.data.endDate!)}</div>
+                        )}
                         {(e.data.time ?? e.data.subtitle) && (
                           <div class="small">{e.data.time ?? e.data.subtitle}</div>
                         )}
@@ -984,6 +987,11 @@ const svcTime1NoMeridiem = svcTime1.replace(/\s*(AM|PM)$/i, "");
   .event-day {
     font-weight: 500;
     line-height: 1;
+  }
+  /* "Through Sep 30" on multi-day events — 16px content floor (it carries meaning). */
+  .event-through {
+    font-size: 16px;
+    color: var(--ink-2);
   }
   .event-name {
     font-weight: 500;
